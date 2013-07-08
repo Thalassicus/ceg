@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Processes>
+		<Update>
+			<Where Type="PROCESS_WEALTH" />
+			<Set TechPrereq="NULL" />
+		</Update>
+		<Update>
+			<Where Type="PROCESS_RESEARCH" />
+			<Set TechPrereq="NULL" />
+		</Update>
+	</Processes>
+</GameData>

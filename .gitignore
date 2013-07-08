@@ -1,0 +1,7 @@
+/Packages
+/Build
+/Lua
+/doc
+*civ5suo*
+*.bak*
+*.~lock.*

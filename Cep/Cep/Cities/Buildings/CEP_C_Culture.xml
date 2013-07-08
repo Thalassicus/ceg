@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Building_YieldChanges>
+		<Update>
+			<Where BuildingType="BUILDING_MONUMENT" />
+			<Set Yield="2" />
+		</Update>
+		<Update>
+			<Where BuildingType="BUILDING_AMPHITHEATER" />
+			<Set Yield="2" />
+		</Update>
+		<Update>
+			<Where BuildingType="BUILDING_OPERA_HOUSE" />
+			<Set Yield="2" />
+		</Update>
+		<Update>
+			<Where BuildingType="BUILDING_MUSEUM" />
+			<Set Yield="2" />
+		</Update>
+		<Update>
+			<Where BuildingType="BUILDING_BROADCAST_TOWER" />
+			<Set Yield="2" />
+		</Update>
+	</Building_YieldChanges>
+</GameData>
