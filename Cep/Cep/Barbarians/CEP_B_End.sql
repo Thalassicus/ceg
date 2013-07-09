@@ -6,14 +6,14 @@ UPDATE Worlds SET FogTilesPerBarbarianCamp = FogTilesPerBarbarianCamp * 0.25;
 This GEB_End.sql data automatically created by:
 Barbarians tab of GEM_AI_and_Leaders.xls spreadsheet (in mod folder).
 */
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn = 100, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_SETTLER';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  75, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_CHIEFTAIN';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  50, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_WARLORD';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  40, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  12 WHERE Type = 'HANDICAP_PRINCE';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  30, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   6, BarbarianSeaTargetRange =  15 WHERE Type = 'HANDICAP_KING';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  20, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   7, BarbarianSeaTargetRange =  18 WHERE Type = 'HANDICAP_EMPEROR';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  10, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   8, BarbarianSeaTargetRange =  20 WHERE Type = 'HANDICAP_IMMORTAL';
-UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =   0, BarbCampGold = 100, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =  10, BarbarianSeaTargetRange =  22 WHERE Type = 'HANDICAP_DEITY';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn = 100, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_SETTLER';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  75, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_CHIEFTAIN';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  50, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_WARLORD';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  40, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  12 WHERE Type = 'HANDICAP_PRINCE';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  30, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   6, BarbarianSeaTargetRange =  15 WHERE Type = 'HANDICAP_KING';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  20, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   7, BarbarianSeaTargetRange =  18 WHERE Type = 'HANDICAP_EMPEROR';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  10, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   8, BarbarianSeaTargetRange =  20 WHERE Type = 'HANDICAP_IMMORTAL';
+UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =   0, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =  10, BarbarianSeaTargetRange =  22 WHERE Type = 'HANDICAP_DEITY';
 
 
 /*
