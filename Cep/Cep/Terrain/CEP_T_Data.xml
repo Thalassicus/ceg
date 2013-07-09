@@ -27,11 +27,11 @@
 	<Terrains>
 		<Update>
 			<Where Type="TERRAIN_DESERT" />
-			<Set Movement="1" />
+			<Set Movement="2" />
 		</Update>
 		<Update>
 			<Where Type="TERRAIN_SNOW" />
-			<Set Movement="1" />
+			<Set Movement="2" />
 		</Update>
 		<Update>
 			<Where Type="TERRAIN_MOUNTAIN" />
@@ -56,6 +56,10 @@
 		<Update>
 			<Where Type="FEATURE_JUNGLE" />
 			<Set Defense="10" />
+		</Update>
+		<Update>
+			<Where Type="FEATURE_ATOLL" />
+			<Set Defense="10" Movement="3" />
 		</Update>
 		<Update>
 			<Where Type="FEATURE_MARSH" />

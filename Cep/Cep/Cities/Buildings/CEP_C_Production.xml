@@ -54,7 +54,10 @@
 	</Building_YieldChanges>
 	<Building_LocalResourceOrs>
 		<Delete BuildingType="BUILDING_SEAPORT" />
-		<Delete BuildingType="BUILDING_FORGE" />
+		<Row>
+			<BuildingType>BUILDING_FORGE</BuildingType>
+			<ResourceType>RESOURCE_COPPER</ResourceType>
+		</Row>
 		<Row>
 			<BuildingType>BUILDING_STABLE</BuildingType>
 			<ResourceType>RESOURCE_IVORY</ResourceType>

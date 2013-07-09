@@ -81,7 +81,7 @@
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_MINT_HELP"/>
-			<Set Text="[ICON_GOLD] Gold: +1 on [ICON_RES_COPPER][ICON_RES_SILVER][ICON_RES_GOLD][NEWLINE][ICON_LOCKED] Requires One Near: [ICON_RES_COPPER][ICON_RES_SILVER][ICON_RES_GOLD][NEWLINE][NEWLINE]Improves precious metals."/>
+			<Set Text="[ICON_GOLD] Gold: +1 on [ICON_RES_COPPER][ICON_RES_SILVER][ICON_RES_GOLD][NEWLINE][NEWLINE]Improves precious metals."/>
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_COLOSSUS_HELP</Tag>
