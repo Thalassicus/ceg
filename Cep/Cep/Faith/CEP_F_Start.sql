@@ -6,6 +6,7 @@ SET GoldPerFirstCityConversion = 2 * GoldPerFirstCityConversion
 WHERE GoldPerFirstCityConversion > 0;
 */
 
+/*
 UPDATE Beliefs
 SET Follower = 1
 WHERE Type IN (
@@ -13,3 +14,4 @@ WHERE Type IN (
 	'BELIEF_ASCETISM',
 	'BELIEF_RELIGIOUS_CENTER'
 );
+*/

@@ -1,10 +1,6 @@
 ------------------------------------------------------------------------------
---	FILE:	 Continents_Plus.lua
---	AUTHOR:  Bob Thomas
---	PURPOSE: Global map script - Produces widely varied continents, with
---           numerous tectonic island chains added for the city states.
-------------------------------------------------------------------------------
---	Copyright (c) 2010 Firaxis Games, Inc. All rights reserved.
+--	FILE:	 Communitas.lua
+--	AUTHOR:  Based on the Continents-Plus script by Bob Thomas
 ------------------------------------------------------------------------------
 
 include("MapGenerator");

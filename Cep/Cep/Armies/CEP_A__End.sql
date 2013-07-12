@@ -71,9 +71,46 @@ UPDATE Units SET Cost = 200, HurryCostModifier = 100 WHERE Class = 'UNITCLASS_AM
 -- Faith Costs
 --
 
-UPDATE Units SET FaithCost = 3 * Cost WHERE FaithCost <> 0;
+UPDATE Units SET FaithCost = 3 * Cost WHERE FaithCost > 0 AND Cost > 0;
 
 
+--
+-- Conquest
+--
+
+UPDATE Buildings
+SET ConquestProb = 100
+WHERE HurryCostModifier != -1;
+
+UPDATE Buildings
+SET ConquestProb = 0
+WHERE BuildingClass IN (
+	'BUILDINGCLASS_COURTHOUSE',
+	'BUILDINGCLASS_WALLS',
+	'BUILDINGCLASS_CASTLE',
+	'BUILDINGCLASS_ARSENAL',
+	'BUILDINGCLASS_MILITARY_BASE',
+	'BUILDINGCLASS_FACTORY',
+	'BUILDINGCLASS_SOLAR_PLANT',
+	'BUILDINGCLASS_NUCLEAR_PLANT'
+);
+
+UPDATE Buildings
+SET ConquestProb = 50
+WHERE BuildingClass IN (
+	'BUILDINGCLASS_LIBRARY',
+	'BUILDINGCLASS_COLOSSEUM',
+	'BUILDINGCLASS_THEATRE',
+	'BUILDINGCLASS_STADIUM',
+	'BUILDINGCLASS_MARKET',
+	'BUILDINGCLASS_BANK',
+	'BUILDINGCLASS_STOCK_EXCHANGE',
+	'BUILDINGCLASS_MINT',
+	'BUILDINGCLASS_HARBOR',
+	'BUILDINGCLASS_WAREHOUSE'
+);
+
+/*
 --
 -- Free Land Promotions
 --
@@ -322,14 +359,6 @@ FROM Units WHERE Class IN (
 	'UNITCLASS_NUCLEAR_SUBMARINE'
 );
 
-/*
-INSERT INTO Unit_FreePromotions (UnitType, PromotionType)
-SELECT DISTINCT Type, 'PROMOTION_DEFENSE_PENALTY'
-FROM Units WHERE Class IN (
-	'PROMOTION_OCEAN_IMPASSABLE'
-);
-*/
-
 --
 -- Free Air Promotions
 --
@@ -428,10 +457,13 @@ AND NOT Type IN (
 	'PROMOTION_HANDICAP' 		-- handicap
 );
 
+*/
+
 --
--- It appears this only changes the order these show on the user interface.
+-- Promotion icon order
+--
+
 -- Promotions sort from left (high priority) to right (low priority)
---
 
 UPDATE UnitPromotions
 SET OrderPriority = 10;

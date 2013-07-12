@@ -10589,6 +10589,57 @@ function AssignStartingPlots:PlaceResourcesAndCityStates()
 	-- Activate for debug only
 	self:PrintFinalResourceTotalsToLog()
 	--
+	
+	
+	-- Print percentages of each tile type
+	local iW, iH = Map.GetGridSize();
+	local plotTotals = {}
+	local terrainTotals = {}
+	local featureTotals = {}
+	local freshwaterTotal = 0
+	local landPlots = 0
+	local totalPlots = 0
+	
+	for x=0, iW-1 do
+		for y=0, iH-1 do
+			plot = Map.GetPlot(x, y)
+			plotTotals[plot:GetPlotType()] = (plotTotals[plot:GetPlotType()] or 0) + 1
+			terrainTotals[plot:GetTerrainType()] = (terrainTotals[plot:GetTerrainType()] or 0) + 1
+			featureTotals[plot:GetFeatureType()] = (featureTotals[plot:GetFeatureType()] or 0) + 1
+			freshwaterTotal = freshwaterTotal + (plot:IsFreshWater() and 1 or 0)
+			totalPlots = totalPlots + 1
+			if plot:GetPlotType() ~= PlotTypes.PLOT_OCEAN then
+				landPlots = landPlots + 1
+			end
+		end
+	end
+	print("-");
+	print("--- Table of Final Results, Tile Distribution ---");
+	
+	print("-");	
+	print("- PLOTS -");	
+	for key, index in pairs(PlotTypes) do
+		if key ~= "NUM_PLOT_TYPES" and key ~= "NO_PLOT" then
+			print(string.format("- %3s%% %-s", math.floor(100 * (plotTotals[index] or 0) / totalPlots), string.gsub(key, "PLOT_", "") ))
+		end
+	end
+	
+	print("-");
+	print("- LAND TERRAIN -");
+	for terrainInfo in GameInfo.Terrains("Type NOT IN ('TERRAIN_HILL', 'TERRAIN_MOUNTAIN', 'TERRAIN_OCEAN', 'TERRAIN_COAST')") do
+		print(string.format("- %3s%% %-s", math.floor(100 * (terrainTotals[terrainInfo.ID] or 0) / landPlots), string.gsub(terrainInfo.Type, "TERRAIN_", "") ))
+	end
+	
+	print("-");
+	print(string.format("- %3s%% %-s", math.floor(100 * freshwaterTotal / landPlots), "Freshwater"))
+	
+	print("-");
+	print("- FEATURES -");
+	for featureInfo in GameInfo.Features() do
+		if featureTotals[featureInfo.ID] and featureTotals[featureInfo.ID] > 1 then
+			print(string.format( "- %3s%% %-s", math.floor(100 * (featureTotals[featureInfo.ID] or 0) / landPlots), string.gsub(featureInfo.Type, "FEATURE_", "") ))
+		end
+	end
 end
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------------------

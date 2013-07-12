@@ -9,37 +9,37 @@
 			<IconsPerColumn>2</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_NEW_UNITS_ATLAS</Atlas>
+			<Atlas>CEP_NEW_UNITS_ATLAS</Atlas>
 			<IconSize>256</IconSize>
-			<Filename>GEM_NewUnits256.dds</Filename>
+			<Filename>CEP_NewUnits256.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_NEW_UNITS_ATLAS</Atlas>
+			<Atlas>CEP_NEW_UNITS_ATLAS</Atlas>
 			<IconSize>128</IconSize>
-			<Filename>GEM_NewUnits128.dds</Filename>
+			<Filename>CEP_NewUnits128.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_NEW_UNITS_ATLAS</Atlas>
+			<Atlas>CEP_NEW_UNITS_ATLAS</Atlas>
 			<IconSize>80</IconSize>
-			<Filename>GEM_NewUnits80.dds</Filename>
+			<Filename>CEP_NewUnits80.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_NEW_UNITS_ATLAS</Atlas>
+			<Atlas>CEP_NEW_UNITS_ATLAS</Atlas>
 			<IconSize>64</IconSize>
-			<Filename>GEM_NewUnits64.dds</Filename>
+			<Filename>CEP_NewUnits64.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_NEW_UNITS_ATLAS</Atlas>
+			<Atlas>CEP_NEW_UNITS_ATLAS</Atlas>
 			<IconSize>45</IconSize>
-			<Filename>GEM_NewUnits45.dds</Filename>
+			<Filename>CEP_NewUnits45.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>4</IconsPerColumn>
 		</Row>

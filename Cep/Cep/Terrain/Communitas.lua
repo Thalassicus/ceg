@@ -1,22 +1,15 @@
---------------------------------------------------------------------------------
---PerfectWorld3.lua map script (c)2010 Rich Marinaccio
---version 4
---------------------------------------------------------------------------------
---This map script uses various manipulations of Perlin noise to create
---landforms, and generates climate based on a simplified model of geostrophic
---and monsoon wind patterns. Rivers are generated along accurate drainage paths
---governed by the elevation map used to create the landforms.
---
---Version History
---4 - A working version of v3
---
---3 - Placed Atolls. Shrank the huge map size based on advice from Sirian.
---
---2 - Shrank the map sizes except for huge. Added a better way to adjust river
---lengths. Used the continent art styles in a more diverse way. Cleaned up the
---mountain ranges a bit.
---
---1 - initial release! 11/24/2010
+--[[------------------------------------------------------------------------------
+
+Communitas.lua map script created by:
+- Rich Marinaccio
+- Bob Thomas
+- Thalassicus
+
+This map script generates climate based on a simplified model of geostrophic
+and monsoon wind patterns. Rivers are generated along accurate drainage paths
+governed by the elevation map used to create the landforms.
+
+--]]------------------------------------------------------------------------------
 
 include("MapGenerator");
 include("FeatureGenerator");
@@ -25,48 +18,53 @@ include("IslandMaker");
 
 MapConstants = {}
 
+function PrintDesertCount()
+	local iW, iH = Map.GetGridSize();
+	local numDeserts = 0
+	for x=0, iW-1 do
+		for y=0, iH-1 do
+			plot = Map.GetPlot(x, y)
+			if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT then
+				numDeserts = numDeserts + 1
+			end
+		end
+	end
+	print("numDeserts = "..numDeserts)
+end
+
 function MapConstants:New()
 	local mconst = {}
 	setmetatable(mconst, self)
 	self.__index = self
 
 	--Percent of land tiles on the map.
-	mconst.landPercent = 0.33 --0.28
+	mconst.landPercent		= 0.30 --0.28
 
-	--Percent of dry land that is below the hill elevation deviance threshold.
-	mconst.hillsPercent = 0.7 --0.50
+	--Top and bottom map latitudes.
+	mconst.topLatitude = 70
+	mconst.bottomLatitude = -70
 
-	--Percent of dry land that is below the mountain elevation deviance
-	--threshold.
-	mconst.mountainsPercent = 0.9 --0.85
+	--Important latitude markers used for generating climate.
+	mconst.tropicLatitudes		= 23 --23
+	mconst.horseLatitudes		= 28 --28
+	mconst.polarFrontLatitude	= 60 --60
 
-	--Percent of land that is below the desert rainfall threshold.
-	mconst.desertPercent = 0.3 --0.36
-	--Coldest absolute temperature allowed to be desert, plains if colder.
-	mconst.desertMinTemperature = 0.34
-
-	--Percent of land that is below the plains rainfall threshold.
-	mconst.plainsPercent = 0.56
-
-	--Percent of land that is below the rainfall threshold where no trees
-	--can appear.
-	mconst.zeroTreesPercent = 0.4 --0.30
-	--Coldest absolute temperature where trees appear.
-	mconst.treesMinTemperature = 0.27
-
-	--Percent of land below the jungle rainfall threshold.
-	mconst.junglePercent = 0.85 --0.75
-	--Coldest absolute temperature allowed to be jungle, forest if colder.
-	mconst.jungleMinTemperature = 0.70
-
-	--Percent of land below the marsh rainfall threshold.
-	mconst.marshPercent = 0.92
-
-	--Absolute temperature below which is snow.
-	mconst.snowTemperature = 0.25 --0.25
-
-	--Absolute temperature below which is tundra.
-	mconst.tundraTemperature = 0.30
+	mconst.mountainsPercent = 0.90 --0.85	--Percent of dry land that is below the mountain elevation deviance threshold.
+	mconst.hillsPercent		= 0.70 --0.50	--Percent of dry land that is below the hill elevation deviance threshold.
+	
+	mconst.marshPercent		= 0.85 --0.92	--Percent of land below the marsh rainfall threshold.
+	mconst.junglePercent	= 0.70 --0.75	--Percent of land below the jungle rainfall threshold.
+	mconst.plainsPercent	= 0.50 --0.56	--Percent of land that is below the plains rainfall threshold.
+	mconst.desertPercent	= 0.25 --0.36	--Percent of land that is below the desert rainfall threshold.
+	
+	mconst.jungleMinTemperature	= 0.70 --0.70	--Coldest absolute temperature allowed to be jungle, forest if colder.
+	mconst.desertMinTemperature	= 0.34 --0.34	--Coldest absolute temperature allowed to be desert, plains if colder.
+	mconst.tundraTemperature	= 0.30 --0.30	--Absolute temperature below which is tundra.
+	mconst.snowTemperature		= 0.20 --0.25	--Absolute temperature below which is snow.
+	
+	mconst.treesMinTemperature	= 0.27	--0.27	--Coldest absolute temperature where trees appear.
+	mconst.zeroTreesPercent		= 0.30	--0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
+	
 
 	--North and south ice latitude limits.
 	mconst.iceNorthLatitudeLimit = 60
@@ -75,10 +73,10 @@ function MapConstants:New()
 	--North and south atoll latitude limits.
 	mconst.atollNorthLatitudeLimit = 80
 	mconst.atollSouthLatitudeLimit = -80
-	mconst.atollMinDeepWaterNeighbors = 1
+	mconst.atollMinDeepWaterNeighbors = 0
 
 	--percent of river junctions that are large enough to become rivers.
-	mconst.riverPercent = 0.15 --0.19
+	mconst.riverPercent = 0.12 --0.19
 
 	--This value is multiplied by each river step. Values greater than one favor
 	--watershed size. Values less than one favor actual rain amount.
@@ -103,15 +101,6 @@ function MapConstants:New()
 	--seasonal temperature differences that cause monsoon winds.
 	mconst.minWaterTemp = 0.10
 	mconst.maxWaterTemp = 0.60
-
-	--Top and bottom map latitudes.
-	mconst.topLatitude = 70
-	mconst.bottomLatitude = -70
-
-	--Important latitude markers used for generating climate.
-	mconst.polarFrontLatitude = 60
-	mconst.tropicLatitudes = 23
-	mconst.horseLatitudes = 28 -- I shrunk these a bit to emphasize temperate lattitudes
 
 	--Strength of geostrophic climate generation versus monsoon climate
 	--generation.
@@ -1984,7 +1973,6 @@ function FillInLakes()
 end
 
 function GenerateTempMaps(elevationMap)
-
 	local aboveSeaLevelMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	for y = 0,elevationMap.height - 1,1 do
 		for x = 0,elevationMap.width - 1,1 do
@@ -2331,21 +2319,24 @@ function PlacePossibleOasis(x,y)
 	local featureOasis = FeatureTypes.FEATURE_OASIS
 	local tiles = elevationMap:GetRadiusAroundHex(x,y,1)
 	local plot = Map.GetPlot(x,y)
-	if not plot:IsHills() and not plot:IsMountain() and plot:GetTerrainType() == terrainDesert then
-		local canPlace = true
+	if not plot:IsHills() and not plot:IsMountain() and plot:GetTerrainType() == terrainDesert and plot:GetFeatureType() == FeatureTypes.NO_FEATURE then
+		local validNeighbors = 0
 		for n=1,#tiles do
 			local xx = tiles[n][1]
 			local yy = tiles[n][2]
 			local nPlot = Map.GetPlot(xx,yy)
-			if nPlot:GetTerrainType() ~= terrainDesert then
-				canPlace = false
-				break
-			elseif nPlot:GetFeatureType() ~= FeatureTypes.NO_FEATURE then
-				canPlace = false
+			if nPlot:GetFeatureType() == FeatureTypes.FEATURE_OASIS then
+				validNeighbors = 0
 				break
 			end
+			if nPlot:GetFeatureType() ~= FeatureTypes.NO_FEATURE then
+				validNeighbors = validNeighbors - 1
+			end
+			if nPlot:GetTerrainType() == terrainDesert then
+				validNeighbors = validNeighbors + 1
+			end
 		end
-		if canPlace then
+		if validNeighbors >= Map.Rand(8, "Ocean Rifts - Lua") then
 			plot:SetFeatureType(featureOasis,-1)
 		end
 	end
@@ -2399,16 +2390,20 @@ function PlacePossibleAtoll(x,y)
 		end
 	end
 end
+
+
+
+
 -------------------------------------------------------------------------------
 --functions that Civ needs
 -------------------------------------------------------------------------------
 function GetMapScriptInfo()
 	local world_age, temperature, rainfall, sea_level, resources = GetCoreMapOptions()
 	return {
-		Name = "PerfectWorld 3",
-		Description = "Simulated semi-psuedo-quasi-realistic climate",
+		Name = "Communitas",
+		Description = "Creates several large continents and island chains with realistic climate.",
 		IsAdvancedMap = 0,
-		SupportsMultiplayer = false,
+		SupportsMultiplayer = true,
 		IconIndex = 1,
 		SortIndex = 1,
 		CustomOptions = {
@@ -2427,12 +2422,12 @@ end
 
 function GetMapInitData(worldSize)
 	local worldsizes = {
-		[GameInfo.Worlds.WORLDSIZE_DUEL.ID] = {42, 28},
-		[GameInfo.Worlds.WORLDSIZE_TINY.ID] = {50, 36},
-		[GameInfo.Worlds.WORLDSIZE_SMALL.ID] = {60, 42},
-		[GameInfo.Worlds.WORLDSIZE_STANDARD.ID] = {80, 56},
-		[GameInfo.Worlds.WORLDSIZE_LARGE.ID] = {100, 70},
-		[GameInfo.Worlds.WORLDSIZE_HUGE.ID] = {120, 84}
+		[GameInfo.Worlds.WORLDSIZE_DUEL.ID] = {40, 24},
+		[GameInfo.Worlds.WORLDSIZE_TINY.ID] = {56, 36},
+		[GameInfo.Worlds.WORLDSIZE_SMALL.ID] = {66, 42},
+		[GameInfo.Worlds.WORLDSIZE_STANDARD.ID] = {80, 52},
+		[GameInfo.Worlds.WORLDSIZE_LARGE.ID] = {104, 64},
+		[GameInfo.Worlds.WORLDSIZE_HUGE.ID] = {128, 80}
 		}
 --~ 	local worldsizes = {
 --~ 		[GameInfo.Worlds.WORLDSIZE_DUEL.ID] = {50, 36},
@@ -2454,6 +2449,9 @@ function GetMapInitData(worldSize)
      end
 end
 
+
+
+
 function GeneratePlotTypes()
 	print("Creating initial map data - PerfectWorld3")
 	local gridWidth, gridHeight = Map.GetGridSize();
@@ -2461,13 +2459,11 @@ function GeneratePlotTypes()
 	print(string.format("map size: width=%d, height=%d",gridWidth,gridHeight))
 
 	mc = MapConstants:New()
-	PWRandSeed()
-	
-	GenerateIslands();
+	PWRandSeed()	
 
 	elevationMap = GenerateElevationMap(gridWidth,gridHeight,true,false)
-	FillInLakes()
-	--elevationMap:Save("elevationMap.csv")
+	--FillInLakes()
+	--elevationMap:Save("elevationMap.csv")	
 
 	rainfallMap, temperatureMap = GenerateRainfallMap(elevationMap)
 	--rainfallMap:Save("rainfallMap.csv")
@@ -2526,8 +2522,60 @@ function GeneratePlotTypes()
 			end
 		end
 	end
+	
+	GenerateIslands()
+	GenerateCoasts()
+end
 
-	GenerateCoasts();
+function GenerateOceanRifts()
+	-- Creates simple ocean rifts by placing randomly-pathing ocean lines from north to south.
+	local width, height = Map.GetGridSize();
+	
+	CreateOceanRift(0)
+	CreateOceanRift(width / 2)
+end
+
+function CreateOceanRift(midline)
+	local width, height = Map.GetGridSize()
+	print (string.format("Creating ocean rift at %s on map size (%s, %s)", midline, width, height))
+	
+	local lowerBound = midline - 0.2 * width
+	local upperBound = midline + 0.2 * width
+	
+	local plotX = midline
+	local plotY = 0
+	
+	while true do
+		--print(string.format("Creating ocean at (%s, %s)", plotX, plotY))	
+		
+		Map.GetPlot((plotX-2) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
+		Map.GetPlot((plotX-1) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
+		Map.GetPlot((plotX+0) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
+		Map.GetPlot((plotX+1) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
+		Map.GetPlot((plotX+2) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)	
+		
+		--[[
+		elevationMap.data[elevationMap:GetIndex((plotX-2) % width, plotY % height)] = -100
+		elevationMap.data[elevationMap:GetIndex((plotX-1) % width, plotY % height)] = -100
+		elevationMap.data[elevationMap:GetIndex((plotX+0) % width, plotY % height)] = -100
+		elevationMap.data[elevationMap:GetIndex((plotX+1) % width, plotY % height)] = -100
+		elevationMap.data[elevationMap:GetIndex((plotX+2) % width, plotY % height)] = -100
+		--]]
+		
+		plotY = plotY + 1
+		
+		if plotX >= upperBound then
+			plotX = plotX - 1
+		elseif plotX <= lowerBound then
+			plotX = plotX + 1
+		else
+			plotX = plotX + (Map.Rand(3, "Ocean Rifts - Lua") - 1)
+		end
+		
+		if plotY >= height - 1 then
+			return
+		end
+	end	
 end
 
 function GenerateIslands()
@@ -3276,6 +3324,7 @@ function GenerateTerrain()
 			end
 		end
 	end
+	
 	--now we fix things up so that the border of tundra and ice regions are hills
 	--this looks a bit more believable. Also keep desert away from tundra and ice
 	--by turning it into plains
@@ -3284,7 +3333,7 @@ function GenerateTerrain()
 			local i = elevationMap:GetIndex(x,y)
 			local plot = Map.GetPlot(x, y)
 			if not elevationMap:IsBelowSeaLevel(x,y) then
-				if plot:GetTerrainType() == terrainSnow then
+				if plot:GetTerrainType() == terrainSnow and plot:GetPlotType() ~= PlotTypes.PLOT_MOUNTAIN then
 					local lowerFound = false
 					for dir = mc.W,mc.SW,1 do
 						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
@@ -3303,7 +3352,7 @@ function GenerateTerrain()
 					if lowerFound and plot:GetPlotType() == PlotTypes.PLOT_LAND then
 						plot:SetPlotType(PlotTypes.PLOT_HILLS,false,false)
 					end
-				elseif plot:GetTerrainType() == terrainTundra then
+				elseif plot:GetTerrainType() == terrainTundra and plot:GetPlotType() ~= PlotTypes.PLOT_MOUNTAIN then
 					local lowerFound = false
 					for dir = mc.W,mc.SW,1 do
 						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
@@ -3342,6 +3391,8 @@ function GenerateTerrain()
 			end
 		end
 	end
+	
+	GenerateOceanRifts()
 end
 ------------------------------------------------------------------------------
 

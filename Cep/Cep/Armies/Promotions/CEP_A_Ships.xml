@@ -148,24 +148,6 @@
 			<PediaType>PEDIA_NAVAL</PediaType>
 			<PediaEntry>TXT_KEY_PROMOTION_NAVAL_RECON_2</PediaEntry>
 		</Row>
-		<!--
-		<Row>
-			<Type>PROMOTION_NAVAL_LOGISTICS</Type>
-			<Description>TXT_KEY_PROMOTION_BLITZ</Description>
-			<Help>TXT_KEY_PROMOTION_RANGED_BLITZ_HELP</Help>
-			<Sound>AS2D_IF_LEVELUP</Sound>
-			<PromotionPrereqOr1>PROMOTION_TARGETING_3</PromotionPrereqOr1>
-			<PromotionPrereqOr2>PROMOTION_BOMBARDMENT_3</PromotionPrereqOr2>
-			<OrderPriority>15</OrderPriority>
-			<CanMoveAfterAttacking>true</CanMoveAfterAttacking>
-			<RangedAttackModifier>-25</RangedAttackModifier>
-			<ExtraAttacks>1</ExtraAttacks>
-			<PortraitIndex>9</PortraitIndex>
-			<IconAtlas>PROMOTION_ATLAS</IconAtlas>
-			<PediaType>PEDIA_NAVAL</PediaType>
-			<PediaEntry>TXT_KEY_PROMOTION_BLITZ</PediaEntry>
-		</Row>
-		-->
 		<Row>
 			<Type>PROMOTION_ASTRONOMY</Type>
 			<Description>TXT_KEY_PROMOTION_ASTRONOMY</Description>
@@ -178,6 +160,7 @@
 			<PediaEntry>TXT_KEY_PEDIA_PROMOTION_HOVERING_UNIT</PediaEntry>
 		</Row>
 	</UnitPromotions>
+	<!--
 	<Technology_DomainPromotion>
 		<Row>
 			<TechType>TECH_ASTRONOMY</TechType>
@@ -185,6 +168,7 @@
 			<PromotionType>PROMOTION_ASTRONOMY</PromotionType>
 		</Row>
 	</Technology_DomainPromotion>
+	-->
 	<UnitPromotions_Domains>
 		<Update>
 			<Where PromotionType="PROMOTION_TARGETING_1" />

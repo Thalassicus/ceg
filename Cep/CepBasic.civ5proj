@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
     <ProjectGuid>{aa8d3f9b-6e18-4483-a160-c2943e6e3fe0}</ProjectGuid>
-    <Name>Communitas Expansion Pack - Lite (v1.0 beta)</Name>
+    <Name>Communitas Expansion Pack - Basic (v1.0 beta)</Name>
     <Guid>828b5b4b-7c62-4afb-a43f-034b596ef5e4</Guid>
     <ModVersion>1</ModVersion>
     <Stability>Beta</Stability>
@@ -23,7 +23,12 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Misc\CEP_Start.sql</FileName>
+        <FileName>Cep/Misc/CEP_Start.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Cep/Misc/CEP_Info.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -33,7 +38,7 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\Language_Start.sql</FileName>
+        <FileName>Cep/_Text/Language_Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -108,7 +113,12 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Armies\CEP_A_Data.xml</FileName>
+        <FileName>Cep\_Interface\Icons\Cep_Icons.xml</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Cep/Armies/CEP_A_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -483,587 +493,587 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Armies.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Armies.sql</FileName>
+        <FileName>Cep/_Text/en_US/Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Armies.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Armies.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Armies.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Armies.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Armies.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Armies.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Armies.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Armies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Barbarians.sql</FileName>
+        <FileName>Cep/_Text/en_US/Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Barbarians.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Barbarians.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Cities.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Cities.sql</FileName>
+        <FileName>Cep/_Text/en_US/Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Cities.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Cities.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Cities.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Cities.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Cities.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Cities.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Cities.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Cities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Diplomacy.sql</FileName>
+        <FileName>Cep/_Text/en_US/Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Diplomacy.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Diplomacy.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Opportunities.sql</FileName>
+        <FileName>Cep/_Text/en_US/Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Opportunities.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Opportunities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Leaders.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Leaders.sql</FileName>
+        <FileName>Cep/_Text/en_US/Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Leaders.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Leaders.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Leaders.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Leaders.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Leaders.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Leaders.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Leaders.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Leaders.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Policies.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Policies.sql</FileName>
+        <FileName>Cep/_Text/en_US/Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Policies.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Policies.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Policies.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Policies.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Policies.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Policies.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Policies.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Policies.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\CSD.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/CSD.sql</FileName>
+        <FileName>Cep/_Text/en_US/CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\CSD.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\CSD.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\CSD.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\CSD.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\CSD.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\CSD.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\CSD.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\CSD.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Faith.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Faith.sql</FileName>
+        <FileName>Cep/_Text/en_US/Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Faith.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Faith.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Faith.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Faith.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Faith.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Faith.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Faith.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Faith.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/GreatWorks.sql</FileName>
+        <FileName>Cep/_Text/en_US/GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\GreatWorks.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\GreatWorks.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Research.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Research.sql</FileName>
+        <FileName>Cep/_Text/en_US/Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Research.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Research.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Research.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Research.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Research.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Research.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Research.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Research.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\Terrain.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/Terrain.sql</FileName>
+        <FileName>Cep/_Text/en_US/Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\Terrain.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\Terrain.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\Terrain.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\Terrain.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\Terrain.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\Terrain.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\Terrain.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\Terrain.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\DE_DE\AI.sql</FileName>
+        <FileName>Cep\_Text\DE_DE\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep/Text/en_US/AI.sql</FileName>
+        <FileName>Cep/_Text/en_US/AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ES_ES\AI.sql</FileName>
+        <FileName>Cep\_Text\ES_ES\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\FR_FR\AI.sql</FileName>
+        <FileName>Cep\_Text\FR_FR\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\IT_IT\AI.sql</FileName>
+        <FileName>Cep\_Text\IT_IT\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\JA_JP\AI.sql</FileName>
+        <FileName>Cep\_Text\JA_JP\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\PL_PL\AI.sql</FileName>
+        <FileName>Cep\_Text\PL_PL\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\RU_RU\AI.sql</FileName>
+        <FileName>Cep\_Text\RU_RU\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\ZH_CN\AI.sql</FileName>
+        <FileName>Cep\_Text\ZH_CN\AI.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1113,26 +1123,32 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\Language_End.sql</FileName>
+        <FileName>Cep/_Text/Language_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Misc\CEP_End.sql</FileName>
+        <FileName>Cep/Faith/CEP_F_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Misc\CEP_Data.xml</FileName>
+        <FileName>Cep/Misc/CEP_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Cep\Text\en_US\Cities.xml</FileName>
+        <FileName>Cep/_Text/en_US/Cities.xml</FileName>
       </Action>
     </ModActions>
     <Homepage>http://civmodding.wordpress.com/</Homepage>
     <ModContent>
+      <Content>
+        <Type>MapScript</Type>
+        <Name>Communitas</Name>
+        <Description>Provides several large continents and island chains.</Description>
+        <FileName>Cep/Terrain/Communitas.lua</FileName>
+      </Content>
     </ModContent>
     <ModReferences />
     <SupportsHotSeat>true</SupportsHotSeat>
@@ -1157,10 +1173,11 @@
     <Folder Include="Cep\Cities\Buildings\" />
     <Folder Include="Cep\Cities\Art\" />
     <Folder Include="Cep\Diplomacy\" />
-    <Folder Include="Cep\GreatWorks\" />
+    <Folder Include="Cep\_Interface\Icons" />
     <Folder Include="Cep\Leaders\" />
     <Folder Include="Cep\Faith" />
     <Folder Include="Cep\Misc" />
+    <Folder Include="Cep\_Interface" />
     <Folder Include="Cep\Policies\" />
     <Folder Include="Cep\Policies\Art" />
     <Folder Include="Cep\Policies\Trees\" />
@@ -1168,18 +1185,186 @@
     <Folder Include="Cep\Research\Art" />
     <Folder Include="Cep\Terrain\" />
     <Folder Include="Cep\Opportunities\" />
-    <Folder Include="Cep\Text\" />
-    <Folder Include="Cep\Text\DE_DE\" />
-    <Folder Include="Cep\Text\en_US\" />
-    <Folder Include="Cep\Text\ES_ES\" />
-    <Folder Include="Cep\Text\FR_FR\" />
-    <Folder Include="Cep\Text\IT_IT\" />
-    <Folder Include="Cep\Text\JA_JP\" />
-    <Folder Include="Cep\Text\PL_PL\" />
-    <Folder Include="Cep\Text\RU_RU\" />
-    <Folder Include="Cep\Text\ZH_CN\" />
+    <Folder Include="Cep\_Text" />
+    <Folder Include="Cep\_Text\DE_DE" />
+    <Folder Include="Cep\_Text\en_US" />
+    <Folder Include="Cep\_Text\ES_ES" />
+    <Folder Include="Cep\_Text\FR_FR" />
+    <Folder Include="Cep\_Text\IT_IT" />
+    <Folder Include="Cep\_Text\JA_JP" />
+    <Folder Include="Cep\_Text\PL_PL" />
+    <Folder Include="Cep\_Text\RU_RU" />
+    <Folder Include="Cep\_Text\ZH_CN" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Cep\Armies\Art\CEP_A_Art.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Art\CEP_NewUnits128.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Art\CEP_NewUnits256.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Art\CEP_NewUnits45.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Art\CEP_NewUnits64.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Art\CEP_NewUnits80.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Art\vanguardflagatlas.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\CEP_A_Data.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\CEP_A__End.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\CEP_A__Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Promotions\CEP_A_Other.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Promotions\CEP_A_PromotionReplace.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Promotions\CEP_A_PromotionSwap.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Promotions\CEP_A_Ships.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Armies\Promotions\CEP_A_Vanguards.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Faith\CEP_F_Data.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Faith\CEP_F_End.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Faith\CEP_F_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Misc\CEP_End.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Misc\CEP_Info.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Misc\CEP_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\CepFontIcons.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\CepFontIcons.ggxml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\Cep_Icons.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\NewPromos16.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\NewPromos256.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\NewPromos32.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\NewPromos45.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\NewPromos64.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\promotions128.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\Unknown32.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\VanguardPromos16.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\VanguardPromos256.DDS">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\VanguardPromos32.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\VanguardPromos45.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\VanguardPromos64.DDS">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Interface\Icons\YieldAtlas_Cep.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\Misc\GameSetupScreen.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Text\en_US\Armies.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Text\en_US\Faith.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Text\Language_End.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Cep\_Text\Language_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="CEP_ArmiesCities.xls">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
@@ -1256,18 +1441,6 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Cep\Misc\CEP_Data.xml">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Cep\Misc\CEP_End.sql">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Cep\Misc\CEP_Start.sql">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
     <Content Include="Cep\Policies\CEP_P_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
@@ -1312,11 +1485,11 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Cep\Terrain\PerfectWorld3.lua">
+    <Content Include="Cep\Terrain\Communitas.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Cep\Text\en_US\Cities.xml">
+    <Content Include="Cep\_Text\en_US\Cities.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

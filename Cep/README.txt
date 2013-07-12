@@ -56,6 +56,7 @@ Dmitry - Russian translations for CiVUP.
 Erindir, XIenwolf and Kael - Flag promotions based on their work.
 ExpiredReign - Corrected some text mistakes.
 Gedemon - Map Pins hotseat testing.
+Kilandor - City Limits display of maximum city boundaries.
 Putmalk - Extra Diplomacy Text.
 Seek
 	Icon artwork for Sanitation System.

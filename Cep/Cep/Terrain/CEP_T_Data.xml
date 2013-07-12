@@ -59,7 +59,7 @@
 		</Update>
 		<Update>
 			<Where Type="FEATURE_ATOLL" />
-			<Set Defense="10" Movement="3" />
+			<Set Rough="1" Defense="10" Movement="2" SeeThrough="1" />
 		</Update>
 		<Update>
 			<Where Type="FEATURE_MARSH" />
@@ -206,6 +206,13 @@
 		<Delete ResourceType="RESOURCE_DEER" />
 		<Delete ResourceType="RESOURCE_WHEAT" />
 		<Delete ResourceType="RESOURCE_COW" />
+		<Delete ResourceType="RESOURCE_FISH" />
+		<Row>
+			<ImprovementType>IMPROVEMENT_FISHING_BOATS</ImprovementType>
+			<ResourceType>RESOURCE_FISH</ResourceType>
+			<YieldType>YIELD_FOOD</YieldType>
+			<Yield>2</Yield>
+		</Row>
 		<Row>
 			<ImprovementType>IMPROVEMENT_PLANTATION</ImprovementType>
 			<ResourceType>RESOURCE_BANANA</ResourceType>

@@ -3,7 +3,7 @@
 	<Defines>
 		<Update>
 			<Where Name="BASE_POLICY_COST" />
-			<Set Value="30" />
+			<Set Value="50" />
 			<!-- 25 -->
 		</Update>
 		<Update>

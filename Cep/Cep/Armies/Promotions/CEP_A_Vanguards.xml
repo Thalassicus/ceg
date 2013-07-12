@@ -33,20 +33,6 @@
 				 PediaType="NONE"
 				 />
 		</Update>
-		<!--
-		<Update>
-			<Where Type="PROMOTION_SURVIVALISM_1" />
-			<Set PromotionPrereqOr3="PROMOTION_SCOUTING_1"
-				 PromotionPrereqOr2="PROMOTION_TRENCHES_1"
-				 PromotionPrereqOr1="PROMOTION_GUERRILLA_1"
-				 FreePillageMoves="true"
-				 EnemyHealChange="10"
-				 NeutralHealChange="10"
-				 DefenseMod="0"
-				 PediaType="PEDIA_SCOUTING"
-				 />
-		</Update>
-		-->
 		<Update>
 			<Where Type="PROMOTION_SURVIVALISM_1" />
 			<Set CannotBeChosen="true"

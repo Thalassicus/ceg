@@ -1,4 +1,45 @@
 --
+
+CREATE TABLE IF NOT EXISTS
+	UnitPromotions_Equivilancy (
+	Melee			text,
+	Ranged			text,
+	Vanguard		text
+);
+	
+CREATE TABLE IF NOT EXISTS
+	UnitPromotions_Grid (
+	PromotionType	text REFERENCES UnitPromotions(Type),
+	UnitCombatType	text REFERENCES UnitCombatInfos(Type),
+	Base			boolean default true,
+	GridX			integer,
+	GridY			integer
+);
+
+ALTER TABLE Units			ADD BarbUpgradeType						text;
+ALTER TABLE UnitCombatInfos	ADD PromotionCategory					text;
+
+ALTER TABLE UnitPromotions	ADD IsFirst								boolean;
+ALTER TABLE UnitPromotions	ADD IsAttack							boolean;
+ALTER TABLE UnitPromotions	ADD IsDefense							boolean;
+ALTER TABLE UnitPromotions	ADD IsRanged							boolean;
+ALTER TABLE UnitPromotions	ADD IsMelee								boolean;
+ALTER TABLE UnitPromotions	ADD IsMove								boolean;
+ALTER TABLE UnitPromotions	ADD SimpleHelpText						boolean;
+ALTER TABLE UnitPromotions	ADD FullMovesAfterAttack				boolean;
+ALTER TABLE UnitPromotions	ADD GoldenPoints						integer default 0;
+ALTER TABLE UnitPromotions	ADD Class								text default 'PROMOTION_CLASS_PERSISTANT';
+
+
+CREATE TABLE IF NOT EXISTS
+	UnitPromotions_Equivilancy (
+	Melee			text,
+	Ranged			text,
+	Vanguard		text
+);
+
+/*
+--
 -- Set unique unit classes
 --
 
@@ -163,20 +204,6 @@ INSERT INTO Unit_ClassUpgrades (UnitType, UnitClassType) SELECT DISTINCT Type, '
 INSERT INTO Unit_ClassUpgrades (UnitType, UnitClassType) SELECT DISTINCT Type, 'UNITCLASS_SUBMARINE'            FROM Units WHERE Class = 'UNITCLASS_PRIVATEER';	
 INSERT INTO Unit_ClassUpgrades (UnitType, UnitClassType) SELECT DISTINCT Type, 'UNITCLASS_NUCLEAR_SUBMARINE'    FROM Units WHERE Class = 'UNITCLASS_SUBMARINE';
 
-/*
-UPDATE Units SET ObsoleteTech = 'TECH_COMPASS'              WHERE Class = 'UNITCLASS_TRIREME';
-UPDATE Units SET ObsoleteTech = 'TECH_NAVIGATION'           WHERE Class = 'UNITCLASS_GALLEASS';
-UPDATE Units SET ObsoleteTech = 'TECH_REFRIGERATION'        WHERE Class = 'UNITCLASS_FRIGATE';
-UPDATE Units SET ObsoleteTech = 'TECH_NUCLEAR_FISSION'      WHERE Class = 'UNITCLASS_DESTROYER';
-UPDATE Units SET ObsoleteTech = 'TECH_STEAM_POWER'          WHERE Class = 'UNITCLASS_SHIP_OF_THE_LINE';
-UPDATE Units SET ObsoleteTech = 'TECH_COMBUSTION'           WHERE Class = 'UNITCLASS_IRONCLAD';
-UPDATE Units SET ObsoleteTech = 'TECH_ROBOTICS'             WHERE Class = 'UNITCLASS_BATTLESHIP';
-UPDATE Units SET ObsoleteTech = 'TECH_CARVEL_HULLS'         WHERE Class = 'UNITCLASS_LIBURNA';
-UPDATE Units SET ObsoleteTech = 'TECH_NAVIGATION'           WHERE Class = 'UNITCLASS_CARAVEL';
-UPDATE Units SET ObsoleteTech = 'TECH_REPLACEABLE_PARTS'    WHERE Class = 'UNITCLASS_PRIVATEER';
-UPDATE Units SET ObsoleteTech = 'TECH_COMPUTERS'            WHERE Class = 'UNITCLASS_SUBMARINE';
-*/
-
 --
 -- Resources
 --
@@ -285,3 +312,5 @@ UPDATE Eras SET EmbarkedUnitDefense = 35 WHERE ID = 7;
 
 
 UPDATE LoadedFile SET Value=1 WHERE Type='GEA_Start.sql';
+
+*/
