@@ -71,7 +71,7 @@ UPDATE Units SET Cost = 200, HurryCostModifier = 100 WHERE Class = 'UNITCLASS_AM
 -- Faith Costs
 --
 
-UPDATE Units SET FaithCost = 3 * Cost WHERE FaithCost > 0 AND Cost > 0;
+UPDATE Units SET FaithCost = 1 * Cost WHERE FaithCost > 0 AND Cost > 0;
 
 
 --

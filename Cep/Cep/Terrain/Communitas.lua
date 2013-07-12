@@ -9,6 +9,9 @@ This map script generates climate based on a simplified model of geostrophic
 and monsoon wind patterns. Rivers are generated along accurate drainage paths
 governed by the elevation map used to create the landforms.
 
+In addition to PerfectWorld features, this map includes island chains, ocean rifts,
+lakes, and terrain proportions more closely matching standard Civ 5 maps.
+
 --]]------------------------------------------------------------------------------
 
 include("MapGenerator");
@@ -18,19 +21,7 @@ include("IslandMaker");
 
 MapConstants = {}
 
-function PrintDesertCount()
-	local iW, iH = Map.GetGridSize();
-	local numDeserts = 0
-	for x=0, iW-1 do
-		for y=0, iH-1 do
-			plot = Map.GetPlot(x, y)
-			if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT then
-				numDeserts = numDeserts + 1
-			end
-		end
-	end
-	print("numDeserts = "..numDeserts)
-end
+
 
 function MapConstants:New()
 	local mconst = {}
@@ -38,32 +29,33 @@ function MapConstants:New()
 	self.__index = self
 
 	--Percent of land tiles on the map.
-	mconst.landPercent		= 0.30 --0.28
+	mconst.landPercent			= 0.35 --0.28
 
 	--Top and bottom map latitudes.
-	mconst.topLatitude = 70
-	mconst.bottomLatitude = -70
+	mconst.topLatitude			= 70
+	mconst.bottomLatitude		= -70
 
 	--Important latitude markers used for generating climate.
 	mconst.tropicLatitudes		= 23 --23
 	mconst.horseLatitudes		= 28 --28
 	mconst.polarFrontLatitude	= 60 --60
-
-	mconst.mountainsPercent = 0.90 --0.85	--Percent of dry land that is below the mountain elevation deviance threshold.
-	mconst.hillsPercent		= 0.70 --0.50	--Percent of dry land that is below the hill elevation deviance threshold.
 	
-	mconst.marshPercent		= 0.85 --0.92	--Percent of land below the marsh rainfall threshold.
-	mconst.junglePercent	= 0.70 --0.75	--Percent of land below the jungle rainfall threshold.
-	mconst.plainsPercent	= 0.50 --0.56	--Percent of land that is below the plains rainfall threshold.
-	mconst.desertPercent	= 0.25 --0.36	--Percent of land that is below the desert rainfall threshold.
+	-- need open terrain for horses
+	mconst.mountainsPercent = 0.95 --0.85	--Percent of dry land that is below the mountain elevation deviance threshold.
+	mconst.hillsPercent		= 0.80 --0.50	--Percent of dry land that is below the hill elevation deviance threshold.
+	
+	mconst.marshPercent		= 0.92 --0.92	--Percent of land below the marsh rainfall threshold.
+	mconst.junglePercent	= 0.75 --0.75	--Percent of land below the jungle rainfall threshold.
+	mconst.plainsPercent	= 0.56 --0.56	--Percent of land that is below the plains rainfall threshold.
+	mconst.zeroTreesPercent	= 0.40 --0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
+	mconst.desertPercent	= 0.30 --0.36	--Percent of land that is below the desert rainfall threshold.
 	
 	mconst.jungleMinTemperature	= 0.70 --0.70	--Coldest absolute temperature allowed to be jungle, forest if colder.
-	mconst.desertMinTemperature	= 0.34 --0.34	--Coldest absolute temperature allowed to be desert, plains if colder.
-	mconst.tundraTemperature	= 0.30 --0.30	--Absolute temperature below which is tundra.
-	mconst.snowTemperature		= 0.20 --0.25	--Absolute temperature below which is snow.
+	mconst.desertMinTemperature	= 0.40 --0.34	--Coldest absolute temperature allowed to be desert, plains if colder.
+	mconst.tundraTemperature	= 0.35 --0.30	--Absolute temperature below which is tundra.
+	mconst.treesMinTemperature	= 0.25 --0.27	--Coldest absolute temperature where trees appear.
+	mconst.snowTemperature		= 0.25 --0.25	--Absolute temperature below which is snow.
 	
-	mconst.treesMinTemperature	= 0.27	--0.27	--Coldest absolute temperature where trees appear.
-	mconst.zeroTreesPercent		= 0.30	--0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
 	
 
 	--North and south ice latitude limits.
@@ -76,11 +68,11 @@ function MapConstants:New()
 	mconst.atollMinDeepWaterNeighbors = 0
 
 	--percent of river junctions that are large enough to become rivers.
-	mconst.riverPercent = 0.12 --0.19
+	mconst.riverPercent = 0.10 --0.19
 
 	--This value is multiplied by each river step. Values greater than one favor
 	--watershed size. Values less than one favor actual rain amount.
-	mconst.riverRainCheatFactor = 1.6
+	mconst.riverRainCheatFactor = 2 --1.6
 
 	--These attenuation factors lower the altitude of the map edges. This is
 	--currently used to prevent large continents in the uninhabitable polar
@@ -102,8 +94,7 @@ function MapConstants:New()
 	mconst.minWaterTemp = 0.10
 	mconst.maxWaterTemp = 0.60
 
-	--Strength of geostrophic climate generation versus monsoon climate
-	--generation.
+	--Strength of geostrophic climate generation versus monsoon climate generation.
 	mconst.geostrophicFactor = 3.0
 
 	mconst.geostrophicLateralWindStrength = 0.6
@@ -167,6 +158,74 @@ end
 function MapConstants:GetOppositeDir(dir)
 	return ((dir + 2) % 6) + 1
 end
+
+
+----------------------------------------------------------------
+function IsBetween(lower, mid, upper)
+	return ((lower <= mid) and (mid <= upper))
+end
+
+function Constrain(lower, mid, upper)
+	return math.max(lower, math.min(mid, upper))
+end
+----------------------------------------------------------------
+function Plot_GetPlotsInCircle(plot, minR, maxR)
+	if not plot then
+		log:Fatal("plot:GetPlotsInCircle plot=nil")
+		return
+	end
+	maxR = maxR or minR
+	local plotList	= {}
+	local iW, iH	= Map.GetGridSize()
+	local isWrapX	= Map:IsWrapX()
+	local isWrapY	= Map:IsWrapY()
+	local centerX	= plot:GetX()
+	local centerY	= plot:GetY()
+
+	x1 = isWrapX and ((centerX-maxR) % iW) or Constrain(0, centerX-maxR, iW-1)
+	x2 = isWrapX and ((centerX+maxR) % iW) or Constrain(0, centerX+maxR, iW-1)
+	y1 = isHrapY and ((centerY-maxR) % iH) or Constrain(0, centerY-maxR, iH-1)
+	y2 = isHrapY and ((centerY+maxR) % iH) or Constrain(0, centerY+maxR, iH-1)
+
+	local x		= x1
+	local y		= y1
+	local xStep	= 0
+	local yStep	= 0
+	local rectW	= x2-x1 
+	local rectH	= y2-y1
+	
+	if rectW < 0 then
+		rectW = rectW + iW
+	end
+	
+	if rectH < 0 then
+		rectH = rectH + iH
+	end
+	
+	local adjPlot = Map.GetPlot(x, y)
+
+	while (yStep < 1 + rectH) and adjPlot ~= nil do
+		while (xStep < 1 + rectW) and adjPlot ~= nil do
+			if IsBetween(minR, Map.PlotDistance(x, y, centerX, centerY), maxR) then
+				table.insert(plotList, adjPlot)
+			end
+			
+			x		= x + 1
+			x		= isWrapX and (x % iW) or x
+			xStep	= xStep + 1
+			adjPlot	= Map.GetPlot(x, y)
+		end
+		x		= x1
+		y		= y + 1
+		y		= isWrapY and (y % iH) or y
+		xStep	= 0
+		yStep	= yStep + 1
+		adjPlot	= Map.GetPlot(x, y)
+	end
+	
+	return plotList
+end
+----------------------------------------------------------------
 
 --Returns a value along a bell curve from a 0 - 1 range
 function MapConstants:GetBellCurve(value)
@@ -2336,7 +2395,7 @@ function PlacePossibleOasis(x,y)
 				validNeighbors = validNeighbors + 1
 			end
 		end
-		if validNeighbors >= Map.Rand(8, "Ocean Rifts - Lua") then
+		if validNeighbors >= Map.Rand(10, "Ocean Rifts - Lua") then
 			plot:SetFeatureType(featureOasis,-1)
 		end
 	end
@@ -2523,6 +2582,7 @@ function GeneratePlotTypes()
 		end
 	end
 	
+	Map.RecalculateAreas()
 	GenerateIslands()
 	GenerateCoasts()
 end
@@ -3245,12 +3305,23 @@ function GenerateIslands()
 	end
 	
 	-- Apply island data to the map.
-	for y = 0, iH - 1 do
+	for y = 2, iH - 3 do -- avoid polar caps
 		for x = 0, iW - 1 do
 			local i = y * iW + x + 1;
-			if island_chain_PlotTypes[i] ~= PlotTypes.PLOT_OCEAN then
-				local plot = Map.GetPlot(x, y);
-				plot:SetPlotType(island_chain_PlotTypes[i], false, false);
+			local plot = Map.GetPlot(x, y);
+			if island_chain_PlotTypes[i] ~= PlotTypes.PLOT_OCEAN and plot:GetPlotType() == PlotTypes.PLOT_OCEAN and not plot:IsLake() then
+				local isIsland = true
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					-- Don't place islands next to rivers (breaks the river)
+					if adjPlot:IsFreshWater() then 
+						--print(string.format("Skipping island (%s, %s) due to river adjacency", plot:GetX(), plot:GetY()))
+						isIsland = false
+						break
+					end
+				end
+				if isIsland then
+					plot:SetPlotType(island_chain_PlotTypes[i], false, false);
+				end
 			end
 		end
 	end
@@ -3437,7 +3508,7 @@ function AddAtolls()
 		[GameInfo.Worlds.WORLDSIZE_HUGE.ID] = 12,
 	};
 	--]]
-	local atoll_target = numCoast * 0.10;
+	local atoll_target = numCoast * 0.15;
 	local variance = 25
 		  variance = atoll_target * (Map.Rand(2 * variance, "Number of Atolls to place - LUA") - variance) / 100
 	local atoll_number = math.floor(atoll_target + variance);

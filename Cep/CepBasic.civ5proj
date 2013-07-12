@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
     <ProjectGuid>{aa8d3f9b-6e18-4483-a160-c2943e6e3fe0}</ProjectGuid>
-    <Name>Communitas Expansion Pack - Basic (v1.0 beta)</Name>
+    <Name>Communitas Expansion Pack - Basic (v3.0.4 beta)</Name>
     <Guid>828b5b4b-7c62-4afb-a43f-034b596ef5e4</Guid>
     <ModVersion>1</ModVersion>
     <Stability>Beta</Stability>
@@ -1281,6 +1281,10 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Cep\_Interface\GameSetupScreen.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
     <Content Include="Cep\_Interface\Icons\CepFontIcons.dds">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
@@ -1344,10 +1348,6 @@
     <Content Include="Cep\_Interface\Icons\YieldAtlas_Cep.dds">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
-    </Content>
-    <Content Include="Cep\Misc\GameSetupScreen.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Cep\_Text\en_US\Armies.sql">
       <SubType>Lua</SubType>

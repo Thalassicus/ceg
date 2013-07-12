@@ -47,6 +47,7 @@ Alpaca
 Aristos - Combat odds panel bugfix.
 Attila - Top bar enhancements based on his work.
 Bladex - Map Pins ingame testing.
+Bob Thomas - Most map generation code.
 Dan - Capital railroad bugfix.
 Cope - City banner enhancements based on his work.
 Csebal - Enhancements to terrain hover tooltip.
@@ -58,6 +59,7 @@ ExpiredReign - Corrected some text mistakes.
 Gedemon - Map Pins hotseat testing.
 Kilandor - City Limits display of maximum city boundaries.
 Putmalk - Extra Diplomacy Text.
+Rich Marinaccio - PerfectWorld map script.
 Seek
 	Icon artwork for Sanitation System.
 	Finite research for great scientist lightbulb mission. 
