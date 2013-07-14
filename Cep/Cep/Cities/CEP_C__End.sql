@@ -1,5 +1,7 @@
 --
 
+UPDATE GameSpeeds SET InflationPercent = 0;
+
 --
 -- Resources
 --
@@ -29,8 +31,7 @@ WHERE					building.BuildingClass = 'BUILDINGCLASS_GRANARY'
 						AND res.Type IN (
 							'RESOURCE_WHEAT'	,
 							'RESOURCE_SPICES'	,
-							'RESOURCE_SUGAR'	,
-							'RESOURCE_SALT'
+							'RESOURCE_SUGAR'	
 						);
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges
@@ -41,7 +42,8 @@ WHERE					building.BuildingClass = 'BUILDINGCLASS_CARAVANSARY'
 						AND res.Type IN (
 							'RESOURCE_CITRUS'	,
 							'RESOURCE_TRUFFLES'	,
-							'RESOURCE_BANANA'
+							'RESOURCE_BANANA'	,
+							'RESOURCE_SALT'
 						);
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges

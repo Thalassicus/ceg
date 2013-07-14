@@ -1,5 +1,12 @@
 --
 
+INSERT INTO Belief_BuildingClassTourism(BeliefType, BuildingClassType, Tourism)
+SELECT 'BELIEF_DIVINE_INSPIRATION', Type, 2
+FROM BuildingClasses WHERE (
+	MaxGlobalInstances = 1
+);
+
+
 /*
 UPDATE Beliefs
 SET GoldPerFirstCityConversion = 2 * GoldPerFirstCityConversion

@@ -19,6 +19,7 @@ SET ObsoleteTech = (
 UPDATE Units SET ObsoleteTech = 'TECH_CHIVALRY' WHERE Class = 'UNITCLASS_CHARIOT_ARCHER';
 UPDATE Units SET ObsoleteTech = NULL WHERE Class = 'UNITCLASS_MODERN_ARMOR';
 
+/*
 
 -- This GER_End.sql data created by:
 -- Tech_Deletes tab of GEM_Details.xls spreadsheet in mod folder.										
@@ -46,14 +47,7 @@ INSERT INTO IDRemapper (Type) SELECT Type FROM Technologies;
 UPDATE Technologies SET ID =	( SELECT IDRemapper.id-1 FROM IDRemapper WHERE Technologies.Type = IDRemapper.Type);
 UPDATE sqlite_sequence SET seq = (SELECT COUNT(ID) FROM Technologies)-1 WHERE name = 'Technologies';
 
-
--- Speech
-
-UPDATE Technologies SET AudioIntroHeader = "" WHERE EXISTS 
-(SELECT Value FROM Civup WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
-
-UPDATE Technologies SET AudioIntro = "" WHERE EXISTS 
-(SELECT Value FROM Civup WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
+*/
 
 
 

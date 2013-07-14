@@ -9,12 +9,12 @@
 		</Update>
 		<Update>
 			<Where Name="RELIGION_MIN_FAITH_FIRST_GREAT_PERSON" />
-			<Set Value="500" />
+			<Set Value="1000" />
 			<!-- 1000 -->
 		</Update>
 		<Update>
 			<Where Name="RELIGION_FAITH_DELTA_NEXT_GREAT_PERSON" />
-			<Set Value="250" />
+			<Set Value="500" />
 			<!-- 500 -->
 		</Update>
 		<Update>
@@ -105,25 +105,27 @@
 		</Update>
 		<Update>
 			<Where Type="BELIEF_HOLY_ORDER" />
-			<Set ProphetStrengthModifier="50"
-				 ProphetCostModifier="-33"
-				 MissionaryStrengthModifier="50"
-				 MissionaryCostModifier="-33"
+			<Set MissionaryCostModifier="-25"
 				 />
 		</Update>
+		<!--
 		<Delete Type="BELIEF_MESSIAH" />
 		<Delete Type="BELIEF_MISSIONARY_ZEAL" />
-		<!--
-		<Update>
-			<Where Type="BELIEF_MESSIAH" />
-			<Set ProphetStrengthModifier="50"
-				 ProphetCostModifier="-33"
-				 />
-		</Update>
 		-->
 		<Update>
+			<Where Type="BELIEF_MISSIONARY_ZEAL" />
+			<Set MissionaryStrengthModifier="-50"
+				 />
+		</Update>
+		<Update>
+			<Where Type="BELIEF_MESSIAH" />
+			<Set ProphetStrengthModifier="25"
+				 ProphetCostModifier="-25"
+				 />
+		</Update>
+		<Update>
 			<Where Type="BELIEF_RELIGIOUS_UNITY" />
-			<Set FriendlyCityStateSpreadModifier="1000"/>
+			<Set FriendlyCityStateSpreadModifier="500"/>
 		</Update>
 		<Update>
 			<Where Type="BELIEF_RELIQUARY" />
@@ -132,6 +134,10 @@
 		<Update>
 			<Where Type="BELIEF_PAPAL_PRIMACY" />
 			<Set CityStateMinimumInfluence="30"/>
+		</Update>
+		<Update>
+			<Where Type="BELIEF_PEACE_LOVING" />
+			<Set HappinessPerXPeacefulForeignFollowers="3"/>
 		</Update>
 	</Beliefs>
 	<Belief_CityYieldChanges>
@@ -153,7 +159,7 @@
 		</Update>
 		<Update>
 			<Where BeliefType="BELIEF_CHORAL_MUSIC" />
-			<Set YieldChange="5"/>
+			<Set YieldChange="6"/>
 		</Update>
 		<Update>
 			<Where BeliefType="BELIEF_RELIGIOUS_ART" />
@@ -174,23 +180,34 @@
 			<YieldType>YIELD_CULTURE</YieldType>
 			<YieldChange>10</YieldChange>
 		</Row>
+		<!--
 		<Row>
 			<BeliefType>BELIEF_RELIGIOUS_ART</BeliefType>
 			<BuildingClassType>BUILDINGCLASS_HERMITAGE</BuildingClassType>
 			<YieldType>YIELD_TOURISM</YieldType>
 			<YieldChange>10</YieldChange>
 		</Row>
+		-->
 	</Belief_BuildingClassYieldChanges>
+	<Belief_BuildingClassTourism>
+		<!-- WHY is this a seperate table?! -->
+		<Update>
+			<Where BeliefType="BELIEF_RELIGIOUS_ART" />
+			<Set Tourism="10" />
+		</Update>
+	</Belief_BuildingClassTourism>
 	<Belief_YieldChangeWorldWonder>
 		<Delete BeliefType="BELIEF_DIVINE_INSPIRATION"/>
-		<Row>
-			<BeliefType>BELIEF_DIVINE_INSPIRATION</BeliefType>
-			<YieldType>YIELD_FAITH</YieldType>
-			<Yield>2</Yield>
-		</Row>
+		<!--
 		<Row>
 			<BeliefType>BELIEF_DIVINE_INSPIRATION</BeliefType>
 			<YieldType>YIELD_TOURISM</YieldType>
+			<Yield>2</Yield>
+		</Row>
+		-->
+		<Row>
+			<BeliefType>BELIEF_DIVINE_INSPIRATION</BeliefType>
+			<YieldType>YIELD_FAITH</YieldType>
 			<Yield>2</Yield>
 		</Row>
 	</Belief_YieldChangeWorldWonder>
@@ -218,13 +235,13 @@
 			<Yield>2</Yield>
 		</Row>
 		<Row>
-			<BeliefType>BELIEF_SACRED_ISLES</BeliefType>
+			<BeliefType>BELIEF_TRANQUIL_REFUGE</BeliefType>
 			<FeatureType>FEATURE_OASIS</FeatureType>
 			<YieldType>YIELD_FOOD</YieldType>
 			<Yield>2</Yield>
 		</Row>
 		<Row>
-			<BeliefType>BELIEF_SACRED_ISLES</BeliefType>
+			<BeliefType>BELIEF_TRANQUIL_REFUGE</BeliefType>
 			<FeatureType>FEATURE_OASIS</FeatureType>
 			<YieldType>YIELD_CULTURE</YieldType>
 			<Yield>2</Yield>
@@ -297,10 +314,19 @@
 		</Update>
 	</Belief_YieldChangeAnySpecialist>
 	<Belief_YieldChangePerForeignCity>
-		<Update>
-			<Where BeliefType="BELIEF_PILGRIMAGE" />
-			<Set Yield="4"/>
-		</Update>
+		<Delete BeliefType="BELIEF_PILGRIMAGE" />
+		<!--
+		<Row>
+			<BeliefType>BELIEF_PILGRIMAGE</BeliefType>
+			<YieldType>YIELD_TOURISM</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		-->
+		<Row>
+			<BeliefType>BELIEF_PILGRIMAGE</BeliefType>
+			<YieldType>YIELD_CULTURE</YieldType>
+			<Yield>5</Yield>
+		</Row>
 	</Belief_YieldChangePerForeignCity>
 	<Belief_MaxYieldModifierPerFollower>
 		<Update>
@@ -311,7 +337,7 @@
 	<Belief_YieldChangePerXForeignFollowers>
 		<Update>
 			<Where BeliefType="BELIEF_WORLD_CHURCH" />
-			<Set ForeignFollowers="1"/>
+			<Set ForeignFollowers="3"/>
 		</Update>
 	</Belief_YieldChangePerXForeignFollowers>
 </GameData>

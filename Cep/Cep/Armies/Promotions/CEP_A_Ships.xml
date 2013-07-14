@@ -37,11 +37,11 @@
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_OCEAN_IMPASSABLE" />
-			<Set RoughTerrainEndsTurn="true" />
+			<Set RoughTerrainEndsTurn="0" />
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_OCEAN_IMPASSABLE_UNTIL_ASTRONOMY" />
-			<Set RoughTerrainEndsTurn="true" />
+			<Set RoughTerrainEndsTurn="0" />
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_TARGETING_1" />

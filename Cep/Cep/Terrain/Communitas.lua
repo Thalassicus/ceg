@@ -29,7 +29,7 @@ function MapConstants:New()
 	self.__index = self
 
 	--Percent of land tiles on the map.
-	mconst.landPercent			= 0.35 --0.28
+	mconst.landPercent			= 0.40 --0.28
 
 	--Top and bottom map latitudes.
 	mconst.topLatitude			= 70
@@ -110,6 +110,7 @@ function MapConstants:New()
 	mconst.minimumRainCost = 0.0001
 	mconst.upLiftExponent = 4
 	mconst.polarRainBoost = 0.00
+	mconst.pressureNorm = 0.9 --[1.0 = no normalization] Helps to prevent exaggerated Jungle/Marsh banding on the equator. -Bobert13
 
 	--default frequencies for map of width 128. Adjusting these frequences
 	--will generate larger or smaller map features.
@@ -290,9 +291,9 @@ function GetInterpolatedValue(X,Y,srcMap)
 	local x
 	local y
 
-	for pY = 0, 4-1,1 do
+	for pY = 0, 4-1 do
 		y = pY + wrappedY
-		for pX = 0,4-1,1 do
+		for pX = 0,4-1 do
 			x = pX + wrappedX
 			local srcIndex = srcMap:GetRectIndex(x, y)
 			points[(pY * 4 + pX) + 1] = srcMap.data[srcIndex]
@@ -318,9 +319,9 @@ function GetDerivativeValue(X,Y,srcMap)
 	local x
 	local y
 
-	for pY = 0, 4-1,1 do
+	for pY = 0, 4-1 do
 		y = pY + wrappedY
-		for pX = 0,4-1,1 do
+		for pX = 0,4-1 do
 			x = pX + wrappedX
 			local srcIndex = srcMap:GetRectIndex(x, y)
 			points[(pY * 4 + pX) + 1] = srcMap.data[srcIndex]
@@ -342,7 +343,7 @@ function GetPerlinNoise(x,y,destMapWidth,destMapHeight,initialFrequency,initialA
 	local amplitude = initialAmplitude
 	local frequencyX --slight adjustment for seamless wrapping
 	local frequencyY --''
-	for i = 1,octaves,1 do
+	for i = 1,octaves do
 		if noiseMap.wrapX then
 			noiseMap.rectX = math.floor(noiseMap.width/2 - (destMapWidth * frequency)/2)
 			noiseMap.rectWidth = math.max(math.floor(destMapWidth * frequency),1)
@@ -376,7 +377,7 @@ function GetPerlinDerivative(x,y,destMapWidth,destMapHeight,initialFrequency,ini
 	local amplitude = initialAmplitude
 	local frequencyX --slight adjustment for seamless wrapping
 	local frequencyY --''
-	for i = 1,octaves,1 do
+	for i = 1,octaves do
 		if noiseMap.wrapX then
 			noiseMap.rectX = math.floor(noiseMap.width/2 - (destMapWidth * frequency)/2)
 			noiseMap.rectWidth = math.floor(destMapWidth * frequency)
@@ -482,7 +483,7 @@ end
 function PWRandSeed(fixedseed)
 	local seed
 	if fixedseed == nil then
-		seed = os.time()
+		seed = Map.Rand(2147483647,"") --This function caps at this number, if you set it any higher, or try to trick it with multiple RNGs that end up with a value above this, it will break randomization. This is 31 bits of precision so... - Bobert13
 	else
 		seed = fixedseed
 	end
@@ -523,7 +524,7 @@ function FloatMap:New(width, height, wrapX, wrapY)
 	new_inst.rectHeight = height
 
 	new_inst.data = {}
-	for i = 0,width*height - 1,1 do
+	for i = 0,width*height - 1 do
 		new_inst.data[i] = 0.0
 	end
 
@@ -629,7 +630,7 @@ function FloatMap:Normalize()
 	--find highest and lowest values
 	local maxAlt = -1000.0
 	local minAlt = 1000.0
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		local alt = self.data[i]
 		if alt > maxAlt then
 			maxAlt = alt
@@ -656,21 +657,21 @@ function FloatMap:Normalize()
 		scaler = 1.0/maxAlt
 	end
 
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		self.data[i] = self.data[i] * scaler
 	end
 
 end
 
 function FloatMap:GenerateNoise()
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		self.data[i] = PWRand()
 	end
 
 end
 
 function FloatMap:GenerateBinaryNoise()
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		if PWRand() > 0.5 then
 			self.data[i] = 1
 		else
@@ -694,7 +695,7 @@ function FloatMap:FindThresholdFromPercent(percent, greaterThan, excludeZeros)
 		return -0.01 --none of the map
 	end
 
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		if not (self.data[i] == 0.0 and excludeZeros) then
 			table.insert(mapList,self.data[i])
 		end
@@ -709,7 +710,13 @@ end
 
 function FloatMap:GetLatitudeForY(y)
 	local range = mc.topLatitude - mc.bottomLatitude
-	return y / self.height * range + mc.bottomLatitude
+	local lat = nil
+	if y < self.height/2 then
+		lat = (y+1) / self.height * range + (mc.bottomLatitude - mc.topLatitude / self.height)
+	else
+		lat = y / self.height * range + (mc.bottomLatitude + mc.topLatitude / self.height)
+	end
+	return lat
 end
 
 function FloatMap:GetYForLatitude(lat)
@@ -745,7 +752,7 @@ function FloatMap:GetYFromZone(zone, bTop)
 			end
 		end
 	else
-		for y=0,self.height - 1,1 do
+		for y=0,self.height - 1 do
 			if zone == self:GetZone(y) then
 				return y
 			end
@@ -801,12 +808,21 @@ function FloatMap:GetGeostrophicPressure(lat)
 		latPercent = (lat + 90)/latRange
 		pressure = latPercent
 	end
+-- Prevents excessively high and low pressures which helps distribute rain more evenly in the affected areas. -Bobert13
+	pressure = pressure + 1
+	if pressure > 1.5 then
+		pressure = pressure * mc.pressureNorm
+	else
+		pressure = pressure / mc.pressureNorm
+	end
+	pressure = pressure - 1
+-- FIN -Bobert13
 	--print(pressure)
 	return pressure
 end
 
 function FloatMap:ApplyFunction(func)
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		self.data[i] = func(self.data[i])
 	end
 end
@@ -822,49 +838,49 @@ function FloatMap:GetRadiusAroundHex(x,y,radius)
 	local hereY = y
 
 	--make a circle for each radius
-	for r = 1,radius,1 do
+	for r = 1,radius do
 		--start 1 to the west
 		hereX,hereY = self:GetNeighbor(hereX,hereY,mc.W)
 		if self:IsOnMap(hereX,hereY) then
 			table.insert(list,{hereX,hereY})
 		end
 		--Go r times to the NE
-		for z = 1,r,1 do
+		for z = 1,r do
 			hereX, hereY = self:GetNeighbor(hereX,hereY,mc.NE)
 			if self:IsOnMap(hereX,hereY) then
 				table.insert(list,{hereX,hereY})
 			end
 		end
 		--Go r times to the E
-		for z = 1,r,1 do
+		for z = 1,r do
 			hereX, hereY = self:GetNeighbor(hereX,hereY,mc.E)
 			if self:IsOnMap(hereX,hereY) then
 				table.insert(list,{hereX,hereY})
 			end
 		end
 		--Go r times to the SE
-		for z = 1,r,1 do
+		for z = 1,r do
 			hereX, hereY = self:GetNeighbor(hereX,hereY,mc.SE)
 			if self:IsOnMap(hereX,hereY) then
 				table.insert(list,{hereX,hereY})
 			end
 		end
 		--Go r times to the SW
-		for z = 1,r,1 do
+		for z = 1,r do
 			hereX, hereY = self:GetNeighbor(hereX,hereY,mc.SW)
 			if self:IsOnMap(hereX,hereY) then
 				table.insert(list,{hereX,hereY})
 			end
 		end
 		--Go r times to the W
-		for z = 1,r,1 do
+		for z = 1,r do
 			hereX, hereY = self:GetNeighbor(hereX,hereY,mc.W)
 			if self:IsOnMap(hereX,hereY) then
 				table.insert(list,{hereX,hereY})
 			end
 		end
 		--Go r - 1 times to the NW!!!!!
-		for z = 1,r - 1,1 do
+		for z = 1,r - 1 do
 			hereX, hereY = self:GetNeighbor(hereX,hereY,mc.NW)
 			if self:IsOnMap(hereX,hereY) then
 				table.insert(list,{hereX,hereY})
@@ -879,7 +895,7 @@ end
 function FloatMap:GetAverageInHex(x,y,radius)
 	local list = self:GetRadiusAroundHex(x,y,radius)
 	local avg = 0.0
-	for n = 1,#list,1 do
+	for n = 1,#list do
 		local hex = list[n]
 		local xx = hex[1]
 		local yy = hex[2]
@@ -894,7 +910,7 @@ end
 function FloatMap:GetStdDevInHex(x,y,radius)
 	local list = self:GetRadiusAroundHex(x,y,radius)
 	local avg = 0.0
-	for n = 1,#list,1 do
+	for n = 1,#list do
 		local hex = list[n]
 		local xx = hex[1]
 		local yy = hex[2]
@@ -904,7 +920,7 @@ function FloatMap:GetStdDevInHex(x,y,radius)
 	avg = avg/#list
 
 	local deviation = 0.0
-	for n = 1,#list,1 do
+	for n = 1,#list do
 		local hex = list[n]
 		local xx = hex[1]
 		local yy = hex[2]
@@ -918,8 +934,8 @@ end
 
 function FloatMap:Smooth(radius)
 	local dataCopy = {}
-	for y = 0,self.height - 1,1 do
-		for x = 0, self.width - 1,1 do
+	for y = 0,self.height - 1 do
+		for x = 0, self.width - 1 do
 			local i = self:GetIndex(x,y)
 			dataCopy[i] = self:GetAverageInHex(x,y,radius)
 		end
@@ -929,8 +945,8 @@ end
 
 function FloatMap:Deviate(radius)
 	local dataCopy = {}
-	for y = 0,self.height - 1,1 do
-		for x = 0, self.width - 1,1 do
+	for y = 0,self.height - 1 do
+		for x = 0, self.width - 1 do
 			local i = self:GetIndex(x,y)
 			dataCopy[i] = self:GetStdDevInHex(x,y,radius)
 		end
@@ -949,7 +965,7 @@ end
 function FloatMap:Save(name)
 	print("saving " .. name .. "...")
 	local str = self.width .. "," .. self.height
-	for i = 0,self.length - 1,1 do
+	for i = 0,self.length - 1 do
 		str = str .. "," .. self.data[i]
 	end
 	local file = io.open(name,"w+")
@@ -991,14 +1007,14 @@ end
 
 function PWAreaMap:DefineAreas(matchFunction)
 	--zero map data
-	for i = 0,self.width*self.height - 1,1 do
+	for i = 0,self.width*self.height - 1 do
 		self.data[i] = 0.0
 	end
 
 	self.areaList = {}
 	local currentAreaID = 0
-	for y = 0, self.height - 1,1 do
-		for x = 0, self.width - 1,1 do
+	for y = 0, self.height - 1 do
+		for x = 0, self.width - 1 do
 			local i = self:GetIndex(x,y)
 			if self.data[i] == 0 then
 				currentAreaID = currentAreaID + 1
@@ -1080,7 +1096,7 @@ function PWAreaMap:ScanAndFillLine(seg,area,matchFunction)
 	else
 		xStop = self.width
 	end
-	for rightExt = seg.xLeft + lineFound - odd,xStop - 1,1 do
+	for rightExt = seg.xLeft + lineFound - odd,xStop - 1 do
 		rightExtreme = rightExt --need this saved
 		--str = string.format("rightExtreme = %d",rightExtreme)
 		--print(str)
@@ -1141,7 +1157,7 @@ function PWAreaMap:ScanAndFillLine(seg,area,matchFunction)
 end
 
 function PWAreaMap:GetAreaByID(id)
-	for i = 1,#self.areaList,1 do
+	for i = 1,#self.areaList do
 		if self.areaList[i].id == id then
 			return self.areaList[i]
 		end
@@ -1174,7 +1190,7 @@ function PWAreaMap:ValidateX(x)
 end
 
 function PWAreaMap:PrintAreaList()
-	for i=1,#self.areaList,1 do
+	for i=1,#self.areaList do
 		local id = self.areaList[i].id
 		local seedx = self.areaList[i].seedx
 		local seedy = self.areaList[i].seedy
@@ -1229,8 +1245,8 @@ function RiverMap:New(elevationMap)
 
 	new_inst.elevationMap = elevationMap
 	new_inst.riverData = {}
-	for y = 0,new_inst.elevationMap.height - 1,1 do
-		for x = 0,new_inst.elevationMap.width - 1,1 do
+	for y = 0,new_inst.elevationMap.height - 1 do
+		for x = 0,new_inst.elevationMap.width - 1 do
 			local i = new_inst.elevationMap:GetIndex(x,y)
 			new_inst.riverData[i] = RiverHex:New(x,y)
 		end
@@ -1323,8 +1339,8 @@ function RiverMap:GetRiverHexNeighbor(junction,westNeighbor)
 end
 
 function RiverMap:SetJunctionAltitudes()
-	for y = 0,self.elevationMap.height - 1,1 do
-		for x = 0,self.elevationMap.width - 1,1 do
+	for y = 0,self.elevationMap.height - 1 do
+		for x = 0,self.elevationMap.width - 1 do
 			local i = self.elevationMap:GetIndex(x,y)
 			local vertAltitude = self.elevationMap.data[i]
 			local westAltitude = nil
@@ -1502,8 +1518,8 @@ function RiverMap:SiltifyLakes()
 	local lakeList = {}
 	local onQueueMapNorth = {}
 	local onQueueMapSouth = {}
-	for y = 0,self.elevationMap.height - 1,1 do
-		for x = 0,self.elevationMap.width - 1,1 do
+	for y = 0,self.elevationMap.height - 1 do
+		for x = 0,self.elevationMap.width - 1 do
 			local i = self.elevationMap:GetIndex(x,y)
 			onQueueMapNorth[i] = false
 			onQueueMapSouth[i] = false
@@ -1575,7 +1591,7 @@ function RiverMap:SiltifyLakes()
 			print(string.format("--changing altitude to %f",junction.altitude))
 		end
 
-		for dir = mc.WESTFLOW,mc.VERTFLOW,1 do
+		for dir = mc.WESTFLOW,mc.VERTFLOW do
 			local neighbor = self:GetJunctionNeighbor(dir,junction)
 			if debugOn and neighbor == nil then
 				print(string.format("--nil neighbor at direction = %d",dir))
@@ -1605,8 +1621,8 @@ function RiverMap:SiltifyLakes()
 	local belowSeaLevelCount = 0
 	local riverTest = FloatMap:New(self.elevationMap.width,self.elevationMap.height,self.elevationMap.xWrap,self.elevationMap.yWrap)
 	local lakesFound = false
-	for y = 0,self.elevationMap.height - 1,1 do
-		for x = 0,self.elevationMap.width - 1,1 do
+	for y = 0,self.elevationMap.height - 1 do
+		for x = 0,self.elevationMap.width - 1 do
 			local i = self.elevationMap:GetIndex(x,y)
 
 			local northAltitude = self.riverData[i].northJunction.altitude
@@ -1643,8 +1659,8 @@ end
 
 function RiverMap:SetFlowDestinations()
 	junctionList = {}
-	for y = 0,self.elevationMap.height - 1,1 do
-		for x = 0,self.elevationMap.width - 1,1 do
+	for y = 0,self.elevationMap.height - 1 do
+		for x = 0,self.elevationMap.width - 1 do
 			local i = self.elevationMap:GetIndex(x,y)
 			table.insert(junctionList,self.riverData[i].northJunction)
 			table.insert(junctionList,self.riverData[i].southJunction)
@@ -1667,7 +1683,7 @@ end
 
 function RiverMap:GetValidFlows(junction)
 	local validList = {}
-	for dir = mc.WESTFLOW,mc.VERTFLOW,1 do
+	for dir = mc.WESTFLOW,mc.VERTFLOW do
 		neighbor = self:GetJunctionNeighbor(dir,junction)
 		if neighbor ~= nil and neighbor.altitude < junction.altitude then
 			table.insert(validList,dir)
@@ -1695,8 +1711,8 @@ end
 
 function RiverMap:SetRiverSizes(rainfallMap)
 	local junctionList = {} --only include junctions not touching ocean in this list
-	for y = 0,self.elevationMap.height - 1,1 do
-		for x = 0,self.elevationMap.width - 1,1 do
+	for y = 0,self.elevationMap.height - 1 do
+		for x = 0,self.elevationMap.width - 1 do
 			local i = self.elevationMap:GetIndex(x,y)
 			if not self:IsTouchingOcean(self.riverData[i].northJunction) then
 				table.insert(junctionList,self.riverData[i].northJunction)
@@ -1730,8 +1746,8 @@ function RiverMap:SetRiverSizes(rainfallMap)
 	print(string.format("river threshold = %f",self.riverThreshold))
 
 --~ 	local riverMap = FloatMap:New(self.elevationMap.width,self.elevationMap.height,self.elevationMap.xWrap,self.elevationMap.yWrap)
---~ 	for y = 0,self.elevationMap.height - 1,1 do
---~ 		for x = 0,self.elevationMap.width - 1,1 do
+--~ 	for y = 0,self.elevationMap.height - 1 do
+--~ 		for x = 0,self.elevationMap.width - 1 do
 --~ 			local i = self.elevationMap:GetIndex(x,y)
 --~ 			riverMap.data[i] = math.max(self.riverData[i].northJunction.size,self.riverData[i].southJunction.size)
 --~ 		end
@@ -1826,8 +1842,8 @@ function GenerateTwistedPerlinMap(width, height, xWrap, yWrap,minFreq,maxFreq,va
 	inputNoise:Normalize()
 
 	local freqMap = FloatMap:New(width,height,xWrap,yWrap)
-	for y = 0, freqMap.height - 1,1 do
-		for x = 0,freqMap.width - 1,1 do
+	for y = 0, freqMap.height - 1 do
+		for x = 0,freqMap.width - 1 do
 			local i = freqMap:GetIndex(x,y)
 			local odd = y % 2
 			local xx = x + odd * 0.5
@@ -1838,8 +1854,8 @@ function GenerateTwistedPerlinMap(width, height, xWrap, yWrap,minFreq,maxFreq,va
 --	freqMap:Save("freqMap.csv")
 
 	local twistMap = FloatMap:New(width,height,xWrap,yWrap)
-	for y = 0, twistMap.height - 1,1 do
-		for x = 0,twistMap.width - 1,1 do
+	for y = 0, twistMap.height - 1 do
+		for x = 0,twistMap.width - 1 do
 			local i = twistMap:GetIndex(x,y)
 			local freq = freqMap.data[i] * (maxFreq - minFreq) + minFreq
 			local mid = (maxFreq - minFreq)/2 + minFreq
@@ -1860,7 +1876,7 @@ end
 
 function ShuffleList(list)
 	local len = #list
-	for i=0,len - 1,1 do
+	for i=0,len - 1 do
 		local k = PWRandint(0,len-1)
 		list[i], list[k] = list[k], list[i]
 	end
@@ -1877,8 +1893,8 @@ function GenerateMountainMap(width,height,xWrap,yWrap,initFreq)
 	local mountainMap = FloatMap:New(width,height,xWrap,yWrap)
 	local stdDevMap = FloatMap:New(width,height,xWrap,yWrap)
 	local noiseMap = FloatMap:New(width,height,xWrap,yWrap)
-	for y = 0, mountainMap.height - 1,1 do
-		for x = 0,mountainMap.width - 1,1 do
+	for y = 0, mountainMap.height - 1 do
+		for x = 0,mountainMap.width - 1 do
 			local i = mountainMap:GetIndex(x,y)
 			local odd = y % 2
 			local xx = x + odd * 0.5
@@ -1896,8 +1912,8 @@ function GenerateMountainMap(width,height,xWrap,yWrap,initFreq)
 	--noiseMap:Save("noiseMap.csv")
 
 	local moundMap = FloatMap:New(width,height,xWrap,yWrap)
-	for y = 0, mountainMap.height - 1,1 do
-		for x = 0,mountainMap.width - 1,1 do
+	for y = 0, mountainMap.height - 1 do
+		for x = 0,mountainMap.width - 1 do
 			local i = mountainMap:GetIndex(x,y)
 			local val = mountainMap.data[i]
 			moundMap.data[i] = (math.sin(val*math.pi*2-math.pi*0.5)*0.5+0.5) * GetAttenuationFactor(mountainMap,x,y)
@@ -1914,8 +1930,8 @@ function GenerateMountainMap(width,height,xWrap,yWrap,initFreq)
 	--mountainMap:Save("premountMap.csv")
 	--moundMap:Save("moundMap.csv")
 
-	for y = 0, mountainMap.height - 1,1 do
-		for x = 0,mountainMap.width - 1,1 do
+	for y = 0, mountainMap.height - 1 do
+		for x = 0,mountainMap.width - 1 do
 			local i = mountainMap:GetIndex(x,y)
 			local val = mountainMap.data[i]
 			--mountainMap.data[i] = (math.sin(val * 2 * math.pi + math.pi * 0.5)^8 * val) + moundMap.data[i] * 2 + noiseMap.data[i] * 0.6
@@ -1931,8 +1947,8 @@ function GenerateMountainMap(width,height,xWrap,yWrap,initFreq)
 
 	local stdDevThreshold = stdDevMap:FindThresholdFromPercent(mc.landPercent,true,false)
 
-	for y = 0, mountainMap.height - 1,1 do
-		for x = 0,mountainMap.width - 1,1 do
+	for y = 0, mountainMap.height - 1 do
+		for x = 0,mountainMap.width - 1 do
 			local i = mountainMap:GetIndex(x,y)
 			local val = mountainMap.data[i]
 			local dev = 2.0 * stdDevMap.data[i] - 2.0 * stdDevThreshold
@@ -1991,8 +2007,8 @@ function GenerateElevationMap(width,height,xWrap,yWrap)
 	local twistMap = GenerateTwistedPerlinMap(width,height,xWrap,yWrap,twistMinFreq,twistMaxFreq,twistVar)
 	local mountainMap = GenerateMountainMap(width,height,xWrap,yWrap,mountainFreq)
 	local elevationMap = ElevationMap:New(width,height,xWrap,yWrap)
-	for y = 0,height - 1,1 do
-		for x = 0,width - 1,1 do
+	for y = 0,height - 1 do
+		for x = 0,width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			local tVal = twistMap.data[i]
 			tVal = (math.sin(tVal*math.pi-math.pi*0.5)*0.5+0.5)^0.25 --this formula adds a curve flattening the extremes
@@ -2003,8 +2019,8 @@ function GenerateElevationMap(width,height,xWrap,yWrap)
 	elevationMap:Normalize()
 
 	--attentuation should not break normalization
-	for y = 0,height - 1,1 do
-		for x = 0,width - 1,1 do
+	for y = 0,height - 1 do
+		for x = 0,width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			local attenuationFactor = GetAttenuationFactor(elevationMap,x,y)
 			elevationMap.data[i] = elevationMap.data[i] * attenuationFactor
@@ -2019,10 +2035,10 @@ end
 function FillInLakes()
 	local areaMap = PWAreaMap:New(elevationMap.width,elevationMap.height,elevationMap.wrapX,elevationMap.wrapY)
 	areaMap:DefineAreas(waterMatch)
-	for i=1,#areaMap.areaList,1 do
+	for i=1,#areaMap.areaList do
 		local area = areaMap.areaList[i]
 		if area.trueMatch and area.size < mc.minOceanSize then
-			for n = 0,areaMap.length,1 do
+			for n = 0,areaMap.length do
 				if areaMap.data[n] == area.id then
 					elevationMap.data[n] = elevationMap.seaLevelThreshold
 				end
@@ -2033,8 +2049,8 @@ end
 
 function GenerateTempMaps(elevationMap)
 	local aboveSeaLevelMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = aboveSeaLevelMap:GetIndex(x,y)
 			if elevationMap:IsBelowSeaLevel(x,y) then
 				aboveSeaLevelMap.data[i] = 0.0
@@ -2051,8 +2067,8 @@ function GenerateTempMaps(elevationMap)
 	local topTempLat = mc.topLatitude + zenith
 	local bottomTempLat = mc.bottomLatitude
 	local latRange = topTempLat - bottomTempLat
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = summerMap:GetIndex(x,y)
 			local lat = summerMap:GetLatitudeForY(y)
 			--print("y=" .. y ..",lat=" .. lat)
@@ -2073,8 +2089,8 @@ function GenerateTempMaps(elevationMap)
 	topTempLat = mc.topLatitude
 	bottomTempLat = mc.bottomLatitude + zenith
 	latRange = topTempLat - bottomTempLat
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = winterMap:GetIndex(x,y)
 			local lat = winterMap:GetLatitudeForY(y)
 			local latPercent = (lat - bottomTempLat)/latRange
@@ -2089,8 +2105,8 @@ function GenerateTempMaps(elevationMap)
 	winterMap:Normalize()
 
 	local temperatureMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = temperatureMap:GetIndex(x,y)
 			temperatureMap.data[i] = (winterMap.data[i] + summerMap.data[i]) * (1.0 - aboveSeaLevelMap.data[i])
 		end
@@ -2106,8 +2122,8 @@ function GenerateRainfallMap(elevationMap)
 	--winterMap:Save("winterMap.csv")
 	--temperatureMap:Save("temperatureMap.csv")
 	local geoMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			local lat = elevationMap:GetLatitudeForY(y)
 			local pressure = elevationMap:GetGeostrophicPressure(lat)
@@ -2119,8 +2135,8 @@ function GenerateRainfallMap(elevationMap)
 
 	local sortedSummerMap = {}
 	local sortedWinterMap = {}
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			sortedSummerMap[i + 1] = {x,y,summerMap.data[i]}
 			sortedWinterMap[i + 1] = {x,y,winterMap.data[i]}
@@ -2138,7 +2154,7 @@ function GenerateRainfallMap(elevationMap)
 	local incY = 0
 	local geoIndex = 1
 	local str = ""
-	for zone=0,5,1 do
+	for zone=0,5 do
 		local topY = elevationMap:GetYFromZone(zone,true)
 		local bottomY = elevationMap:GetYFromZone(zone,false)
 		if not (topY == -1 and bottomY == -1) then
@@ -2204,7 +2220,7 @@ function GenerateRainfallMap(elevationMap)
 
 	local rainfallSummerMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	local moistureMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
-	for i = 1,#sortedSummerMap,1 do
+	for i = 1,#sortedSummerMap do
 		local x = sortedSummerMap[i][1]
 		local y = sortedSummerMap[i][2]
 		local pressure = sortedSummerMap[i][3]
@@ -2213,7 +2229,7 @@ function GenerateRainfallMap(elevationMap)
 
 	local rainfallWinterMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	local moistureMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
-	for i = 1,#sortedWinterMap,1 do
+	for i = 1,#sortedWinterMap do
 		local x = sortedWinterMap[i][1]
 		local y = sortedWinterMap[i][2]
 		local pressure = sortedWinterMap[i][3]
@@ -2225,7 +2241,7 @@ function GenerateRainfallMap(elevationMap)
 	--print("----------------------------------------------------------------------------------------")
 	--print("--GEOSTROPHIC---------------------------------------------------------------------------")
 	--print("----------------------------------------------------------------------------------------")
-	for i = 1,#sortedGeoMap,1 do
+	for i = 1,#sortedGeoMap do
 		local x = sortedGeoMap[i][1]
 		local y = sortedGeoMap[i][2]
 --~ 		if y == 35 or y == 40 then
@@ -2235,8 +2251,8 @@ function GenerateRainfallMap(elevationMap)
 		DistributeRain(x,y,elevationMap,temperatureMap,geoMap,rainfallGeostrophicMap,moistureMap,true)
 	end
 	--zero below sea level for proper percent threshold finding
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			if elevationMap:IsBelowSeaLevel(x,y) then
 				rainfallSummerMap.data[i] = 0.0
@@ -2254,8 +2270,8 @@ function GenerateRainfallMap(elevationMap)
 	--rainfallGeostrophicMap:Save("rainfallGeostrophicMap.csv")
 
 	local rainfallMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
-	for y = 0,elevationMap.height - 1,1 do
-		for x = 0,elevationMap.width - 1,1 do
+	for y = 0,elevationMap.height - 1 do
+		for x = 0,elevationMap.width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			rainfallMap.data[i] = rainfallSummerMap.data[i] + rainfallWinterMap.data[i] + (rainfallGeostrophicMap.data[i] * mc.geostrophicFactor)
 		end
@@ -2294,7 +2310,7 @@ function DistributeRain(x,y,elevationMap,temperatureMap,pressureMap,rainfallMap,
 			table.insert(nList,{x2,y2})
 		end
 	else
-		for dir = 1,6,1 do
+		for dir = 1,6 do
 			local xx,yy = elevationMap:GetNeighbor(x,y,dir)
 			local ii = elevationMap:GetIndex(xx,yy)
 			if ii >= 0 and pressureMap.data[i] <= pressureMap.data[ii] then
@@ -2309,7 +2325,7 @@ function DistributeRain(x,y,elevationMap,temperatureMap,pressureMap,rainfallMap,
 	end
 	local moisturePerNeighbor = moistureMap.data[i]/#nList
 	--drop rain and pass moisture to neighbors
-	for n = 1,#nList,1 do
+	for n = 1,#nList do
 		local xx = nList[n][1]
 		local yy = nList[n][2]
 		local ii = elevationMap:GetIndex(xx,yy)
@@ -2373,30 +2389,24 @@ function GetDifferenceAroundHex(x,y)
 --~ 	return biggestDiff
 end
 
-function PlacePossibleOasis(x,y)
-	local terrainDesert	= GameInfoTypes["TERRAIN_DESERT"];
-	local featureOasis = FeatureTypes.FEATURE_OASIS
-	local tiles = elevationMap:GetRadiusAroundHex(x,y,1)
-	local plot = Map.GetPlot(x,y)
-	if not plot:IsHills() and not plot:IsMountain() and plot:GetTerrainType() == terrainDesert and plot:GetFeatureType() == FeatureTypes.NO_FEATURE then
-		local validNeighbors = 0
-		for n=1,#tiles do
-			local xx = tiles[n][1]
-			local yy = tiles[n][2]
-			local nPlot = Map.GetPlot(xx,yy)
-			if nPlot:GetFeatureType() == FeatureTypes.FEATURE_OASIS then
-				validNeighbors = 0
+function PlacePossibleOasis(plotX,plotY)
+	local plot = Map.GetPlot(plotX,plotY)
+	if not plot:IsHills() and not plot:IsMountain() and plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and plot:GetFeatureType() == FeatureTypes.NO_FEATURE then
+		local odds = 0
+		for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+			if adjPlot:GetFeatureType() == FeatureTypes.FEATURE_OASIS then
+				odds = -1
 				break
 			end
-			if nPlot:GetFeatureType() ~= FeatureTypes.NO_FEATURE then
-				validNeighbors = validNeighbors - 1
+			if adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT then
+				odds = odds + 10
 			end
-			if nPlot:GetTerrainType() == terrainDesert then
-				validNeighbors = validNeighbors + 1
+			if adjPlot:GetPlotType() == PlotTypes.PLOT_OCEAN or adjPlot:GetFeatureType() ~= FeatureTypes.NO_FEATURE then
+				odds = odds - 10
 			end
 		end
-		if validNeighbors >= Map.Rand(10, "Ocean Rifts - Lua") then
-			plot:SetFeatureType(featureOasis,-1)
+		if odds >= Map.Rand(100, "PlacePossibleOasis - Lua") then
+			plot:SetFeatureType(FeatureTypes.FEATURE_OASIS,-1)
 		end
 	end
 end
@@ -2508,19 +2518,206 @@ function GetMapInitData(worldSize)
      end
 end
 
+-------------------------------------------------------------------------------------------
+--ShiftMap Class
+-------------------------------------------------------------------------------------------
+function ShiftMaps()
+	--local stripRadius = self.stripRadius;
+	local shift_x = 0; 
+	local shift_y = 0;
 
+	shift_x = DetermineXShift();
+	
+	ShiftMapsBy(shift_x, shift_y);
+end
+-------------------------------------------------------------------------------------------	
+function ShiftMapsBy(xshift, yshift)	
+	local W, H = Map.GetGridSize();
+	if(xshift > 0 or yshift > 0) then
+		local Shift = {}
+		local iDestI = 0
+		for iDestY = 0, H-1 do
+			for iDestX = 0, W-1 do
+				local iSourceX = (iDestX + xshift) % W;
+				
+				--local iSourceY = (iDestY + yshift) % H; -- If using yshift, enable this and comment out the faster line below. - Bobert13
+				local iSourceY = iDestY
+				
+				local iSourceI = W * iSourceY + iSourceX
+				Shift[iDestI] = elevationMap.data[iSourceI]
+				--print(string.format("Shift:%d,	%f	|	eMap:%d,	%f",iDestI,Shift[iDestI],iSourceI,elevationMap.data[iSourceI]))
+				iDestI = iDestI + 1
+			end
+		end
+		elevationMap.data = Shift --It's faster to do one large table operation here than it is to do thousands of small operations to set up a copy of the input table at the beginning. -Bobert13
+	end
+	return elevationMap
+end
+-------------------------------------------------------------------------------------------
+function DetermineXShift()
+	--[[ This function will align the most water-heavy vertical portion of the map with the 
+	vertical map edge. This is a form of centering the landmasses, but it emphasizes the
+	edge not the middle. If there are columns completely empty of land, these will tend to
+	be chosen as the new map edge, but it is possible for a narrow column between two large 
+	continents to be passed over in favor of the thinnest section of a continent, because
+	the operation looks at a group of columns not just a single column, then picks the 
+	center of the most water heavy group of columns to be the new vertical map edge. ]]--
 
+	-- First loop through the map columns and record land plots in each column.
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local land_totals = {};
+	for x = 0, gridWidth - 1 do
+		local current_column = 0;
+		for y = 0, gridHeight - 1 do
+			local i = y * gridWidth + x + 1;
+			if not elevationMap:IsBelowSeaLevel(x,y) then
+				current_column = current_column + 1;
+			end
+		end
+		table.insert(land_totals, current_column);
+	end
+	
+	-- Now evaluate column groups, each record applying to the center column of the group.
+	local column_groups = {};
+	-- Determine the group size in relation to map width.
+	local group_radius = 3;
+	-- Measure the groups.
+	for column_index = 1, gridWidth do
+		local current_group_total = 0;
+		--for current_column = column_index - group_radius, column_index + group_radius do
+		--Changed how group_radius works to get groups of four. -Bobert13
+		for current_column = column_index, column_index + group_radius do
+			local current_index = current_column % gridWidth;
+			if current_index == 0 then -- Modulo of the last column will be zero; this repairs the issue.
+				current_index = gridWidth;
+			end
+			current_group_total = current_group_total + land_totals[current_index];
+		end
+		table.insert(column_groups, current_group_total);
+	end
+	
+	-- Identify the group with the least amount of land in it.
+	local best_value = gridHeight * (group_radius + 1); -- Set initial value to max possible.
+	local best_group = 1; -- Set initial best group as current map edge.
+	for column_index, group_land_plots in ipairs(column_groups) do
+		if group_land_plots < best_value then
+			best_value = group_land_plots;
+			best_group = column_index;
+		end
+	end
+	
+	-- Determine X Shift	
+	local x_shift = best_group + 2;
 
+	return x_shift;
+end
+------------------------------------------------------------------------------
+--DiffMap Class
+------------------------------------------------------------------------------
+--Seperated this from GeneratePlotTypes() to use it in other functions. -Bobert13
+
+DiffMap = inheritsFrom(FloatMap)
+
+function GenerateDiffMap(width,height,xWrap,yWrap)
+	DiffMap = FloatMap:New(width,height,xWrap,yWrap)
+	local i = 0
+	for y = 0, height - 1,1 do
+		for x = 0,width - 1,1 do
+			if elevationMap:IsBelowSeaLevel(x,y) then
+				DiffMap.data[i] = 0.0
+			else
+				DiffMap.data[i] = GetDifferenceAroundHex(x,y)
+			end
+			i=i+1
+		end
+	end
+
+	DiffMap:Normalize()
+	i = 0
+	for y = 0, height - 1,1 do
+		for x = 0,width - 1,1 do
+			if elevationMap:IsBelowSeaLevel(x,y) then
+				DiffMap.data[i] = 0.0
+			else
+				DiffMap.data[i] = DiffMap.data[i] + elevationMap.data[i] * 1.1
+			end
+			i=i+1
+		end
+	end
+
+	DiffMap:Normalize()
+	return DiffMap
+end
+-------------------------------------------------------------------------------------------
 function GeneratePlotTypes()
 	print("Creating initial map data - PerfectWorld3")
 	local gridWidth, gridHeight = Map.GetGridSize();
 	--first do all the preliminary calculations in this function
 	print(string.format("map size: width=%d, height=%d",gridWidth,gridHeight))
+	mc = MapConstants:New()
+	PWRandSeed()
+
+	elevationMap = GenerateElevationMap(gridWidth,gridHeight,true,false)
+	--elevationMap:Save("elevationMap.csv")
+	--FillInLakes()
+
+	--now gen plot types
+	print("Generating plot types - PerfectWorld3")
+	ShiftMaps();
+
+	DiffMap = GenerateDiffMap(gridWidth,gridHeight,true,false);
+	rainfallMap, temperatureMap = GenerateRainfallMap(elevationMap)
+	--rainfallMap:Save("rainfallMap.csv")
+
+	riverMap = RiverMap:New(elevationMap)
+	riverMap:SetJunctionAltitudes()
+	riverMap:SiltifyLakes()
+	riverMap:SetFlowDestinations()
+	riverMap:SetRiverSizes(rainfallMap)
+
+	--find exact thresholds
+	local hillsThreshold = DiffMap:FindThresholdFromPercent(mc.hillsPercent,false,true)
+	local mountainsThreshold = DiffMap:FindThresholdFromPercent(mc.mountainsPercent,false,true)
+	local i = 0
+	for y = 0, gridHeight - 1,1 do
+		for x = 0,gridWidth - 1,1 do
+			local plot = Map.GetPlot(x,y);
+			if elevationMap:IsBelowSeaLevel(x,y) then
+				plot:SetPlotType(PlotTypes.PLOT_OCEAN, false, false)
+			elseif DiffMap.data[i] < hillsThreshold then
+				plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
+			--This code makes the game only ever plot flat land if it's within two tiles of 
+			--the seam. This prevents issues with tiles that don't look like what they are.
+			elseif x == 0 or x == 1 or x == gridWidth - 1 or x == gridWidth -2 then
+				plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
+			-- Bobert13
+			elseif DiffMap.data[i] < mountainsThreshold then
+				plot:SetPlotType(PlotTypes.PLOT_HILLS,false,false)
+			else
+				plot:SetPlotType(PlotTypes.PLOT_MOUNTAIN,false,false)
+			end
+			i=i+1
+		end
+	end
+	Map.RecalculateAreas()
+	GenerateIslands()
+	GenerateCoasts();
+end
+------------------------------------------------------------------------------
+
+--[=[
+function GeneratePlotTypes()
+	print("Creating initial map data - PerfectWorld3")
+	local mapW, mapH = Map.GetGridSize();
+	
+	
+	--first do all the preliminary calculations in this function
+	print(string.format("map size: width=%d, height=%d",mapW,mapH))
 
 	mc = MapConstants:New()
 	PWRandSeed()	
 
-	elevationMap = GenerateElevationMap(gridWidth,gridHeight,true,false)
+	elevationMap = GenerateElevationMap(mapW,mapH,true,false)
 	--FillInLakes()
 	--elevationMap:Save("elevationMap.csv")	
 
@@ -2535,9 +2732,9 @@ function GeneratePlotTypes()
 
 	--now gen plot types
 	print("Generating plot types - PerfectWorld3")
-	local diffMap = FloatMap:New(gridWidth,gridHeight,true,false)
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	local diffMap = FloatMap:New(mapW,mapH,true,false)
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = diffMap:GetIndex(x,y)
 			if elevationMap:IsBelowSeaLevel(x,y) then
 				diffMap.data[i] = 0.0
@@ -2549,8 +2746,8 @@ function GeneratePlotTypes()
 
 	diffMap:Normalize()
 
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = diffMap:GetIndex(x,y)
 			if elevationMap:IsBelowSeaLevel(x,y) then
 				diffMap.data[i] = 0.0
@@ -2566,8 +2763,8 @@ function GeneratePlotTypes()
 	local hillsThreshold = diffMap:FindThresholdFromPercent(mc.hillsPercent,false,true)
 	local mountainsThreshold = diffMap:FindThresholdFromPercent(mc.mountainsPercent,false,true)
 
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = diffMap:GetIndex(x,y)
 			local plot = Map.GetPlot(x, y);
 			if elevationMap:IsBelowSeaLevel(x,y) then
@@ -2586,6 +2783,7 @@ function GeneratePlotTypes()
 	GenerateIslands()
 	GenerateCoasts()
 end
+--]=]
 
 function GenerateOceanRifts()
 	-- Creates simple ocean rifts by placing randomly-pathing ocean lines from north to south.
@@ -3327,6 +3525,18 @@ function GenerateIslands()
 	end
 end
 
+function ErasePolarLand(y)
+	local mapW, mapH = Map.GetGridSize();
+	
+	
+	for x = 0,mapW-1 do
+		local plot = Map.GetPlot(x, y)
+		if plot:GetPlotType() == PlotTypes.PLOT_MOUNTAIN then
+			plot:SetPlotType(PlotTypes.PLOT_LAND, false, true)
+		end		
+	end
+end
+
 function GenerateTerrain()
 	print("Generating terrain - PerfectWorld3")
 	local terrainDesert	= GameInfoTypes["TERRAIN_DESERT"];
@@ -3335,11 +3545,13 @@ function GenerateTerrain()
 	local terrainTundra	= GameInfoTypes["TERRAIN_TUNDRA"];
 	local terrainGrass	= GameInfoTypes["TERRAIN_GRASS"];
 
-	local gridWidth, gridHeight = Map.GetGridSize();
+	local mapW, mapH = Map.GetGridSize();
+	
+	
 	--first find minimum rain above sea level for a soft desert transition
 	local minRain = 100.0
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = elevationMap:GetIndex(x,y)
 			if not elevationMap:IsBelowSeaLevel(x,y) then
 				if rainfallMap.data[i] < minRain then
@@ -3352,8 +3564,8 @@ function GenerateTerrain()
 	--find exact thresholds
 	local desertThreshold = rainfallMap:FindThresholdFromPercent(mc.desertPercent,false,true)
 	local plainsThreshold = rainfallMap:FindThresholdFromPercent(mc.plainsPercent,false,true)
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = elevationMap:GetIndex(x,y)
 			local plot = Map.GetPlot(x, y)
 			if not elevationMap:IsBelowSeaLevel(x,y) then
@@ -3399,14 +3611,14 @@ function GenerateTerrain()
 	--now we fix things up so that the border of tundra and ice regions are hills
 	--this looks a bit more believable. Also keep desert away from tundra and ice
 	--by turning it into plains
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = elevationMap:GetIndex(x,y)
 			local plot = Map.GetPlot(x, y)
 			if not elevationMap:IsBelowSeaLevel(x,y) then
 				if plot:GetTerrainType() == terrainSnow and plot:GetPlotType() ~= PlotTypes.PLOT_MOUNTAIN then
 					local lowerFound = false
-					for dir = mc.W,mc.SW,1 do
+					for dir = mc.W,mc.SW do
 						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
 						local ii = elevationMap:GetIndex(xx,yy)
 						if ii ~= -1 then
@@ -3425,7 +3637,7 @@ function GenerateTerrain()
 					end
 				elseif plot:GetTerrainType() == terrainTundra and plot:GetPlotType() ~= PlotTypes.PLOT_MOUNTAIN then
 					local lowerFound = false
-					for dir = mc.W,mc.SW,1 do
+					for dir = mc.W,mc.SW do
 						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
 						local ii = elevationMap:GetIndex(xx,yy)
 						if ii ~= -1 then
@@ -3444,7 +3656,7 @@ function GenerateTerrain()
 					end
 				else
 					local higherFound = false
-					for dir = mc.W,mc.SW,1 do
+					for dir = mc.W,mc.SW do
 						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
 						local ii = elevationMap:GetIndex(xx,yy)
 						if ii ~= -1 then
@@ -3746,13 +3958,15 @@ function AddFeatures()
 	local featureOasis = FeatureTypes.FEATURE_OASIS
 	local featureMarsh = FeatureTypes.FEATURE_MARSH
 
-	local gridWidth, gridHeight = Map.GetGridSize();
+	local mapW, mapH = Map.GetGridSize();
+	
+	
 
 	local zeroTreesThreshold = rainfallMap:FindThresholdFromPercent(mc.zeroTreesPercent,false,true)
 	local jungleThreshold = rainfallMap:FindThresholdFromPercent(mc.junglePercent,false,true)
 	--local marshThreshold = rainfallMap:FindThresholdFromPercent(marshPercent,false,true)
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local i = elevationMap:GetIndex(x,y)
 			local plot = Map.GetPlot(x, y)
 			if not plot:IsWater() then
@@ -3793,8 +4007,8 @@ function AddFeatures()
 			end
 		end
 	end
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local plot = Map.GetPlot(x, y)
 			if not plot:IsWater() then
 				PlacePossibleOasis(x,y)
@@ -3848,9 +4062,11 @@ function StartPlotSystem()
 end
 
 function AddRivers()
-	local gridWidth, gridHeight = Map.GetGridSize();
-	for y = 0, gridHeight - 1,1 do
-		for x = 0,gridWidth - 1,1 do
+	local mapW, mapH = Map.GetGridSize();
+	
+	
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local plot = Map.GetPlot(x, y)
 
 			local WOfRiver, NWOfRiver, NEOfRiver = riverMap:GetFlowDirections(x,y)
@@ -3978,15 +4194,15 @@ function DetermineContinents()
 	table.sort(continentMap.areaList,function (a,b) return a.size > b.size end)
 
 	--check for jungle
-	for y=0,elevationMap.height - 1,1 do
-		for x=0,elevationMap.width - 1,1 do
+	for y=0,elevationMap.height - 1 do
+		for x=0,elevationMap.width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			local area = continentMap:GetAreaByID(continentMap.data[i])
 			area.hasJungle = false
 		end
 	end
-	for y=0,elevationMap.height - 1,1 do
-		for x=0,elevationMap.width - 1,1 do
+	for y=0,elevationMap.height - 1 do
+		for x=0,elevationMap.width - 1 do
 			local plot = Map.GetPlot(x,y)
 			if plot:GetFeatureType() == FeatureTypes.FEATURE_JUNGLE then
 				local i = elevationMap:GetIndex(x,y)
@@ -4006,8 +4222,8 @@ function DetermineContinents()
 			firstArtStyle = firstArtStyle + 1
 		end
 	end
-	for y=0,elevationMap.height - 1,1 do
-		for x=0,elevationMap.width - 1,1 do
+	for y=0,elevationMap.height - 1 do
+		for x=0,elevationMap.width - 1 do
 			local plot = Map.GetPlot(x,y)
 			local i = elevationMap:GetIndex(x,y)
 			local area = continentMap:GetAreaByID(continentMap.data[i])
@@ -4040,8 +4256,8 @@ function DetermineContinents()
 			end
 		end
 	end
-	for y=0,elevationMap.height - 1,1 do
-		for x=0,elevationMap.width - 1,1 do
+	for y=0,elevationMap.height - 1 do
+		for x=0,elevationMap.width - 1 do
 			local plot = Map.GetPlot(x,y)
 			local i = elevationMap:GetIndex(x,y)
 			if desertMap.data[i] == largestDesertID then
