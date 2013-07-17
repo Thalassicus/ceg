@@ -14,7 +14,7 @@ Credits:		http://communitas.wikia.com/wiki/Credits
 The project has two versions:
 
 Communitas Lite - maximum compatability, reliability, and simplicity.
-Communitas - adds new modding tools to enhanced the game in advanced ways.
+Communitas - adds new modding tools to enhance the game in advanced ways.
 
 
 === Credits ===
