@@ -5,12 +5,12 @@ Changes take effect the next time you start or load a game with CiVUP/VEM.
 
 For example, if you are using the "Citystate Diplomacy" mod change the lines that read:
 
-	INSERT INTO Civup (Type, Value)
+	INSERT INTO Cep (Type, Value)
 	VALUES ('USING_CSD', 0);
 
 ...change to...
 
-	INSERT INTO Civup (Type, Value)
+	INSERT INTO Cep (Type, Value)
 	VALUES ('USING_CSD', 1);
 
 Then start a new game.
@@ -26,11 +26,11 @@ Then start a new game.
 
 /*
 CityState Diplomacy Mod Compatibility
-1 = using CSD and Civup
-0 = not using CSD and Civup
+1 = using CSD and Cep
+0 = not using CSD and Cep
 */
-INSERT INTO Civup (Type, Value) VALUES ('USING_CSD', 0);
-INSERT INTO Civup (Type, Value) VALUES ('DISABLE_GOLD_GIFTS', 0);
+INSERT INTO Cep (Type, Value) VALUES ('USING_CSD', 0);
+INSERT INTO Cep (Type, Value) VALUES ('DISABLE_GOLD_GIFTS', 0);
 
 
 /*
@@ -41,14 +41,14 @@ This is helpful for people new to the game or analyzing balance.
 
 1 = show Good For
 0 = hide Good For
-UPDATE Civup SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_UNITS';
-UPDATE Civup SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDINGS';
-UPDATE Civup SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_POLICIES';
-UPDATE Civup SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_TECHS';
-UPDATE Civup SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDS';
+UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_UNITS';
+UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDINGS';
+UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_POLICIES';
+UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_TECHS';
+UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDS';
 
-UPDATE Civup SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS';
-UPDATE Civup SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_AI_NUMBERS';
+UPDATE Cep SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS';
+UPDATE Cep SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_AI_NUMBERS';
 */
 
 
@@ -56,7 +56,7 @@ UPDATE Civup SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_AI_NUMBERS';
 Barbarians Upgrade
 1 = barbarians upgrade in camps
 0 = barbarians do not upgrade 
-INSERT INTO Civup (Type, Value)
+INSERT INTO Cep (Type, Value)
 VALUES ('BARBARIANS_UPGRADE', 1);
 */
 
@@ -65,7 +65,7 @@ VALUES ('BARBARIANS_UPGRADE', 1);
 Barbarians Heal
 1 = barbarians heal when fortified
 0 = barbarians do not heal
-INSERT INTO Civup (Type, Value)
+INSERT INTO Cep (Type, Value)
 VALUES ('BARBARIANS_HEAL', 1);
 */
 
@@ -75,9 +75,9 @@ Speech
 1 = play speech
 0 = silence speech
 */
-INSERT INTO Civup (Type, Value) VALUES ('PLAY_SPEECH_START'		, 0);
-INSERT INTO Civup (Type, Value) VALUES ('PLAY_SPEECH_WONDERS'	, 1);
-INSERT INTO Civup (Type, Value) VALUES ('PLAY_SPEECH_TECHS'		, 1);
+INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_START'		, 0);
+INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_WONDERS'	, 1);
+INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_TECHS'		, 1);
 
 
 /*
@@ -153,18 +153,18 @@ WHERE MoveRate > 0;
 -- Do not change items below
 
 UPDATE Defines SET Value=1 WHERE Name='QUEST_DISABLED_INVEST' AND EXISTS 
-(SELECT Value FROM Civup WHERE Type='DISABLE_GOLD_GIFTS' AND Value=1);
+(SELECT Value FROM Cep WHERE Type='DISABLE_GOLD_GIFTS' AND Value=1);
 
 UPDATE Civilizations SET DawnOfManAudio = "" WHERE EXISTS 
-(SELECT Value FROM Civup WHERE Type='PLAY_SPEECH_START' AND Value=0);
+(SELECT Value FROM Cep WHERE Type='PLAY_SPEECH_START' AND Value=0);
 
 UPDATE Buildings SET WonderSplashAudio = "" WHERE EXISTS 
-(SELECT Value FROM Civup WHERE Type='PLAY_SPEECH_WONDERS' AND Value=0);
+(SELECT Value FROM Cep WHERE Type='PLAY_SPEECH_WONDERS' AND Value=0);
 
 UPDATE Technologies SET AudioIntroHeader = "" WHERE EXISTS 
-(SELECT Value FROM Civup WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
+(SELECT Value FROM Cep WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
 
 UPDATE Technologies SET AudioIntro = "" WHERE EXISTS 
-(SELECT Value FROM Civup WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
+(SELECT Value FROM Cep WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
 
 UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Options.sql';
