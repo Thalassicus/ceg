@@ -1,5 +1,5 @@
 -- CEP_F_End.sql created by:
--- Beliefs tab of CEP_PoliciesTechsOther.xls
+-- Beliefs tab of CEP_PoliciesTechsBeliefs.xls
 
 UPDATE Language_EN_US SET Text = '[COLOR_DARK_GREY]10 [ENDCOLOR]'||Text WHERE Tag = 'TXT_KEY_BELIEF_GOD_WAR_SHORT';
 UPDATE Language_EN_US SET Text = '[COLOR_DARK_GREY]11 [ENDCOLOR]'||Text WHERE Tag = 'TXT_KEY_BELIEF_RELIGIOUS_SETTLEMENTS_SHORT';

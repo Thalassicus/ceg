@@ -1,7 +1,7 @@
 --
 
--- This GER_Start.sql data automatically created by:
--- TechPrereqs tab of CEP_Details.xls spreadsheet in mod folder.
+-- This CEP_R_Start.sql data automatically created by:
+-- TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet in mod folder.
 UPDATE Technologies SET GridY=0 WHERE Type IN ('TECH_SAILING', 'TECH_OPTICS', 'TECH_COMPASS', 'TECH_CARVEL_HULLS', 'TECH_ASTRONOMY', 'TECH_NAVIGATION', 'none');
 UPDATE Technologies SET GridY=1 WHERE Type IN ('TECH_POTTERY', 'TECH_CALENDAR', 'none');
 UPDATE Technologies SET GridY=2 WHERE Type IN ('TECH_WRITING', 'TECH_DRAMA', 'TECH_PHILOSOPHY', 'TECH_THEOLOGY', 'TECH_EDUCATION', 'TECH_ARCHITECTURE', 'TECH_ARCHAEOLOGY', 'TECH_BIOLOGY', 'TECH_REFRIGERATION', 'TECH_ECOLOGY', 'TECH_TELECOM', 'TECH_GLOBALIZATION', 'none');

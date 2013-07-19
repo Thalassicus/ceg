@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
 CEP_R_TechPrereqs.xml automatically created by:
-TechPrereqs tab of CEP_Details.xlsspreadsheet (in mod folder).
+TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 -->
 <GameData>
 	<Technology_PrereqTechs>

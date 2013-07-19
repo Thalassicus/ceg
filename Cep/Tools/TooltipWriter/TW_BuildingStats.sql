@@ -96,7 +96,7 @@ UPDATE Building_TechEnhancedYieldChanges SET EnhancedYieldTech = (
 
 
 
--- This AT_BuildingStats.sql data created by:
+-- This TW_BuildingStats.sql data created by:
 -- BuildingStats tab of CEP_OtherData.xls spreadsheet (in mod folder).
 
 -- Header --
@@ -120,7 +120,7 @@ INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 6
 
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 67, 0, 'DiplomaticVoting'                   , 'CEP_BuildingInfo.DiplomaticVoting');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 66, 0, 'GreatGeneralRateModifier'           , 'CEP_BuildingInfo.GreatGeneralRateModifier');
-INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 65, 0, 'GoldenACEPodifier'                  , 'CEP_BuildingInfo.GoldenACEPodifier');
+INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 65, 0, 'GoldenAgeModifier'                  , 'CEP_BuildingInfo.GoldenAgeModifier');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 64, 0, 'UnitUpgradeCostMod'                 , 'CEP_BuildingInfo.UnitUpgradeCostMod');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 63, 0, 'CityCountUnhappinessMod'            , 'CEP_BuildingInfo.CityCountUnhappinessMod');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 62, 0, 'WorkerSpeedModifier'                , 'CEP_BuildingInfo.WorkerSpeedModifier');
@@ -137,8 +137,8 @@ INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 5
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 52, 0, 'Airlift'                            , 'CEP_BuildingInfo.Airlift');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 51, 0, 'NukeExplosionRand'                  , 'CEP_BuildingInfo.NukeExplosionRand');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 50, 0, 'ExtraMissionarySpreads'             , 'CEP_BuildingInfo.ExtraMissionarySpreads');
-INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 49, 0, 'EspionaCEPodifier'                  , 'CEP_BuildingInfo.EspionaCEPodifier');
-INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 48, 0, 'GlobalEspionaCEPodifier'            , 'CEP_BuildingInfo.GlobalEspionaCEPodifier');
+INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 49, 0, 'EspionageModifier'                  , 'CEP_BuildingInfo.EspionageModifier');
+INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 48, 0, 'GlobalEspionageModifier'            , 'CEP_BuildingInfo.GlobalEspionageModifier');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 47, 0, 'ExtraSpies'                         , 'CEP_BuildingInfo.ExtraSpies');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 46, 0, 'SpyRankChange'                      , 'CEP_BuildingInfo.SpyRankChange');
 INSERT INTO BuildingFields(Section, Priority, Dynamic, Type, Value) VALUES (1, 45, 0, 'InstantSpyRankChange'               , 'CEP_BuildingInfo.InstantSpyRankChange');
