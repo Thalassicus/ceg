@@ -3,14 +3,14 @@
 -- DateCreated: 6/6/2011 2:11:50 PM
 --------------------------------------------------------------
 
-include("CiVUP_Core.lua")
+include("ModTools.lua")
 include("FLuaVector");
 
 local log = Events.LuaLogger:New();
 log:SetLevel("INFO");
 
-if not Civup then
-	print("Civup table does not exist!")
+if not CEP then
+	print("CEP table does not exist!")
 	return
 end
 
@@ -86,9 +86,9 @@ function SpendAIGold(player)
 	local activePlayer		= Players[Game.GetActivePlayer()]
 	local costRA			= GameInfo.Eras[eraID].ResearchAgreementCost * GameInfo.GameSpeeds[Game.GetGameSpeedType()].GoldPercent / 100
 	local goldStored		= player:GetYieldStored(YieldTypes.YIELD_GOLD)
-	local goldHigh			= Game.Round(costRA * Civup.AI_PURCHASE_BUDGET_HIGH)
-	local goldLow			= Game.Round(costRA * Civup.AI_PURCHASE_BUDGET_LOW)
-	local goldMin			= Game.Round(costRA * Civup.AI_PURCHASE_BUDGET_MINIMUM)
+	local goldHigh			= Game.Round(costRA * CEP.AI_PURCHASE_BUDGET_HIGH)
+	local goldLow			= Game.Round(costRA * CEP.AI_PURCHASE_BUDGET_LOW)
+	local goldMin			= Game.Round(costRA * CEP.AI_PURCHASE_BUDGET_MINIMUM)
 	local cities			= {}
 	local citiesReverse		= {}
 	local ports				= {}
@@ -172,7 +172,7 @@ function SpendAIGold(player)
 	-- Negative income
 	if player:GetYieldRate(YieldTypes.YIELD_GOLD) < 0 then
 		local attempt = 0
-		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_GOLD") and attempt <= Civup.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
+		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_GOLD") and attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
 			attempt = attempt + 1
 		end
 		if player:IsBudgetGone(0) then return end
@@ -181,7 +181,7 @@ function SpendAIGold(player)
 	-- Severe negative happiness
 	if player:GetYieldRate(YieldTypes.YIELD_HAPPINESS_CITY) <= -10 then
 		local attempt = 0
-		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_HAPPINESS") and attempt <= Civup.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
+		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_HAPPINESS") and attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
 			attempt = attempt + 1
 		end
 		if player:IsBudgetGone(0) then return end
@@ -239,7 +239,7 @@ function SpendAIGold(player)
 	-- Negative happiness
 	if player:GetYieldRate(YieldTypes.YIELD_HAPPINESS_CITY) < 0 then
 		local attempt = 0
-		while PurchaseBuildingOfFlavor(player, cities, goldMin, "FLAVOR_HAPPINESS") and attempt <= Civup.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
+		while PurchaseBuildingOfFlavor(player, cities, goldMin, "FLAVOR_HAPPINESS") and attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
 			attempt = attempt + 1
 		end
 		if player:IsBudgetGone(goldLow) then return end
@@ -255,7 +255,7 @@ function SpendAIGold(player)
 	end
 	
 	-- Diplomatic victory
-	if MapModData.Civup.DiploVictoryUnlocked then
+	if MapModData.CEP.DiploVictoryUnlocked then
 		PurchaseAllInfluence(player, goldMin)
 		if player:IsBudgetGone(goldLow) then return end
 	end
@@ -360,7 +360,7 @@ function SpendAIGold(player)
 	end
 	
 	local attempt = 0
-	while attempt <= Civup.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do		
+	while attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do		
 		attempt = attempt + 1
 
 		local flavorType = Game.GetRandomWeighted(flavorWeights)
@@ -602,7 +602,7 @@ function PurchaseAllInfluence(player, goldMin)
 end
 
 function CheckDiploVictoryUnlocked()	
-	if MapModData.Civup.DiploVictoryUnlocked or not PreGame.IsVictory(GameInfo.Victories.VICTORY_DIPLOMATIC.ID) then
+	if MapModData.CEP.DiploVictoryUnlocked or not PreGame.IsVictory(GameInfo.Victories.VICTORY_DIPLOMATIC.ID) then
 		return
 	end
 	for buildingInfo in GameInfo.Buildings("VictoryPrereq = 'VICTORY_DIPLOMATIC'") do
@@ -610,7 +610,7 @@ function CheckDiploVictoryUnlocked()
 		for playerID, player in pairs(Players) do
 			if player:IsAliveCiv() and not player:IsMinorCiv() and player:HasTech(tech) then
 				log:Info("DiploVictoryUnlocked")
-				MapModData.Civup.DiploVictoryUnlocked = true
+				MapModData.CEP.DiploVictoryUnlocked = true
 				return
 			end
 		end
@@ -659,7 +659,7 @@ DoFlavorFunction = {
 	FLAVOR_RELIGION				= PurchaseBuildingOfFlavor
 }
 
-if Civup.USING_CSD == 1 then
+if CEP.USING_CSD == 1 then
 	DoFlavorFunction.FLAVOR_DIPLOMACY = PurchaseOneUnitOfFlavor
 end
 
@@ -991,14 +991,14 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 	local aiPlayer = Players[aiPlayerID]
 	if (not humanPlayer:IsHuman() 
 		or aiPlayer:IsHuman()
-		or (MapModData.Civup.EverAtWarWithHuman[aiPlayerID] ~= 1)
+		or (MapModData.CEP.EverAtWarWithHuman[aiPlayerID] ~= 1)
 		or aiPlayer:IsMilitaristicLeader()
 		) then
 		return
 	end
 	log:Warn("War State %s %s %s", humanPlayer:GetName(), aiPlayer:GetName(), isAtWar and "War" or "Peace")
-	MapModData.Civup.EverAtWarWithHuman[aiPlayerID] = 1
-	SaveValue(1, "MapModData.Civup.EverAtWarWithHuman[%s]", aiPlayerID)
+	MapModData.CEP.EverAtWarWithHuman[aiPlayerID] = 1
+	SaveValue(1, "MapModData.CEP.EverAtWarWithHuman[%s]", aiPlayerID)
 	
 	local freeXP = GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
 	local freeXPPerEra = GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
@@ -1012,12 +1012,12 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 end
 Events.WarStateChanged.Add(WarHandicap)
 
-if not MapModData.Civup.EverAtWarWithHuman then
-	MapModData.Civup.EverAtWarWithHuman = {}
+if not MapModData.CEP.EverAtWarWithHuman then
+	MapModData.CEP.EverAtWarWithHuman = {}
 	startClockTime = os.clock()
 	if UI:IsLoadedGame() then
 		for playerID, player in pairs(Players) do
-			MapModData.Civup.EverAtWarWithHuman[playerID] = LoadValue("MapModData.Civup.EverAtWarWithHuman[%s]", playerID)
+			MapModData.CEP.EverAtWarWithHuman[playerID] = LoadValue("MapModData.CEP.EverAtWarWithHuman[%s]", playerID)
 		end
 	end
 	if UI:IsLoadedGame() then

@@ -100,4 +100,4 @@ WHERE					building.BuildingClass = 'BUILDINGCLASS_MARKET'
 AND						res.Happiness > 0;
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEC_End.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_C_End.sql';

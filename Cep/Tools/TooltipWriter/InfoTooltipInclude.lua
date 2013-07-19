@@ -50,7 +50,7 @@ function GetHelpTextForUnit(unitID, bIncludeRequirementsInfo)
 	
 	-- Value
 	textBody = textBody .. "[NEWLINE]----------------"		
-	if Civup.SHOW_GOOD_FOR_UNITS == 1 then
+	if CEP.SHOW_GOOD_FOR_UNITS == 1 then
 		textBody = textBody .. Game.GetFlavors("Unit_Flavors", "UnitType", unitInfo.Type)
 	end
 	
@@ -149,7 +149,7 @@ function GetHelpTextForUnit(unitID, bIncludeRequirementsInfo)
 	-- Cost
 	local cost = activePlayer:GetUnitProductionNeeded(unitID)
 	if unitID == GameInfo.Units.UNIT_SETTLER.ID then
-		cost = Game.Round(cost * Civup.UNIT_SETTLER_BASE_COST / 105, -1)
+		cost = Game.Round(cost * CEP.UNIT_SETTLER_BASE_COST / 105, -1)
 	end
 	textBody = textBody .. "[NEWLINE]" .. Locale.ConvertTextKey("TXT_KEY_PRODUCTION_COST", cost)
 	
@@ -282,7 +282,7 @@ function GetBuildingTip(param)
 		[5] = showCost
 	}
 	
-	if Civup.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood and not showName and not showAbil and not showCost then
+	if CEP.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood and not showName and not showAbil and not showCost then
 		return string.gsub(Game.GetFlavors("Building_Flavors", "BuildingType", buildingInfo.Type, 1, true), "^%[NEWLINE%]", "")
 	end
 
@@ -337,7 +337,7 @@ function GetBuildingTip(param)
 			if showName then
 				textBody = textBody .. "[NEWLINE]----------------"
 			end
-			if Civup.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood then
+			if CEP.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood then
 				local textFlavors = Game.GetFlavors("Building_Flavors", "BuildingType", buildingInfo.Type)
 				if textFlavors ~= "" then
 					textBody = textBody .. textFlavors .. "[NEWLINE]"
@@ -358,8 +358,8 @@ function GetBuildingTip(param)
 		
 		if field.TextBody then
 			textBody = textBody .. "[NEWLINE]" .. field.TextBody
-			if field.Type == "Name" and buildingInfo.BuildingClass == "BUILDINGCLASS_PALACE" and GameDefines.GEM_VERSION and GameDefines.GEM_VERSION > 0 then
-				field.TextBody = field.TextBody .. " - " .. Locale.ConvertTextKey("TXT_KEY_GEM_VERSION", GameDefines.GEM_VERSION)
+			if field.Type == "Name" and buildingInfo.BuildingClass == "BUILDINGCLASS_PALACE" and GameDefines.CEP_VERSION and GameDefines.CEP_VERSION > 0 then
+				field.TextBody = field.TextBody .. " - " .. Locale.ConvertTextKey("TXT_KEY_CEP_VERSION", GameDefines.CEP_VERSION)
 			end
 		end
 		if showFoot and field.TextFoot then
@@ -650,7 +650,7 @@ function GetYieldTooltip(city, yieldID)
 	--print(string.format("%3s ms for %s GetYieldTooltip BASE_YIELDS", math.floor((os.clock() - timeStart) * 1000), yieldInfo.Type))
 	--timeStart = os.clock()
 	
-	if Civup.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
+	if CEP.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
 		local playerMinorCivYield	= player:GetYieldsFromCitystates()[yieldID]
 		if playerMinorCivYield > 0 then
 			local cityWeight		= City_GetWeight(city, yieldID)
@@ -682,7 +682,7 @@ function GetYieldTooltip(city, yieldID)
 				weight = Game.Round(player:GetAvoidModifier() * 100)
 				strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID", weight) .. "[NEWLINE]"
 				if weight > 0 then
-					strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID_MANY", Civup.AVOID_GROWTH_FULL_EFFECT_CUTOFF) .. "[NEWLINE]"
+					strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID_MANY", CEP.AVOID_GROWTH_FULL_EFFECT_CUTOFF) .. "[NEWLINE]"
 				end
 			end
 		

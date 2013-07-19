@@ -400,4 +400,4 @@ AND UnitType IN (SELECT UnitType FROM Unit_ResourceQuantityRequirements);
 */
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEAI_yEnd.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_AI__End_Flavors.sql';

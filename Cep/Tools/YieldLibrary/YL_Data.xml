@@ -55,7 +55,7 @@
 			<Set Value="100" />
 		</Update>
 	</Defines>
-	<Civup>
+	<CEP>
 		<Row Type="SUPPLY_BASE">
 			<Value>10</Value>
 		</Row>
@@ -92,7 +92,7 @@
 		<Row Type="AI_CAPITAL_YIELDS_MILITARISTIC_PERCENT">
 			<Value>0</Value>
 		</Row>
-	</Civup>
+	</CEP>
 
 	<!-- 
 		Several vanilla functions are bugged and read this whole table,
@@ -148,7 +148,7 @@
 			<Description>TXT_KEY_HAPPINESS_CITY</Description>
 			<IconString>[ICON_HAPPINESS_1]</IconString>
 			<IsTileYield>1</IsTileYield>
-			<TileTexture>YieldAtlas_Civup.dds</TileTexture>
+			<TileTexture>YieldAtlas_CEP.dds</TileTexture>
 			<MinCity>0</MinCity>
 			<AIWeightPercent>500</AIWeightPercent>
 			<Color>COLOR_YIELD_GOLD</Color>
@@ -158,7 +158,7 @@
 			<Description>TXT_KEY_HAPPINESS_NATIONAL</Description>
 			<IconString>[ICON_HAPPINESS_1]</IconString>
 			<IsTileYield>0</IsTileYield>
-			<TileTexture>YieldAtlas_Civup.dds</TileTexture>
+			<TileTexture>YieldAtlas_CEP.dds</TileTexture>
 			<MinCity>0</MinCity>
 			<AIWeightPercent>500</AIWeightPercent>
 			<Color>COLOR_YIELD_GOLD</Color>

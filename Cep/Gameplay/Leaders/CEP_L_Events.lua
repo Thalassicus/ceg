@@ -5,7 +5,7 @@
 
 --
 
-include("CiVUP_Core.lua")
+include("ModTools.lua")
 
 local log = Events.LuaLogger:New()
 log:SetLevel("WARN")
@@ -224,21 +224,21 @@ LuaEvents.NewTech.Add(FreeUnitWithTech)
 --]]
 
 --[[
-MapModData.Civup.HasFreeShip = {}
+MapModData.CEP.HasFreeShip = {}
 for playerID, player in pairs(Players) do
 	if player:IsAliveCiv() and not player:IsMinorCiv() then
-		MapModData.Civup.HasFreeShip[playerID] = player:HasTech("TECH_COMPASS")
+		MapModData.CEP.HasFreeShip[playerID] = player:HasTech("TECH_COMPASS")
 	end
 end
 
 function DoSpainCaravelHack(player)
-	if player:GetTraitInfo().Type ~= "TRAIT_SEVEN_CITIES" or MapModData.Civup.HasFreeShip[player:GetID()] then
+	if player:GetTraitInfo().Type ~= "TRAIT_SEVEN_CITIES" or MapModData.CEP.HasFreeShip[player:GetID()] then
 		return
 	end
 	
 	local capital = player:GetCapitalCity()
 	if capital and player:HasTech("TECH_COMPASS") then
-		MapModData.Civup.HasFreeShip[playerID] = true
+		MapModData.CEP.HasFreeShip[playerID] = true
 		local centerPlot = capital:Plot()
 
 		local plot = Plot_GetNearestOceanPlot(centerPlot, 10, 0.1 * Map.GetNumPlots())

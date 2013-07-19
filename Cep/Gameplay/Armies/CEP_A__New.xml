@@ -235,7 +235,7 @@
 			<UnitArtInfo>ART_DEF_UNIT_U_PERSIAN_IMMORTAL</UnitArtInfo>
 			<UnitFlagAtlas>VANGUARD_FLAG_ATLAS</UnitFlagAtlas>
 			<UnitFlagIconOffset>0</UnitFlagIconOffset>
-			<IconAtlas>GEM_NEW_UNITS_ATLAS</IconAtlas>
+			<IconAtlas>CEP_NEW_UNITS_ATLAS</IconAtlas>
 			<PortraitIndex>0</PortraitIndex>
 			-->
 		</Row>
@@ -303,7 +303,7 @@
 			<!--
 			<UnitFlagAtlas>VANGUARD_FLAG_ATLAS</UnitFlagAtlas>
 			<UnitFlagIconOffset>2</UnitFlagIconOffset>
-			<IconAtlas>GEM_NEW_UNITS_ATLAS</IconAtlas>
+			<IconAtlas>CEP_NEW_UNITS_ATLAS</IconAtlas>
 			<PortraitIndex>1</PortraitIndex>
 			-->
 		</Row>

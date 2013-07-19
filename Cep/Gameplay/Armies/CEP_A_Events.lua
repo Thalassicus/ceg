@@ -79,7 +79,7 @@ end
 
 --[=[
 
-include("CiVUP_Core.lua")
+include("ModTools.lua")
 include("CustomNotification.lua")
 
 local log = Events.LuaLogger:New()
@@ -128,7 +128,7 @@ function CheckForMinorAIBonuses(unit)
 		plot = capital:Plot()
 	end
 	
-	local maxRadius			= GameInfo.Units[unit:GetUnitType()].Moves + Civup.BARBARIAN_CREATION_SCAN_BASE_DISTANCE
+	local maxRadius			= GameInfo.Units[unit:GetUnitType()].Moves + CEP.BARBARIAN_CREATION_SCAN_BASE_DISTANCE
 	local areaWeight		= Plot_GetAreaWeights(plot, 1, maxRadius)
 	local weights			= {}
 	weights.PLOT_HILLS		= areaWeight.PLOT_HILLS
@@ -215,7 +215,7 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	lostCityPop = lostCity:GetPopulation()
 
 	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
-	local heldMinTime	= Civup.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
+	local heldMinTime	= CEP.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
 	local resistMaxTime	= math.max(1, math.min(heldTime, lostCityPop))
 	local resistTime	= (lostCityPop - 0.1*lostCityPop^1.5) * resistMod
 		  resistTime	= Game.Constrain(1, Game.Round(resistTime), resistMaxTime)
@@ -232,7 +232,7 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	--[[
 	log:Info("%s captured: heldMinTime=%s MinTurns=%s TrainPercent=%s turn=%s acquired=%s resistMaxTime=%s resistTime=%s",
 		heldMinTime,
-		Civup.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
+		CEP.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
 		GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100,
 		Game.GetGameTurn(),
 		lostPlayer:GetTurnAcquired(lostCity),
@@ -293,7 +293,7 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 	local lostPlayer		= Players[lostPlayerID]
 	local minorTrait		= lostPlayer:GetMinorCivTrait()
 	local traitCaptureBonus	= 1 + wonPlayer:GetTraitInfo().MinorCivCaptureBonus / 100
-	local captureBonusTurns	= Civup.MINOR_CIV_CAPTURE_BONUS_TURNS
+	local captureBonusTurns	= CEP.MINOR_CIV_CAPTURE_BONUS_TURNS
 	
 	local captureBonusTurns = 0
 	for policyInfo in GameInfo.Policies("CitystateCaptureYieldTurns > 0") do
@@ -359,7 +359,7 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			newUnitID = GameInfo.Units.UNIT_SCOUT.ID
 		end
 		if GameInfo.Units[newUnitID].Domain ~= "DOMAIN_LAND" then
-			xp = xp * Civup.MINOR_CIV_MILITARISTIC_XP_NONLAND_PENALTY
+			xp = xp * CEP.MINOR_CIV_MILITARISTIC_XP_NONLAND_PENALTY
 		end
 		
 		for i=1, quantity do

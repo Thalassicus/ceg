@@ -39,8 +39,8 @@
 			<GridX>1</GridX>
 			<GridY>1</GridY>
 			<PortraitIndex>2</PortraitIndex>
-			<IconAtlas>GEM_POLICY_ATLAS</IconAtlas>
-			<IconAtlasAchieved>GEM_POLICY_ATLAS_ACTIVE</IconAtlasAchieved>
+			<IconAtlas>CEP_POLICY_ATLAS</IconAtlas>
+			<IconAtlasAchieved>CEP_POLICY_ATLAS_ACTIVE</IconAtlasAchieved>
 			<NumFreePolicies>1</NumFreePolicies>
 			<IncludesOneShotFreeUnits>false</IncludesOneShotFreeUnits>
 			<OneShot>true</OneShot>

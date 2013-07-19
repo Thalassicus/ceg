@@ -86,4 +86,4 @@ WHERE BuildingClass IN (
 	'BUILDINGCLASS_STADIUM'
 );
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEC_Start.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_C_Start.sql';

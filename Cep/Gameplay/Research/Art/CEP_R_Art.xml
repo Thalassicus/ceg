@@ -2,44 +2,44 @@
 <GameData>
 	<IconTextureAtlases>
 		<Row>
-			<Atlas>GEM_TECH_ATLAS</Atlas>
+			<Atlas>CEP_TECH_ATLAS</Atlas>
 			<IconSize>256</IconSize>
-			<Filename>GEM_Techs256.DDS</Filename>
+			<Filename>CEP_Techs256.DDS</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_TECH_ATLAS</Atlas>
+			<Atlas>CEP_TECH_ATLAS</Atlas>
 			<IconSize>214</IconSize>
-			<Filename>GEM_Techs214.dds</Filename>
+			<Filename>CEP_Techs214.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_TECH_ATLAS</Atlas>
+			<Atlas>CEP_TECH_ATLAS</Atlas>
 			<IconSize>128</IconSize>
-			<Filename>GEM_Techs128.dds</Filename>
+			<Filename>CEP_Techs128.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_TECH_ATLAS</Atlas>
+			<Atlas>CEP_TECH_ATLAS</Atlas>
 			<IconSize>80</IconSize>
-			<Filename>GEM_Techs80.dds</Filename>
+			<Filename>CEP_Techs80.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_TECH_ATLAS</Atlas>
+			<Atlas>CEP_TECH_ATLAS</Atlas>
 			<IconSize>64</IconSize>
-			<Filename>GEM_Techs64.dds</Filename>
+			<Filename>CEP_Techs64.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_TECH_ATLAS</Atlas>
+			<Atlas>CEP_TECH_ATLAS</Atlas>
 			<IconSize>45</IconSize>
-			<Filename>GEM_Techs45.dds</Filename>
+			<Filename>CEP_Techs45.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>

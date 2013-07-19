@@ -273,4 +273,4 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_VOLLEY_HELP', '[ICON_STRENGTH] +30% vs [COLOR_POSITIVE_TEXT]Fortified[ENDCOLOR] units', '', '');
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Armies.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='Armies.sql';

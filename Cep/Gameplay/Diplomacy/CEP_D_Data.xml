@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
-	<Civup>
+	<CEP>
 		<Row Type="ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS">
 			<Value>1</Value>
 		</Row>
@@ -37,7 +37,7 @@
 			<Where Type="MINOR_CIV_GREAT_PERSON_REWARD_NEEDED" />
 			<Set Value="100" />
 		</Update>
-	</Civup>
+	</CEP>
 	<!--
 	<Technologies>
 		<Update>

@@ -3,7 +3,7 @@
 -- DateCreated: 3/20/2012 1:12:12 AM
 --------------------------------------------------------------
 
-include("CiVUP_Core.lua")
+include("ModTools.lua")
 include("FLuaVector")
 
 local log = Events.LuaLogger:New()

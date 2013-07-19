@@ -45,8 +45,8 @@
 	</Natural_Wonder_Placement>
 	<Feature_YieldChanges>
 		<!-- 
-		This GET_NaturalWonders.xml data created by:
-		Natural_W tab of GEM_Details.xls spreadsheet in mod folder.
+		This CEP_T_NaturalWonders.xml data created by:
+		Natural_W tab of CEP_Details.xls spreadsheet in mod folder.
 		-->
 
 		<Delete FeatureType="FEATURE_REEF" />

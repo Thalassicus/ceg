@@ -114,4 +114,4 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-23'), 'TXT_KEY_BUILDING_BARBARY_PORT_PEDIA', 'The Barbary pirates, sometimes called Barbary corsairs or Ottoman corsairs, were pirates and privateers who operated from North Africa, based primarily in the ports of Tunis, Tripoli and Algiers. This area was known in Europe as the Barbary Coast, a term derived from the name of its Berber inhabitants. Their predation extended throughout the Mediterranean, south along West Africa"s Atlantic seaboard across the Atlantic to South America, and into the North Atlantic as far north as Iceland, but they primarily operated in the western Mediterranean.', '', '');
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Leaders.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='Leaders.sql';

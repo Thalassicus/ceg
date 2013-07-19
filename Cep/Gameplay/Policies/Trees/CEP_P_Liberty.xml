@@ -31,8 +31,8 @@
 			<Set GridX="5"
 				 GridY="1"
 				 PortraitIndex="1"
-				 IconAtlas="GEM_POLICY_ATLAS"
-				 IconAtlasAchieved="GEM_POLICY_ATLAS_ACTIVE"
+				 IconAtlas="CEP_POLICY_ATLAS"
+				 IconAtlasAchieved="CEP_POLICY_ATLAS_ACTIVE"
 				 CapitalSettlerProductionModifier="0"
 				 SettlerProductionModifier="0"
 				 />
@@ -84,7 +84,7 @@
 	<Policy_FreeBuildingClass>
 		<Row>
 			<PolicyType>POLICY_LIBERTY</PolicyType>
-			<BuildingClass>BUILDINGCLASS_GEM_PALACE</BuildingClass>
+			<BuildingClass>BUILDINGCLASS_CEP_PALACE</BuildingClass>
 			<NumCities>3</NumCities>
 		</Row>
 	</Policy_FreeBuildingClass>

@@ -52,4 +52,4 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_WORLD_CHURCH', '+1 [ICON_CULTURE] Culture for every 3 followers of this religion in foreign civilizations', '', '');
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Faith.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='Faith.sql';

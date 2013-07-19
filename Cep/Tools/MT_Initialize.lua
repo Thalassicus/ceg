@@ -13,12 +13,12 @@ for row in GameInfo.LoadedFile() do
 	end
 end
 
---if not MapModData.Civup.MT_Initialized then
-	MapModData.Civup.MT_Initialized = true
-	--print("MapModData.Civup.MT_Initialized")
+--if not MapModData.CEP.MT_Initialized then
+	MapModData.CEP.MT_Initialized = true
+	--print("MapModData.CEP.MT_Initialized")
 
 	LuaEvents.MT_Initialize()
-	Game.CivupLoadGame()
+	Game.CEPLoadGame()
 	
 	Events.ActivePlayerTurnStart			.Add(OnTurnStart)
 	Events.ActivePlayerTurnEnd				.Add(OnTurnEnd)
@@ -47,5 +47,5 @@ end
 	Events.SerialEventImprovementCreated	.Add(OnPlotChanged)
 	Events.SerialEventRoadCreated			.Add(OnPlotChanged)
 
-	Events.LoadScreenClose					.Add(function() MapModData.Civup.Initialized = true end)
+	Events.LoadScreenClose					.Add(function() MapModData.CEP.Initialized = true end)
 --end

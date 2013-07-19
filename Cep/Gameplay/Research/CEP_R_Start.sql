@@ -1,7 +1,7 @@
 --
 
 -- This GER_Start.sql data automatically created by:
--- TechPrereqs tab of GEM_Details.xls spreadsheet in mod folder.
+-- TechPrereqs tab of CEP_Details.xls spreadsheet in mod folder.
 UPDATE Technologies SET GridY=0 WHERE Type IN ('TECH_SAILING', 'TECH_OPTICS', 'TECH_COMPASS', 'TECH_CARVEL_HULLS', 'TECH_ASTRONOMY', 'TECH_NAVIGATION', 'none');
 UPDATE Technologies SET GridY=1 WHERE Type IN ('TECH_POTTERY', 'TECH_CALENDAR', 'none');
 UPDATE Technologies SET GridY=2 WHERE Type IN ('TECH_WRITING', 'TECH_DRAMA', 'TECH_PHILOSOPHY', 'TECH_THEOLOGY', 'TECH_EDUCATION', 'TECH_ARCHITECTURE', 'TECH_ARCHAEOLOGY', 'TECH_BIOLOGY', 'TECH_REFRIGERATION', 'TECH_ECOLOGY', 'TECH_TELECOM', 'TECH_GLOBALIZATION', 'none');
@@ -31,7 +31,7 @@ UPDATE Technologies SET GridX=16, Era='ERA_FUTURE' WHERE Type IN ('TECH_GLOBALIZ
 UPDATE Technologies SET GridX=17, Era='ERA_FUTURE' WHERE Type IN ('TECH_FUTURE_TECH', 'none');
 
 -- This GER_Start.sql data from:
--- Tech_Costs tab of GEM_Details.xls spreadsheet (in mod folder).
+-- Tech_Costs tab of CEP_Details.xls spreadsheet (in mod folder).
 UPDATE Technologies SET Cost =    100 WHERE GridX =  1;
 UPDATE Technologies SET Cost =    150 WHERE GridX =  2;
 UPDATE Technologies SET Cost =    230 WHERE GridX =  3;
@@ -60,4 +60,4 @@ UPDATE Technologies SET Cost = ROUND(Cost * 0.75/10, 0)*10 WHERE Type IN (
 );
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GER_Start.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_R_Start.sql';

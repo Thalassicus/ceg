@@ -84,17 +84,17 @@
 			<Yield>1</Yield>
 		</Row>
 		<Row>
-			<BuildingType>BUILDING_GEM_PALACE</BuildingType>
+			<BuildingType>BUILDING_CEP_PALACE</BuildingType>
 			<YieldType>YIELD_GOLD</YieldType>
 			<Yield>2</Yield>
 		</Row>
 		<Row>
-			<BuildingType>BUILDING_GEM_PALACE</BuildingType>
+			<BuildingType>BUILDING_CEP_PALACE</BuildingType>
 			<YieldType>YIELD_SCIENCE</YieldType>
 			<Yield>2</Yield>
 		</Row>
 		<Row>
-			<BuildingType>BUILDING_GEM_PALACE</BuildingType>
+			<BuildingType>BUILDING_CEP_PALACE</BuildingType>
 			<YieldType>YIELD_CULTURE</YieldType>
 			<Yield>2</Yield>
 		</Row>

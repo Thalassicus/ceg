@@ -10187,7 +10187,7 @@ function AssignStartingPlots:CalculateStrategicPlotWeights()
 			local plot			= Map.GetPlot(x, y)
 			local plotID		= y * iW + x + 1
 			local terrainType	= plot:GetTerrainType()
-			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, Civup.RESOURCE_PLOT_BLUR_DISTANCE)) do
+			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, CEP.RESOURCE_PLOT_BLUR_DISTANCE)) do
 				local adjX			= adjPlot:GetX()
 				local adjY			= adjPlot:GetY()
 				local distance		= Map.PlotDistance(x, y, adjX, adjY)
@@ -10289,7 +10289,7 @@ function AssignStartingPlots:PlaceStrategicResourceInPlots(plotList, resID, resR
 			self.amounts_of_resources_placed[resID + 1] = self.amounts_of_resources_placed[resID + 1] + depositSize;
 			resRemaining = resRemaining - depositSize;
 			
-			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, Civup.RESOURCE_PLOT_BLUR_DISTANCE)) do
+			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, CEP.RESOURCE_PLOT_BLUR_DISTANCE)) do
 				local adjX		= adjPlot:GetX()
 				local adjY		= adjPlot:GetY()
 				local distance	= Map.PlotDistance(x, y, adjX, adjY)
@@ -10305,8 +10305,8 @@ end
 ------------------------------------------------------------------------------
 function AssignStartingPlots:GetResourceQuantities(resIDs)
 	local resNum			= {}
-	local resLower			= Civup.STRATEGIC_RESOURCE_LOWER_BOUND
-	local resUpper			= Civup.STRATEGIC_RESOURCE_UPPER_BOUND
+	local resLower			= CEP.STRATEGIC_RESOURCE_LOWER_BOUND
+	local resUpper			= CEP.STRATEGIC_RESOURCE_UPPER_BOUND
 	local maxDepositSize	= 1
 	local stratMultiplier	= 1
 	local resGroups			= {}

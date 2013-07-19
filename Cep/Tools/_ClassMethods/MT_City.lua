@@ -104,7 +104,7 @@ function City_GetBuildingsOfFlavor(city, flavorType, goldMin, includeWonders)
 				) then
 			local isResourceAvailable = true
 			for row in GameInfo.Building_ResourceQuantityRequirements(string.format("BuildingType = '%s'", itemInfo.Type)) do
-				if player:GetNumResourceAvailable(GameInfo.Resources[row.ResourceType].ID, true) <= Civup.MIN_RESOURCE_QUANTITY_FREE_FLAVOR_BUILDINGS then
+				if player:GetNumResourceAvailable(GameInfo.Resources[row.ResourceType].ID, true) <= CEP.MIN_RESOURCE_QUANTITY_FREE_FLAVOR_BUILDINGS then
 					isResourceAvailable = false
 					break
 				end

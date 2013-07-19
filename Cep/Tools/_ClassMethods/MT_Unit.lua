@@ -121,9 +121,9 @@ end
 
 ]]
 function Unit_Replace(oldUnit, unitClass)
-	MapModData.Civup.ReplacingUnit = true
+	MapModData.CEP.ReplacingUnit = true
 	local newUnit = Players[oldUnit:GetOwner()]:InitUnitClass(unitClass, oldUnit:GetPlot(), oldUnit:GetExperience())
-	MapModData.Civup.ReplacingUnit = false
+	MapModData.CEP.ReplacingUnit = false
 	for promoInfo in GameInfo.UnitPromotions() do
 		if oldUnit:IsHasPromotion(promoInfo.ID) and promoInfo.Class == "PROMOTION_CLASS_PERSISTANT" then
 			newUnit:SetHasPromotion(promoInfo.ID, true)

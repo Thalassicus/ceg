@@ -1,6 +1,6 @@
 /*
-GEAI_LeaderPersonalities.sql from:
-Leader_Personalities tab of GEM_LeadersAI.xls spreadsheet (in mod folder).
+CEP_AI_LeaderPersonalities.sql from:
+Leader_Personalities tab of CEP_LeadersAI.xls spreadsheet (in mod folder).
 */
 
 UPDATE Leaders SET Personality = 'PERSONALITY_CONQUEROR' WHERE Type = 'LEADER_ASKIA';
@@ -959,4 +959,4 @@ UPDATE Leader_MinorCivApproachBiases SET Bias = -500 WHERE LeaderType = 'LEADER_
 
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEAI_LeaderPersonalities.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_AI_LeaderPersonalities.sql';
