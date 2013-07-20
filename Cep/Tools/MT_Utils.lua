@@ -1,4 +1,4 @@
--- TU-Utils
+-- MT_Utils
 -- Author: Thalassicus
 -- DateCreated: 2/29/2012 7:40:23 AM
 --------------------------------------------------------------
@@ -10,30 +10,30 @@ log:SetLevel("WARN")
 
 
 ------------------------------------------------------------------
--- Game.CivupSaveGame(fileName)
--- Game.CivupLoadGame()
+-- Game.CepSaveGame(fileName)
+-- Game.CepLoadGame()
 -- Fixes a bug causing defense buildings to not update city max health upon game load.
 --
-MapModData.Civup.DefenseBuildingsReal = MapModData.Civup.DefenseBuildingsReal or {}
-MapModData.Civup.DefenseBuildingsFree = MapModData.Civup.DefenseBuildingsFree or {}
+MapModData.Cep.DefenseBuildingsReal = MapModData.Cep.DefenseBuildingsReal or {}
+MapModData.Cep.DefenseBuildingsFree = MapModData.Cep.DefenseBuildingsFree or {}
 
-function Game.CivupSaveGame(fileName)
+function Game.CepSaveGame(fileName)
 	for playerID, player in pairs(Players) do
 		for city in player:Cities() do
 			local cityID = City_GetID(city)
-			if not MapModData.Civup.DefenseBuildingsReal[cityID] then MapModData.Civup.DefenseBuildingsReal[cityID] = {} end
+			if not MapModData.Cep.DefenseBuildingsReal[cityID] then MapModData.Cep.DefenseBuildingsReal[cityID] = {} end
 			for buildingInfo in GameInfo.Buildings("ExtraCityHitPoints <> 0") do
 				local numBuilding = city:GetNumRealBuilding(buildingInfo.ID)
-				if MapModData.Civup.DefenseBuildingsReal[cityID][buildingInfo.ID] ~= numBuilding then
-					MapModData.Civup.DefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
-					SaveValue(numBuilding, "MapModData.Civup.DefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID)
+				if MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID] ~= numBuilding then
+					MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
+					SaveValue(numBuilding, "MapModData.Cep.DefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID)
 					--log:Info("Save %s %s", city:GetName(), buildingInfo.Type)
 				end
 				city:SetNumRealBuilding(buildingInfo.ID, 0)
 				
 				-- city:SetNumFreeBuilding core function not pushed to lua?!
-				--MapModData.Civup.DefenseBuildingsFree[cityID][buildingInfo.ID] = city:GetNumFreeBuilding(buildingInfo.ID)
-				--SaveValue(MapModData.Civup.DefenseBuildingsFree[cityID][buildingInfo.ID], "MapModData.Civup.DefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID)
+				--MapModData.Cep.DefenseBuildingsFree[cityID][buildingInfo.ID] = city:GetNumFreeBuilding(buildingInfo.ID)
+				--SaveValue(MapModData.Cep.DefenseBuildingsFree[cityID][buildingInfo.ID], "MapModData.Cep.DefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID)
 				--city:SetNumFreeBuilding(buildingInfo.ID, 0)
 			end			
 		end
@@ -45,23 +45,23 @@ function Game.CivupSaveGame(fileName)
 		for city in player:Cities() do
 			local cityID = City_GetID(city)
 			for buildingInfo in GameInfo.Buildings("ExtraCityHitPoints <> 0") do
-				city:SetNumRealBuilding(buildingInfo.ID, MapModData.Civup.DefenseBuildingsReal[cityID][buildingInfo.ID])
-				--city:SetNumFreeBuilding(buildingInfo.ID, MapModData.Civup.DefenseBuildingsFree[cityID][buildingInfo.ID])
+				city:SetNumRealBuilding(buildingInfo.ID, MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID])
+				--city:SetNumFreeBuilding(buildingInfo.ID, MapModData.Cep.DefenseBuildingsFree[cityID][buildingInfo.ID])
 			end			
 		end
 	end
 end
 
-function Game.CivupLoadGame()
+function Game.CepLoadGame()
 	for playerID, player in pairs(Players) do
 		for city in player:Cities() do
 			local cityID = City_GetID(city)
-			if not MapModData.Civup.DefenseBuildingsReal[cityID] then MapModData.Civup.DefenseBuildingsReal[cityID] = {} end
+			if not MapModData.Cep.DefenseBuildingsReal[cityID] then MapModData.Cep.DefenseBuildingsReal[cityID] = {} end
 			for buildingInfo in GameInfo.Buildings("ExtraCityHitPoints <> 0") do
-				local numBuilding = LoadValue("MapModData.Civup.DefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID) or 0
-				MapModData.Civup.DefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
+				local numBuilding = LoadValue("MapModData.Cep.DefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID) or 0
+				MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
 				city:SetNumRealBuilding(buildingInfo.ID, numBuilding)
-				--city:SetNumFreeBuilding(buildingInfo.ID, LoadValue("MapModData.Civup.DefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID) or 0)
+				--city:SetNumFreeBuilding(buildingInfo.ID, LoadValue("MapModData.Cep.DefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID) or 0)
 			end
 		end
 	end
@@ -71,8 +71,8 @@ end
 Game.DoOnce("TurnAcquired") and LuaEvents.MT_Initialize.Add(InitTurnAcquired)
 ]]
 function Game.DoOnce(str)
-	if not MapModData.Civup[str] then
-		MapModData.Civup[str] = true
+	if not MapModData.Cep[str] then
+		MapModData.Cep[str] = true
 		return true
 	end
 	return false
@@ -171,7 +171,7 @@ function Game.GetFlavors(itemTable, itemColumn, itemType, minVal, skipHeader)
 	local flavors = {}
 	local showBasicHelp = not OptionsManager.IsNoBasicHelp()
 
-	if Civup.SHOW_GOOD_FOR_RAW_NUMBERS == 1 then
+	if Cep.SHOW_GOOD_FOR_RAW_NUMBERS == 1 then
 		minVal = 1
 	else
 		minVal = minVal or 1
@@ -220,7 +220,7 @@ function Game.GetFlavors(itemTable, itemColumn, itemType, minVal, skipHeader)
 		helpText = string.format(
 			"%s[NEWLINE]%s%s %s[ENDCOLOR]",
 			helpText,
-			(Civup.SHOW_GOOD_FOR_RAW_NUMBERS == 1) and (v.Flavor.." ") or Game.GetFlavorColor(v.Flavor),
+			(Cep.SHOW_GOOD_FOR_RAW_NUMBERS == 1) and (v.Flavor.." ") or Game.GetFlavorColor(v.Flavor),
 			flavorInfo.IconString or "[ICON_HAPPINESS_2]",
 			v.FlavorName
 		);

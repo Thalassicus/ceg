@@ -1,4 +1,4 @@
--- TU-Player
+-- MT_Player
 -- Author: Thalassicus
 -- DateCreated: 2/29/2012 8:19:24 AM
 --------------------------------------------------------------
@@ -6,7 +6,6 @@
 include("MT_LuaLogger.lua")
 local log = Events.LuaLogger:New()
 log:SetLevel("INFO")
-
 
 
 PlayerClass = getmetatable(Players[0]).__index
@@ -367,8 +366,8 @@ function PlayerClass.GetTurnAcquired(player, city)
 	end
 	local playerID = player:GetID()
 	local cityID = City_GetID(city)
-	MapModData.Civup.TurnAcquired[playerID] = MapModData.Civup.TurnAcquired[playerID] or {}
-	return MapModData.Civup.TurnAcquired[playerID][City_GetID(city)]
+	MapModData.Cep.TurnAcquired[playerID] = MapModData.Cep.TurnAcquired[playerID] or {}
+	return MapModData.Cep.TurnAcquired[playerID][City_GetID(city)]
 end
 
 function PlayerClass.SetTurnAcquired(player, city, turn)
@@ -378,9 +377,9 @@ function PlayerClass.SetTurnAcquired(player, city, turn)
 	end
 	local playerID = player:GetID()
 	local cityID = City_GetID(city)
-	MapModData.Civup.TurnAcquired[playerID] = MapModData.Civup.TurnAcquired[playerID] or {}
-	MapModData.Civup.TurnAcquired[playerID][cityID] = turn
-	SaveValue(turn, "MapModData.Civup.TurnAcquired[%s][%s]", playerID, cityID)
+	MapModData.Cep.TurnAcquired[playerID] = MapModData.Cep.TurnAcquired[playerID] or {}
+	MapModData.Cep.TurnAcquired[playerID][cityID] = turn
+	SaveValue(turn, "MapModData.Cep.TurnAcquired[%s][%s]", playerID, cityID)
 end
 
 function UpdateTurnAcquiredFounding(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState)
@@ -618,7 +617,7 @@ function PlayerClass.GetCitystateThresholdString(minorCiv)
 	local turnsLeft		= "-"
 	
 	--print("GetCitystateThresholdString")
-	if Civup.MINOR_CIV_MILITARISTIC_REWARD_NEEDED ~= 0 and traitID == MinorCivTraitTypes.MINOR_CIV_TRAIT_MILITARISTIC then
+	if Cep.MINOR_CIV_MILITARISTIC_REWARD_NEEDED ~= 0 and traitID == MinorCivTraitTypes.MINOR_CIV_TRAIT_MILITARISTIC then
 		yieldType		= YieldTypes.YIELD_CS_MILITARY
 		yieldStored		= activePlayer:GetYieldStored(yieldType)
 		yieldNeeded		= activePlayer:GetYieldNeeded(yieldType)
@@ -636,7 +635,7 @@ function PlayerClass.GetCitystateThresholdString(minorCiv)
 		csString = csString .. Locale.ConvertTextKey("TXT_KEY_DIPLO_STATUS_MILITARISTIC_REWARD_TT", turnsLeft, yieldStored, yieldNeeded, yieldRate) .. "[NEWLINE]"
 	end
 
-	if Civup.MINOR_CIV_GREAT_PERSON_REWARD_NEEDED ~= 0  then
+	if Cep.MINOR_CIV_GREAT_PERSON_REWARD_NEEDED ~= 0  then
 		yieldType 		= YieldTypes.YIELD_CS_GREAT_PEOPLE
 		yieldStored		= activePlayer:GetYieldStored(yieldType)
 		yieldNeeded		= activePlayer:GetYieldNeeded(yieldType)
@@ -775,7 +774,7 @@ end
 local availableIDs	= City_GetBuildableUnitIDs(player)
 local newUnitID		= availableIDs[1 + Map.Rand(#availableIDs, "InitUnitFromList")]
 local capitalPlot	= capitalCity:Plot()
-local exp			= (1 + player:GetCurrentEra()) * Civup.MINOR_CIV_MILITARISTIC_XP_PER_ERA
+local exp			= (1 + player:GetCurrentEra()) * Cep.MINOR_CIV_MILITARISTIC_XP_PER_ERA
 player:InitUnitType(newUnitID, capitalPlot, exp)
 ]]
 
@@ -796,7 +795,7 @@ end
 local availableIDs	= City_GetBuildableUnitIDs(player)
 local newUnitID		= availableIDs[Map.Rand(#availableIDs, "InitUnitFromList")]
 local capitalPlot	= capitalCity:Plot()
-local exp			= (1 + player:GetCurrentEra()) * Civup.MINOR_CIV_MILITARISTIC_XP_PER_ERA
+local exp			= (1 + player:GetCurrentEra()) * Cep.MINOR_CIV_MILITARISTIC_XP_PER_ERA
 player:InitUnitType(newUnitID, capitalPlot, exp)
 ]]
 
@@ -878,7 +877,7 @@ function PlayerClass.IsAtWarWithAny(player)
 end
 
 function PlayerClass.EverAtWarWithHuman(player)
-	return (MapModData.Civup.EverAtWarWithHuman[player:GetID()] == 1)
+	return (MapModData.Cep.EverAtWarWithHuman[player:GetID()] == 1)
 end
 
 ---------------------------------------------------------------------
@@ -930,19 +929,19 @@ end
 --
 
 --function InitTurnAcquired()
-	if not MapModData.Civup.TurnAcquired then
+	if not MapModData.Cep.TurnAcquired then
 		--print("InitTurnAcquired()")
-		MapModData.Civup.TurnAcquired = {}
+		MapModData.Cep.TurnAcquired = {}
 		startClockTime = os.clock()
 		for playerID, player in pairs(Players) do
-			MapModData.Civup.TurnAcquired[playerID] = {}
+			MapModData.Cep.TurnAcquired[playerID] = {}
 			if player:IsAliveCiv() then
 				for city in player:Cities() do
 					local cityID = City_GetID(city)
 					if UI:IsLoadedGame() then
-						MapModData.Civup.TurnAcquired[playerID][cityID] = LoadValue("MapModData.Civup.TurnAcquired[%s][%s]", playerID, cityID) 
+						MapModData.Cep.TurnAcquired[playerID][cityID] = LoadValue("MapModData.Cep.TurnAcquired[%s][%s]", playerID, cityID) 
 					end
-					if not MapModData.Civup.TurnAcquired[playerID][cityID] then
+					if not MapModData.Cep.TurnAcquired[playerID][cityID] then
 						player:SetTurnAcquired(city, city:GetGameTurnAcquired())
 					end
 				end
@@ -955,8 +954,8 @@ end
 --end
 
 --[[
-if not MapModData.Civup.InitTurnAcquired then
-	MapModData.Civup.InitTurnAcquired = true
+if not MapModData.Cep.InitTurnAcquired then
+	MapModData.Cep.InitTurnAcquired = true
 	LuaEvents.MT_Initialize.Add(InitTurnAcquired)
 end
 --]]

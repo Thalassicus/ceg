@@ -14,15 +14,15 @@ IncludedModTools = true
 -- Function Definitions
 --
 
-include("SaveUtils.lua")
-MY_MOD_NAME = "CiVUP_VEM"
+--include("SaveUtils.lua")
+MY_MOD_NAME = "Communitas"
 
-MapModData.Civup = MapModData.Civup or {}
+MapModData.Cep = MapModData.Cep or {}
 saveDB = saveDB or Modding.OpenSaveData()
 
-Civup = Civup or {}
-for row in GameInfo.Civup() do
-	Civup[row.Type] = row.Value
+Cep = Cep or {}
+for row in GameInfo.Cep() do
+	Cep[row.Type] = row.Value
 end
 
 include("MT_LuaEvents.lua")

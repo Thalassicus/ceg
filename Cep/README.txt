@@ -4,7 +4,7 @@ The "Options" file contains additional settings (same folder as this readme).
 
 Features:		http://communitas.wikia.com/wiki/Communitas_Wiki
 Discussion:		http://tinyurl.com/communitas-mod
-Tech Support:	http://tinyurl.com/civupbug
+Tech Support:	http://tiny.cc/cepbug
 News:			http://civmodding.wordpress.com
 Credits:		http://communitas.wikia.com/wiki/Credits
 
@@ -53,7 +53,7 @@ Cope - City banner enhancements based on his work.
 Csebal - Enhancements to terrain hover tooltip.
 Delgar - Created several Opportunities.
 Delta187 - German translations.
-Dmitry - Russian translations for CiVUP.
+Dmitry - Russian translations.
 Erindir, XIenwolf and Kael - Flag promotions based on their work.
 ExpiredReign - Corrected some text mistakes.
 Gedemon - Map Pins hotseat testing.

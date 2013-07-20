@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
     <ProjectGuid>{aa8d3f9b-6e18-4483-a160-c2943e6e3fe0}</ProjectGuid>
-    <Name>Communitas Expansion Pack - Basic (v3.0.5 beta)</Name>
+    <Name>Communitas Expansion Pack - Basic</Name>
     <Guid>828b5b4b-7c62-4afb-a43f-034b596ef5e4</Guid>
-    <ModVersion>1</ModVersion>
+    <ModVersion>3</ModVersion>
     <Stability>Beta</Stability>
     <Teaser>[COLOR_CYAN]   by Thalassicus[NEWLINE][ENDCOLOR]   Equip for +10 fun, strategy, and balance!</Teaser>
-    <Description>I believe Civilization is a fantastic game, and want to perfect it while remaining as close to the core experience as possible. I think games should be intuitive to learn, challenging to master, and rewards should match the difficulty to complete tasks. I also believe in finding balanced middle ground between extremes. If you believe in these goals, try this expansion pack![NEWLINE][NEWLINE][NEWLINE]This is the "lite" version of the Civ V: Communitas Expansion Pack. This version maximizes compatability, reliability, and simplicity by changing as few core files as possible. The full version of Communitas adds innovative new features not possible with the normal Civilization files. If you want to discuss the project, or you encounter a problem while playing, please visit the Discuss or Bugs links below. It's impractical to track of multiple topics of conversation in the Workshop comments. Thank you![NEWLINE][NEWLINE]Features: communitas.wikia.com[NEWLINE]Discuss: forums.civfanatics.com/forumdisplay.php?f=429[NEWLINE]Bugs: bit.ly/bugreporting[NEWLINE]News: civmodding.wordpress.com[NEWLINE]Credits: civmodding.wordpress.com/credits[NEWLINE][NEWLINE][NEWLINE]The Communitas Expansion Pack is a collaboration of work from 38 main authors and an incredible community of forumgoers on CivFanatics.com. You can see the other parts of CEP here:[NEWLINE][NEWLINE]http://steamcommunity.com/id/thalassicus/myworkshopfiles[NEWLINE][NEWLINE][NEWLINE][NEWLINE]Please view the readme in the Gem folder, which includes important information about using Civ 5 mods.[NEWLINE][NEWLINE]NOTE: Exit to the main menu to load or start games. Loading or regenerating the map within an active game breaks all mods which use lua code.[NEWLINE][NEWLINE]REQUIRES: Gods and Kings Expansion. This project is only compatible with the expansion. The non-expansion vanilla version is here: steamcommunity.com/sharedfiles/filedetails/?id=78295051[NEWLINE][NEWLINE]REQUIRES: Civ V Unofficial Patch (G&amp;K): steamcommunity.com/id/thalassicus/myworkshopfiles</Description>
+    <Description>We started this expansion pack because we believe Civilization is a fantastic game, and we want to perfect it while remaining as close to the core experience as possible. CEP does this for Civ 5.[NEWLINE][NEWLINE]We think games should be intuitive to learn, challenging to master, and rewards should match the difficulty to complete tasks. We believe in finding balance between extremes. We set a high bar for adding new things to the game, and instead improve or replace existing objects when possible. [NEWLINE][NEWLINE]If you believe in these goals, try this expansion pack![NEWLINE][NEWLINE][NEWLINE]This is the "basic" version of the Civ V: Communitas Expansion Pack. This version maximizes compatability, reliability, and simplicity by changing as few core files as possible. The full version of Communitas adds innovative new features not possible with the normal Civilization files. If you want to discuss the project, or you encounter a problem while playing, please visit the Discuss or Bugs links below.[NEWLINE][NEWLINE]Features: communitas.wikia.com[NEWLINE]Discuss: forums.civfanatics.com/forumdisplay.php?f=429[NEWLINE]Bugs: bit.ly/bugreporting[NEWLINE]News: civmodding.wordpress.com[NEWLINE]Credits: civmodding.wordpress.com/credits[NEWLINE][NEWLINE][NEWLINE]The Communitas Expansion Pack is a collaboration of work from 38 main authors and an incredible community of forumgoers on CivFanatics.com.[NEWLINE][NEWLINE]Please view the readme in the mod folder, which includes important information about using Civ 5 mods.</Description>
     <Authors>[COLOR_CYAN]Thalassicus</Authors>
     <SpecialThanks>Please see [COLOR_YELLOW]readme[/COLOR] included in mod folder.</SpecialThanks>
     <Categories>$Categories$</Categories>
@@ -20,6 +20,21 @@
     <AssemblyName>Mod Template</AssemblyName>
     <RootNamespace>Mod Template</RootNamespace>
     <ModActions>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Tools/Start/MT_AlterTables.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Tools/Start/MT_Misc.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Tools/Start/MT_Promotions.sql</FileName>
+      </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
@@ -38,7 +53,7 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Tools/MT_Start.sql</FileName>
+        <FileName>Tools/MT_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -68,67 +83,67 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Armies/CEP_A__New.xml</FileName>
+        <FileName>Gameplay/Armies/CEA__New.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Barbarians/CEP_B__New.xml</FileName>
+        <FileName>Gameplay/Barbarians/CEB__New.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\CEP_C__New.xml</FileName>
+        <FileName>Gameplay\Cities\CEC__New.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_New.xml</FileName>
+        <FileName>Gameplay\Research\CER_New.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Leaders/CEP_L__New.xml</FileName>
+        <FileName>Gameplay/Leaders/CEL__New.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Armies/CEP_A__Start.sql</FileName>
+        <FileName>Gameplay/Armies/CEA__Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_Start.sql</FileName>
+        <FileName>Gameplay\Leaders\CEL_Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Faith\CEP_F_Start.sql</FileName>
+        <FileName>Gameplay\Faith\CEF_Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Armies/CEP_C__New.xml</FileName>
+        <FileName>Gameplay/Armies/CEC__New.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Cities/CEP_C__Start.sql</FileName>
+        <FileName>Gameplay/Cities/CEC__Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\CEP_P_Start.sql</FileName>
+        <FileName>Gameplay\Policies\CEP_Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_Start.sql</FileName>
+        <FileName>Gameplay\Research\CER_Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Terrain\CEP_T_Start.sql</FileName>
+        <FileName>Gameplay\Terrain\CET_Start.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -143,172 +158,172 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Armies/CEP_A_Data.xml</FileName>
+        <FileName>Gameplay/Armies/CEA_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Art\CEP_A_Art.xml</FileName>
+        <FileName>Gameplay\Armies\Art\CEA_Art.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Air.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Air.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Attributes.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Attributes.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Mobile.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Mobile.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Other.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Other.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Ranged.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Ranged.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Ships.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Ships.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Soldiers.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Soldiers.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_Vanguards.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_Vanguards.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_PromotionGrid.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_PromotionGrid.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_PromotionSwap.xml</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_PromotionSwap.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\CEP_A_Land.xml</FileName>
+        <FileName>Gameplay\Armies\CEA_Land.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\CEP_A_Sea.xml</FileName>
+        <FileName>Gameplay\Armies\CEA_Sea.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Barbarians\CEP_B_Civilization.xml</FileName>
+        <FileName>Gameplay\Barbarians\CEB_Civilization.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Barbarians\CEP_B_Data.xml</FileName>
+        <FileName>Gameplay\Barbarians\CEB_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Barbarians\CEP_B_Units.xml</FileName>
+        <FileName>Gameplay\Barbarians\CEB_Units.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Culture.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Culture.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Faith.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Faith.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Food.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Food.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Gold.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Gold.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Happiness.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Happiness.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Other.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Other.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Production.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Production.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Science.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Science.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Buildings\CEP_C_Sea.xml</FileName>
+        <FileName>Gameplay\Cities\Buildings\CEC_Sea.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\Art\CEP_C_Art.xml</FileName>
+        <FileName>Gameplay\Cities\Art\CEC_Art.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\CEP_C_Civilians.xml</FileName>
+        <FileName>Gameplay\Cities\CEC_Civilians.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\CEP_C_Data.xml</FileName>
+        <FileName>Gameplay\Cities\CEC_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\CEP_C_NationalWonders.xml</FileName>
+        <FileName>Gameplay\Cities\CEC_NationalWonders.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\CEP_C_SpecialistsandGP.xml</FileName>
+        <FileName>Gameplay\Cities\CEC_SpecialistsandGP.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Cities\CEP_C_Wonders.xml</FileName>
+        <FileName>Gameplay\Cities\CEC_Wonders.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Diplomacy\CEP_D_Data.xml</FileName>
+        <FileName>Gameplay\Diplomacy\CED_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Faith\CEP_F_Data.xml</FileName>
+        <FileName>Gameplay\Faith\CEF_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -318,132 +333,132 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_Data.xml</FileName>
+        <FileName>Gameplay\Leaders\CEL_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_Buildings.xml</FileName>
+        <FileName>Gameplay\Leaders\CEL_Buildings.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_Units.xml</FileName>
+        <FileName>Gameplay\Leaders\CEL_Units.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_LandmarkArtTypes.xml</FileName>
+        <FileName>Gameplay\Leaders\CEL_LandmarkArtTypes.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_LandmarkArt.xml</FileName>
+        <FileName>Gameplay\Leaders\CEL_LandmarkArt.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Opportunities\CEP_O_Opportunities.xml</FileName>
+        <FileName>Gameplay\Opportunities\CEO_Opportunities.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\CEP_P_Data.xml</FileName>
+        <FileName>Gameplay\Policies\CEP_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Art\CEP_P_Art.xml</FileName>
+        <FileName>Gameplay\Policies\Art\CEP_Art.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Wealth.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Wealth.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Knowledge.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Knowledge.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Freedom.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Freedom.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Honor.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Honor.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Liberty.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Liberty.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Power.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Power.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Order.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Order.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Patronage.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Patronage.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Piety.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Piety.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\Trees\CEP_P_Tradition.xml</FileName>
+        <FileName>Gameplay\Policies\Trees\CEP_Tradition.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_Data.xml</FileName>
+        <FileName>Gameplay\Research\CER_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_TechPrereqs.xml</FileName>
+        <FileName>Gameplay\Research\CER_TechPrereqs.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_Unlocks.xml</FileName>
+        <FileName>Gameplay\Research\CER_Unlocks.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_Units.xml</FileName>
+        <FileName>Gameplay\Research\CER_Units.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\Art\CEP_R_Art.xml</FileName>
+        <FileName>Gameplay\Research\Art\CER_Art.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Terrain\CEP_T_GPImprovements.xml</FileName>
+        <FileName>Gameplay\Terrain\CET_GPImprovements.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Terrain\CEP_T_Data.xml</FileName>
+        <FileName>Gameplay\Terrain\CET_Data.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Terrain\CEP_T_NaturalWonders.xml</FileName>
+        <FileName>Gameplay\Terrain\CET_NaturalWonders.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -514,6 +529,51 @@
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
         <FileName>Gameplay\AI\CEP_AI_Policies.xml</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\DE_DE\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text/en_US/Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\ES_ES\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\FR_FR\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\IT_IT\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\JA_JP\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\PL_PL\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\RU_RU\Core.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Text\ZH_CN\Core.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1238,37 +1298,37 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Cities/CEP_C__End.sql</FileName>
+        <FileName>Gameplay/Cities/CEC__End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Armies/CEP_A__End.sql</FileName>
+        <FileName>Gameplay/Armies/CEA__End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Barbarians\CEP_B_End.sql</FileName>
+        <FileName>Gameplay\Barbarians\CEB_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Leaders\CEP_L_End.sql</FileName>
+        <FileName>Gameplay\Leaders\CEL_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Policies\CEP_P_End.sql</FileName>
+        <FileName>Gameplay\Policies\CEP_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Research\CEP_R_End.sql</FileName>
+        <FileName>Gameplay\Research\CER_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\Armies\Promotions\CEP_A_PromotionReplace.sql</FileName>
+        <FileName>Gameplay\Armies\Promotions\CEA_PromotionReplace.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1288,7 +1348,7 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay/Faith/CEP_F_End.sql</FileName>
+        <FileName>Gameplay/Faith/CEF_End.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1307,7 +1367,7 @@
         <Type>MapScript</Type>
         <Name>Communitas</Name>
         <Description>Communitas</Description>
-        <FileName>Map/Communitas.lua</FileName>
+        <FileName>Maps/Communitas.lua</FileName>
       </Content>
     </ModContent>
     <ModReferences />
@@ -1334,7 +1394,7 @@
     <Folder Include="Gameplay\Cities\Art\" />
     <Folder Include="Gameplay\Diplomacy\" />
     <Folder Include="Misc\" />
-    <Folder Include="Map" />
+    <Folder Include="Maps" />
     <Folder Include="Tools" />
     <Folder Include="Interface\Icons" />
     <Folder Include="Gameplay\Leaders\" />
@@ -1348,6 +1408,7 @@
     <Folder Include="Gameplay\Research\Art" />
     <Folder Include="Gameplay\Terrain\" />
     <Folder Include="Gameplay\Opportunities\" />
+    <Folder Include="Tools\Start" />
     <Folder Include="Tools\YieldLibrary" />
     <Folder Include="Tools\TooltipWriter" />
     <Folder Include="Tools\_ClassMethods" />
@@ -1364,13 +1425,46 @@
     <Folder Include="Interface" />
     <Folder Include="Interface\Icons" />
     <Folder Include="Tools" />
+    <Folder Include="Tuner" />
     <Folder Include="Tools\_ClassMethods" />
     <Folder Include="Text" />
     <Folder Include="Text\DE_DE" />
     <Folder Include="Text\en_US" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Gameplay\Armies\Art\CEP_A_Art.xml">
+    <Content Include="Civup_Language.xls">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI_Armies.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI_Buildings.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI_Handicaps.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI_WorkerBuilds.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI__End_Flavors.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI__End_Techs.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEP_AI__Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\Art\CEA_Art.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
@@ -1398,15 +1492,35 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\CEP_A_Data.xml">
+    <Content Include="Gameplay\Armies\CEA_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\CEP_A__End.sql">
+    <Content Include="Gameplay\Armies\CEA_Events.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\CEP_A__Start.sql">
+    <Content Include="Gameplay\Armies\CEA_Events.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\CEA_Land.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\CEA_Sea.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\CEA__End.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\CEA__New.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\CEA__Start.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1414,47 +1528,91 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\Promotions\CEP_A_Other.xml">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Air.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\Promotions\CEP_A_PromotionReplace.sql">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Attributes.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\Promotions\CEP_A_PromotionSwap.xml">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Mobile.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\Promotions\CEP_A_Ships.xml">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Other.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Armies\Promotions\CEP_A_Vanguards.xml">
+    <Content Include="Gameplay\Armies\Promotions\CEA_PromotionGrid.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\Buildings\CEP_C_Faith.xml">
+    <Content Include="Gameplay\Armies\Promotions\CEA_PromotionReplace.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Faith\CEP_F_Data.xml">
+    <Content Include="Gameplay\Armies\Promotions\CEA_PromotionSwap.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Faith\CEP_F_End.sql">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Ranged.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Faith\CEP_F_Start.sql">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Ships.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Map\Communitas.lua">
+    <Content Include="Gameplay\Armies\Promotions\CEA_Soldiers.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Armies\Promotions\CEA_Vanguards.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Cities\Buildings\CEC_Faith.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Faith\CEF_Data.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Faith\CEF_End.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Faith\CEF_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Research\CER_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Maps\Communitas.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Map\IslandMaker.lua">
+    <Content Include="Maps\ContinentsPlus.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Maps\FeatureGenerator.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Maps\IslandMaker.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Maps\MapGenerator.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Maps\PangaeaPlus.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
@@ -1470,11 +1628,11 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Policies\CEP_P_Start.sql">
+    <Content Include="Gameplay\Policies\CEP_Start.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Research\CEP_R_End.sql">
+    <Content Include="Gameplay\Research\CER_End.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1550,11 +1708,23 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Text\en_US\Core.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Text\en_US\Faith.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Text\en_US\Leaders.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Text\en_US\TooltipWriter_Help.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Text\en_US\TooltipWriter_Tips.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1594,95 +1764,79 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Barbarians\CEP_B_Data.xml">
+    <Content Include="Gameplay\Barbarians\CEB_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Barbarians\CEP_B_End.sql">
+    <Content Include="Gameplay\Barbarians\CEB_End.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Barbarians\CEP_B_Events.lua">
+    <Content Include="Gameplay\Barbarians\CEB_Events.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Barbarians\CEP_B_Units.xml">
+    <Content Include="Gameplay\Barbarians\CEB_Units.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\Buildings\CEP_C_Culture.xml">
+    <Content Include="Gameplay\Cities\Buildings\CEC_Culture.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\Buildings\CEP_C_Gold.xml">
+    <Content Include="Gameplay\Cities\Buildings\CEC_Gold.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\Buildings\CEP_C_Production.xml">
+    <Content Include="Gameplay\Cities\Buildings\CEC_Production.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\CEP_C_Civilians.xml">
+    <Content Include="Gameplay\Cities\CEC_Civilians.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\CEP_C_Data.xml">
+    <Content Include="Gameplay\Cities\CEC_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\CEP_C_SpecialistsandGP.xml">
+    <Content Include="Gameplay\Cities\CEC_SpecialistsandGP.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\CEP_C_Wonders.xml">
+    <Content Include="Gameplay\Cities\CEC_Wonders.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\CEP_C__End.sql">
+    <Content Include="Gameplay\Cities\CEC__End.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Cities\CEP_C__Start.sql">
+    <Content Include="Gameplay\Cities\CEC__Start.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Policies\CEP_P_Data.xml">
+    <Content Include="Gameplay\Policies\CEP_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Research\CEP_R_Data.xml">
+    <Content Include="Gameplay\Research\CER_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Research\CEP_R_Unlocks.xml">
+    <Content Include="Gameplay\Research\CER_Unlocks.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Terrain\CEP_T_Data.xml">
+    <Content Include="Gameplay\Terrain\CET_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\Terrain\CEP_T_Start.sql">
+    <Content Include="Gameplay\Terrain\CET_Start.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Gameplay\Terrain\ContinentsPlus.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
-    </Content>
-    <Content Include="Gameplay\Terrain\FeatureGenerator.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
-    </Content>
-    <Content Include="Gameplay\Terrain\MapGenerator.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Terrain\NaturalWondersCustomMethods.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
-    </Content>
-    <Content Include="Gameplay\Terrain\PangaeaPlus.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
@@ -1718,9 +1872,93 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tools\MT_Start.sql">
+    <Content Include="Tools\ModTools.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_Initialize.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_LoadSave.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_LuaEvents.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_LuaLogger.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_Utils.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\Start\MT_AlterTables.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\Start\MT_Misc.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\Start\MT_Promotions.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\TooltipWriter\InfoTooltipInclude.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\YieldLibrary\YL_Data.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\_ClassMethods\MT_City.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\_ClassMethods\MT_Misc.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\_ClassMethods\MT_Player.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\_ClassMethods\MT_Plot.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\_ClassMethods\MT_Unit.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tuner\Active Player.ltp">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tuner\Game.ltp">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tuner\Map.ltp">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tuner\Selected City.ltp">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tuner\Selected Unit.ltp">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Firaxis\ModBuddy\Civ5Mod.targets" />

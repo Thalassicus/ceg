@@ -109,12 +109,14 @@ DELETE FROM Unit_Flavors WHERE FlavorType = 'FLAVOR_AIR'	AND UnitType = 'UNIT_PA
 DELETE FROM Unit_Flavors WHERE FlavorType IN ('FLAVOR_NAVAL', 'FLAVOR_NAVAL_RECON');
 
 DELETE FROM Unit_Flavors WHERE UnitType IN (SELECT Type FROM Units WHERE Class IN (
-	'UNITCLASS_LIBURNA'				,
+	'UNITCLASS_CEP_GALLEY'			,
 	'UNITCLASS_SHIP_OF_THE_LINE'	,
 	'UNITCLASS_SCOUT'				,
-	'UNITCLASS_SENTINEL'			,
-	'UNITCLASS_LEVY'				,
-	'UNITCLASS_SKIRMISHER'			,
+	'UNITCLASS_SPEARMAN'			,
+	'UNITCLASS_PIKEMAN'				,
+	--'UNITCLASS_SENTINEL'			,
+	--'UNITCLASS_LEVY'				,
+	'UNITCLASS_MILITIA'			,
 	'UNITCLASS_CONSCRIPT'			,
 	'UNITCLASS_PARATROOPER'			
 ));
@@ -122,7 +124,7 @@ DELETE FROM Unit_Flavors WHERE UnitType IN (SELECT Type FROM Units WHERE Class I
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT unit.Type, 'FLAVOR_ANTI_MOBILE', 1
 FROM Units unit, Unit_FreePromotions promo, UnitPromotions_UnitCombatMods modifier
-WHERE (unit.Type = promo.UnitType AND promo.PromotionType = modifier.PromotionType)
+WHERE (unit.Type = promo.UnitType AND promo.PromotionType = modifier.PromotionType AND unit.CombatClass <> 'UNITCOMBAT_RECON')
 	AND modifier.UnitCombatType IN ('UNITCOMBAT_MOUNTED', 'UNITCOMBAT_MOUNTED_ARCHER', 'UNITCOMBAT_ARMOR')
 ;
 
@@ -175,7 +177,7 @@ INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_NAVAL_RECON', 1
 FROM Units WHERE Class IN (
 	'UNITCLASS_TRIREME'				,
-	'UNITCLASS_LIBURNA'				,
+	'UNITCLASS_CEP_GALLEY'			,
 	'UNITCLASS_CARAVEL'				,
 	'UNITCLASS_PRIVATEER'			,
 	'UNITCLASS_DESTROYER'			,
@@ -227,14 +229,17 @@ SELECT unit.Type, flavor.Type, 1
 FROM Units unit, Flavors flavor
 WHERE unit.Class IN (
 	'UNITCLASS_SCOUT'				,
-	'UNITCLASS_SENTINEL'			,
-	'UNITCLASS_LEVY'				,
-	'UNITCLASS_SKIRMISHER'			
+	'UNITCLASS_SPEARMAN'			,
+	'UNITCLASS_PIKEMAN'				,
+	--'UNITCLASS_SENTINEL'			,
+	--'UNITCLASS_LEVY'				,
+	'UNITCLASS_MILITIA'			
 ) AND flavor.Type IN (
 	'FLAVOR_RECON'					,
 	'FLAVOR_DEFENSE'				,
 	'FLAVOR_CONQUEST'				,
-	'FLAVOR_CITY_DEFENSE'			
+	'FLAVOR_CITY_DEFENSE'			,
+	'FLAVOR_ANTI_MOBILE'			
 );
 
 
@@ -246,7 +251,7 @@ WHERE unit.Class IN (
 UPDATE Unit_Flavors SET Flavor = 8;
 
 UPDATE Unit_Flavors SET Flavor = Flavor * 2
-WHERE FlavorType IN ('FLAVOR_NAVAL', 'FLAVOR_NAVAL_RECON', 'FLAVOR_RELIGION');
+WHERE FlavorType IN ('FLAVOR_NAVAL', 'FLAVOR_NAVAL_RECON', 'FLAVOR_RELIGION', 'FLAVOR_I_LAND_TRADE_ROUTE', 'FLAVOR_I_SEA_TRADE_ROUTE', 'FLAVOR_ARCHAEOLOGY' );
 
 
 -- The "mobile" role involves flanking, which ranged units do not get a bonus for
@@ -281,7 +286,7 @@ UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
 WHERE FlavorType = 'FLAVOR_NAVAL_BOMBARDMENT'
 AND UnitType IN (SELECT Type FROM Units WHERE Class IN (
 	'UNITCLASS_GALLEY'				,
-	'UNITCLASS_TRIREME'				,
+	'UNITCLASS_CEP_GALLEY'			,
 	'UNITCLASS_GALLEASS'			
 ));
 

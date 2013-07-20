@@ -1,7 +1,7 @@
 /*
 
 You can change most options in this file at any time, unless indicated otherwise.
-Changes take effect the next time you start or load a game with CiVUP/VEM.
+Changes take effect the next time you start or load a game with Communitas.
 
 For example, if you are using the "Citystate Diplomacy" mod change the lines that read:
 
@@ -23,6 +23,27 @@ Then start a new game.
 -- Options --
 -------------
 
+/*
+-- LANGUAGE --
+
+Set your language.
+The text defaults to English when the English version is more recent than the local language.
+
+Code	Language	 
+-----	--------
+DE_DE	Deutsch			German
+EN_US	English			English (US)
+ES_ES	Espanol			Spanish
+FR_FR	Francais		French
+IT_IT	Italiano		Italian
+JA_JP	Nihongo			Japanese
+PL_PL	Polski			Polish
+RU_RU	Russkij Jazyk	Russian
+ZH_CN	Zhongwen		Chinese
+
+*/
+INSERT INTO Cep (Type, Value) VALUES ('LANGUAGE', 'EN_US');
+
 
 /*
 CityState Diplomacy Mod Compatibility
@@ -41,33 +62,34 @@ This is helpful for people new to the game or analyzing balance.
 
 1 = show Good For
 0 = hide Good For
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_UNITS';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDINGS';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_POLICIES';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_TECHS';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDS';
-
-UPDATE Cep SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS';
-UPDATE Cep SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_AI_NUMBERS';
 */
+
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_UNITS',		1);
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_BUILDINGS',	1);
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_POLICIES',		1);
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_TECHS',		1);
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_BUILDS',		1);
+
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_RAW_NUMBERS',	0);
+INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_AI_NUMBERS',	0);
 
 
 /*
 Barbarians Upgrade
 1 = barbarians upgrade in camps
 0 = barbarians do not upgrade 
+*/
 INSERT INTO Cep (Type, Value)
 VALUES ('BARBARIANS_UPGRADE', 1);
-*/
 
 
 /*
 Barbarians Heal
 1 = barbarians heal when fortified
 0 = barbarians do not heal
+*/
 INSERT INTO Cep (Type, Value)
 VALUES ('BARBARIANS_HEAL', 1);
-*/
 
 
 /*
@@ -76,7 +98,7 @@ Speech
 0 = silence speech
 */
 INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_START'		, 0);
-INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_WONDERS'	, 1);
+INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_WONDERS'		, 1);
 INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_TECHS'		, 1);
 
 
@@ -101,6 +123,14 @@ Minimum distance (in tiles) between cities.
 UPDATE Defines
 SET Value = 2
 WHERE Name = 'MIN_CITY_RANGE';
+
+
+/*
+Delay between each line of scrolling text after combat.
+*/
+UPDATE Defines
+SET Value = 0.6
+WHERE Name = 'POST_COMBAT_TEXT_DELAY';
 
 
 /*
@@ -167,4 +197,4 @@ UPDATE Technologies SET AudioIntroHeader = "" WHERE EXISTS
 UPDATE Technologies SET AudioIntro = "" WHERE EXISTS 
 (SELECT Value FROM Cep WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Options.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEM_Options.sql';
