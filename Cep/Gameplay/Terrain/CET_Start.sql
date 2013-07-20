@@ -61,10 +61,10 @@ UPDATE Resources SET TechCityTrade = 'TECH_ARCHERY' WHERE TechCityTrade = 'TECH_
 */
 
 -- Buff jungles and forests
+UPDATE BuildFeatures SET Remove = 1 WHERE FeatureType = 'FEATURE_MARSH' AND BuildType IN ('BUILD_FARM', 'BUILD_PLANTATION', 'BUILD_TRADING_POST');
 UPDATE BuildFeatures SET Remove = 0 WHERE FeatureType = 'FEATURE_JUNGLE' AND BuildType IN ('BUILD_FARM', 'BUILD_PLANTATION');
 UPDATE BuildFeatures SET Time = 400 WHERE (FeatureType = 'FEATURE_JUNGLE' AND Time <> 0 AND Remove = 0);
---UPDATE BuildFeatures SET Production = 20 WHERE FeatureType = 'FEATURE_JUNGLE' AND Remove = 1;
---UPDATE BuildFeatures SET Production = 40 WHERE FeatureType = 'FEATURE_FOREST' AND Remove = 1;
+UPDATE BuildFeatures SET Production = 50 WHERE FeatureType = 'FEATURE_FOREST' AND Remove = 1;
 
 
 UPDATE LoadedFile SET Value=1 WHERE Type='CET_Start.sql';

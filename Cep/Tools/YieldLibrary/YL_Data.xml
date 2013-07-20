@@ -143,6 +143,7 @@
 				 TileTexture="YieldAtlas_128_Faith.dds"
 				 />
 		</Update>
+		<!--
 		<Row>
 			<Type>YIELD_HAPPINESS_CITY</Type>
 			<Description>TXT_KEY_HAPPINESS_CITY</Description>
@@ -206,6 +207,7 @@
 			<MinCity>0</MinCity>
 			<AIWeightPercent>300</AIWeightPercent>
 		</Row>
+		-->
 	</Yields>
 	<Specialists>
 		<Update>
@@ -227,12 +229,14 @@
 		<Row><YieldType>YIELD_SCIENCE</YieldType>          <FlavorType>FLAVOR_SCIENCE</FlavorType>           <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_CULTURE</YieldType>          <FlavorType>FLAVOR_CULTURE</FlavorType>           <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_FAITH</YieldType>            <FlavorType>FLAVOR_RELIGION</FlavorType>          <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_HAPPINESS_CITY</YieldType>        <FlavorType>FLAVOR_HAPPINESS</FlavorType>         <Flavor>8</Flavor></Row>
+		<!--
+		<Row><YieldType>YIELD_HAPPINESS_CITY</YieldType>   <FlavorType>FLAVOR_HAPPINESS</FlavorType>		 <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_GREAT_PEOPLE</YieldType>     <FlavorType>FLAVOR_GREAT_PEOPLE</FlavorType>      <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_EXPERIENCE</YieldType>       <FlavorType>FLAVOR_MILITARY_TRAINING</FlavorType> <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_CS_MILITARY</YieldType>      <FlavorType>FLAVOR_DIPLOMACY</FlavorType>         <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_CS_GREAT_PEOPLE</YieldType>  <FlavorType>FLAVOR_DIPLOMACY</FlavorType>         <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_POPULATION</YieldType>       <FlavorType>FLAVOR_GROWTH</FlavorType>            <Flavor>8</Flavor></Row>
+		-->
 	</Yield_Flavors>
 	<CityWeights>
 		<Row>

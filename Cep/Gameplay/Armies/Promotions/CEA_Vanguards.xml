@@ -261,6 +261,19 @@
 			<PromotionType>PROMOTION_AMBUSH_VANGUARD_1</PromotionType>
 			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
 		</Row>
+
+		<Row>
+			<PromotionType>PROMOTION_BUFFALO_HORNS</PromotionType>
+			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
+		</Row>
+		<Row>
+			<PromotionType>PROMOTION_BUFFALO_CHEST</PromotionType>
+			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
+		</Row>
+		<Row>
+			<PromotionType>PROMOTION_BUFFALO_LOINS</PromotionType>
+			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
+		</Row>
 	</UnitPromotions_UnitCombats>
 	<UnitPromotions_UnitCombatMods>
 		<Row>
