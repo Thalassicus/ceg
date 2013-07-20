@@ -47,7 +47,7 @@
 		<Column name="Yield" type="variant" default="0"/>
 		<Column name="YieldPerEra" type="variant" default="0"/>
 	</Table>
-	
+
 
 	<Defines>
 		<Update>
@@ -55,11 +55,7 @@
 			<Set Value="100" />
 		</Update>
 	</Defines>
-<<<<<<< HEAD
 	<Cep>
-=======
-	<CEP>
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 		<Row Type="SUPPLY_BASE">
 			<Value>10</Value>
 		</Row>
@@ -96,11 +92,7 @@
 		<Row Type="AI_CAPITAL_YIELDS_MILITARISTIC_PERCENT">
 			<Value>0</Value>
 		</Row>
-<<<<<<< HEAD
 	</Cep>
-=======
-	</CEP>
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 
 	<!-- 
 		Several vanilla functions are bugged and read this whole table,
@@ -113,7 +105,7 @@
 			<Set Color="COLOR_YIELD_FOOD"
 				 AIWeightPercent="150"
 				 IsTileYield="1"
-				 TileTexture="YieldAtlas.dds"				 
+				 TileTexture="YieldAtlas.dds"
 				 />
 		</Update>
 		<Update>
@@ -148,7 +140,7 @@
 			<Where Type="YIELD_FAITH" />
 			<Set Color="COLOR_WHITE"
 				 IsTileYield="1"
-				 TileTexture="YieldAtlas_128_Faith.dds"				 
+				 TileTexture="YieldAtlas_128_Faith.dds"
 				 />
 		</Update>
 		<Row>
@@ -156,11 +148,7 @@
 			<Description>TXT_KEY_HAPPINESS_CITY</Description>
 			<IconString>[ICON_HAPPINESS_1]</IconString>
 			<IsTileYield>1</IsTileYield>
-<<<<<<< HEAD
 			<TileTexture>YieldAtlas_Cep.dds</TileTexture>
-=======
-			<TileTexture>YieldAtlas_CEP.dds</TileTexture>
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 			<MinCity>0</MinCity>
 			<AIWeightPercent>500</AIWeightPercent>
 			<Color>COLOR_YIELD_GOLD</Color>
@@ -170,11 +158,7 @@
 			<Description>TXT_KEY_HAPPINESS_NATIONAL</Description>
 			<IconString>[ICON_HAPPINESS_1]</IconString>
 			<IsTileYield>0</IsTileYield>
-<<<<<<< HEAD
 			<TileTexture>YieldAtlas_Cep.dds</TileTexture>
-=======
-			<TileTexture>YieldAtlas_CEP.dds</TileTexture>
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 			<MinCity>0</MinCity>
 			<AIWeightPercent>500</AIWeightPercent>
 			<Color>COLOR_YIELD_GOLD</Color>
@@ -237,18 +221,66 @@
 		</Row>
 	</SpecialistYields>
 	<Yield_Flavors>
-		<Row><YieldType>YIELD_FOOD</YieldType>             <FlavorType>FLAVOR_GROWTH</FlavorType>            <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_PRODUCTION</YieldType>       <FlavorType>FLAVOR_PRODUCTION</FlavorType>        <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_GOLD</YieldType>             <FlavorType>FLAVOR_GOLD</FlavorType>              <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_SCIENCE</YieldType>          <FlavorType>FLAVOR_SCIENCE</FlavorType>           <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_CULTURE</YieldType>          <FlavorType>FLAVOR_CULTURE</FlavorType>           <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_FAITH</YieldType>            <FlavorType>FLAVOR_RELIGION</FlavorType>          <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_HAPPINESS_CITY</YieldType>        <FlavorType>FLAVOR_HAPPINESS</FlavorType>         <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_GREAT_PEOPLE</YieldType>     <FlavorType>FLAVOR_GREAT_PEOPLE</FlavorType>      <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_EXPERIENCE</YieldType>       <FlavorType>FLAVOR_MILITARY_TRAINING</FlavorType> <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_CS_MILITARY</YieldType>      <FlavorType>FLAVOR_DIPLOMACY</FlavorType>         <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_CS_GREAT_PEOPLE</YieldType>  <FlavorType>FLAVOR_DIPLOMACY</FlavorType>         <Flavor>8</Flavor></Row>
-		<Row><YieldType>YIELD_POPULATION</YieldType>       <FlavorType>FLAVOR_GROWTH</FlavorType>            <Flavor>8</Flavor></Row>
+		<Row>
+			<YieldType>YIELD_FOOD</YieldType>
+			<FlavorType>FLAVOR_GROWTH</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<FlavorType>FLAVOR_PRODUCTION</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_GOLD</YieldType>
+			<FlavorType>FLAVOR_GOLD</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_SCIENCE</YieldType>
+			<FlavorType>FLAVOR_SCIENCE</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_CULTURE</YieldType>
+			<FlavorType>FLAVOR_CULTURE</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_FAITH</YieldType>
+			<FlavorType>FLAVOR_RELIGION</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_HAPPINESS_CITY</YieldType>
+			<FlavorType>FLAVOR_HAPPINESS</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_GREAT_PEOPLE</YieldType>
+			<FlavorType>FLAVOR_GREAT_PEOPLE</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_EXPERIENCE</YieldType>
+			<FlavorType>FLAVOR_MILITARY_TRAINING</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_CS_MILITARY</YieldType>
+			<FlavorType>FLAVOR_DIPLOMACY</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_CS_GREAT_PEOPLE</YieldType>
+			<FlavorType>FLAVOR_DIPLOMACY</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
+		<Row>
+			<YieldType>YIELD_POPULATION</YieldType>
+			<FlavorType>FLAVOR_GROWTH</FlavorType>
+			<Flavor>8</Flavor>
+		</Row>
 	</Yield_Flavors>
 	<CityWeights>
 		<Row>

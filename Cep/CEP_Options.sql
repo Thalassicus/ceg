@@ -1,11 +1,7 @@
 /*
 
 You can change most options in this file at any time, unless indicated otherwise.
-<<<<<<< HEAD
 Changes take effect the next time you start or load a game with Communitas.
-=======
-Changes take effect the next time you start or load a game with CEP.
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 
 For example, if you are using the "Citystate Diplomacy" mod change the lines that read:
 
@@ -66,17 +62,6 @@ This is helpful for people new to the game or analyzing balance.
 
 1 = show Good For
 0 = hide Good For
-<<<<<<< HEAD
-=======
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_UNITS';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDINGS';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_POLICIES';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_TECHS';
-UPDATE Cep SET Value = 1 WHERE Type = 'SHOW_GOOD_FOR_BUILDS';
-
-UPDATE CEP SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS';
-UPDATE CEP SET Value = 0 WHERE Type = 'SHOW_GOOD_FOR_AI_NUMBERS';
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 */
 
 INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_UNITS',		1);
@@ -93,12 +78,8 @@ INSERT INTO Cep (Type, Value) VALUES ('SHOW_GOOD_FOR_AI_NUMBERS',	0);
 Barbarians Upgrade
 1 = barbarians upgrade in camps
 0 = barbarians do not upgrade 
-<<<<<<< HEAD
 */
 INSERT INTO Cep (Type, Value)
-=======
-INSERT INTO CEP (Type, Value)
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 VALUES ('BARBARIANS_UPGRADE', 1);
 
 
@@ -106,12 +87,8 @@ VALUES ('BARBARIANS_UPGRADE', 1);
 Barbarians Heal
 1 = barbarians heal when fortified
 0 = barbarians do not heal
-<<<<<<< HEAD
 */
 INSERT INTO Cep (Type, Value)
-=======
-INSERT INTO CEP (Type, Value)
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 VALUES ('BARBARIANS_HEAL', 1);
 
 
@@ -120,15 +97,9 @@ Speech
 1 = play speech
 0 = silence speech
 */
-<<<<<<< HEAD
 INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_START'		, 0);
 INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_WONDERS'		, 1);
 INSERT INTO Cep (Type, Value) VALUES ('PLAY_SPEECH_TECHS'		, 1);
-=======
-INSERT INTO CEP (Type, Value) VALUES ('PLAY_SPEECH_START'		, 0);
-INSERT INTO CEP (Type, Value) VALUES ('PLAY_SPEECH_WONDERS'	, 1);
-INSERT INTO CEP (Type, Value) VALUES ('PLAY_SPEECH_TECHS'		, 1);
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 
 
 /*
@@ -226,8 +197,4 @@ UPDATE Technologies SET AudioIntroHeader = "" WHERE EXISTS
 UPDATE Technologies SET AudioIntro = "" WHERE EXISTS 
 (SELECT Value FROM Cep WHERE Type='PLAY_SPEECH_TECHS' AND Value=0);
 
-<<<<<<< HEAD
-UPDATE LoadedFile SET Value=1 WHERE Type='CEM_Options.sql';
-=======
 UPDATE LoadedFile SET Value=1 WHERE Type='CEP_Options.sql';
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b

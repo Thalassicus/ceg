@@ -38,13 +38,8 @@ function Plot_Buy(plot, player, city, cost)
 	local playerID = player:GetID()
 	player:ChangeYieldStored(YieldTypes.YIELD_GOLD, -cost)
 	plot:SetOwner(playerID, city:GetID())
-<<<<<<< HEAD
 	MapModData.Cep.PlotCostExtra[playerID] = MapModData.Cep.PlotCostExtra[playerID] + GameDefines.PLOT_ADDITIONAL_COST_PER_PLOT
 	SaveValue(MapModData.Cep.PlotCostExtra[playerID], "MapModData.Cep.PlotCostExtra[%s]", playerID)
-=======
-	MapModData.CEP.PlotCostExtra[playerID] = MapModData.CEP.PlotCostExtra[playerID] + GameDefines.PLOT_ADDITIONAL_COST_PER_PLOT
-	SaveValue(MapModData.CEP.PlotCostExtra[playerID], "MapModData.CEP.PlotCostExtra[%s]", playerID)
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 end
 
 function Plot_CanBuy(city, plot, notCheckGold)
@@ -54,16 +49,11 @@ end
 
 function Plot_GetCost(city, plot)
 	if Plot_CanBuy(city, plot, true) then
-<<<<<<< HEAD
 		return city:GetBuyPlotCost(plot:GetX(), plot:GetY()) + MapModData.Cep.PlotCostExtra[city:GetOwner()]
-=======
-		return city:GetBuyPlotCost(plot:GetX(), plot:GetY()) + MapModData.CEP.PlotCostExtra[city:GetOwner()]
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 	end
 	return math.huge
 end
 
-<<<<<<< HEAD
 if not MapModData.Cep.PlotCostExtra then
 	MapModData.Cep.PlotCostExtra = {}
 	startClockTime = os.clock()
@@ -72,16 +62,6 @@ if not MapModData.Cep.PlotCostExtra then
 			MapModData.Cep.PlotCostExtra[playerID] = LoadValue("MapModData.Cep.PlotCostExtra[%s]", playerID) or 0
 		else
 			MapModData.Cep.PlotCostExtra[playerID] = 0
-=======
-if not MapModData.CEP.PlotCostExtra then
-	MapModData.CEP.PlotCostExtra = {}
-	startClockTime = os.clock()
-	for playerID, player in pairs(Players) do
-		if UI.IsLoadedGame() then
-			MapModData.CEP.PlotCostExtra[playerID] = LoadValue("MapModData.CEP.PlotCostExtra[%s]", playerID) or 0
-		else
-			MapModData.CEP.PlotCostExtra[playerID] = 0
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 		end
 	end
 	if UI:IsLoadedGame() then
@@ -161,13 +141,8 @@ local featureTypeName	= {}-- -1="NO_FEATURE"}
 --end
 
 --[[
-<<<<<<< HEAD
 if not MapModData.Cep.InitAreaWeightValues then
 	MapModData.Cep.InitAreaWeightValues = true
-=======
-if not MapModData.CEP.InitAreaWeightValues then
-	MapModData.CEP.InitAreaWeightValues = true
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 	LuaEvents.MT_Initialize.Add(InitAreaWeightValues)
 end
 --]]
