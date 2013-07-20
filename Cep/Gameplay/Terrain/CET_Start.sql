@@ -51,8 +51,8 @@ AND NOT (impBasic.CreatedByGreatPerson = 1 OR impBasic.SpecificCivRequired = 1);
 
 
 
--- This GET_Start.sql data created by:
--- TechUnlocks tab of GEM_Details.xls spreadsheet in mod folder.
+-- This CEP_T_Start.sql data created by:
+-- TechUnlocks tab of CEP_Details.xls spreadsheet in mod folder.
 /*
 UPDATE BuildFeatures SET PrereqTech = 'TECH_ANIMAL_HUSBANDRY' WHERE FeatureType = 'FEATURE_FOREST';
 UPDATE BuildFeatures SET PrereqTech = 'TECH_THE_WHEEL' WHERE FeatureType = 'FEATURE_JUNGLE';

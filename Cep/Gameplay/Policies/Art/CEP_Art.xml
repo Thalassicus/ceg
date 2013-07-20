@@ -2,23 +2,23 @@
 <GameData>
 	<IconTextureAtlases>
 		<Row>
-			<Atlas>GEM_POLICY_ATLAS</Atlas>
+			<Atlas>CEP_POLICY_ATLAS</Atlas>
 			<IconSize>256</IconSize>
-			<Filename>GEM_Policies256.DDS</Filename>
+			<Filename>CEP_Policies256.DDS</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_POLICY_ATLAS</Atlas>
+			<Atlas>CEP_POLICY_ATLAS</Atlas>
 			<IconSize>64</IconSize>
-			<Filename>GEM_Policies64.dds</Filename>
+			<Filename>CEP_Policies64.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>
 		<Row>
-			<Atlas>GEM_POLICY_ATLAS_ACTIVE</Atlas>
+			<Atlas>CEP_POLICY_ATLAS_ACTIVE</Atlas>
 			<IconSize>64</IconSize>
-			<Filename>GEM_Policies64Active.dds</Filename>
+			<Filename>CEP_Policies64Active.dds</Filename>
 			<IconsPerRow>4</IconsPerRow>
 			<IconsPerColumn>1</IconsPerColumn>
 		</Row>

@@ -21,8 +21,8 @@ UPDATE Units SET ObsoleteTech = NULL WHERE Class = 'UNITCLASS_MODERN_ARMOR';
 
 /*
 
--- This GER_End.sql data created by:
--- Tech_Deletes tab of GEM_Details.xls spreadsheet in mod folder.										
+-- This CEP_R_End.sql data created by:
+-- TechDeletes tab of CEP_PoliciesTechsBeliefs.xls spreadsheet in mod folder.										
 UPDATE Units SET PrereqTech='TECH_ELECTRONICS'  WHERE PrereqTech='TECH_BALLISTICS';	UPDATE Builds SET PrereqTech='TECH_ELECTRONICS'  WHERE PrereqTech='TECH_BALLISTICS';	UPDATE Buildings SET PrereqTech='TECH_ELECTRONICS'  WHERE PrereqTech='TECH_BALLISTICS';	UPDATE Projects SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';	UPDATE Processes SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';	UPDATE Traits SET PrereqTech='TECH_ELECTRONICS'  WHERE PrereqTech='TECH_BALLISTICS';	UPDATE Policies SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';	UPDATE UnitPromotions SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';	UPDATE AICityStrategies SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';	UPDATE AIEconomicStrategies SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';	UPDATE AIMilitaryStrategies SET TechPrereq='TECH_ELECTRONICS'  WHERE TechPrereq='TECH_BALLISTICS';
 UPDATE Units SET PrereqTech='TECH_EDUCATION'  WHERE PrereqTech='TECH_ACOUSTICS';	UPDATE Builds SET PrereqTech='TECH_EDUCATION'  WHERE PrereqTech='TECH_ACOUSTICS';	UPDATE Buildings SET PrereqTech='TECH_EDUCATION'  WHERE PrereqTech='TECH_ACOUSTICS';	UPDATE Projects SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';	UPDATE Processes SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';	UPDATE Traits SET PrereqTech='TECH_EDUCATION'  WHERE PrereqTech='TECH_ACOUSTICS';	UPDATE Policies SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';	UPDATE UnitPromotions SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';	UPDATE AICityStrategies SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';	UPDATE AIEconomicStrategies SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';	UPDATE AIMilitaryStrategies SET TechPrereq='TECH_EDUCATION'  WHERE TechPrereq='TECH_ACOUSTICS';
 UPDATE Units SET PrereqTech='TECH_REFRIGERATION'  WHERE PrereqTech='TECH_PENICILIN';	UPDATE Builds SET PrereqTech='TECH_REFRIGERATION'  WHERE PrereqTech='TECH_PENICILIN';	UPDATE Buildings SET PrereqTech='TECH_REFRIGERATION'  WHERE PrereqTech='TECH_PENICILIN';	UPDATE Projects SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';	UPDATE Processes SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';	UPDATE Traits SET PrereqTech='TECH_REFRIGERATION'  WHERE PrereqTech='TECH_PENICILIN';	UPDATE Policies SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';	UPDATE UnitPromotions SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';	UPDATE AICityStrategies SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';	UPDATE AIEconomicStrategies SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';	UPDATE AIMilitaryStrategies SET TechPrereq='TECH_REFRIGERATION'  WHERE TechPrereq='TECH_PENICILIN';
@@ -51,4 +51,8 @@ UPDATE sqlite_sequence SET seq = (SELECT COUNT(ID) FROM Technologies)-1 WHERE na
 
 
 
+<<<<<<< HEAD:Cep/Gameplay/Research/CER_End.sql
 UPDATE LoadedFile SET Value=1 WHERE Type='CER_End.sql';
+=======
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_R_End.sql';
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Research/CEP_R_End.sql

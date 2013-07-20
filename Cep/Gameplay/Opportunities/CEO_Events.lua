@@ -3,7 +3,7 @@
 --------------------------------------------------------------
 
 include("Trigger.lua")
-include("CiVUP_Core.lua")
+include("ModTools.lua")
 include("FLuaVector")
 
 local log = Events.LuaLogger:New()

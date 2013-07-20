@@ -13,8 +13,8 @@
 			<Set GridX="2"
 				 GridY="1"
 				 PortraitIndex="0"
-				 IconAtlas="GEM_POLICY_ATLAS"
-				 IconAtlasAchieved="GEM_POLICY_ATLAS_ACTIVE"
+				 IconAtlas="CEP_POLICY_ATLAS"
+				 IconAtlasAchieved="CEP_POLICY_ATLAS_ACTIVE"
 				 BuildingGoldMaintenanceMod="0"
 				 />
 		</Update>

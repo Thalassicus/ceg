@@ -13,4 +13,4 @@ WHERE (building.BuildingClass = class.Type AND (
 )));
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEAI__Start.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_AI__Start.sql';

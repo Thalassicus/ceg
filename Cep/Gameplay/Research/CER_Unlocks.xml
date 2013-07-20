@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
-GER_Unlocks.xml from:
-TechUnlocks tab of GEM_Info_PoliciesTechsOther.xls (in mod folder).
+CEP_R_Unlocks.xml from:
+TechUnlocks tab of CEP_PoliciesTechsBeliefs.xls (in mod folder).
 -->
 <GameData>		
 	<Resources>		

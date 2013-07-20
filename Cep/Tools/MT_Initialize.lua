@@ -13,12 +13,21 @@ for row in GameInfo.LoadedFile() do
 	end
 end
 
+<<<<<<< HEAD
 --if not MapModData.Cep.MT_Initialized then
 	MapModData.Cep.MT_Initialized = true
 	--print("MapModData.Cep.MT_Initialized")
 
 	LuaEvents.MT_Initialize()
 	Game.CepLoadGame()
+=======
+--if not MapModData.CEP.MT_Initialized then
+	MapModData.CEP.MT_Initialized = true
+	--print("MapModData.CEP.MT_Initialized")
+
+	LuaEvents.MT_Initialize()
+	Game.CEPLoadGame()
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 	
 	Events.ActivePlayerTurnStart			.Add(OnTurnStart)
 	Events.ActivePlayerTurnEnd				.Add(OnTurnEnd)
@@ -47,5 +56,9 @@ end
 	Events.SerialEventImprovementCreated	.Add(OnPlotChanged)
 	Events.SerialEventRoadCreated			.Add(OnPlotChanged)
 
+<<<<<<< HEAD
 	Events.LoadScreenClose					.Add(function() MapModData.Cep.Initialized = true end)
+=======
+	Events.LoadScreenClose					.Add(function() MapModData.CEP.Initialized = true end)
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 --end

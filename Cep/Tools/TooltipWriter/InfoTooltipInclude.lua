@@ -38,7 +38,11 @@ function GetHelpTextForUnit(unitID, bIncludeRequirementsInfo)
 	
 	-- Value
 	textBody = textBody .. "[NEWLINE]----------------"		
+<<<<<<< HEAD
 	if Cep.SHOW_GOOD_FOR_UNITS == 1 then
+=======
+	if CEP.SHOW_GOOD_FOR_UNITS == 1 then
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 		textBody = textBody .. Game.GetFlavors("Unit_Flavors", "UnitType", unitInfo.Type)
 	end
 	
@@ -137,7 +141,11 @@ function GetHelpTextForUnit(unitID, bIncludeRequirementsInfo)
 	-- Cost
 	local cost = activePlayer:GetUnitProductionNeeded(unitID)
 	if unitID == GameInfo.Units.UNIT_SETTLER.ID then
+<<<<<<< HEAD
 		cost = Game.Round(cost * Cep.UNIT_SETTLER_BASE_COST / 105, -1)
+=======
+		cost = Game.Round(cost * CEP.UNIT_SETTLER_BASE_COST / 105, -1)
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 	end
 	textBody = textBody .. "[NEWLINE]" .. Locale.ConvertTextKey("TXT_KEY_PRODUCTION_COST", cost)
 	
@@ -230,6 +238,7 @@ end
 
 -- BUILDING
 function GetHelpTextForBuilding(iBuildingID, bExcludeName, bExcludeHeader, bNoMaintenance, pCity)
+<<<<<<< HEAD
 	local pBuildingInfo = GameInfo.Buildings[iBuildingID]
 	 
 	local activePlayer = Players[Game.GetActivePlayer()]
@@ -247,6 +256,81 @@ function GetHelpTextForBuilding(iBuildingID, bExcludeName, bExcludeHeader, bNoMa
 			-- Name
 			textBody = textBody .. Locale.ToUpper(Locale.ConvertTextKey( pBuildingInfo.Description ))
 			textBody = textBody .. "[NEWLINE]----------------[NEWLINE]"
+=======
+	return GetBuildingTip{buildingID=iBuildingID, hideName=(bExcludeName or bExcludeHeader), hideCosts=bExcludeHeader, buildingCity=pCity}
+end
+
+function GetBuildingTip(param)
+	-- Optional parameters: buildingCity, hideName, hideGoodFor, hideAbilities, hideCosts, hideFoot
+	
+	if Game == nil then
+		print("GetHelpTextForBuilding: Game does not exist")
+		return ""
+	end
+	if not Game.InitializedFields then
+		return ""
+	end
+	if not param.buildingID	 then
+		log:Fatal("GetHelpTextForBuilding: buildingID is nil")
+	end
+	
+	local buildingID	= param.buildingID	
+	local buildingInfo	= GameInfo.Buildings[buildingID]
+	local textList		= {}
+	local textBody		= ""
+	local textFoot		= ""
+	local city			= param.buildingCity
+	local showName		= not param.hideName
+	local showGood		= not param.hideGoodFor
+	local showAbil		= not param.hideAbilities
+	local showCost		= not param.hideCosts
+	local showFoot		= not param.hideCosts
+	local showSection	= {	
+		[0] = showName,
+		[1] = showAbil,
+		[2] = showAbil,
+		[3] = showAbil,
+		[4] = showAbil,
+		[5] = showCost
+	}
+	
+	if CEP.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood and not showName and not showAbil and not showCost then
+		return string.gsub(Game.GetFlavors("Building_Flavors", "BuildingType", buildingInfo.Type, 1, true), "^%[NEWLINE%]", "")
+	end
+
+	if Game.Fields.Buildings[buildingID] == nil then
+		log:Warn("GetHelpTextForBuilding: field data is nil for %s!", buildingInfo.Type)
+		return ""
+	elseif Game.Fields.Buildings[buildingID] == {} then
+		log:Warn("GetHelpTextForBuilding: field data is empty table for %s!", buildingInfo.Type)
+		return ""
+	end
+	
+	if showFoot and buildingInfo.AlwaysShowHelp and buildingInfo.Help and buildingInfo.Help ~= "" then
+		textFoot = Locale.ConvertTextKey(buildingInfo.Help)
+	end
+	
+	-- main loop
+	for _, field in pairs(Game.Fields.Buildings[buildingID]) do		
+		if field.Dynamic then
+			for _, subField in pairs(field.Value(buildingID, field.Type, field.Section, field.Priority, field.Value, city)) do
+				if subField.Section and subField.Priority and subField.TextBody then
+					if showSection[subField.Section] then
+						table.insert(textList, {Section=subField.Section, Priority=subField.Priority, TextBody=subField.TextBody, TextFoot=subField.TextFoot})
+					end
+				else
+					log:Error("GetHelpTextForBuilding %s Field %s SubField %s section=%s priority=%s textBody=%s", buildingInfo.Type, field.Type, subField.Type, subField.Section, subField.Priority, subField.TextBody)
+				end
+			end
+		elseif type(field.TextBody) == "string" then
+			if field.Section and field.Priority and field.TextBody then
+				if showSection[field.Section] then
+					table.insert(textList, {Section=field.Section, Priority=field.Priority, TextBody=field.TextBody, TextFoot=field.TextFoot})
+				end
+			else
+				log:Error("GetHelpTextForBuilding %s Field %s section=%s priority=%s textBody=%s", buildingInfo.Type, field.Type, field.Section, field.Priority, field.TextBody)				
+			end
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 		end
 		
 		-- Cost
@@ -255,6 +339,7 @@ function GetHelpTextForBuilding(iBuildingID, bExcludeName, bExcludeHeader, bNoMa
 			local iCost = activePlayer:GetBuildingProductionNeeded(iBuildingID)
 			table.insert(lines, Locale.ConvertTextKey("TXT_KEY_PRODUCTION_COST", iCost))
 		end
+<<<<<<< HEAD
 		
 		if(pBuildingInfo.UnlockedByLeague and Game.GetNumActiveLeagues() > 0) then
 			local pLeague = Game.GetActiveLeague()
@@ -263,6 +348,28 @@ function GetHelpTextForBuilding(iBuildingID, bExcludeName, bExcludeHeader, bNoMa
 				local sCostPerPlayer = Locale.ConvertTextKey("TXT_KEY_PEDIA_COST_LABEL")
 				sCostPerPlayer = sCostPerPlayer .. " " .. Locale.ConvertTextKey("TXT_KEY_LEAGUE_PROJECT_COST_PER_PLAYER", iCostPerPlayer)
 				table.insert(lines, sCostPerPlayer)
+=======
+		return a.TextBody < b.TextBody
+	end)
+	
+	local section = 0
+	for _, field in ipairs(textList) do
+		if section < 1 and field.Section >= 1 then			
+			-- flavor section
+			if showName then
+				textBody = textBody .. "[NEWLINE]----------------"
+			end
+			if CEP.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood then
+				local textFlavors = Game.GetFlavors("Building_Flavors", "BuildingType", buildingInfo.Type)
+				if textFlavors ~= "" then
+					textBody = textBody .. textFlavors .. "[NEWLINE]"
+				end
+			end
+			
+			-- ability section
+			if (showName or showGood) and showAbil then
+				textBody = string.format("%s[NEWLINE]%s", textBody, Locale.ConvertTextKey("TXT_KEY_TOOLTIP_ABILITIES"))
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 			end
 		end
 		
@@ -395,6 +502,14 @@ function GetHelpTextForBuilding(iBuildingID, bExcludeName, bExcludeHeader, bNoMa
 		if (iNumPoints > 0) then
 			table.insert(lines, "[ICON_GREAT_PEOPLE] " .. Locale.ConvertTextKey(GameInfo.Specialists[specialistType].GreatPeopleTitle) .. " " .. iNumPoints) 
 		
+<<<<<<< HEAD
+=======
+		if field.TextBody then
+			textBody = textBody .. "[NEWLINE]" .. field.TextBody
+			if field.Type == "Name" and buildingInfo.BuildingClass == "BUILDINGCLASS_PALACE" and GameDefines.CEP_VERSION and GameDefines.CEP_VERSION > 0 then
+				field.TextBody = field.TextBody .. " - " .. Locale.ConvertTextKey("TXT_KEY_CEP_VERSION", GameDefines.CEP_VERSION)
+			end
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 		end
 		
 		if(pBuildingInfo.SpecialistCount > 0) then
@@ -634,6 +749,7 @@ function GetProductionTooltip(pCity)
 		--Controls.ProductionButton:SetToolTipString(Locale.ConvertTextKey("TXT_KEY_CITYVIEW_CHANGE_PROD"))
 	end
 	
+<<<<<<< HEAD
 	return strProductionHelp .. strProductionBreakdown
 end
 
@@ -660,6 +776,52 @@ function GetCultureTooltip(pCity)
 				bFirst = false
 			else
 				strCultureToolTip = strCultureToolTip .. "[NEWLINE]"
+=======
+	--print(string.format("%3s ms for %s GetYieldTooltip City_GetBaseYieldFromProcesses", math.floor((os.clock() - timeStart) * 1000), yieldInfo.Type))
+	--timeStart = os.clock()
+	
+	-- Base Yield from Misc
+	local iYieldFromMisc = Game.Round(City_GetBaseYieldFromMisc(city, yieldID))
+	if (iYieldFromMisc ~= 0) and (yieldID ~= YieldTypes.YIELD_SCIENCE) then
+		strTooltip = strTooltip .. "[ICON_BULLET]" .. Locale.ConvertTextKey("TXT_KEY_YIELD_FROM_MISC", iYieldFromMisc, strIconString)
+		strTooltip = strTooltip .. "[NEWLINE]"
+	end
+	
+	--print(string.format("%3s ms for %s GetYieldTooltip City_GetBaseYieldFromMisc", math.floor((os.clock() - timeStart) * 1000), yieldInfo.Type))
+	--timeStart = os.clock()
+	
+	-- Base Yield from Citystates
+	local cityYieldFromMinorCivs	= City_GetBaseYieldFromMinorCivs(city, yieldID)
+	if cityYieldFromMinorCivs ~= 0 then
+		strTooltip = strTooltip .. "[ICON_BULLET]" .. Locale.ConvertTextKey("TXT_KEY_YIELD_FROM_MINOR_CIVS", Game.Round(cityYieldFromMinorCivs, 1), strIconString) .. "[NEWLINE]"
+	end
+	
+	--print(string.format("%3s ms for %s GetYieldTooltip City_GetBaseYieldFromMinorCivs", math.floor((os.clock() - timeStart) * 1000), yieldInfo.Type))
+	--timeStart = os.clock()
+	
+	--print(string.format("%3s ms for %s GetYieldTooltip BASE_YIELDS", math.floor((os.clock() - timeStart) * 1000), yieldInfo.Type))
+	--timeStart = os.clock()
+	
+	if CEP.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
+		local playerMinorCivYield	= player:GetYieldsFromCitystates()[yieldID]
+		if playerMinorCivYield > 0 then
+			local cityWeight		= City_GetWeight(city, yieldID)
+			local playerWeight		= player:GetTotalWeight(yieldID)
+			for weight in GameInfo.CityWeights() do
+				if weight.IsCityStatus == true and city[weight.Type](city) then
+					local result = city[weight.Type](city)
+					if type(result) == "number" then
+						if weight.Type == "GetPopulation" then
+							result = weight.Value * result
+						else
+							result = 100 * weight.Value * result
+						end
+					else
+						result = 100 * weight.Value
+					end
+					strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey(weight.Description, Game.Round(result)) .. "[NEWLINE]"
+				end
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 			end
 			
 			strCultureToolTip = strCultureToolTip .. "[ICON_BULLET]" .. Locale.ConvertTextKey("TXT_KEY_CULTURE_FROM_BUILDINGS", iCultureFromBuildings)
@@ -689,6 +851,7 @@ function GetCultureTooltip(pCity)
 			else
 				strCultureToolTip = strCultureToolTip .. "[NEWLINE]"
 			end
+<<<<<<< HEAD
 			
 			strCultureToolTip = strCultureToolTip .. "[ICON_BULLET]" .. Locale.ConvertTextKey("TXT_KEY_CULTURE_FROM_SPECIALISTS", iCultureFromSpecialists)
 		end
@@ -716,6 +879,14 @@ function GetCultureTooltip(pCity)
 				bFirst = false
 			else
 				strCultureToolTip = strCultureToolTip .. "[NEWLINE]"
+=======
+			if yieldID == YieldTypes.YIELD_FOOD and city:IsForcedAvoidGrowth() then
+				weight = Game.Round(player:GetAvoidModifier() * 100)
+				strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID", weight) .. "[NEWLINE]"
+				if weight > 0 then
+					strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID_MANY", CEP.AVOID_GROWTH_FULL_EFFECT_CUTOFF) .. "[NEWLINE]"
+				end
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 			end
 			
 			strCultureToolTip = strCultureToolTip .. "[ICON_BULLET]" .. Locale.ConvertTextKey("TXT_KEY_CULTURE_FROM_RELIGION", iCultureFromReligion)

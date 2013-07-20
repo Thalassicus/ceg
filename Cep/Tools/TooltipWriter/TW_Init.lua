@@ -551,15 +551,15 @@ end
 --print(string.format("%3s ms loading InfoTooltipInclude.lua building field functions", Game.Round(os.clock() - buildingFieldStartTime, 8)))
 local buildingFieldStartTime = os.clock()
 
-civup_BuildingInfo = nil
-civup_BuildingClassInfo = nil
+CEP_BuildingInfo = nil
+CEP_BuildingClassInfo = nil
 if not Game.InitializedFields then
 	Game.InitializedFields = true
 	Game.Fields.Buildings = {}
 	for buildingInfo in GameInfo.Buildings() do
 		local buildingID = buildingInfo.ID
-		civup_BuildingInfo = buildingInfo
-		civup_BuildingClassInfo = GameInfo.BuildingClasses[buildingInfo.BuildingClass]
+		CEP_BuildingInfo = buildingInfo
+		CEP_BuildingClassInfo = GameInfo.BuildingClasses[buildingInfo.BuildingClass]
 		Game.Fields.Buildings[buildingID] = {}
 		for row in GameInfo.BuildingFields() do
 			if row.Value then
@@ -578,7 +578,7 @@ if not Game.InitializedFields then
 					end
 				end
 			else
-				log:Error("civup_BuildingInfo %s value is nil!", row.Type)
+				log:Error("CEP_BuildingInfo %s value is nil!", row.Type)
 			end
 		end
 	end

@@ -9691,8 +9691,147 @@ function AssignStartingPlots:PlaceStrategicAndBonusResources()
 	--
 	-- Order of placement matters, so changing the order may affect a later dependency.
 	
+<<<<<<< HEAD
 	-- Adjust amounts, if applicable, based on Resource Setting.
 	local uran_amt, horse_amt, oil_amt, iron_amt, coal_amt, alum_amt = self:GetMajorStrategicResourceQuantityValues()
+=======
+	-- Pass 2: Plot Weight Averages
+	local randVariance = 100
+	for x = 0, iW - 1 do
+		for y = 0, iH - 1 do
+			local plot			= Map.GetPlot(x, y)
+			local plotID		= y * iW + x + 1
+			local terrainType	= plot:GetTerrainType()
+			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, CEP.RESOURCE_PLOT_BLUR_DISTANCE)) do
+				local adjX			= adjPlot:GetX()
+				local adjY			= adjPlot:GetY()
+				local distance		= Map.PlotDistance(x, y, adjX, adjY)
+				local adjPlotID		= adjY * iW + adjX + 1
+				local adjPlotType	= adjPlot:GetPlotType()
+				for _, resID in pairs(resIDs) do
+					local adjWeight = self.plotResInfo[resID][adjPlotID].weight
+					if (adjPlotType == PlotTypes.PLOT_LAND 
+						or adjPlotType == PlotTypes.PLOT_HILLS
+						or (resID ~= self.oil_ID and self.plotResInfo[resID][adjPlotID].weight ~= 1)
+						)then
+						self.plotResInfo[resID][plotID].weightAvg = self.plotResInfo[resID][plotID].weightAvg + adjWeight / (distance + 1)
+						self.plotResInfo[resID][plotID].numPlots = self.plotResInfo[resID][plotID].numPlots + 1 / (distance + 1)
+					end
+					--
+					if resID == self.oil_ID and plot:GetTerrainType() == TerrainTypes.TERRAIN_COAST and not plot:IsLake() then
+						if adjPlotType ~= PlotTypes.PLOT_OCEAN then
+							-- Sea oil favors terrain where land oil avoids
+							if adjWeight == 0 then
+								adjWeight = 0.1
+							end
+							adjWeight = 1 / adjWeight
+						end
+						self.plotResInfo[resID][plotID].weightAvg = self.plotResInfo[resID][plotID].weightAvg + adjWeight / (distance + 1)
+						self.plotResInfo[resID][plotID].numPlots = self.plotResInfo[resID][plotID].numPlots + 1 / (distance + 1)
+					end
+				end
+			end
+			for _, resID in pairs(resIDs) do
+				if self.plotResInfo[resID][plotID].numPlots == 0 then
+					self.plotResInfo[resID][plotID].numPlots = 1
+				end
+				local rand = 0.01 * Map.Rand(randVariance, "AssignStartingPlots:PlaceStrategicAndBonusResources()") / randVariance
+				self.plotResInfo[resID][plotID].weightAvg = rand + self.plotResInfo[resID][plotID].weightAvg / self.plotResInfo[resID][plotID].numPlots --* self.plotResInfo[resID][plotID].weight 
+			end
+			local testNum = 0--math.min(120, math.floor(self.plotResInfo[self.oil_ID][plotID].weightAvg * 10))
+			if testNum >= 1 then
+				self:PlaceSpecificNumberOfResources(self.iron_ID, testNum, 1, 1, -1, 0, 0, {plotID})
+			end
+		end
+	end
+end
+------------------------------------------------------------------------------
+function AssignStartingPlots:GetRegionStrategicPlotList(regionInfo)
+	local iW, iH	= Map.GetGridSize()
+	local plotList	= {}
+	local iWestX	= regionInfo[1]
+	local iSouthY	= regionInfo[2]
+	local iWidth	= regionInfo[3]
+	local iHeight	= regionInfo[4]
+	local resIDs	= Game.GetResourceIDsOfUsage(ResourceUsageTypes.RESOURCEUSAGE_STRATEGIC)
+	
+	for _, resID in pairs(resIDs) do
+		plotList[resID] = {}
+	end
+	
+	for region_loop_y = 0, iHeight - 1 do
+		for region_loop_x = 0, iWidth - 1 do
+			local x				= (region_loop_x + iWestX) % iW
+			local y				= (region_loop_y + iSouthY) % iH
+			local plotID		= y * iW + x + 1
+			local plot			= Map.GetPlot(x, y)
+			local plotType		= plot:GetPlotType()
+			local featureType	= plot:GetFeatureType()
+			for _, resID in pairs(resIDs) do
+				if self.plotResInfo[resID][plotID].weightAvg > 0 then
+					if plotType == PlotTypes.PLOT_HILLS or plotType == PlotTypes.PLOT_LAND then
+						if plotType == PlotTypes.PLOT_LAND and (resID == self.aluminum_ID or resID == self.coal_ID) then
+							self.plotResInfo[resID][plotID].weightAvg = self.plotResInfo[resID][plotID].weightAvg * 0.1
+						end
+						if featureType == FeatureTypes.NO_FEATURE then
+							table.insert(plotList[resID], plotID)
+						else
+							local feature = GameInfo.Features[featureType]
+							if not (feature.Impassable or feature.NoImprovement or feature.NaturalWonder) then
+								table.insert(plotList[resID], plotID)
+							end
+						end
+					elseif resID == self.oil_ID and plot:GetTerrainType() == TerrainTypes.TERRAIN_COAST and plot:IsAdjacentToLand() and plot:GetFeatureType() == FeatureTypes.NO_FEATURE and not plot:IsLake() then
+						table.insert(plotList[resID], plotID)
+					end
+				end
+			end
+		end
+	end
+	return plotList
+end
+------------------------------------------------------------------------------
+function AssignStartingPlots:PlaceStrategicResourceInPlots(plotList, resID, resRemaining, maxDepositSize)
+	local iW, iH = Map.GetGridSize()
+	local depositSize = math.min(resRemaining, 1 + Map.Rand(maxDepositSize, "Strategic Resource Placement"))
+	for _, plotID in ipairs(plotList) do
+		local x = (plotID - 1) % iW;
+		local y = (plotID - x - 1) / iW;
+		local plot = Map.GetPlot(x, y)
+		if plot:GetResourceType(-1) == -1 then
+			--log:Debug("  placed %s", depositSize)
+			plot:SetResourceType(resID, depositSize);
+			self.amounts_of_resources_placed[resID + 1] = self.amounts_of_resources_placed[resID + 1] + depositSize;
+			resRemaining = resRemaining - depositSize;
+			
+			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, CEP.RESOURCE_PLOT_BLUR_DISTANCE)) do
+				local adjX		= adjPlot:GetX()
+				local adjY		= adjPlot:GetY()
+				local distance	= Map.PlotDistance(x, y, adjX, adjY)
+				local adjPlotID	= adjY * iW + adjX + 1
+				self.plotResInfo[resID][adjPlotID].weightAvg = self.plotResInfo[resID][adjPlotID].weightAvg * (1 - 1/(distance/depositSize * (1+Map.Rand(maxDepositSize, "Strategic Resource Placement"))))
+			end
+			
+			break
+		end
+	end
+	return resRemaining
+end
+------------------------------------------------------------------------------
+function AssignStartingPlots:GetResourceQuantities(resIDs)
+	local resNum			= {}
+	local resLower			= CEP.STRATEGIC_RESOURCE_LOWER_BOUND
+	local resUpper			= CEP.STRATEGIC_RESOURCE_UPPER_BOUND
+	local maxDepositSize	= 1
+	local stratMultiplier	= 1
+	local resGroups			= {}
+	
+	if self.resource_setting == 1 then
+		stratMultiplier = 0.66667
+	elseif self.resource_setting == 3 then
+		stratMultiplier = 1.66667
+	end
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 
 	-- Adjust appearance rate per Resource Setting chosen by user.
 	local bonus_multiplier = 1;

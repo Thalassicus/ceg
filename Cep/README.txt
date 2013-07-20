@@ -14,7 +14,7 @@ Credits:		http://communitas.wikia.com/wiki/Credits
 The project has two versions:
 
 Communitas Lite - maximum compatability, reliability, and simplicity.
-Communitas - adds new modding tools to enhanced the game in advanced ways.
+Communitas - adds new modding tools to enhance the game in advanced ways.
 
 
 === Credits ===
@@ -26,7 +26,7 @@ Thalassicus
     Marketing.
     Anything else not credited earlier.
 	
-mystikx21 – Extensive help with documenation wiki and project code updates.
+mystikx21 ï¿½ Extensive help with documenation wiki and project code updates.
 Seek - Assisted in keeping online website documentation up to date for years.
 rf900 - Helped learn how to do core mods.
 
@@ -41,7 +41,7 @@ Wonder Art:
 Adam Watkins - Enhancements to the terrain hover tooltip.
 Albie_123 - Icon artwork for Levy.
 Alpaca
-	DiploCorner Addin” system.
+	DiploCorner Addinï¿½ system.
 	Finite research for great scientist lightbulb mission.
 	Miscellaneous utilities. 
 Aristos - Combat odds panel bugfix.
@@ -55,9 +55,9 @@ Delgar - Created several Opportunities.
 Delta187 - German translations.
 Dmitry - Russian translations.
 Erindir, XIenwolf and Kael - Flag promotions based on their work.
-ExpiredReign - Corrected some text mistakes.
+ExpiredReign - Extensive assistance implimenting Leader designs and other features.
+	Proofreading of text.
 Gedemon - Map Pins hotseat testing.
-Grant Pritchard - extensive assistance implimenting Leader designs and other features
 Kilandor - City Limits display of maximum city boundaries.
 Putmalk - Extra Diplomacy Text.
 Rich Marinaccio - PerfectWorld map script.

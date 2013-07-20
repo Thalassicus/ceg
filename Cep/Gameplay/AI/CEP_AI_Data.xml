@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
-	<Civup>
+	<CEP>
 		<Row Type="AI_PURCHASE_BUDGET_HIGH">
 			<Value>2.0</Value>
 		</Row>
@@ -13,7 +13,7 @@
 		<Row Type="AI_PURCHASE_FLAVOR_MAX_ATTEMPTS">
 			<Value>5</Value>
 		</Row>
-	</Civup>
+	</CEP>
 	<Resource_Flavors>
 		<Row>
 			<ResourceType>RESOURCE_HORSE</ResourceType>

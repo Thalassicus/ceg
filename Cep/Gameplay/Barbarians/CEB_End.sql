@@ -4,7 +4,7 @@ UPDATE Worlds SET FogTilesPerBarbarianCamp = FogTilesPerBarbarianCamp * 0.25;
 
 /*
 This GEB_End.sql data automatically created by:
-Barbarians tab of GEM_AI_and_Leaders.xls spreadsheet (in mod folder).
+Barbarians tab of CEP_AI_and_Leaders.xls spreadsheet (in mod folder).
 */
 UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn = 100, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_SETTLER';
 UPDATE HandicapInfos SET EarliestBarbarianReleaseTurn =  75, BarbCampGold = 50, BarbSpawnMod =   0, AIBarbarianBonus =  20, BarbarianLandTargetRange =   5, BarbarianSeaTargetRange =  10 WHERE Type = 'HANDICAP_CHIEFTAIN';

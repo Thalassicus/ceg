@@ -177,12 +177,12 @@ DELETE FROM Technology_Flavors_Human;
 
 -- Sum flavors for each FlavorType	
 	/**/
-	DROP TABLE IF EXISTS GEM_Collisions;
-	CREATE TABLE GEM_Collisions(TechType text, FlavorType text, Flavor integer);
-	INSERT INTO GEM_Collisions (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, SUM(Flavor) FROM Technology_Flavors GROUP BY TechType, FlavorType;
+	DROP TABLE IF EXISTS CEP_Collisions;
+	CREATE TABLE CEP_Collisions(TechType text, FlavorType text, Flavor integer);
+	INSERT INTO CEP_Collisions (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, SUM(Flavor) FROM Technology_Flavors GROUP BY TechType, FlavorType;
 	DELETE FROM Technology_Flavors;
-	INSERT INTO Technology_Flavors (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, Flavor FROM GEM_Collisions;
-	DROP TABLE GEM_Collisions;
+	INSERT INTO Technology_Flavors (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, Flavor FROM CEP_Collisions;
+	DROP TABLE CEP_Collisions;
 	
 	
 
@@ -258,52 +258,53 @@ DELETE FROM Technology_Flavors_Human;
 		- Pottery gets 8 naval flavor (Level 1 parent 16/2=8)
 	*/
 	/**/
-	DROP TABLE IF EXISTS GEM_TechFlavorRipples;
-	CREATE TABLE GEM_TechFlavorRipples(Descendent text, TechType text, FlavorType text, Flavor integer);
+	DROP TABLE IF EXISTS CEP_TechFlavorRipples;
+	CREATE TABLE CEP_TechFlavorRipples(Descendent text, TechType text, FlavorType text, Flavor integer);
 
 	-- Level 0 (descendent)
-	INSERT OR IGNORE INTO GEM_TechFlavorRipples (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, Flavor FROM Technology_Flavors_Human;
+	INSERT OR IGNORE INTO CEP_TechFlavorRipples (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, Flavor FROM Technology_Flavors_Human;
 
 	-- Level 1 (parents)
-	INSERT OR IGNORE INTO GEM_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
+	INSERT OR IGNORE INTO CEP_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
 	SELECT tech.TechType, techP1.PrereqTech, tech.FlavorType, tech.Flavor / 2.5
 	FROM Technology_Flavors_Human tech, Technology_PrereqTechs techP1
 	WHERE (tech.Flavor >= 2.5/2 AND tech.TechType = techP1.TechType);
 
 	-- Level 2 (grandparents)
-	INSERT OR IGNORE INTO GEM_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
+	INSERT OR IGNORE INTO CEP_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
 	SELECT tech.TechType, techP2.PrereqTech, tech.FlavorType, tech.Flavor / 6.25
 	FROM Technology_Flavors_Human tech, Technology_PrereqTechs techP1, Technology_PrereqTechs techP2
 	WHERE (tech.Flavor >= 6.25/2 AND tech.TechType = techP1.TechType AND techP1.PrereqTech = techP2.TechType);
 	
 	-- Level 3 (great-grandparents)
-	INSERT OR IGNORE INTO GEM_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
+	INSERT OR IGNORE INTO CEP_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
 	SELECT tech.TechType, techP3.PrereqTech, tech.FlavorType, tech.Flavor / 15.6
 	FROM Technology_Flavors_Human tech, Technology_PrereqTechs techP1, Technology_PrereqTechs techP2, Technology_PrereqTechs techP3
 	WHERE (tech.Flavor >= 15.6/2 AND tech.TechType = techP1.TechType AND techP1.PrereqTech = techP2.TechType AND techP2.PrereqTech = techP3.TechType);
 
 	-- Level 4 (great-great-grandparents)
-	INSERT OR IGNORE INTO GEM_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
+	INSERT OR IGNORE INTO CEP_TechFlavorRipples(Descendent, TechType, FlavorType, Flavor)
 	SELECT tech.TechType, techP4.PrereqTech, tech.FlavorType, tech.Flavor / 39.1
 	FROM Technology_Flavors_Human tech, Technology_PrereqTechs techP1, Technology_PrereqTechs techP2, Technology_PrereqTechs techP3, Technology_PrereqTechs techP4
 	WHERE (tech.Flavor >= 39.1/2 AND tech.TechType = techP1.TechType AND techP1.PrereqTech = techP2.TechType AND techP2.PrereqTech = techP3.TechType AND techP3.PrereqTech = techP4.TechType);
 	
 
 	-- Remove cases where a Tech leads to Descendent through multiple routes
-	DROP TABLE IF EXISTS GEM_Collisions;
-	CREATE TABLE GEM_Collisions(Descendent text, TechType text, FlavorType text, Flavor integer);
-	INSERT INTO GEM_Collisions (Descendent, TechType, FlavorType, Flavor) SELECT Descendent, TechType, FlavorType, MAX(Flavor) FROM GEM_TechFlavorRipples GROUP BY Descendent, TechType, FlavorType;
-	DROP TABLE GEM_TechFlavorRipples;
+	DROP TABLE IF EXISTS CEP_Collisions;
+	CREATE TABLE CEP_Collisions(Descendent text, TechType text, FlavorType text, Flavor integer);
+	INSERT INTO CEP_Collisions (Descendent, TechType, FlavorType, Flavor) SELECT Descendent, TechType, FlavorType, MAX(Flavor) FROM CEP_TechFlavorRipples GROUP BY Descendent, TechType, FlavorType;
+	DROP TABLE CEP_TechFlavorRipples;
 
 	-- Sum advance priorites
 	DELETE FROM Technology_Flavors_Human;
-	INSERT INTO Technology_Flavors_Human (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, SUM(Flavor) FROM GEM_Collisions GROUP BY TechType, FlavorType;
-	DROP TABLE GEM_Collisions;
+	INSERT INTO Technology_Flavors_Human (TechType, FlavorType, Flavor) SELECT TechType, FlavorType, SUM(Flavor) FROM CEP_Collisions GROUP BY TechType, FlavorType;
+	DROP TABLE CEP_Collisions;
 	/**/
 
 -- Round to nearest power of 2
 
 	DELETE FROM Technology_Flavors WHERE Flavor < 3;
+<<<<<<< HEAD
 	--UPDATE Technology_Flavors SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
@@ -328,8 +329,34 @@ DELETE FROM Technology_Flavors_Human;
 	UPDATE Technology_Flavors_Human SET Flavor = 256 WHERE (181.02 <= Flavor	AND	Flavor < 362.04	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
+=======
+	--UPDATE Technology_Flavors SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	--UPDATE Technology_Flavors SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	--UPDATE Technology_Flavors SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor =   8 WHERE (  5.66 <= Flavor	AND	Flavor < 11.32	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor =  16 WHERE ( 11.32 <= Flavor	AND	Flavor < 22.63	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor =  32 WHERE ( 22.63 <= Flavor	AND	Flavor < 45.26	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor =  64 WHERE ( 45.26 <= Flavor	AND	Flavor < 90.51	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor = 128 WHERE ( 90.51 <= Flavor	AND	Flavor < 181.02	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor = 256 WHERE (181.02 <= Flavor	AND	Flavor < 362.04	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
+
+	DELETE FROM Technology_Flavors_Human WHERE Flavor < 5.66 AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	--UPDATE Technology_Flavors_Human SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	--UPDATE Technology_Flavors_Human SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	--UPDATE Technology_Flavors_Human SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor =   8 WHERE (  5.66 <= Flavor	AND	Flavor < 11.32	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor =  16 WHERE ( 11.32 <= Flavor	AND	Flavor < 22.63	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor =  32 WHERE ( 22.63 <= Flavor	AND	Flavor < 45.26	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor =  64 WHERE ( 45.26 <= Flavor	AND	Flavor < 90.51	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor = 128 WHERE ( 90.51 <= Flavor	AND	Flavor < 181.02	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor = 256 WHERE (181.02 <= Flavor	AND	Flavor < 362.04	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 
 	--UPDATE Technology_Flavors_Human SET Flavor = POWER( ROUND(LOG(Flavor)/LOG(2)), 2 ) -- Sqlite does not have power or log functions?!
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEAI_zTechs.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_AI__End_Techs.sql';

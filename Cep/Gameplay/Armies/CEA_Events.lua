@@ -128,7 +128,11 @@ function CheckForMinorAIBonuses(unit)
 		plot = capital:Plot()
 	end
 	
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA_Events.lua
 	local maxRadius			= GameInfo.Units[unit:GetUnitType()].Moves + Cep.BARBARIAN_CREATION_SCAN_BASE_DISTANCE
+=======
+	local maxRadius			= GameInfo.Units[unit:GetUnitType()].Moves + CEP.BARBARIAN_CREATION_SCAN_BASE_DISTANCE
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A_Events.lua
 	local areaWeight		= Plot_GetAreaWeights(plot, 1, maxRadius)
 	local weights			= {}
 	weights.PLOT_HILLS		= areaWeight.PLOT_HILLS
@@ -215,7 +219,11 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	lostCityPop = lostCity:GetPopulation()
 
 	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA_Events.lua
 	local heldMinTime	= Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
+=======
+	local heldMinTime	= CEP.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A_Events.lua
 	local resistMaxTime	= math.max(1, math.min(heldTime, lostCityPop))
 	local resistTime	= (lostCityPop - 0.1*lostCityPop^1.5) * resistMod
 		  resistTime	= Game.Constrain(1, Game.Round(resistTime), resistMaxTime)
@@ -232,7 +240,11 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	--[[
 	log:Info("%s captured: heldMinTime=%s MinTurns=%s TrainPercent=%s turn=%s acquired=%s resistMaxTime=%s resistTime=%s",
 		heldMinTime,
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA_Events.lua
 		Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
+=======
+		CEP.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A_Events.lua
 		GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100,
 		Game.GetGameTurn(),
 		lostPlayer:GetTurnAcquired(lostCity),
@@ -293,7 +305,11 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 	local lostPlayer		= Players[lostPlayerID]
 	local minorTrait		= lostPlayer:GetMinorCivTrait()
 	local traitCaptureBonus	= 1 + wonPlayer:GetTraitInfo().MinorCivCaptureBonus / 100
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA_Events.lua
 	local captureBonusTurns	= Cep.MINOR_CIV_CAPTURE_BONUS_TURNS
+=======
+	local captureBonusTurns	= CEP.MINOR_CIV_CAPTURE_BONUS_TURNS
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A_Events.lua
 	
 	local captureBonusTurns = 0
 	for policyInfo in GameInfo.Policies("CitystateCaptureYieldTurns > 0") do
@@ -359,7 +375,11 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			newUnitID = GameInfo.Units.UNIT_SCOUT.ID
 		end
 		if GameInfo.Units[newUnitID].Domain ~= "DOMAIN_LAND" then
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA_Events.lua
 			xp = xp * Cep.MINOR_CIV_MILITARISTIC_XP_NONLAND_PENALTY
+=======
+			xp = xp * CEP.MINOR_CIV_MILITARISTIC_XP_NONLAND_PENALTY
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A_Events.lua
 		end
 		
 		for i=1, quantity do

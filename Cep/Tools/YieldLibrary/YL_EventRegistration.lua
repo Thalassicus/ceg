@@ -1,4 +1,4 @@
--- Civup - Event Registration
+-- CEP - Event Registration
 -- Author: Thalassicus
 -- DateCreated: 2/12/2011 9:42:55 AM
 --------------------------------------------------------------

@@ -75,4 +75,8 @@ WHERE BuildingClass IN (
 	'BUILDINGCLASS_STADIUM'
 );
 
+<<<<<<< HEAD:Cep/Gameplay/Cities/CEC__Start.sql
 UPDATE LoadedFile SET Value=1 WHERE Type='CEC_Start.sql';
+=======
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_C_Start.sql';
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Cities/CEP_C__Start.sql

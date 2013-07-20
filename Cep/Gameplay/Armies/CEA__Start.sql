@@ -70,9 +70,15 @@ WHERE UnitType IN (SELECT Type FROM Units WHERE Class IN (
 -- Unit Details
 --
 
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA__Start.sql
 -- This CEA_Start.sql data automatically created by:
 -- Units tab of CEP_ArmiesCities.xls spreadsheet (in mod folder).
 UPDATE Units SET Cost = Cost * 1.307, Combat = Combat * 1.1                                         WHERE Class = 'UNITCLASS_MECH';
+=======
+-- This CEP_A__Start.sql data automatically created by:
+-- Units tab of CEP_ArmiesCities.xls spreadsheet (in mod folder).
+UPDATE Units SET Cost = Cost * 1.307, Combat = Combat * 1.067                                       WHERE Class = 'UNITCLASS_MECH';
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A__Start.sql
 UPDATE Units SET Cost = Cost * 0.926,                          RangedCombat = RangedCombat * 1      WHERE Class = 'UNITCLASS_GUIDED_MISSILE';
 UPDATE Units SET Cost = Cost * 0.915,                          RangedCombat = RangedCombat * 0.824  WHERE Class = 'UNITCLASS_STEALTH_BOMBER';
 UPDATE Units SET Cost = Cost * 0.915,                          RangedCombat = RangedCombat * 0.933  WHERE Class = 'UNITCLASS_JET_FIGHTER';
@@ -298,8 +304,8 @@ WHERE BuildingClass IN (
 -- Other
 --
 
--- This GEA_Start.sql data automatically created by:
--- UnitFormulas tab of GEM_Details.xls spreadsheet in mod folder.
+-- This CEP_A__Start.sql data automatically created by:
+-- UnitFormulas tab of CEP_ArmiesCities.xls spreadsheet in mod folder.
 UPDATE Eras SET EmbarkedUnitDefense = 5 WHERE ID = 0;
 UPDATE Eras SET EmbarkedUnitDefense = 8 WHERE ID = 1;
 UPDATE Eras SET EmbarkedUnitDefense = 10 WHERE ID = 2;
@@ -311,4 +317,10 @@ UPDATE Eras SET EmbarkedUnitDefense = 35 WHERE ID = 7;
 
 
 
+<<<<<<< HEAD:Cep/Gameplay/Armies/CEA__Start.sql
 UPDATE LoadedFile SET Value=1 WHERE Type='CEA_Start.sql';
+=======
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_A__Start.sql';
+
+*/
+>>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A__Start.sql

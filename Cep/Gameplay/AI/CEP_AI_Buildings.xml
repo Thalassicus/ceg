@@ -54,7 +54,7 @@ Building_Priorities tab of CivVModding.xls spreadsheet (in mod folder).
 		<Delete BuildingType="BUILDING_STADIUM" />
 		<Delete BuildingType="BUILDING_STOCK_EXCHANGE" />
 		<Delete BuildingType="BUILDING_STONE_WORKS" />
-		<Delete BuildingType="BUILDING_GEM_PALACE" />
+		<Delete BuildingType="BUILDING_CEP_PALACE" />
 		<Delete BuildingType="BUILDING_TEMPLE" />
 		<Delete BuildingType="BUILDING_THEATRE" />
 		<Delete BuildingType="BUILDING_UNIVERSITY" />
@@ -629,17 +629,17 @@ Building_Priorities tab of CivVModding.xls spreadsheet (in mod folder).
 			<Flavor>8</Flavor>
 		</Row>
 		<Row>
-			<BuildingType>BUILDING_GEM_PALACE</BuildingType>
+			<BuildingType>BUILDING_CEP_PALACE</BuildingType>
 			<FlavorType>FLAVOR_EXPANSION</FlavorType>
 			<Flavor>16</Flavor>
 		</Row>
 		<Row>
-			<BuildingType>BUILDING_GEM_PALACE</BuildingType>
+			<BuildingType>BUILDING_CEP_PALACE</BuildingType>
 			<FlavorType>FLAVOR_HAPPINESS</FlavorType>
 			<Flavor>16</Flavor>
 		</Row>
 		<Row>
-			<BuildingType>BUILDING_GEM_PALACE</BuildingType>
+			<BuildingType>BUILDING_CEP_PALACE</BuildingType>
 			<FlavorType>FLAVOR_GROWTH</FlavorType>
 			<Flavor>16</Flavor>
 		</Row>
