@@ -242,16 +242,6 @@
 			<UnitFlagIconOffset>2</UnitFlagIconOffset>
 			<IconAtlas>EXPANSION_SCEN_UNIT_ATLAS</IconAtlas>
 			<PortraitIndex>2</PortraitIndex>
-<<<<<<< HEAD:Cep/Gameplay/Armies/CEA__New.xml
-=======
-			<!--
-			<UnitArtInfo>ART_DEF_UNIT_U_PERSIAN_IMMORTAL</UnitArtInfo>
-			<UnitFlagAtlas>VANGUARD_FLAG_ATLAS</UnitFlagAtlas>
-			<UnitFlagIconOffset>0</UnitFlagIconOffset>
-			<IconAtlas>CEP_NEW_UNITS_ATLAS</IconAtlas>
-			<PortraitIndex>0</PortraitIndex>
-			-->
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A__New.xml
 		</Row>
 		<Row>
 			<Class>UNITCLASS_LEVY</Class>
@@ -309,15 +299,6 @@
 			<UnitFlagIconOffset>38</UnitFlagIconOffset>
 			<IconAtlas>UNIT_ATLAS_1</IconAtlas>
 			<PortraitIndex>39</PortraitIndex>
-<<<<<<< HEAD:Cep/Gameplay/Armies/CEA__New.xml
-=======
-			<!--
-			<UnitFlagAtlas>VANGUARD_FLAG_ATLAS</UnitFlagAtlas>
-			<UnitFlagIconOffset>2</UnitFlagIconOffset>
-			<IconAtlas>CEP_NEW_UNITS_ATLAS</IconAtlas>
-			<PortraitIndex>1</PortraitIndex>
-			-->
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Armies/CEP_A__New.xml
 		</Row>
 		<Row>
 			<Class>UNITCLASS_CONSCRIPT</Class>

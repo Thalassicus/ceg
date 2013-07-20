@@ -51,8 +51,4 @@ UPDATE sqlite_sequence SET seq = (SELECT COUNT(ID) FROM Technologies)-1 WHERE na
 
 
 
-<<<<<<< HEAD:Cep/Gameplay/Research/CER_End.sql
 UPDATE LoadedFile SET Value=1 WHERE Type='CER_End.sql';
-=======
-UPDATE LoadedFile SET Value=1 WHERE Type='CEP_R_End.sql';
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Research/CEP_R_End.sql

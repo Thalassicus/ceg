@@ -304,7 +304,6 @@ DELETE FROM Technology_Flavors_Human;
 -- Round to nearest power of 2
 
 	DELETE FROM Technology_Flavors WHERE Flavor < 3;
-<<<<<<< HEAD
 	--UPDATE Technology_Flavors SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
@@ -329,32 +328,6 @@ DELETE FROM Technology_Flavors_Human;
 	UPDATE Technology_Flavors_Human SET Flavor = 256 WHERE (181.02 <= Flavor	AND	Flavor < 362.04	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
-=======
-	--UPDATE Technology_Flavors SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor =   8 WHERE (  5.66 <= Flavor	AND	Flavor < 11.32	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor =  16 WHERE ( 11.32 <= Flavor	AND	Flavor < 22.63	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor =  32 WHERE ( 22.63 <= Flavor	AND	Flavor < 45.26	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor =  64 WHERE ( 45.26 <= Flavor	AND	Flavor < 90.51	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor = 128 WHERE ( 90.51 <= Flavor	AND	Flavor < 181.02	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor = 256 WHERE (181.02 <= Flavor	AND	Flavor < 362.04	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
-
-	DELETE FROM Technology_Flavors_Human WHERE Flavor < 5.66 AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors_Human SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors_Human SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors_Human SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor =   8 WHERE (  5.66 <= Flavor	AND	Flavor < 11.32	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor =  16 WHERE ( 11.32 <= Flavor	AND	Flavor < 22.63	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor =  32 WHERE ( 22.63 <= Flavor	AND	Flavor < 45.26	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor =  64 WHERE ( 45.26 <= Flavor	AND	Flavor < 90.51	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor = 128 WHERE ( 90.51 <= Flavor	AND	Flavor < 181.02	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor = 256 WHERE (181.02 <= Flavor	AND	Flavor < 362.04	) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	UPDATE Technology_Flavors_Human SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM CEP WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b
 
 	--UPDATE Technology_Flavors_Human SET Flavor = POWER( ROUND(LOG(Flavor)/LOG(2)), 2 ) -- Sqlite does not have power or log functions?!
 

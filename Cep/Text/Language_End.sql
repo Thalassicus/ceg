@@ -98,8 +98,4 @@ AND (_local.Tag = _en.Tag AND _local.DateModified >= _en.DateModified);		--· Ov
 
 
 
-<<<<<<< HEAD
 UPDATE LoadedFile SET Value=1 WHERE Type='CEM_Language_End.sql';
-=======
-UPDATE LoadedFile SET Value=1 WHERE Type='Language_End.sql';
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b

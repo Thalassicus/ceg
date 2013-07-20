@@ -100,8 +100,4 @@ WHERE					building.BuildingClass = 'BUILDINGCLASS_MARKET'
 AND						res.Happiness > 0;
 
 
-<<<<<<< HEAD:Cep/Gameplay/Cities/CEC__End.sql
 UPDATE LoadedFile SET Value=1 WHERE Type='CEC_End.sql';
-=======
-UPDATE LoadedFile SET Value=1 WHERE Type='CEP_C_End.sql';
->>>>>>> 0dc0d6f95426d71b8eec1a4e9f3bb3c43177512b:Cep/Gameplay/Cities/CEP_C__End.sql

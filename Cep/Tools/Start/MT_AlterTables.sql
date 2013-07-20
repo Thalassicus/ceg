@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS Cep(Type text NOT NULL UNIQUE, Value);
 INSERT INTO Cep (Type, Value) VALUES ('SkipFile', 1);
 
 CREATE TABLE IF NOT EXISTS LoadedFile(Type text, Value);
-INSERT INTO LoadedFile(Type, Value) VALUES ('Cep_Misc.sql'			, 0);
-INSERT INTO LoadedFile(Type, Value) VALUES ('Cep_Promotions.sql'	, 0);
+INSERT INTO LoadedFile(Type, Value) VALUES ('MT_Misc.sql'			, 0);
+INSERT INTO LoadedFile(Type, Value) VALUES ('MT_Promotions.sql'		, 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('Cep_Options.sql'		, 0);
-INSERT INTO LoadedFile(Type, Value) VALUES ('Cep_AlterTables.sql'	, 0);
+INSERT INTO LoadedFile(Type, Value) VALUES ('MT_AlterTables.sql'	, 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('YL_General.xml'		, 0);
 
 CREATE TABLE IF NOT EXISTS Cep_Language_EN_US (DateModified integer, Tag text, Text text, Gender text, Plurality text);
