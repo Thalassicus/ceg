@@ -2,6 +2,8 @@
 
 UPDATE GameSpeeds SET InflationPercent = 0;
 
+DELETE FROM Building_DomainFreeExperiences;
+
 --
 -- Resources
 --

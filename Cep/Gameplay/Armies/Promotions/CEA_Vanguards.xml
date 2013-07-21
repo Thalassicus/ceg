@@ -115,7 +115,7 @@
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<OrderPriority>2</OrderPriority>
 			<VisibilityChange>1</VisibilityChange>
-			<OpenDefense>25</OpenDefense>
+			<OpenDefense>15</OpenDefense>
 			<PortraitIndex>0</PortraitIndex>
 			<IconAtlas>VANGUARD_PROMOTION_ATLAS</IconAtlas>
 			<PediaType>PEDIA_SCOUTING</PediaType>
@@ -128,9 +128,8 @@
 			<Help>TXT_KEY_PROMOTION_TRENCHES_2_HELP</Help>
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<PromotionPrereqOr1>PROMOTION_TRENCHES_1</PromotionPrereqOr1>
-			<MovesChange>1</MovesChange>
 			<OrderPriority>2</OrderPriority>
-			<OpenDefense>25</OpenDefense>
+			<OpenDefense>15</OpenDefense>
 			<PortraitIndex>1</PortraitIndex>
 			<IconAtlas>VANGUARD_PROMOTION_ATLAS</IconAtlas>
 			<PediaType>PEDIA_SCOUTING</PediaType>
@@ -143,8 +142,7 @@
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<PromotionPrereqOr1>PROMOTION_TRENCHES_2</PromotionPrereqOr1>
 			<OrderPriority>2</OrderPriority>
-			<VisibilityChange>1</VisibilityChange>
-			<OpenDefense>25</OpenDefense>
+			<OpenDefense>20</OpenDefense>
 			<PortraitIndex>2</PortraitIndex>
 			<IconAtlas>VANGUARD_PROMOTION_ATLAS</IconAtlas>
 			<PediaType>PEDIA_SCOUTING</PediaType>
@@ -157,7 +155,7 @@
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<OrderPriority>1</OrderPriority>
 			<VisibilityChange>1</VisibilityChange>
-			<RoughDefense>25</RoughDefense>
+			<RoughDefense>15</RoughDefense>
 			<PortraitIndex>4</PortraitIndex>
 			<IconAtlas>VANGUARD_PROMOTION_ATLAS</IconAtlas>
 			<PediaType>PEDIA_SCOUTING</PediaType>
@@ -169,9 +167,8 @@
 			<Help>TXT_KEY_PROMOTION_GUERRILLA_2_HELP</Help>
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<PromotionPrereqOr1>PROMOTION_GUERRILLA_1</PromotionPrereqOr1>
-			<MovesChange>1</MovesChange>
 			<OrderPriority>1</OrderPriority>
-			<RoughDefense>25</RoughDefense>
+			<RoughDefense>15</RoughDefense>
 			<PortraitIndex>5</PortraitIndex>
 			<IconAtlas>VANGUARD_PROMOTION_ATLAS</IconAtlas>
 			<PediaType>PEDIA_SCOUTING</PediaType>
@@ -184,8 +181,7 @@
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<PromotionPrereqOr1>PROMOTION_GUERRILLA_2</PromotionPrereqOr1>
 			<OrderPriority>1</OrderPriority>
-			<VisibilityChange>1</VisibilityChange>
-			<RoughDefense>25</RoughDefense>
+			<RoughDefense>20</RoughDefense>
 			<PortraitIndex>6</PortraitIndex>
 			<IconAtlas>VANGUARD_PROMOTION_ATLAS</IconAtlas>
 			<PediaType>PEDIA_SCOUTING</PediaType>

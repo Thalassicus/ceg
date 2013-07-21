@@ -232,6 +232,8 @@
 		<Row><PromotionType>PROMOTION_INTERCEPTION</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALRANGED</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_1</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALRANGED</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_2</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALRANGED</UnitCombatType></Row>
+		<Row><PromotionType>PROMOTION_NAVAL_RECON_1</PromotionType>	<UnitCombatType>UNITCOMBAT_SUBMARINE</UnitCombatType></Row>
+		<Row><PromotionType>PROMOTION_NAVAL_RECON_2</PromotionType>	<UnitCombatType>UNITCOMBAT_SUBMARINE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_1</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_2</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_TARGETING_1</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>

@@ -28,6 +28,10 @@
 			<Where Type="FEATURE_REEF" />
 			<Set NoImprovement="0" />
 		</Update>
+		<Update>
+			<Where Type="FEATURE_LAKE_VICTORIA" />
+			<Set AddsFreshWater="1" />
+		</Update>
 	</Features>
 	<Natural_Wonder_Placement>
 		<Update>

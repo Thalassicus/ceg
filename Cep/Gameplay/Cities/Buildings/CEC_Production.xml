@@ -14,6 +14,10 @@
 			<Set Experience="30" />
 		</Update>
 		<Update>
+			<Where BuildingClass="BUILDINGCLASS_BRANDENBURG_GATE" />
+			<Set Experience="30" />
+		</Update>
+		<Update>
 			<Where BuildingClass="BUILDINGCLASS_STONE_WORKS" />
 			<Set ProhibitedCityTerrain="NULL" 
 				 />

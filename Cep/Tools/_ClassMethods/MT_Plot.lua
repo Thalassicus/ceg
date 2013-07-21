@@ -236,7 +236,11 @@ function Plot_GetPlotsInCircle(plot, minR, maxR)
 		log:Fatal("plot:GetPlotsInCircle plot=nil")
 		return
 	end
-	maxR = maxR or minR
+	if not maxR then
+		maxR = minR
+		minR = 1
+	end
+	
 	local plotList	= {}
 	local iW, iH	= Map.GetGridSize()
 	local isWrapX	= Map:IsWrapX()
