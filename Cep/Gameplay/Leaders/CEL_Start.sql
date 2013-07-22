@@ -8,6 +8,7 @@ FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_AMERICA'		,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	'CIVILIZATION_MONGOLIA'		,
 	'CIVILIZATION_SHOSHONE'		,
 	'CIVILIZATION_SONGHAI'		,
@@ -19,6 +20,8 @@ SELECT 'UNITCLASS_TRIREME', 'UNITAI_EXPLORE_SEA', 1, Type
 =======
 =======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
+=======
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 	'CIVILIZATION_GERMANY'		,
 	'CIVILIZATION_MONGOLIA'		,
 	'CIVILIZATION_SHOSHONE' 
@@ -27,6 +30,9 @@ SELECT 'UNITCLASS_TRIREME', 'UNITAI_EXPLORE_SEA', 1, Type
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
 SELECT 'UNITCLASS_TRIREME', 'UNITAI_EXPLORE', 1, Type 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
+=======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 =======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
@@ -35,6 +41,7 @@ FROM Civilizations WHERE Type IN (
 );
 
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 SELECT 'UNITCLASS_ARCHER', 'UNITAI_EXPLORE', 1, Type 
@@ -60,6 +67,8 @@ FROM Civilizations WHERE Type IN (
 );
 
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
+=======
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 =======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 =======
@@ -92,8 +101,11 @@ FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_SWEDEN'		,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	'CIVILIZATION_VENICE'		
 =======
+=======
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 =======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 	'CIVILIZATION_VENICE'		,
@@ -136,6 +148,9 @@ SELECT 'UNITCLASS_GREAT_GENERAL', 'UNITAI_GENERAL', 1, Type
 FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_CHINA'
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
+=======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 =======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
