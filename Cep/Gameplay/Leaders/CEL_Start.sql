@@ -7,6 +7,7 @@ SELECT 'UNITCLASS_SCOUT', 'UNITAI_EXPLORE', 1, Type
 FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_AMERICA'		,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	'CIVILIZATION_MONGOLIA'		,
 	'CIVILIZATION_SHOSHONE'		,
 	'CIVILIZATION_SONGHAI'		,
@@ -16,6 +17,8 @@ FROM Civilizations WHERE Type IN (
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
 SELECT 'UNITCLASS_TRIREME', 'UNITAI_EXPLORE_SEA', 1, Type 
 =======
+=======
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 	'CIVILIZATION_GERMANY'		,
 	'CIVILIZATION_MONGOLIA'		,
 	'CIVILIZATION_SHOSHONE' 
@@ -23,12 +26,16 @@ SELECT 'UNITCLASS_TRIREME', 'UNITAI_EXPLORE_SEA', 1, Type
 
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
 SELECT 'UNITCLASS_TRIREME', 'UNITAI_EXPLORE', 1, Type 
+<<<<<<< HEAD
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
+=======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_CARTHAGE'
 );
 
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
+<<<<<<< HEAD
 <<<<<<< HEAD
 SELECT 'UNITCLASS_ARCHER', 'UNITAI_EXPLORE', 1, Type 
 FROM Civilizations WHERE Type IN (
@@ -53,6 +60,8 @@ FROM Civilizations WHERE Type IN (
 );
 
 INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, CivilizationType)
+=======
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 =======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 SELECT 'UNITCLASS_WARRIOR', 'UNITAI_EXPLORE', 1, Type 
@@ -82,8 +91,11 @@ FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_SPAIN'		,
 	'CIVILIZATION_SWEDEN'		,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	'CIVILIZATION_VENICE'		
 =======
+=======
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 	'CIVILIZATION_VENICE'		,
 	'CIVILIZATION_ZULU'
 );
@@ -123,6 +135,9 @@ INSERT INTO Civilization_FreeUnits (UnitClassType, UnitAIType, Count, Civilizati
 SELECT 'UNITCLASS_GREAT_GENERAL', 'UNITAI_GENERAL', 1, Type 
 FROM Civilizations WHERE Type IN (
 	'CIVILIZATION_CHINA'
+<<<<<<< HEAD
+>>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
+=======
 >>>>>>> 4d65e5d562dfb0b31d043e967924b966d9a53b8d
 );
 
