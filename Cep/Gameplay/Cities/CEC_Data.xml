@@ -16,7 +16,7 @@
 		<Update>
 			<Where Type="YIELD_GOLD" />
 			<Set MinCity="0"
-				 AIWeightPercent="100"
+				 AIWeightPercent="125"
 				 />
 		</Update>
 		<Update>
@@ -86,7 +86,7 @@
 	<Building_YieldChanges>
 		<Update>
 			<Where BuildingType="BUILDING_PALACE" YieldType="YIELD_GOLD"/>
-			<Set Yield="10"/>
+			<Set Yield="5"/>
 		</Update>
 		<Update>
 			<Where BuildingType="BUILDING_PALACE" YieldType="YIELD_CULTURE"/>

@@ -10063,14 +10063,12 @@ function AssignStartingPlots:PlaceResourcesAndCityStates()
 			featureTotals[featureType] = (featureTotals[featureType] or 0) + 1
 			freshwaterTotal = freshwaterTotal + (plot:IsFreshWater() and 1 or 0)
 			
+			if terrainType == TerrainTypes.TERRAIN_DESERT and plot:IsFreshWater() then
+				wetDesert = wetDesert + 1
+			end
+			
 			if plotType == PlotTypes.PLOT_HILLS or plotType == PlotTypes.PLOT_MOUNTAINS then
 				-- skip terrain, add only to plot
-			elseif terrainType == TerrainTypes.TERRAIN_DESERT and plot:IsFreshWater() then
-				if featureType == FeatureTypes.FEATURE_FLOOD_PLAINS then
-					wetDesert = wetDesert + 1
-				else
-					wetDesert = wetDesert + 0.5
-				end
 			else
 				terrainTotals[terrainType] = (terrainTotals[plot:GetTerrainType()] or 0) + 1
 			end

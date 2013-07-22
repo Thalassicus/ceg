@@ -191,7 +191,7 @@ LuaEvents.NewTech.Add(CreateWorkboats)
 
 function FloodplainCity(hexPos, playerID, cityID, newPlayerID)
 	local plot = Map.GetPlot(ToGridFromHex(hexPos.x, hexPos.y))
-	if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and plot:IsRiver() then
+	if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and not plot:IsHill() then
 		plot:SetFeatureType(FeatureTypes.FEATURE_FLOOD_PLAINS, -1)
 	end
 end

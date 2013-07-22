@@ -29,7 +29,7 @@
 				<AIDeclareWarProb>100</AIDeclareWarProb>
 				<AIWorkRateModifier>0</AIWorkRateModifier>
 				<AIUnhappinessPercent>100</AIUnhappinessPercent>
-				<AIGrowthPercent>100</AIGrowthPercent>
+				<AIGrowthPercent>125</AIGrowthPercent>
 				<AITrainPercent>100</AITrainPercent>
 				<AIWorldTrainPercent>100</AIWorldTrainPercent>
 				<AIConstructPercent>100</AIConstructPercent>
@@ -81,7 +81,7 @@
 				<AIDeclareWarProb>100</AIDeclareWarProb>
 				<AIWorkRateModifier>20</AIWorkRateModifier>
 				<AIUnhappinessPercent>100</AIUnhappinessPercent>
-				<AIGrowthPercent>100</AIGrowthPercent>
+				<AIGrowthPercent>125</AIGrowthPercent>
 				<AITrainPercent>100</AITrainPercent>
 				<AIWorldTrainPercent>100</AIWorldTrainPercent>
 				<AIConstructPercent>100</AIConstructPercent>
@@ -132,11 +132,11 @@
 				<AttitudeChange>-1</AttitudeChange>
 				<NoTechTradeModifier>40</NoTechTradeModifier>
 				<AIStartingDefenseUnits>0</AIStartingDefenseUnits>
-				<AIStartingWorkerUnits>0</AIStartingWorkerUnits>
+				<AIStartingWorkerUnits>1</AIStartingWorkerUnits>
 				<AIDeclareWarProb>100</AIDeclareWarProb>
 				<AIWorkRateModifier>50</AIWorkRateModifier>
 				<AIUnhappinessPercent>100</AIUnhappinessPercent>
-				<AIGrowthPercent>100</AIGrowthPercent>
+				<AIGrowthPercent>125</AIGrowthPercent>
 				<AITrainPercent>100</AITrainPercent>
 				<AIWorldTrainPercent>100</AIWorldTrainPercent>
 				<AIConstructPercent>100</AIConstructPercent>
@@ -187,12 +187,12 @@
 				<AttitudeChange>-1</AttitudeChange>
 				<NoTechTradeModifier>30</NoTechTradeModifier>
 				<AIStartingDefenseUnits>0</AIStartingDefenseUnits>
-				<AIStartingWorkerUnits>0</AIStartingWorkerUnits>
+				<AIStartingWorkerUnits>1</AIStartingWorkerUnits>
 				<AIStartingExploreUnits>0</AIStartingExploreUnits>
 				<AIDeclareWarProb>100</AIDeclareWarProb>
 				<AIWorkRateModifier>75</AIWorkRateModifier>
 				<AIUnhappinessPercent>100</AIUnhappinessPercent>
-				<AIGrowthPercent>100</AIGrowthPercent>
+				<AIGrowthPercent>125</AIGrowthPercent>
 				<AITrainPercent>100</AITrainPercent>
 				<AIWorldTrainPercent>100</AIWorldTrainPercent>
 				<AIConstructPercent>100</AIConstructPercent>
@@ -244,12 +244,12 @@
 				<NoTechTradeModifier>20</NoTechTradeModifier>
 				<AIStartingUnitMultiplier>1</AIStartingUnitMultiplier>
 				<AIStartingDefenseUnits>0</AIStartingDefenseUnits>
-				<AIStartingWorkerUnits>0</AIStartingWorkerUnits>
+				<AIStartingWorkerUnits>1</AIStartingWorkerUnits>
 				<AIStartingExploreUnits>0</AIStartingExploreUnits>
 				<AIDeclareWarProb>100</AIDeclareWarProb>
 				<AIWorkRateModifier>100</AIWorkRateModifier>
 				<AIUnhappinessPercent>100</AIUnhappinessPercent>
-				<AIGrowthPercent>100</AIGrowthPercent>
+				<AIGrowthPercent>125</AIGrowthPercent>
 				<AITrainPercent>100</AITrainPercent>
 				<AIWorldTrainPercent>100</AIWorldTrainPercent>
 				<AIConstructPercent>100</AIConstructPercent>
@@ -300,13 +300,13 @@
 				<AttitudeChange>-1</AttitudeChange>
 				<NoTechTradeModifier>10</NoTechTradeModifier>
 				<AIStartingUnitMultiplier>1</AIStartingUnitMultiplier>
-				<AIStartingDefenseUnits>0</AIStartingDefenseUnits>
-				<AIStartingWorkerUnits>0</AIStartingWorkerUnits>
-				<AIStartingExploreUnits>0</AIStartingExploreUnits>
+				<AIStartingDefenseUnits>1</AIStartingDefenseUnits>
+				<AIStartingWorkerUnits>2</AIStartingWorkerUnits>
+				<AIStartingExploreUnits>2</AIStartingExploreUnits>
 				<AIDeclareWarProb>100</AIDeclareWarProb>
 				<AIWorkRateModifier>150</AIWorkRateModifier>
 				<AIUnhappinessPercent>100</AIUnhappinessPercent>
-				<AIGrowthPercent>100</AIGrowthPercent>
+				<AIGrowthPercent>125</AIGrowthPercent>
 				<AITrainPercent>100</AITrainPercent>
 				<AIWorldTrainPercent>100</AIWorldTrainPercent>
 				<AIConstructPercent>100</AIConstructPercent>
@@ -348,7 +348,7 @@
 			<Help>TXT_KEY_AI_HAPPINESS_HELP</Help>
 			<StartingLocPercent>50</StartingLocPercent>
 			<AdvancedStartPointsMod>130</AdvancedStartPointsMod>
-			<HappinessDefault>4</HappinessDefault>
+			<HappinessDefault>17</HappinessDefault>
 			<ExtraHappinessPerLuxury>0</ExtraHappinessPerLuxury>
 			<NumCitiesUnhappinessMod>90</NumCitiesUnhappinessMod>
 			<PopulationUnhappinessMod>90</PopulationUnhappinessMod>
@@ -372,7 +372,7 @@
 			<TechTradeKnownModifier>-50</TechTradeKnownModifier>
 			<AIDeclareWarProb>75</AIDeclareWarProb>
 			<AIUnhappinessPercent>100</AIUnhappinessPercent>
-			<AIGrowthPercent>100</AIGrowthPercent>
+			<AIGrowthPercent>125</AIGrowthPercent>
 			<AITrainPercent>100</AITrainPercent>
 			<AIWorldTrainPercent>100</AIWorldTrainPercent>
 			<AIConstructPercent>100</AIConstructPercent>
