@@ -9,6 +9,11 @@ include("FLuaVector")
 local log = Events.LuaLogger:New()
 log:SetLevel("INFO")
 
+-- temporary
+function Plot_ChangeYield(plot, yieldID, yield)
+	Game.SetPlotExtraYield( plot:GetX(), plot:GetY(), yieldID, yield)
+end
+
 function TestOceanRifts()
 	if UI.IsLoadedGame() then
 		return
@@ -108,7 +113,6 @@ function UpdatePlotYields()
 				log:Debug("%s culture = %s", GameInfo.Features[featureID].Type, featureInfo.Yield)
 				Plot_SetYield(plot, YieldTypes.YIELD_CULTURE, featureInfo.Yield)
 			end
-			--]]
 			if featureID == GameInfo.Features.FEATURE_OASIS.ID then
 				local gold = 1
 				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1, 1)) do
@@ -118,6 +122,7 @@ function UpdatePlotYields()
 				end
 				Plot_ChangeYield(plot, YieldTypes.YIELD_GOLD, Game.Round(gold))
 			end
+			--]]
 		end
 
 		if Plot_IsFlatDesert(plot) then

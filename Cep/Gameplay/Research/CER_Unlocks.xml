@@ -6,7 +6,7 @@ TechUnlocks tab of CEP_PoliciesTechsBeliefs.xls (in mod folder).
 <GameData>		
 	<Resources>		
 		<Update><Where Type="RESOURCE_IRON"/>      <Set TechReveal="TECH_MINING"              TechCityTrade="TECH_MINING"/></Update>
-		<Update><Where Type="RESOURCE_COAL"/>      <Set TechReveal="TECH_METAL_CASTING"       TechCityTrade="TECH_STEAM_POWER"/></Update>
+		<Update><Where Type="RESOURCE_COAL"/>      <Set TechReveal="TECH_METAL_CASTING"       TechCityTrade="TECH_INDUSTRIALIZATION"/></Update>
 		<Update><Where Type="RESOURCE_OIL"/>       <Set TechReveal="TECH_CHEMISTRY"           TechCityTrade="TECH_DYNAMITE"/></Update>
 		<Update><Where Type="RESOURCE_ALUMINUM"/>  <Set TechReveal="TECH_METALLURGY"          TechCityTrade="TECH_FLIGHT"/></Update>
 		

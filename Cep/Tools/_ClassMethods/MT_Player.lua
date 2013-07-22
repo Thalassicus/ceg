@@ -843,8 +843,11 @@ function PlayerClass.IsMilitaristicLeader(player)
 	if player:IsMinorCiv() then
 		return player:GetMinorCivTrait() == MinorCivTraitTypes.MINOR_CIV_TRAIT_MILITARISTIC
 	end
+	return player:GetPersonalityInfo().Boldness >= 5
+	--[[
 	local personality = player:GetPersonalityInfo().Type
 	return (personality == "PERSONALITY_CONQUEROR" or personality == "PERSONALITY_COALITION")
+	--]]
 end
 
 function PlayerClass.IsReligiousLeader(player)

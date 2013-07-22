@@ -47,7 +47,7 @@ function MapConstants:New()
 	mconst.marshPercent		= 0.92 --0.92	--Percent of land below the marsh rainfall threshold.
 	mconst.junglePercent	= 0.75 --0.75	--Percent of land below the jungle rainfall threshold.
 	mconst.plainsPercent	= 0.56 --0.56	--Percent of land that is below the plains rainfall threshold.
-	mconst.zeroTreesPercent	= 0.40 --0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
+	mconst.zeroTreesPercent	= 0.30 --0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
 	mconst.desertPercent	= 0.30 --0.36	--Percent of land that is below the desert rainfall threshold.
 	
 	mconst.jungleMinTemperature	= 0.70 --0.70	--Coldest absolute temperature allowed to be jungle, forest if colder.

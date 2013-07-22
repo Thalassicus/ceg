@@ -15,6 +15,7 @@ if not CEP then
 end
 
 PlayerClass	= getmetatable(Players[0]).__index
+--[=[
 
 --
 -- Spend AI gold more intelligently
@@ -663,7 +664,7 @@ if CEP.USING_CSD == 1 then
 	DoFlavorFunction.FLAVOR_DIPLOMACY = PurchaseOneUnitOfFlavor
 end
 
-
+--]=]
 
 --
 -- Start Bonuses
@@ -777,11 +778,6 @@ function PlayerStartBonuses(player)
 			for impInfo in GameInfo.Improvements(string.format("Goody = 1 AND TilesPerGoody > 0")) do
 				if improvementID == impInfo.ID then
 					adjPlot:SetImprovementType(-1)
-					--[[
-					for _, yieldType in pairs(handicapYields) do
-						player:ChangeYieldStored(yieldType, 10)
-					end
-					--]]
 					break
 				end
 			end
@@ -874,6 +870,7 @@ function CheckCitystateStartBonuses(player)
 end
 LuaEvents.ActivePlayerTurnEnd_Player.Add(CheckCitystateStartBonuses)
 
+--[=[
 function AIPerTurnBonuses(player)
 	local capitalCity = player:GetCapitalCity()
 	if capitalCity == nil or player:IsMinorCiv() or player:IsHuman() then
@@ -901,6 +898,7 @@ function AIPerTurnBonuses(player)
 end
 
 LuaEvents.ActivePlayerTurnEnd_Player.Add(AIPerTurnBonuses)
+--]=]
 
 
 --
@@ -944,7 +942,7 @@ function AIMilitaryHandicap(  playerID,
 				hostileMultiplier = 0
 			end
 		end
-		local freeXP = hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
+		local freeXP = 0--hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
 		local freeXPPerEra = hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
 		if freeXP > 0 or freeXPPerEra > 0 then
 			local era = 1 + Game.GetAverageHumanEra()
@@ -955,9 +953,14 @@ function AIMilitaryHandicap(  playerID,
 
 	local handicapInfo = GameInfo.HandicapInfos[Players[Game.GetActivePlayer()]:GetHandicapType()]
 	local freePromotion = handicapInfo.AIFreePromotion
+	local unitInfo = GameInfo.Units[unit:GetUnitType()]
 
 	if freePromotion then
 		unit:SetHasPromotion(GameInfo.UnitPromotions[freePromotion].ID, true)
+	end
+
+	if unitInfo.CombatClass == "COMBATCLASS_RECON" then
+		unit:SetHasPromotion(GameInfo.UnitPromotions.PROMOTION_ATTACK_BONUS_NOUPGRADE_I.ID, true)
 	end
 
 	if (1 + handicapInfo.ID) >= 5 then -- king
@@ -1000,7 +1003,7 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 	MapModData.CEP.EverAtWarWithHuman[aiPlayerID] = 1
 	SaveValue(1, "MapModData.CEP.EverAtWarWithHuman[%s]", aiPlayerID)
 	
-	local freeXP = GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
+	local freeXP = 0--GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
 	local freeXPPerEra = GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
 	local era = 1 + Game.GetAverageHumanEra()
 	if freeXP > 0 or freeXPPerEra > 0 then
@@ -1083,5 +1086,73 @@ function PlaceMoai(player)
 end
 
 if GameInfo.Builds.BUILD_MOAI then
+	LuaEvents.ActivePlayerTurnEnd_Player.Add(PlaceMoai)
+end
+
+
+--
+-- Manually place Terrace Farms
+--
+
+function PlaceTerrace(player)
+	if player:IsHuman() or (GameInfo.Civilizations[player:GetCivilizationType()].Type ~= GameInfo.Improvements.IMPROVEMENT_TERRACE_FARM.CivilizationType) then
+		return
+	end
+	if not player:HasTech(GameInfo.Builds.BUILD_TERRACE_FARM.PrereqTech) then
+		return
+	end
+	log:Info("PlaceTerrace %s", player:GetName())
+
+	--[[
+	local cities = {}
+	for city in player:Cities() do
+		if not city:IsResistance() and not city:IsRazing() then
+			table.insert(cities, {id=City_GetID(city), pop=city:GetPopulation()})
+		end
+	end
+	table.sort(cities, function(a, b) return a.pop > b.pop end)
+
+	for _,cityInfo in ipairs(cities) do
+		local city = Map_GetCity(cityInfo.id)		
+	--]]
+
+	local playerID = player:GetID()
+	local impID = GameInfo.Improvements.IMPROVEMENT_TERRACE_FARM.ID
+	for city in player:Cities() do
+		for i = 0, city:GetNumCityPlots() - 1, 1 do
+			local plot = city:GetCityIndexPlot(i);
+			if plot then
+				local featureID = plot:GetFeatureType()
+				if (plot:GetOwner() == playerID
+						and plot:GetImprovementType() ~= impID
+						and plot:GetResourceType() == -1
+						and (featureID == -1
+							or featureID == FeatureTypes.FEATURE_JUNGLE
+							or featureID == FeatureTypes.FEATURE_FOREST
+							or featureID == FeatureTypes.FEATURE_MARSH)
+						and not plot:IsCity()
+						and not plot:IsVisibleToWatchingHuman()
+						) then
+					local placeTerrace = false
+					for _, adjPlot in pairs Plot_GetPlotsInCircle(plot, 1) do
+						if adjPlot:IsMountain() then
+							placeTerrace = true
+						end
+					end
+					if placeTerrace then
+						log:Info("Placed terrace for %s", player:GetName())
+						plot:SetImprovementType(impID)
+						if plot:GetFeatureType() ~= -1 then
+							plot:SetFeatureType(FeatureTypes.NO_FEATURE, -1)
+						end
+						break
+					end
+				end
+			end
+		end
+	end
+end
+
+if GameInfo.Builds.BUILD_TERRACE_FARM then
 	LuaEvents.ActivePlayerTurnEnd_Player.Add(PlaceMoai)
 end

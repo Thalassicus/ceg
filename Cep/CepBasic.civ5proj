@@ -1369,6 +1369,24 @@
         <Description>Communitas</Description>
         <FileName>Maps/Communitas.lua</FileName>
       </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CEA_Events</Name>
+        <Description>CEA_Events</Description>
+        <FileName>Gameplay/Armies/CEA_Events.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CEA_Events</Name>
+        <Description>CEA_Events</Description>
+        <FileName>Gameplay/Barbarians/CEB_Events.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CEA_Events</Name>
+        <Description>CEA_Events</Description>
+        <FileName>Gameplay/Terrain/CET_Events.lua</FileName>
+      </Content>
     </ModContent>
     <ModReferences />
     <SupportsHotSeat>true</SupportsHotSeat>
@@ -1441,6 +1459,10 @@
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\AI\CEAI_Buildings.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEAI_Events.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1576,6 +1598,10 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Gameplay\Cities\CEC_Events.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Gameplay\Faith\CEF_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
@@ -1593,6 +1619,10 @@
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Research\CER_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Terrain\CET_Events.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

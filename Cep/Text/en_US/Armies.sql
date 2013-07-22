@@ -169,7 +169,6 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_XTRA_SIGHT_IV_HELP', '[ICON_DETECT] 4 [COLOR_POSITIVE_TEXT]Sight Range[ENDCOLOR]', '', '');
 
 
-
 --· EN_US/Armies.sql
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_SUBMARINE', 'Submarine Units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_MOUNTED_ARCHER', 'Mounted Archers', '', '');
@@ -178,8 +177,9 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_MELEE', 'Soldier Units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_RECON', 'Vanguard Units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_RESOURCE_COAL_HELP', 'Used by Factories.', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_NAVALMELEE', 'Hunter Ships', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_NAVALMELEE', 'Escort Ships', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_NAVALRANGED', 'Common Ships', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_SUBMARINE', 'Hunter Ships', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_RECON', 'Vanguard Units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTIONS_SECTION_5', 'Vanguard Promotions', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_DUMMY_COAL', '_', '', '');
@@ -305,11 +305,11 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_GOLDEN', 'Golden', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_GOLDEN_HELP', '[ICON_GOLDEN_AGE] Golden Age points from combat', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_GUERRILLA_1', 'Guerrilla I', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_GUERRILLA_1_HELP', '[ICON_STRENGTH] +25% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Rough Terrain[NEWLINE][ICON_DETECT] +1 Sight', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_GUERRILLA_1_HELP', '[ICON_STRENGTH] +15% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Rough Terrain[NEWLINE][ICON_DETECT] +1 Sight', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_GUERRILLA_2', 'Guerrilla II', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_GUERRILLA_2_HELP', '[ICON_STRENGTH] +25% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Rough Terrain[NEWLINE][ICON_MOVES] +1 Movement', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_GUERRILLA_2_HELP', '[ICON_STRENGTH] +15% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Rough Terrain', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_GUERRILLA_3', 'Guerrilla III', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_GUERRILLA_3_HELP', '[ICON_STRENGTH] +25% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Rough Terrain[NEWLINE][ICON_DETECT] +1 Sight', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_GUERRILLA_3_HELP', '[ICON_STRENGTH] +20% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Rough Terrain', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_HOVERING_UNIT', 'All Terrain', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_HOVERING_UNIT_HELP', '[ICON_MOVES] Can traverse [COLOR_POSITIVE_TEXT]Mountains[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_INTERCEPTION', 'Interception', '', '');
@@ -358,12 +358,12 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_TARGETING_2_HELP', '[ICON_MOVES] +1 Movement[NEWLINE][ICON_STRENGTH] +15% vs [COLOR_POSITIVE_TEXT]Naval[ENDCOLOR] units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_TARGETING_3_HELP', '[ICON_DETECT] +1 Sight[NEWLINE][ICON_STRENGTH] +15% vs [COLOR_POSITIVE_TEXT]Naval[ENDCOLOR] units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_TRENCHES_1', 'Trenches I', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_1_HELP', '[ICON_STRENGTH] +25% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain[NEWLINE][ICON_DETECT] +1 Sight', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_1_HELP', '[ICON_STRENGTH] +15% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain[NEWLINE][ICON_DETECT] +1 Sight', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_TRENCHES_2', 'Trenches II', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_2_HELP', '[ICON_STRENGTH] +25% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain[NEWLINE][ICON_MOVES] +1 Movement', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_2_HELP', '[ICON_STRENGTH] +15% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_TRENCHES_3', 'Trenches III', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_3_HELP', '[ICON_STRENGTH] +25% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain[NEWLINE][ICON_DETECT] +1 Sight', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_3_HELP', '[ICON_STRENGTH] +20% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_VOLLEY_HELP', '[ICON_STRENGTH] +30% vs [COLOR_POSITIVE_TEXT]Fortified[ENDCOLOR] units', '', '');
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='Armies.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Armies.sql';

@@ -3,6 +3,13 @@
 -- DateCreated: 10/29/2010 12:44:28 AM
 --------------------------------------------------------------
 
+include("ModTools.lua")
+
+local log = Events.LuaLogger:New()
+log:SetLevel("INFO")
+
+
+
 function UpdatePromotions(unit, isUpgrading)
 	if not unit or not unit:IsCombatUnit() then
 		return
@@ -77,21 +84,7 @@ function CheckReplacePromotion(unit, oldPromo, newPromo)
 	end
 end
 
---[=[
-
-include("ModTools.lua")
-include("CustomNotification.lua")
-
-local log = Events.LuaLogger:New()
-log:SetLevel("INFO")
-
-LuaEvents.NotificationAddin( { name = "Refugees", type = "CNOTIFICATION_REFUGEES" } )
-LuaEvents.NotificationAddin( { name = "CapturedMaritime", type = "CNOTIFICATION_CAPTURED_MARITIME" } )
-LuaEvents.NotificationAddin( { name = "CapturedCultural", type = "CNOTIFICATION_CAPTURED_CULTURAL" } )
-LuaEvents.NotificationAddin( { name = "CapturedMilitaristic", type = "CNOTIFICATION_CAPTURED_MILITARISTIC" } )
-LuaEvents.NotificationAddin( { name = "CapturedReligious", type = "CNOTIFICATION_CAPTURED_RELIGIOUS" } )
-LuaEvents.NotificationAddin( { name = "CapturedMercantile", type = "CNOTIFICATION_CAPTURED_MERCANTILE" } )
-LuaEvents.NotificationAddin( { name = "CapturedOther", type = "CNOTIFICATION_CAPTURED_OTHER" } )
+--
 
 
 ---------------------------------------------------------------------
@@ -186,6 +179,70 @@ Events.ActivePlayerTurnStart.Add( CheckForMinorAIBonusesLoop )
 
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
+
+
+function DoEndCombatBlitzCheck(
+		attPlayerID,
+		attUnitID,
+		attUnitDamage,
+		attFinalUnitDamage,
+		attMaxHitPoints,
+		defPlayerID,
+		defUnitID,
+		defUnitDamage,
+		defFinalUnitDamage,
+		defMaxHitPoints
+		)
+	
+	local attPlayer	= Players[attPlayerID]
+	local attUnit	= attPlayer:GetUnitByID(attUnitID)
+
+	local attExtraAttacks = 0
+	local fullMovesAfterAttack = false --attUnit:IsHasPromotion(GameInfo.UnitPromotions.PROMOTION_CAN_MOVE_AFTER_ATTACKING.ID) 
+
+	if attUnit and (attFinalUnitDamage < attMaxHitPoints) then
+		--log:Debug("DoEndCombatBlitzCheck %15s %15s", attPlayer:GetName(), attUnit:GetName())
+		for promoInfo in GameInfo.UnitPromotions("ExtraAttacks > 0 OR CanMoveAfterAttacking = 1") do
+			if attUnit:IsHasPromotion(promoInfo.ID) then
+				if promoInfo.ExtraAttacks > 0 and promoInfo.ExtraAttacks > attExtraAttacks then
+					attExtraAttacks = promoInfo.ExtraAttacks
+				end
+				if promoInfo.FullMovesAfterAttack then
+					fullMovesAfterAttack = true
+				end
+			end
+		end
+		attExtraAttacks = attExtraAttacks
+		local movesMax = attUnit:MaxMoves() / GameDefines.MOVE_DENOMINATOR
+		local movesLeft = attUnit:MovesLeft() / GameDefines.MOVE_DENOMINATOR
+		local movesNew = math.min(movesLeft, attExtraAttacks)
+
+		--log:Debug("fullMovesAfterAttack=%s,  %.2f = math.min(%.2f, %.2f)", fullMovesAfterAttack, movesNew, movesMax, movesLeft, attExtraAttacks)
+		if attExtraAttacks > 0 and not fullMovesAfterAttack then
+			attUnit:SetMoves(movesNew * GameDefines.MOVE_DENOMINATOR)
+		end
+	end
+end
+
+Events.EndCombatSim.Add( DoEndCombatBlitzCheck )
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+--]=]
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+--[=[
+include("CustomNotification.lua")
+LuaEvents.NotificationAddin( { name = "Refugees", type = "CNOTIFICATION_REFUGEES" } )
+LuaEvents.NotificationAddin( { name = "CapturedMaritime", type = "CNOTIFICATION_CAPTURED_MARITIME" } )
+LuaEvents.NotificationAddin( { name = "CapturedCultural", type = "CNOTIFICATION_CAPTURED_CULTURAL" } )
+LuaEvents.NotificationAddin( { name = "CapturedMilitaristic", type = "CNOTIFICATION_CAPTURED_MILITARISTIC" } )
+LuaEvents.NotificationAddin( { name = "CapturedReligious", type = "CNOTIFICATION_CAPTURED_RELIGIOUS" } )
+LuaEvents.NotificationAddin( { name = "CapturedMercantile", type = "CNOTIFICATION_CAPTURED_MERCANTILE" } )
+LuaEvents.NotificationAddin( { name = "CapturedOther", type = "CNOTIFICATION_CAPTURED_OTHER" } )
 
 LuaEvents.CityCaptureBonuses = LuaEvents.CityCaptureBonuses or function(city) end
 
@@ -464,57 +521,4 @@ function CityCaptured (plot, lostPlayerID, cityID, wonPlayerID)
 end
 
 Events.SerialEventCityCaptured.Add( CityCaptured )
-
----------------------------------------------------------------------
----------------------------------------------------------------------
-
-
-function DoEndCombatBlitzCheck(
-		attPlayerID,
-		attUnitID,
-		attUnitDamage,
-		attFinalUnitDamage,
-		attMaxHitPoints,
-		defPlayerID,
-		defUnitID,
-		defUnitDamage,
-		defFinalUnitDamage,
-		defMaxHitPoints
-		)
-	
-	local attPlayer	= Players[attPlayerID]
-	local attUnit	= attPlayer:GetUnitByID(attUnitID)
-
-	local attExtraAttacks = 0
-	local fullMovesAfterAttack = false --attUnit:IsHasPromotion(GameInfo.UnitPromotions.PROMOTION_CAN_MOVE_AFTER_ATTACKING.ID) 
-
-	if attUnit and (attFinalUnitDamage < attMaxHitPoints) then
-		--log:Debug("DoEndCombatBlitzCheck %15s %15s", attPlayer:GetName(), attUnit:GetName())
-		for promoInfo in GameInfo.UnitPromotions("ExtraAttacks > 0 OR CanMoveAfterAttacking = 1") do
-			if attUnit:IsHasPromotion(promoInfo.ID) then
-				if promoInfo.ExtraAttacks > 0 and promoInfo.ExtraAttacks > attExtraAttacks then
-					attExtraAttacks = promoInfo.ExtraAttacks
-				end
-				if promoInfo.FullMovesAfterAttack then
-					fullMovesAfterAttack = true
-				end
-			end
-		end
-		attExtraAttacks = attExtraAttacks
-		local movesMax = attUnit:MaxMoves() / GameDefines.MOVE_DENOMINATOR
-		local movesLeft = attUnit:MovesLeft() / GameDefines.MOVE_DENOMINATOR
-		local movesNew = math.min(movesLeft, attExtraAttacks)
-
-		--log:Debug("fullMovesAfterAttack=%s,  %.2f = math.min(%.2f, %.2f)", fullMovesAfterAttack, movesNew, movesMax, movesLeft, attExtraAttacks)
-		if attExtraAttacks > 0 and not fullMovesAfterAttack then
-			attUnit:SetMoves(movesNew * GameDefines.MOVE_DENOMINATOR)
-		end
-	end
-end
-
-Events.EndCombatSim.Add( DoEndCombatBlitzCheck )
-
----------------------------------------------------------------------
----------------------------------------------------------------------
-
 --]=]
