@@ -15,7 +15,7 @@ AND NOT CombatClass = 'UNITCOMBAT_DIPLOMACY';
 
 
 UPDATE Buildings
-SET Cost = ROUND((Cost * 1.2) / 10, 0) * 10
+SET Cost = ROUND((Cost * 1.8) / 10, 0) * 10
 WHERE Cost > 0 AND NOT BuildingClass IN (
 	SELECT Type FROM BuildingClasses
 	WHERE (
