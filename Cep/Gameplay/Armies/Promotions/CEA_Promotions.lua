@@ -3,17 +3,23 @@
 -- DateCreated: 7/13/2013 4:27:24 PM
 --------------------------------------------------------------
 
+include("ModTools.lua")
+include("MT_LuaEvents.lua")
+
+local log = Events.LuaLogger:New()
+log:SetLevel("TRACE")
+
+print("CEA_Promotions.lua")
+
 function UpdatePromotions(unit, isUpgrading)
 	if not unit or not unit:IsCombatUnit() then
 		return
 	end
 
-	/*
 	local needsAstronomy = GameInfo.UnitPromotions.PROMOTION_OCEAN_IMPASSABLE_UNTIL_ASTRONOMY.ID
 	if unit:IsHasPromotion(needsAstronomy) and Players[unit:GetOwner()]:GetTraitInfo().EmbarkedAllWater then
 		unit:SetHasPromotion(needsAstronomy, false)
 	end
-	*/
 
 	if unit:GetDomainType() == DomainTypes.DOMAIN_SEA then
 		return
@@ -24,6 +30,8 @@ function UpdatePromotions(unit, isUpgrading)
 		unitInfo = GameInfo.Units[unit:GetUpgradeUnitType()]
 		--log:Debug("UpdatePromotions upgrade %s to %s", GameInfo.Units[unit:GetUnitType()].Type, tostring(unitInfo.Type))
 	end
+	
+	log:Info("UpdatePromotions %s", unitInfo.Type)
 		
 	local promoCategory = GameInfo.UnitCombatInfos[unitInfo.CombatClass].PromotionCategory
 
@@ -69,8 +77,8 @@ LuaEvents.ActivePlayerTurnStart_Unit.Add(UpdatePromotions)
 LuaEvents.UnitUpgraded.Add(function(unit) UpdatePromotions(unit, true) end)
 
 function CheckReplacePromotion(unit, oldPromo, newPromo)
-	if unit:IsHasPromotion(oldPromo) then
-		--log:Trace("%s replace %s with %s", unit:GetName(), GameInfo.UnitPromotions[oldPromo].Type, newPromo and GameInfo.UnitPromotions[newPromo].Type or "none")
+	if unit:IsHasPromotion(oldPromo) and (oldPromo ~= newPromo) then
+		log:Trace("%s replace %s with %s", unit:GetName(), GameInfo.UnitPromotions[oldPromo].Type, newPromo and GameInfo.UnitPromotions[newPromo].Type or "none")
 		unit:SetHasPromotion(oldPromo, false)
 		if newPromo ~= -1 then
 			unit:SetHasPromotion(newPromo, true)

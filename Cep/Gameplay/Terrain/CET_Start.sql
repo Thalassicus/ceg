@@ -13,7 +13,8 @@ UPDATE Features SET Impassable=0, Movement=2, Defense=10 WHERE Type IN (
 	'FEATURE_EL_DORADO'			,
 	'FEATURE_MESA'				,
 	'FEATURE_REEF'				,
-	'FEATURE_ULURU'				
+	'FEATURE_ULURU'				,
+	'FEATURE_SOLOMONS_MINES'	
 );
 
 UPDATE Natural_Wonder_Placement SET ChangeCoreTileToMountain=0 WHERE NaturalWonderType IN (
@@ -27,8 +28,19 @@ UPDATE Natural_Wonder_Placement SET ChangeCoreTileToMountain=0 WHERE NaturalWond
 );
 
 
+UPDATE Natural_Wonder_Placement SET OccurrenceFrequency = 10 WHERE OccurrenceFrequency <> 0;
 
-UPDATE Features SET OccurrenceFrequency = 10 WHERE OccurrenceFrequency <> 0;
+-- More unique than the numerous mountains
+UPDATE Natural_Wonder_Placement SET OccurrenceFrequency = 20 WHERE NaturalWonderType IN (
+	'FEATURE_GIBRALTAR'		,
+	'FEATURE_REEF'			,
+	'FEATURE_VOLCANO'		,
+	'FEATURE_GEYSER'		,
+	'FEATURE_MESA'			,
+	'FEATURE_FOUNTAIN_YOUTH',
+	'FEATURE_LAKE_VICTORIA'	
+);
+
 
 
 INSERT OR REPLACE INTO Improvement_ResourceTypes(ImprovementType, ResourceType) 
@@ -37,7 +49,10 @@ FROM Improvements improve, Resources res
 WHERE (
 	(improve.CreatedByGreatPerson = 1 OR improve.SpecificCivRequired = 1)
 	AND NOT res.TechCityTrade = 'TECH_SAILING'
-	AND NOT improve.Type = 'IMPROVEMENT_POLDER'
+	AND NOT improve.Type IN (
+		'IMPROVEMENT_POLDER',
+		'IMPROVEMENT_BRAZILWOOD_CAMP'
+	)
 );
 
 INSERT OR REPLACE INTO Improvement_ResourceType_Yields(ImprovementType, ResourceType, YieldType, Yield) 
@@ -61,9 +76,14 @@ UPDATE Resources SET TechCityTrade = 'TECH_ARCHERY' WHERE TechCityTrade = 'TECH_
 */
 
 -- Buff jungles and forests
-UPDATE BuildFeatures SET Remove = 1 WHERE FeatureType = 'FEATURE_MARSH' AND BuildType IN ('BUILD_FARM', 'BUILD_PLANTATION', 'BUILD_TRADING_POST');
-UPDATE BuildFeatures SET Remove = 0 WHERE FeatureType = 'FEATURE_JUNGLE' AND BuildType IN ('BUILD_FARM', 'BUILD_PLANTATION');
+INSERT INTO BuildFeatures (BuildType, FeatureType, PrereqTech, Time, Remove)
+VALUES ('BUILD_CAMP', 'FEATURE_MARSH', 'TECH_MASONRY', '600', 1);
+
+UPDATE BuildFeatures SET Remove = 1 WHERE FeatureType = 'FEATURE_MARSH' AND BuildType NOT IN ('BUILD_POLDER');
+UPDATE BuildFeatures SET Remove = 0 WHERE FeatureType = 'FEATURE_JUNGLE' AND BuildType IN ('BUILD_PLANTATION');
 UPDATE BuildFeatures SET Time = 400 WHERE (FeatureType = 'FEATURE_JUNGLE' AND Time <> 0 AND Remove = 0);
+UPDATE BuildFeatures SET Time = 600 WHERE (FeatureType = 'FEATURE_JUNGLE' AND Time <> 0 AND Remove = 1);
+UPDATE BuildFeatures SET Time = 200 WHERE BuildType = 'BUILD_REMOVE_JUNGLE';
 UPDATE BuildFeatures SET Production = 50 WHERE FeatureType = 'FEATURE_FOREST' AND Remove = 1;
 
 

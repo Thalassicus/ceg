@@ -4,16 +4,14 @@
 --------------------------------------------------------------
 
 include("ModTools.lua")
+include("MT_LuaEvents.lua")
 include("FLuaVector")
 
 local log = Events.LuaLogger:New()
 log:SetLevel("INFO")
 
--- temporary
-function Plot_ChangeYield(plot, yieldID, yield)
-	Game.SetPlotExtraYield( plot:GetX(), plot:GetY(), yieldID, yield)
-end
 
+--[[
 function TestOceanRifts()
 	if UI.IsLoadedGame() then
 		return
@@ -37,7 +35,7 @@ function TestOceanRifts()
 	while numPlotsToScan > 0 and attempts < iMax do
 		local newWeights = {}
 		for plotID, plot in pairs(oceanPlots) do
-			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+			for adjPlot in Plot_GetPlotsInCircle(plot, 1) do
 				local id = Plot_GetID(adjPlot)
 				if weights[id] then
 					newWeights[plotID] = weights[id] + 1 --(newWeights[plotID] or 0) + weights[id]
@@ -81,6 +79,7 @@ function TestOceanRifts()
 	print("TestOceanRifts Done")
 end
 --Events.SequenceGameInitComplete.Add(TestOceanRifts)
+--]]
 
 --[[
 function RevealMap()
@@ -102,41 +101,21 @@ function UpdatePlotYields()
 	end
 	--]]
 	for plotID, plot in Plots() do
-		local terrainID		= plot:GetPlotType()
-		local featureID		= plot:GetFeatureType()
-		local resourceID	= plot:GetResourceType()
-
-		if featureID ~= -1 then
-			local query = string.format("FeatureType='%s' AND YieldType='YIELD_CULTURE'", GameInfo.Features[featureID].Type)
-			--[[
-			for featureInfo in GameInfo.Feature_YieldChanges(query) do
-				log:Debug("%s culture = %s", GameInfo.Features[featureID].Type, featureInfo.Yield)
-				Plot_SetYield(plot, YieldTypes.YIELD_CULTURE, featureInfo.Yield)
-			end
-			if featureID == GameInfo.Features.FEATURE_OASIS.ID then
-				local gold = 1
-				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1, 1)) do
-					if Plot_IsFlatDesert(adjPlot) then
-						gold = gold + 0.5
-					end
-				end
-				Plot_ChangeYield(plot, YieldTypes.YIELD_GOLD, Game.Round(gold))
-			end
-			--]]
-		end
-
-		if Plot_IsFlatDesert(plot) then
+		local x				= plot:GetX()
+		local y				= plot:GetY()
+		
+		if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and not plot:IsHills() and plot:GetFeatureType() == -1 then
+			local resInfo = GameInfo.Resources[plot:GetResourceType()]
 			if plot:IsFreshWater() then
-				Plot_ChangeYield(plot, YieldTypes.YIELD_FOOD, 1)
-			end
-			if resourceID ~= -1 and not GameInfo.Resources[resourceID].TechReveal then
-				Plot_ChangeYield(plot, YieldTypes.YIELD_GOLD, 1)
-			end
-		elseif terrainID == TerrainTypes.TERRAIN_SNOW and resourceID ~= -1 then
-			if plot:IsHills() then
-				Plot_ChangeYield(plot, YieldTypes.YIELD_PRODUCTION, 2)
-			else
-				Plot_ChangeYield(plot, YieldTypes.YIELD_GOLD, 2)
+				Game.SetPlotExtraYield( x, y, YieldTypes.YIELD_FOOD, 1)
+			elseif resInfo then
+				if resInfo.ResourceClassType == "RESOURCECLASS_BONUS" and resInfo.Type ~= "RESOURCE_STONE" then
+					Game.SetPlotExtraYield( x, y, YieldTypes.YIELD_FOOD, 1)
+				elseif resInfo.Happiness > 0 then
+					Game.SetPlotExtraYield( x, y, YieldTypes.YIELD_GOLD, 1)
+				elseif not resInfo.TechReveal then
+					Game.SetPlotExtraYield( x, y, YieldTypes.YIELD_PRODUCTION, 1)
+				end
 			end
 		end
 	end
@@ -170,7 +149,7 @@ function CreateWorkboats(player, techID, changeID)
 			log:Info("Checking for workboats %s %s %s", player:GetName(), techType, improveInfo.Type)
 			for city in player:Cities() do
 				if city:IsCoastal() then
-					for _, plot in pairs(Plot_GetPlotsInCircle(city:Plot(), 1, 3)) do
+					for plot in Plot_GetPlotsInCircle(city:Plot(), 1, 3) do
 						local resInfo = GameInfo.Resources[plot:GetResourceType()]
 						if resInfo and plot:GetPlotType() == PlotTypes.PLOT_OCEAN and plot:GetImprovementType() == -1 then
 							if Game.HasValue( {ImprovementType=improveInfo.Type, ResourceType=resInfo.Type}, GameInfo.Improvement_ResourceTypes ) then
@@ -191,7 +170,7 @@ LuaEvents.NewTech.Add(CreateWorkboats)
 
 function FloodplainCity(hexPos, playerID, cityID, newPlayerID)
 	local plot = Map.GetPlot(ToGridFromHex(hexPos.x, hexPos.y))
-	if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and not plot:IsHill() then
+	if plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and not plot:IsHills() then
 		plot:SetFeatureType(FeatureTypes.FEATURE_FLOOD_PLAINS, -1)
 	end
 end
@@ -200,14 +179,14 @@ LuaEvents.NewCity.Add(FloodplainCity)
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 
-function GreatImprovementEraBonus(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resourceID, eraID, improvementState)
+function GreatImprovementEraBonus(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resID, eraID, improvementState)
 	--print("OnImprovementCreated");
 	--print("hexX: " .. hexX);
 	--print("hexY: " .. hexY);
 	--print("cultureArtID: " .. cultureArtID);
 	--print("playerID: " .. playerID);
 	--print("improvementID: " .. improvementID);
-	--print("resourceID: " .. resourceID);
+	--print("resID: " .. resID);
 	--print("eraID: " .. eraID);
 	--print("improvementState: " .. improvementState);
 	--print("------------------");

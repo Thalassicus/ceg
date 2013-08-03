@@ -2,11 +2,6 @@
 -- Help text for Info Objects (Units, Buildings, etc.)
 -------------------------------------------------
 
-if Game == nil then
-	--print("InfoTooltipInclude.lua: Game == nil")
-	return
-end
-
 include("ModTools.lua")
 
 -- UNIT

@@ -5,9 +5,12 @@
 
 --
 include("ModTools.lua")
+include("MT_LuaEvents.lua")
 
 local log = Events.LuaLogger:New()
 log:SetLevel("INFO")
+
+print("CEB_Events.lua")
 
 function UpgradeBarbarians(playerID, techID)
 	local player = Players[playerID]
@@ -70,7 +73,7 @@ end
 --
 function ReplaceChariots()
 	local campID	= GameInfo.Improvements.IMPROVEMENT_BARBARIAN_CAMP.ID
-	local chariotID = GameInfo.Units.UNIT_BARBARIAN_CHARIOT_ARCHER.ID
+	local chariotID = GameInfo.Units.UNIT_CHARIOT_ARCHER.ID
 	for playerID, player in pairs(Players) do
 		if player and player:IsBarbarian() then
 			for unit in player:Units() do

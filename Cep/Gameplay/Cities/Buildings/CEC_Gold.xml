@@ -12,14 +12,23 @@
 			<YieldType>YIELD_GOLD</YieldType>
 			<Yield>1</Yield>
 		</Row>
+		<Row>
+			<BuildingType>BUILDING_MINT</BuildingType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>2</Yield>
+		</Row>
 	</Building_YieldChanges>
 	<Building_ResourceYieldChanges>
 		<Row>
 			<BuildingType>BUILDING_MINT</BuildingType>
 			<ResourceType>RESOURCE_COPPER</ResourceType>
 			<YieldType>YIELD_GOLD</YieldType>
-			<Yield>2</Yield>
+			<Yield>1</Yield>
 		</Row>
+		<Update>
+			<Where BuildingType="BUILDING_MINT" />
+			<Set Yield="1" />
+		</Update>
 	</Building_ResourceYieldChanges>
 	<Building_LocalResourceOrs>
 		<Row>

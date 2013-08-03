@@ -9,6 +9,93 @@
 
 include("MapmakerUtilities");
 
+----------------------------------------------------------------
+function IsBetween(lower, mid, upper)
+	return ((lower <= mid) and (mid <= upper))
+end
+
+function Constrain(lower, mid, upper)
+	return math.max(lower, math.min(mid, upper))
+end
+----------------------------------------------------------------
+
+function Plot_GetPlotsInCircle(plot, minR, maxR)
+	--[[ Plot_GetPlotsInCircle(plot, minR, [maxR]) usage examples:
+	for nearPlot in Plot_GetPlotsInCircle(plot, 0, 4) do
+		-- check all plots in radius 0-4
+		nearPlot:GetX()
+	end
+	for nearPlot, distance in Plot_GetPlotsInCircle(plot, 3) do
+		-- check all plots in radius 1-3
+		if distance == 3 then
+			print(nearPlot:GetX())
+		end
+	end
+	]]
+	if not plot then
+		print("plot:GetPlotsInCircle plot=nil")
+		return
+	end
+	if not maxR then
+		maxR = minR
+		minR = 1
+	end
+	
+	local mapW, mapH	= Map.GetGridSize()
+	local isWrapX		= Map:IsWrapX()
+	local isWrapY		= Map:IsWrapY()
+	local centerX		= plot:GetX()
+	local centerY		= plot:GetY()
+	
+	leftX	= isWrapX and ((centerX-maxR) % mapW) or Game.Constrain(0, centerX-maxR, mapW-1)
+	rightX	= isWrapX and ((centerX+maxR) % mapW) or Game.Constrain(0, centerX+maxR, mapW-1)
+	bottomY	= isWrapY and ((centerY-maxR) % mapH) or Game.Constrain(0, centerY-maxR, mapH-1)
+	topY	= isWrapY and ((centerY+maxR) % mapH) or Game.Constrain(0, centerY+maxR, mapH-1)
+	
+	local nearX	= leftX
+	local nearY	= bottomY
+	local stepX	= 0
+	local stepY	= 0
+	local rectW	= rightX-leftX 
+	local rectH	= topY-bottomY
+	
+	if rectW < 0 then
+		rectW = rectW + mapW
+	end
+	
+	if rectH < 0 then
+		rectH = rectH + mapH
+	end
+	
+	local nextPlot = Map.GetPlot(nearX, nearY)
+	
+	return function ()
+		while (stepY < 1 + rectH) and nextPlot do
+			while (stepX < 1 + rectW) and nextPlot do
+				local plot		= nextPlot
+				local distance	= Map.PlotDistance(nearX, nearY, centerX, centerY)
+				
+				nearX		= (nearX + 1) % mapW
+				stepX		= stepX + 1
+				nextPlot	= Map.GetPlot(nearX, nearY)
+				
+				if Game.IsBetween(minR, distance, maxR) then
+					return plot, distance
+				end
+			end
+			nearX		= leftX
+			nearY		= (nearY + 1) % mapH
+			stepX		= 0
+			stepY		= stepY + 1
+			nextPlot	= Map.GetPlot(nearX, nearY)
+		end
+	end
+end
+---------------------------------------------------------------------
+
+
+
+
 ------------------------------------------------------------------------------
 FeatureGenerator = {};
 ------------------------------------------------------------------------------
@@ -235,19 +322,32 @@ function FeatureGenerator:AddOasisAtPlot(plot, iX, iY, lat)
 	end
 	
 	local odds = 0
-	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 3)) do
-		if adjPlot:GetFeatureType() == FeatureTypes.FEATURE_OASIS then
-			-- do not place adjacent oases
-			return
+	for adjPlot in Plot_GetPlotsInCircle(plot, 3) do
+		local distance = Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY()) or 1
+		local featureID = adjPlot:GetFeatureType()
+		
+		if featureID == FeatureTypes.FEATURE_OASIS then
+			if distance <= 2 then
+				-- at least 2 tile spacing between oases
+				return
+			end
+			odds = odds - 200 / distance
 		end
 		
-		if adjPlot:CanHaveFeature(self.featureOasis) then
-			odds = odds + 1 / (Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY()) or 1)
+		if featureID == FeatureTypes.NO_FEATURE and not adjPlot:IsFreshWater() then
+			if adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT then
+				odds = odds + 10 / distance
+			elseif adjPlot:IsMountain() or adjPlot:IsHills() then
+				odds = odds + 10 / distance
+			elseif adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_PLAINS then
+				odds = odds + 5 / distance
+			end
+		else
+			odds = odds - 5 / distance
 		end
 	end
 	
 	if odds >= Map.Rand(100, "PlacePossibleOasis - Lua") then
-		print("Oasis")
 		plot:SetFeatureType(FeatureTypes.FEATURE_OASIS, -1)
 	end
 end

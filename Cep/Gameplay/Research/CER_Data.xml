@@ -12,7 +12,7 @@
 	</Processes>
 	<Buildings>
 		<Update>
-			<Where BuildingClass="BUILDINGCLASS_MARKET" />
+			<Where BuildingClass="BUILDINGCLASS_CARAVANSARY" />
 			<Set PrereqTech="TECH_TRAPPING" />
 		</Update>
 	</Buildings>

@@ -42,7 +42,7 @@ UPDATE Units SET Help = "-" WHERE Type IN (
 );
 
 UPDATE Units SET Help = "-" WHERE Type IN (
-	'UNIT_CEP_GALLEY'			,
+	'UNIT_BIREME'			,
 	'UNIT_GALLEASS'				,
 	'UNIT_PRIVATEER'			,
 	'UNIT_IRONCLAD'				,

@@ -3,7 +3,10 @@
 -- DateCreated: 3/17/2012 1:19:27 PM
 --------------------------------------------------------------
 
+print("MT_Initialize.lua")
+
 include("ModTools.lua")
+include("MT_LuaEvents.lua")
 
 LoadedFile = LoadedFile or {}
 for row in GameInfo.LoadedFile() do
@@ -18,7 +21,7 @@ end
 	--print("MapModData.Cep.MT_Initialized")
 
 	LuaEvents.MT_Initialize()
-	Game.CepLoadGame()
+	--Game.CepLoadGame()
 	
 	Events.ActivePlayerTurnStart			.Add(OnTurnStart)
 	Events.ActivePlayerTurnEnd				.Add(OnTurnEnd)
@@ -30,7 +33,7 @@ end
 	Events.SerialEventCityCaptured			.Add(FixGameCoreCaptureBug)
 	Events.SerialEventCityCaptured			.Add(OnCityDestroyed)
 	Events.SerialEventCityDestroyed			.Add(OnCityDestroyed)
-	Events.SerialEventHexCultureChanged		.Add(OnHexCultureChanged)
+	--Events.SerialEventHexCultureChanged		.Add(OnHexCultureChanged)
 	LuaEvents.NewCity						.Add(UpdateTurnAcquiredFounding)
 	LuaEvents.BuildingConstructed			.Add(OnBuildingConstructed)
 	LuaEvents.BuildingDestroyed				.Add(OnBuildingDestroyed)
@@ -49,3 +52,6 @@ end
 
 	Events.LoadScreenClose					.Add(function() MapModData.Cep.Initialized = true end)
 --end
+
+
+

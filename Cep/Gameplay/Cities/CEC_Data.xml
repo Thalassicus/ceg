@@ -16,7 +16,7 @@
 		<Update>
 			<Where Type="YIELD_GOLD" />
 			<Set MinCity="0"
-				 AIWeightPercent="125"
+				 AIWeightPercent="200"
 				 />
 		</Update>
 		<Update>
@@ -234,7 +234,7 @@
 		
 		<Update>
 			<Where Name="PLOT_BASE_COST" />
-			<Set Value="10" />
+			<Set Value="20" />
 			<!-- 50 -->
 		</Update>
 		<Update>
@@ -251,12 +251,12 @@
 		
 		<Update>
 			<Where Name="CULTURE_COST_FIRST_PLOT" />
-			<Set Value="15" />
+			<Set Value="10" />
 			<!-- 15 -->
 		</Update>
 		<Update>
 			<Where Name="CULTURE_COST_LATER_PLOT_MULTIPLIER" />
-			<Set Value="5" />
+			<Set Value="3" />
 			<!-- 10 -->
 		</Update>
 		<Update>

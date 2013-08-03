@@ -1,20 +1,21 @@
--- WWGD - Events
+-- CEAI_Events.lua
 -- Author: Thalassicus
 -- DateCreated: 6/6/2011 2:11:50 PM
 --------------------------------------------------------------
 
 include("ModTools.lua")
+include("MT_LuaEvents.lua")
 include("FLuaVector");
 
 local log = Events.LuaLogger:New();
 log:SetLevel("INFO");
 
-if not CEP then
-	print("CEP table does not exist!")
-	return
-end
+log:Warn("BarbCampGold = %s", GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].BarbCampGold)
 
-PlayerClass	= getmetatable(Players[0]).__index
+if not Cep then
+	print("Cep table does not exist!")
+	--return
+end
 --[=[
 
 --
@@ -87,9 +88,9 @@ function SpendAIGold(player)
 	local activePlayer		= Players[Game.GetActivePlayer()]
 	local costRA			= GameInfo.Eras[eraID].ResearchAgreementCost * GameInfo.GameSpeeds[Game.GetGameSpeedType()].GoldPercent / 100
 	local goldStored		= player:GetYieldStored(YieldTypes.YIELD_GOLD)
-	local goldHigh			= Game.Round(costRA * CEP.AI_PURCHASE_BUDGET_HIGH)
-	local goldLow			= Game.Round(costRA * CEP.AI_PURCHASE_BUDGET_LOW)
-	local goldMin			= Game.Round(costRA * CEP.AI_PURCHASE_BUDGET_MINIMUM)
+	local goldHigh			= Game.Round(costRA * Cep.AI_PURCHASE_BUDGET_HIGH)
+	local goldLow			= Game.Round(costRA * Cep.AI_PURCHASE_BUDGET_LOW)
+	local goldMin			= Game.Round(costRA * Cep.AI_PURCHASE_BUDGET_MINIMUM)
 	local cities			= {}
 	local citiesReverse		= {}
 	local ports				= {}
@@ -173,7 +174,7 @@ function SpendAIGold(player)
 	-- Negative income
 	if player:GetYieldRate(YieldTypes.YIELD_GOLD) < 0 then
 		local attempt = 0
-		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_GOLD") and attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
+		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_GOLD") and attempt <= Cep.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
 			attempt = attempt + 1
 		end
 		if player:IsBudgetGone(0) then return end
@@ -182,7 +183,7 @@ function SpendAIGold(player)
 	-- Severe negative happiness
 	if player:GetYieldRate(YieldTypes.YIELD_HAPPINESS_CITY) <= -10 then
 		local attempt = 0
-		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_HAPPINESS") and attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
+		while PurchaseBuildingOfFlavor(player, cities, 0, "FLAVOR_HAPPINESS") and attempt <= Cep.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
 			attempt = attempt + 1
 		end
 		if player:IsBudgetGone(0) then return end
@@ -240,7 +241,7 @@ function SpendAIGold(player)
 	-- Negative happiness
 	if player:GetYieldRate(YieldTypes.YIELD_HAPPINESS_CITY) < 0 then
 		local attempt = 0
-		while PurchaseBuildingOfFlavor(player, cities, goldMin, "FLAVOR_HAPPINESS") and attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
+		while PurchaseBuildingOfFlavor(player, cities, goldMin, "FLAVOR_HAPPINESS") and attempt <= Cep.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do
 			attempt = attempt + 1
 		end
 		if player:IsBudgetGone(goldLow) then return end
@@ -256,7 +257,7 @@ function SpendAIGold(player)
 	end
 	
 	-- Diplomatic victory
-	if MapModData.CEP.DiploVictoryUnlocked then
+	if MapModData.Cep.DiploVictoryUnlocked then
 		PurchaseAllInfluence(player, goldMin)
 		if player:IsBudgetGone(goldLow) then return end
 	end
@@ -361,7 +362,7 @@ function SpendAIGold(player)
 	end
 	
 	local attempt = 0
-	while attempt <= CEP.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do		
+	while attempt <= Cep.AI_PURCHASE_FLAVOR_MAX_ATTEMPTS do		
 		attempt = attempt + 1
 
 		local flavorType = Game.GetRandomWeighted(flavorWeights)
@@ -603,7 +604,7 @@ function PurchaseAllInfluence(player, goldMin)
 end
 
 function CheckDiploVictoryUnlocked()	
-	if MapModData.CEP.DiploVictoryUnlocked or not PreGame.IsVictory(GameInfo.Victories.VICTORY_DIPLOMATIC.ID) then
+	if MapModData.Cep.DiploVictoryUnlocked or not PreGame.IsVictory(GameInfo.Victories.VICTORY_DIPLOMATIC.ID) then
 		return
 	end
 	for buildingInfo in GameInfo.Buildings("VictoryPrereq = 'VICTORY_DIPLOMATIC'") do
@@ -611,7 +612,7 @@ function CheckDiploVictoryUnlocked()
 		for playerID, player in pairs(Players) do
 			if player:IsAliveCiv() and not player:IsMinorCiv() and player:HasTech(tech) then
 				log:Info("DiploVictoryUnlocked")
-				MapModData.CEP.DiploVictoryUnlocked = true
+				MapModData.Cep.DiploVictoryUnlocked = true
 				return
 			end
 		end
@@ -660,7 +661,7 @@ DoFlavorFunction = {
 	FLAVOR_RELIGION				= PurchaseBuildingOfFlavor
 }
 
-if CEP.USING_CSD == 1 then
+if Cep.USING_CSD == 1 then
 	DoFlavorFunction.FLAVOR_DIPLOMACY = PurchaseOneUnitOfFlavor
 end
 
@@ -669,7 +670,7 @@ end
 --
 -- Start Bonuses
 --
-
+--[==
 function PlayerStartBonuses(player)
 	--print("PlayerStartBonuses "..player:GetName())
 	local activePlayer	= Players[Game.GetActivePlayer()]
@@ -685,6 +686,7 @@ function PlayerStartBonuses(player)
 	local isCoastal		= false	
 	local settlerID		= player:GetUniqueUnitID("UNITCLASS_SETTLER")
 	local warriorID		= player:GetUniqueUnitID("UNITCLASS_WARRIOR")
+	local revealRadius	= 8 --worldInfo.AICapitalRevealRadius
 	
 	if trait.NoWarrior then
 		for unit in player:Units() do
@@ -699,7 +701,7 @@ function PlayerStartBonuses(player)
 			if unit:GetUnitType() == settlerID then
 				startPlot = unit:GetPlot()
 				if player:IsHuman() then-- and trait.NoWarrior and trait.FreeUnit == "UNITCLASS_WORKER" then
-					for _, adjPlot in pairs(Plot_GetPlotsInCircle(startPlot, 2, 3)) do
+					for adjPlot in Plot_GetPlotsInCircle(startPlot, 2, 3) do
 						adjPlot:SetRevealed(teamID, true)
 					end
 					UI.SelectUnit(unit)
@@ -715,12 +717,19 @@ function PlayerStartBonuses(player)
 	
 	--log:Info("PlayerStartBonuses %s", player:GetName())
 
-	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, worldInfo.AICapitalRevealRadius, 0.1 * Map.GetNumPlots())
+	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, 1, revealRadius)
 	if not oceanPlot then
-		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, worldInfo.AICapitalRevealRadius)
+		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, revealRadius + 1, revealRadius * 2)
 	end
 	if oceanPlot then
 		isCoastal	= (Plot_GetAreaWeights(startPlot, 1, 8).SEA >= 0.5)
+		for unit in player:Units() do
+			local unitInfo = GameInfo.Units[unit:GetUnitType()]
+			if unitInfo.Domain == "DOMAIN_SEA" then
+				player:InitUnitClass(unitInfo.Class, oceanPlot)
+				unit:Kill()
+			end
+		end
 	end
 	
 	if trait.FreeShip and oceanPlot then
@@ -771,7 +780,7 @@ function PlayerStartBonuses(player)
 		player:SetHasTech(GameInfo.Technologies.TECH_ANIMAL_HUSBANDRY.ID, true)
 	end
 	
-	for _, adjPlot in pairs(Plot_GetPlotsInCircle(startPlot, 2, worldInfo.AICapitalRevealRadius)) do
+	for adjPlot in Plot_GetPlotsInCircle(startPlot, 2, revealRadius) do
 		adjPlot:SetRevealed(teamID, true)
 		local improvementID = adjPlot:GetImprovementType()
 		if improvementID ~= -1 and not adjPlot:IsVisible(Game.GetActiveTeam()) then
@@ -786,8 +795,24 @@ function PlayerStartBonuses(player)
 	--print("PlayerStartBonuses "..player:GetName().." Done")
 end
 
-function CitystateStartBonuses(player)
-	--print("CitystateStartBonuses "..player:GetName())
+function CheckPlayerStartBonuses()
+	if UI:IsLoadedGame() then
+		return
+	end
+	print("CheckPlayerStartBonuses")
+	for playerID,player in pairs(Players) do
+		if player:IsAliveCiv() then
+			--PlayerStartBonuses(player)
+			SafeCall(PlayerStartBonuses, player)
+		end
+	end
+	print("CheckPlayerStartBonuses Done")
+end
+Events.SequenceGameInitComplete.Add(CheckPlayerStartBonuses)
+
+function AIEarlyBonuses(player)
+	--print("AIEarlyBonuses "..player:GetName())
+	local playerID		= player:GetID()
 	local activePlayer	= Players[Game.GetActivePlayer()]
 	local worldInfo		= GameInfo.Worlds[Map.GetWorldSize()]
 	local speedInfo		= GameInfo.GameSpeeds[Game.GetGameSpeedType()]
@@ -798,6 +823,8 @@ function CitystateStartBonuses(player)
 	local startPlot		= capitalCity and capitalCity:Plot()
 	local isCoastal		= false	
 	local settlerID		= player:GetUniqueUnitID("UNITCLASS_SETTLER")
+	local revealRadius	= 8 --worldInfo.AICapitalRevealRadius
+	local relFlavor		= Game.GetValue("Flavor", {LeaderType=leaderInfo.Type, FlavorType="FLAVOR_RELIGION"}, GameInfo.Leader_Flavors)
 	
 	if not startPlot then
 		for unit in player:Units() do
@@ -808,67 +835,102 @@ function CitystateStartBonuses(player)
 		end
 	end	
 	if not startPlot then
-		log:Error("CitystateStartBonuses: %s has no capital or settler!", player:GetName())
+		log:Error("AIEarlyBonuses: %s has no capital or settler!", player:GetName())
 		return
 	end
-	
-	log:Info("CitystateStartBonuses %s", player:GetName())
 
-	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, worldInfo.AICapitalRevealRadius, 0.1 * Map.GetNumPlots())
+	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, 1, revealRadius)
 	if not oceanPlot then
-		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, worldInfo.AICapitalRevealRadius)
+		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, revealRadius + 1, revealRadius * 2)
 	end
 	if oceanPlot then
 		isCoastal	= (Plot_GetAreaWeights(startPlot, 1, 8).SEA >= 0.5)
 	end
-
-	if handicapID >= 2 then -- Chieftain
-		Plot_ChangeYield(startPlot, YieldTypes.YIELD_GOLD, 2)
-		player:InitUnitClass("UNITCLASS_SENTINEL", startPlot)
-	end
-
-	if handicapID >= 4 then -- Prince
-		if isCoastal then
-			player:InitUnitClass("UNITCLASS_TRIREME", oceanPlot)
-		else
-			player:InitUnitClass("UNITCLASS_ARCHER", startPlot)
-		end
-	end
 	
-	if handicapID >= 7 then -- Immortal
-		player:InitUnitClass("UNITCLASS_SENTINEL", startPlot)
-	end
-	if handicapID >= 8 then -- Deity
-		if isCoastal then
-			player:InitUnitClass("UNITCLASS_ARCHER", startPlot)
-		else
+	log:Info("AIEarlyBonuses %s", player:GetName())
+	
+	if player:IsMinorCiv() then
+		if handicapID >= 2 then -- Chieftain
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_CARAVANSARY", 1)
 			player:InitUnitClass("UNITCLASS_SPEARMAN", startPlot)
 		end
-	end
-	--print("CitystateStartBonuses "..player:GetName().." Done")
-end
-
-function CheckPlayerStartBonuses()
-	if UI:IsLoadedGame() then
-		return
-	end
-	print("CheckPlayerStartBonuses")
-	for playerID,player in pairs(Players) do
-		if player:IsAliveCiv() then
-			PlayerStartBonuses(player)
+		if handicapID >= 4 then -- Prince
+			if isCoastal then
+				player:InitUnitClass("UNITCLASS_TRIREME", oceanPlot)
+			else
+				player:InitUnitClass("UNITCLASS_ARCHER", startPlot)
+			end
+		end		
+		if handicapID >= 7 then -- Immortal
+			player:InitUnitClass("UNITCLASS_SPEARMAN", startPlot)
+		end		
+		if handicapID >= 8 then -- Deity
+			if isCoastal then
+				player:InitUnitClass("UNITCLASS_ARCHER", startPlot)
+			else
+				player:InitUnitClass("UNITCLASS_SPEARMAN", startPlot)
+			end
+		end
+	else
+		if handicapID >= 2 then -- Chieftain
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_CARAVANSARY", 1)
+		end
+		if handicapID >= 3 then -- Warlord
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_GRANARY", 1)	
+		end
+		if handicapID >= 4 then -- Prince
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_MONUMENT", 1)
+		end
+		if handicapID >= 5 then -- King
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_LIBRARY", 1)
+		end
+		if handicapID >= 6 then -- Emperor
+			if relFlavor >= 7 then
+				City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_SHRINE", 1)
+				log:Info("Gave %20s a Shrine", player:GetName())
+			elseif leaderInfo.Personality == "PERSONALITY_EXPANSIONIST" then
+				City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_COLOSSEUM", 1)
+				log:Info("Gave %20s a Colosseum", player:GetName())
+			elseif leaderInfo.Personality == "PERSONALITY_COALITION" or leaderInfo.Personality == "PERSONALITY_DIPLOMAT" then
+				local bestCS = nil
+				local bestCSDistance = revealRadius * 2
+				for csID, cs in pairs(Players) do
+					if cs:IsMinorCiv() and cs:GetAlly() == -1 then
+						local minorPlot = cs:GetCapitalCity():Plot()
+						local distance = Map.PlotDistance(startPlot:GetX(), startPlot:GetY(), minorPlot:GetX(), minorPlot:GetY())
+						if distance < bestCSDistance then
+							bestCS = cs
+							bestCSDistance = distance
+						end
+					end
+				end
+				if bestCS then
+					local influence = bestCS:GetFriendshipFromGoldGift(playerID, 500)
+					bestCS:ChangeMinorCivFriendshipWithMajor(playerID, influence)
+					log:Info("Gave %20s %s influence with %s", player:GetName(), influence, bestCS:GetName())
+				end
+			else
+				log:Info("Gave %20s a Barracks", player:GetName())
+				City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_BARRACKS", 1)
+			end
+		end		
+		if handicapID >= 7 then -- Immortal
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_WALLS", 1)
+		end		
+		if handicapID >= 8 then -- Deity
+			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_CASTLE", 1)
 		end
 	end
-	print("CheckPlayerStartBonuses Done")
 end
-Events.SequenceGameInitComplete.Add(CheckPlayerStartBonuses)
 
-function CheckCitystateStartBonuses(player)
-	if player:IsMinorCiv() and Game.GetAdjustedTurn() == 10 then
-		log:Info("CheckCitystateStartBonuses %s", player:GetName())
-		CitystateStartBonuses(player)
+function CheckAIEarlyBonuses(player)
+	if Game.GetAdjustedTurn() ~= 10 or player:IsHuman() then
+		return
 	end
+
+	SafeCall(AIEarlyBonuses, player)
 end
-LuaEvents.ActivePlayerTurnEnd_Player.Add(CheckCitystateStartBonuses)
+LuaEvents.ActivePlayerTurnEnd_Player.Add(CheckAIEarlyBonuses)
 
 --[=[
 function AIPerTurnBonuses(player)
@@ -900,6 +962,7 @@ end
 LuaEvents.ActivePlayerTurnEnd_Player.Add(AIPerTurnBonuses)
 --]=]
 
+--]==]
 
 --
 -- AI military bonuses
@@ -943,7 +1006,8 @@ function AIMilitaryHandicap(  playerID,
 			end
 		end
 		local freeXP = 0--hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
-		local freeXPPerEra = hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
+		local freeXPPerEra = hostileMultiplier * 4 * (Game.GetAverageHumanHandicap() - 1)
+		--local freeXPPerEra = hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
 		if freeXP > 0 or freeXPPerEra > 0 then
 			local era = 1 + Game.GetAverageHumanEra()
 			--log:Warn(player:GetName().. " " ..unit:GetName().. " " ..freeXP.. " + " ..freeXPPerEra.. "*" ..Game.GetAverageHumanHandicap().. " xp")
@@ -952,19 +1016,21 @@ function AIMilitaryHandicap(  playerID,
 	end
 
 	local handicapInfo = GameInfo.HandicapInfos[Players[Game.GetActivePlayer()]:GetHandicapType()]
-	local freePromotion = handicapInfo.AIFreePromotion
+	local freePromotion = "PROMOTION_HANDICAP"--handicapInfo.AIFreePromotion
 	local unitInfo = GameInfo.Units[unit:GetUnitType()]
 
 	if freePromotion then
 		unit:SetHasPromotion(GameInfo.UnitPromotions[freePromotion].ID, true)
 	end
-
+	
+	--[[
 	if unitInfo.CombatClass == "COMBATCLASS_RECON" then
 		unit:SetHasPromotion(GameInfo.UnitPromotions.PROMOTION_ATTACK_BONUS_NOUPGRADE_I.ID, true)
 	end
-
+	--]]
+	
 	if (1 + handicapInfo.ID) >= 5 then -- king
-		--[[ The AI is not good at using siege units
+		-- The AI is not good at using siege units
 		unit:SetHasPromotion(GameInfo.UnitPromotions.PROMOTION_CITY_PENALTY.ID, false)
 		unit:SetHasPromotion(GameInfo.UnitPromotions.PROMOTION_SMALL_CITY_PENALTY.ID, false)
 		--]]
@@ -982,7 +1048,11 @@ function AIMilitaryHandicap(  playerID,
 		end
 	end
 end
-LuaEvents.NewUnit.Add( AIMilitaryHandicap )
+LuaEvents.NewUnit.Add(function(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible) 
+		return SafeCall(AIMilitaryHandicap, playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible)
+	end
+)
+
 
 
 --
@@ -994,17 +1064,17 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 	local aiPlayer = Players[aiPlayerID]
 	if (not humanPlayer:IsHuman() 
 		or aiPlayer:IsHuman()
-		or (MapModData.CEP.EverAtWarWithHuman[aiPlayerID] ~= 1)
+		or (MapModData.Cep.EverAtWarWithHuman[aiPlayerID] ~= 1)
 		or aiPlayer:IsMilitaristicLeader()
 		) then
 		return
 	end
 	log:Warn("War State %s %s %s", humanPlayer:GetName(), aiPlayer:GetName(), isAtWar and "War" or "Peace")
-	MapModData.CEP.EverAtWarWithHuman[aiPlayerID] = 1
-	SaveValue(1, "MapModData.CEP.EverAtWarWithHuman[%s]", aiPlayerID)
+	MapModData.Cep.EverAtWarWithHuman[aiPlayerID] = 1
+	SaveValue(1, "MapModData.Cep.EverAtWarWithHuman[%s]", aiPlayerID)
 	
 	local freeXP = 0--GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
-	local freeXPPerEra = GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
+	local freeXPPerEra = 4 * (Game.GetAverageHumanHandicap() - 1) --GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
 	local era = 1 + Game.GetAverageHumanEra()
 	if freeXP > 0 or freeXPPerEra > 0 then
 		for unit in aiPlayer:Units() do
@@ -1015,18 +1085,60 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 end
 Events.WarStateChanged.Add(WarHandicap)
 
-if not MapModData.CEP.EverAtWarWithHuman then
-	MapModData.CEP.EverAtWarWithHuman = {}
-	startClockTime = os.clock()
-	if UI:IsLoadedGame() then
-		for playerID, player in pairs(Players) do
-			MapModData.CEP.EverAtWarWithHuman[playerID] = LoadValue("MapModData.CEP.EverAtWarWithHuman[%s]", playerID)
+
+--
+-- Manually clear barbarian camps
+--
+
+function ClearCampsCity(city, player)
+	if player:IsHuman() or player:IsMinorCiv() then
+		return
+	end
+	
+	local revealRadius = 8 --worldInfo.AICapitalRevealRadius
+	local campID = GameInfo.Improvements.IMPROVEMENT_CAMP.ID
+	for nearPlot in Plot_GetPlotsInCircle(city:Plot(), 1, revealRadius) do
+		if nearPlot:GetImprovementType() == campID and not nearPlot:IsVisibleToWatchingHuman() then
+			log:Info("ClearCampsCity %s %s", player:GetName(), city:GetName())
+			ClearCamp(player, nearPlot)
 		end
 	end
-	if UI:IsLoadedGame() then
-		log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
+end
+LuaEvents.ActivePlayerTurnEnd_City.Add(function(city, player) return SafeCall(ClearCampsCity, city, player) end)
+
+function ClearCampsUnit(unit)
+	local player = Players[unit:GetOwner()]
+	if player:IsHuman() or player:IsMinorCiv() or not unit:IsCombatUnit() then
+		return
+	end
+	
+	local campID = GameInfo.Improvements.IMPROVEMENT_CAMP.ID
+	for nearPlot in Plot_GetPlotsInCircle(unit:GetPlot(), 1, 1) do
+		if nearPlot:GetImprovementType() == campID and not nearPlot:IsVisibleToWatchingHuman() then
+			log:Info("ClearCampsUnit %s %s", player:GetName(), unit:GetName())
+			ClearCamp(player, nearPlot)
+			for i=0, nearPlot:GetNumUnits()-1 do
+				local nearUnit = nearPlot:GetUnit(i)
+				if Players[nearUnit:GetOwner()]:IsBarbarian() and nearUnit:IsCombatUnit() then
+					nearUnit:Kill()
+					unit:ChangeExperience(10)
+					log:Info("Killed barbarian %s with 10 experience for %s", nearUnit:GetName(), unit:GetName())
+					break
+				end
+			end
+		end
 	end
 end
+LuaEvents.ActivePlayerTurnStart_Unit.Add(function(unit) return SafeCall(ClearCampsUnit, unit) end)
+
+function ClearCamp(player, plot)
+	local campGold = 25 + GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].BarbCampGold
+	plot:SetImprovementType(-1)
+	player:ChangeGold(campGold)
+	log:Info("Cleared camp for %s +%s gold", player:GetName(), campGold)
+end
+
+
 
 
 --
@@ -1134,9 +1246,10 @@ function PlaceTerrace(player)
 						and not plot:IsVisibleToWatchingHuman()
 						) then
 					local placeTerrace = false
-					for _, adjPlot in pairs Plot_GetPlotsInCircle(plot, 1) do
+					for adjPlot in Plot_GetPlotsInCircle(plot, 1) do
 						if adjPlot:IsMountain() then
 							placeTerrace = true
+							break
 						end
 					end
 					if placeTerrace then

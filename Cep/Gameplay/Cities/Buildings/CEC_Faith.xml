@@ -10,14 +10,6 @@
 	-->
 	<Building_YieldChanges>
 		<Update>
-			<Where BuildingType="BUILDING_SHRINE" YieldType="YIELD_FAITH" />
-			<Set Yield="1" />
-		</Update>
-		<Update>
-			<Where BuildingType="BUILDING_TEMPLE" YieldType="YIELD_FAITH" />
-			<Set Yield="2" />
-		</Update>
-		<Update>
 			<Where BuildingType="BUILDING_PAGODA" YieldType="YIELD_FAITH" />
 			<Set Yield="1" />
 		</Update>

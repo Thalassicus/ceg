@@ -209,6 +209,7 @@
 		</Row>
 		-->
 	</Yields>
+	<!--
 	<Specialists>
 		<Update>
 			<Where Type="SPECIALIST_ARTIST" />
@@ -222,6 +223,7 @@
 			<Yield>3</Yield>
 		</Row>
 	</SpecialistYields>
+	-->
 	<Yield_Flavors>
 		<Row><YieldType>YIELD_FOOD</YieldType>             <FlavorType>FLAVOR_GROWTH</FlavorType>            <Flavor>8</Flavor></Row>
 		<Row><YieldType>YIELD_PRODUCTION</YieldType>       <FlavorType>FLAVOR_PRODUCTION</FlavorType>        <Flavor>8</Flavor></Row>

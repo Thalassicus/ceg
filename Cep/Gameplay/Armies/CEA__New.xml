@@ -5,9 +5,9 @@
 	-->
 	<UnitClasses>
 		<Row>
-			<Type>UNITCLASS_CEP_GALLEY</Type>
-			<Description>TXT_KEY_UNIT_CEP_GALLEY</Description>
-			<DefaultUnit>UNIT_CEP_GALLEY</DefaultUnit>
+			<Type>UNITCLASS_BIREME</Type>
+			<Description>TXT_KEY_UNIT_BIREME</Description>
+			<DefaultUnit>UNIT_BIREME</DefaultUnit>
 		</Row>
 		<!--
 		<Row>
@@ -59,14 +59,14 @@
 				 />
 		</Update>
 		<Row>
-			<Class>UNITCLASS_CEP_GALLEY</Class>
-			<Type>UNIT_CEP_GALLEY</Type>
+			<Class>UNITCLASS_BIREME</Class>
+			<Type>UNIT_BIREME</Type>
 			<PrereqTech>TECH_SAILING</PrereqTech>
 			<Domain>DOMAIN_SEA</Domain>
 			<DefaultUnitAI>UNITAI_ASSAULT_SEA</DefaultUnitAI>
-			<Description>TXT_KEY_UNIT_CEP_GALLEY</Description>
+			<Description>TXT_KEY_UNIT_BIREME</Description>
 			<Help>-</Help>
-			<Civilopedia>TXT_KEY_UNIT_CEP_GALLEY_PEDIA</Civilopedia>
+			<Civilopedia>TXT_KEY_UNIT_BIREME_PEDIA</Civilopedia>
 			<MilitarySupport>true</MilitarySupport>
 			<MilitaryProduction>true</MilitaryProduction>
 			<Pillage>true</Pillage>
@@ -135,15 +135,15 @@
 	</Units>
 	<Unit_AITypes>
 		<Row>
-			<UnitType>UNIT_CEP_GALLEY</UnitType>
+			<UnitType>UNIT_BIREME</UnitType>
 			<UnitAIType>UNITAI_ATTACK_SEA</UnitAIType>
 		</Row>
 		<Row>
-			<UnitType>UNIT_CEP_GALLEY</UnitType>
+			<UnitType>UNIT_BIREME</UnitType>
 			<UnitAIType>UNITAI_RESERVE_SEA</UnitAIType>
 		</Row>
 		<Row>
-			<UnitType>UNIT_CEP_GALLEY</UnitType>
+			<UnitType>UNIT_BIREME</UnitType>
 			<UnitAIType>UNITAI_ESCORT_SEA</UnitAIType>
 		</Row>
 		<Row>
@@ -172,7 +172,7 @@
 		</Row>
 	</Unit_AITypes>
 	<UnitGameplay2DScripts>
-		<Row UnitType="UNIT_CEP_GALLEY">
+		<Row UnitType="UNIT_BIREME">
 			<SelectionSound>AS2D_SELECT_TRIREME</SelectionSound>
 			<FirstSelectionSound>AS2D_BIRTH_TRIREME</FirstSelectionSound>
 		</Row>
@@ -201,7 +201,6 @@
 			<Description>TXT_KEY_UNIT_LEVY</Description>
 			<DefaultUnit>UNIT_LEVY</DefaultUnit>
 		</Row>
-		-->
 		<Row>
 			<Type>UNITCLASS_MILITIA</Type>
 			<Description>TXT_KEY_UNIT_MILITIA</Description>
@@ -212,6 +211,7 @@
 			<Description>TXT_KEY_UNIT_CONSCRIPT</Description>
 			<DefaultUnit>UNIT_CONSCRIPT</DefaultUnit>
 		</Row>
+		-->
 	</UnitClasses>
 	<Units>
 		<!--
@@ -271,7 +271,6 @@
 			<IconAtlas>EXPANSION_SCEN_UNIT_ATLAS</IconAtlas>
 			<PortraitIndex>1</PortraitIndex>
 		</Row>
-		-->
 		<Row>
 			<Class>UNITCLASS_MILITIA</Class>
 			<Type>UNIT_MILITIA</Type>
@@ -327,6 +326,7 @@
 			<IconAtlas>UNIT_ATLAS_2</IconAtlas>
 			<PortraitIndex>38</PortraitIndex>
 		</Row>
+		-->
 	</Units>
 	<Unit_AITypes>
 		<!--

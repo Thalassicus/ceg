@@ -7,7 +7,7 @@
     <Guid>828b5b4b-7c62-4afb-a43f-034b596ef5e4</Guid>
     <ModVersion>3</ModVersion>
     <Stability>Beta</Stability>
-    <Teaser>[COLOR_CYAN]   by Thalassicus v3.1.6[NEWLINE][ENDCOLOR]   Equip for +10 fun, strategy, and balance!</Teaser>
+    <Teaser>[COLOR_CYAN]   by Thalassicus v3.2.1[NEWLINE][ENDCOLOR]   Equip for +10 fun, strategy, and balance!</Teaser>
     <Description>We started this expansion pack because we believe Civilization is a fantastic game, and we want to perfect it while remaining as close to the core experience as possible. CEP does this for Civ 5.[NEWLINE][NEWLINE]We think games should be intuitive to learn, challenging to master, and rewards should match the difficulty to complete tasks. We believe in finding balance between extremes. We set a high bar for adding new things to the game, and instead improve or replace existing objects when possible. [NEWLINE][NEWLINE]If you believe in these goals, try this expansion pack![NEWLINE][NEWLINE][NEWLINE]This is the "basic" version of the Civ V: Communitas Expansion Pack. This version maximizes compatability, reliability, and simplicity by changing as few core files as possible. The full version of Communitas adds innovative new features not possible with the normal Civilization files. If you want to discuss the project, or you encounter a problem while playing, please visit the Discuss or Bugs links below.[NEWLINE][NEWLINE]Features: communitas.wikia.com[NEWLINE]Discuss: forums.civfanatics.com/forumdisplay.php?f=429[NEWLINE]Bugs: bit.ly/bugreporting[NEWLINE]News: civmodding.wordpress.com[NEWLINE]Credits: civmodding.wordpress.com/credits[NEWLINE][NEWLINE][NEWLINE]The Communitas Expansion Pack is a collaboration of work from 38 main authors and an incredible community of forumgoers on CivFanatics.com.[NEWLINE][NEWLINE]Please view the readme in the mod folder, which includes important information about using Civ 5 mods.</Description>
     <Authors>[COLOR_CYAN]Thalassicus</Authors>
     <SpecialThanks>Check the readme in the mod folder for credits.</SpecialThanks>
@@ -109,6 +109,11 @@
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
         <FileName>Gameplay/Armies/CEA__Start.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>Gameplay/Armies/Promotions/CEA_Promotions.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -468,12 +473,12 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\AI\CEP_AI_LeaderFlavors.sql</FileName>
+        <FileName>Gameplay\AI\CEAI_LeaderFlavors.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Gameplay\AI\CEP_AI_LeaderPersonalities.sql</FileName>
+        <FileName>Gameplay\AI\CEAI_LeaderPersonalities.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1364,10 +1369,10 @@
     <Homepage>http://civmodding.wordpress.com/</Homepage>
     <ModContent>
       <Content>
-        <Type>MapScript</Type>
-        <Name>Communitas</Name>
-        <Description>Communitas</Description>
-        <FileName>Maps/Communitas.lua</FileName>
+        <Type>InGameUIAddin</Type>
+        <Name>MT_Initialize</Name>
+        <Description>MT_Initialize</Description>
+        <FileName>Tools/MT_Initialize.lua</FileName>
       </Content>
       <Content>
         <Type>InGameUIAddin</Type>
@@ -1377,14 +1382,32 @@
       </Content>
       <Content>
         <Type>InGameUIAddin</Type>
-        <Name>CEA_Events</Name>
-        <Description>CEA_Events</Description>
+        <Name>CEA_Promotions</Name>
+        <Description>CEA_Promotions</Description>
+        <FileName>Gameplay/Armies/Promotions/CEA_Promotions.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CEAI_Events</Name>
+        <Description>CEAI_Events</Description>
+        <FileName>Gameplay/AI/CEAI_Events.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CEB_Events</Name>
+        <Description>CEB_Events</Description>
         <FileName>Gameplay/Barbarians/CEB_Events.lua</FileName>
       </Content>
       <Content>
         <Type>InGameUIAddin</Type>
-        <Name>CEA_Events</Name>
-        <Description>CEA_Events</Description>
+        <Name>CEC_Events</Name>
+        <Description>CEC_Events</Description>
+        <FileName>Gameplay/Cities/CEC_Events.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CET_Events</Name>
+        <Description>CET_Events</Description>
         <FileName>Gameplay/Terrain/CET_Events.lua</FileName>
       </Content>
     </ModContent>
@@ -1412,7 +1435,6 @@
     <Folder Include="Gameplay\Cities\Art\" />
     <Folder Include="Gameplay\Diplomacy\" />
     <Folder Include="Misc\" />
-    <Folder Include="Maps" />
     <Folder Include="Tools" />
     <Folder Include="Interface\Icons" />
     <Folder Include="Gameplay\Leaders\" />
@@ -1459,10 +1481,6 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Gameplay\AI\CEAI_Buildings.xml">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
     <Content Include="Gameplay\AI\CEAI_Events.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
@@ -1471,15 +1489,19 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Gameplay\AI\CEAI_LeaderFlavors.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\AI\CEAI_LeaderPersonalities.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Gameplay\AI\CEAI_WorkerBuilds.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\AI\CEAI__End_Flavors.sql">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Gameplay\AI\CEAI__End_Techs.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1575,6 +1597,10 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Gameplay\Armies\Promotions\CEA_Promotions.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Gameplay\Armies\Promotions\CEA_PromotionSwap.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
@@ -1596,6 +1622,10 @@
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Cities\Buildings\CEC_Faith.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Cities\Buildings\CEC_Science.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1623,6 +1653,10 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Gameplay\Terrain\AssignStartingPlots.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
     <Content Include="Gameplay\Terrain\CET_Events.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
@@ -1631,27 +1665,23 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Maps\Communitas.lua">
+    <Content Include="Gameplay\Terrain\FeatureGenerator.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Maps\ContinentsPlus.lua">
+    <Content Include="Gameplay\Terrain\IslandMaker.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Maps\FeatureGenerator.lua">
+    <Content Include="Interface\CityView.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Interface\CityView.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Maps\IslandMaker.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
-    </Content>
-    <Content Include="Maps\MapGenerator.lua">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
-    </Content>
-    <Content Include="Maps\PangaeaPlus.lua">
+    <Content Include="Interface\CityView_small.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
@@ -1752,6 +1782,10 @@
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Text\en_US\Faith.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Text\en_US\Terrain.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1907,6 +1941,10 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Tools\InGame.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Tools\ModTools.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
@@ -1914,6 +1952,10 @@
     <Content Include="Tools\MT_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\MT_ErrorHandler.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
     <Content Include="Tools\MT_Initialize.lua">
       <SubType>Lua</SubType>
@@ -1976,6 +2018,10 @@
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
     <Content Include="Tuner\DebugFolder\Active Player.ltp">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Tuner\DebugFolder\DefaultPanels.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

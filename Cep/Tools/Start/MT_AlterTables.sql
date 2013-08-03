@@ -413,6 +413,7 @@ ALTER TABLE UnitPromotions	ADD Class								text default 'PROMOTION_CLASS_PERSIS
 
 ALTER TABLE Worlds			ADD AICapitalRevealRadius				integer default 0;
 ALTER TABLE Worlds			ADD ResourceMod							integer default 100;
+UPDATE Worlds SET ResourceMod = 100;
 
 ALTER TABLE Yields			ADD IsTileYield							boolean;
 ALTER TABLE Yields			ADD TileTexture							text;

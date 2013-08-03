@@ -3,62 +3,56 @@
 -- DateCreated: 2/29/2012 7:29:27 AM
 --------------------------------------------------------------
 
---
--- Prototypes
---
+include("ModTools.lua")
 
-LuaEvents.MT_Initialize					= LuaEvents.MT_Initialize					or function()							end
-LuaEvents.PrintDebug					= LuaEvents.PrintDebug						or function()							end
-LuaEvents.ActivePlayerTurnStart_Turn	= LuaEvents.ActivePlayerTurnStart_Turn		or function()							end
-LuaEvents.ActivePlayerTurnStart_Player	= LuaEvents.ActivePlayerTurnStart_Player	or function(player)						end
-LuaEvents.ActivePlayerTurnStart_Unit	= LuaEvents.ActivePlayerTurnStart_Unit		or function(unit)						end
-LuaEvents.ActivePlayerTurnStart_City	= LuaEvents.ActivePlayerTurnStart_City		or function(city, owner)				end
-LuaEvents.ActivePlayerTurnStart_Plot	= LuaEvents.ActivePlayerTurnStart_Plot		or function(plot)						end
-LuaEvents.ActivePlayerTurnEnd_Turn		= LuaEvents.ActivePlayerTurnEnd_Turn		or function()							end
-LuaEvents.ActivePlayerTurnEnd_Player	= LuaEvents.ActivePlayerTurnEnd_Player		or function(player)						end
-LuaEvents.ActivePlayerTurnEnd_Unit		= LuaEvents.ActivePlayerTurnEnd_Unit		or function(unit)						end
-LuaEvents.ActivePlayerTurnEnd_City		= LuaEvents.ActivePlayerTurnEnd_City		or function(city, owner)				end
-LuaEvents.ActivePlayerTurnEnd_Plot		= LuaEvents.ActivePlayerTurnEnd_Plot		or function(plot)						end
-LuaEvents.NewCity						= LuaEvents.NewCity							or function(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState) end
-LuaEvents.NewUnit						= LuaEvents.NewUnit							or function(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible) end
-LuaEvents.NewImprovement				= LuaEvents.NewImprovement					or function(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resourceID, eraID, improvementState) end
-LuaEvents.NewTech						= LuaEvents.NewTech							or function(player, techID, changeID)	end
-LuaEvents.PlotChanged					= LuaEvents.PlotChanged						or function(hexX, hexY) end
-LuaEvents.PlotAcquired					= LuaEvents.PlotAcquired					or function(plot, newOwnerID)			end
-LuaEvents.NewPolicy						= LuaEvents.NewPolicy					or function(policyID, isPolicy)			end
-LuaEvents.CityOccupied					= LuaEvents.CityOccupied					or function(city, player, isForced)		end
-LuaEvents.CityPuppeted					= LuaEvents.CityPuppeted					or function(city, player, isForced)		end
-LuaEvents.CityLiberated					= LuaEvents.CityLiberated					or function(city, player, isForced)		end
-LuaEvents.PromotionEarned				= LuaEvents.PromotionEarned					or function(unit, promotionType)		end
-LuaEvents.UnitUpgraded					= LuaEvents.UnitUpgraded					or function(unit)						end
-LuaEvents.BuildingConstructed			= LuaEvents.BuildingConstructed				or function(player, city, buildingID)	end
-LuaEvents.BuildingDestroyed				= LuaEvents.BuildingDestroyed				or function(player, city, buildingID)	end
-LuaEvents.CheckPlotBuildingsStatus		= LuaEvents.CheckPlotBuildingsStatus		or function(plot)						end
-
---
--- Includes
---
-
-include("MT_Utils.lua")
-include("MT_LuaLogger.lua")
-include("MT_LoadSave.lua")
-include("MT_City.lua")
-include("MT_Player.lua")
-include("MT_Plot.lua")
-include("MT_Unit.lua")
-include("MT_Misc.lua")
+print("Init MT_LuaEvents.lua")
 
 local log = Events.LuaLogger:New()
 log:SetLevel("WARN")
 
+--
+-- Initialize data
+--
+
+if not LuaEvents.MT_Initialize then
+	LuaEvents.MT_Initialize					= function()							end
+	LuaEvents.PrintDebug					= function()							end
+	LuaEvents.ActivePlayerTurnStart_Turn	= function()							end
+	LuaEvents.ActivePlayerTurnStart_Player	= function(player)					end
+	LuaEvents.ActivePlayerTurnStart_Unit	= function(unit)						end
+	LuaEvents.ActivePlayerTurnStart_City	= function(city, owner)				end
+	LuaEvents.ActivePlayerTurnStart_Plot	= function(plot)						end
+	LuaEvents.ActivePlayerTurnEnd_Turn		= function()							end
+	LuaEvents.ActivePlayerTurnEnd_Player	= function(player)					end
+	LuaEvents.ActivePlayerTurnEnd_Unit		= function(unit)						end
+	LuaEvents.ActivePlayerTurnEnd_City		= function(city, owner)				end
+	LuaEvents.ActivePlayerTurnEnd_Plot		= function(plot)						end
+	LuaEvents.NewCity						= function(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState) end
+	LuaEvents.NewUnit						= function(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible) end
+	LuaEvents.NewImprovement				= function(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resourceID, eraID, improvementState) end
+	LuaEvents.NewTech						= function(player, techID, changeID)	end
+	LuaEvents.PlotChanged					= function(hexX, hexY)				end
+	LuaEvents.PlotAcquired					= function(plot, newOwnerID)			end
+	LuaEvents.NewPolicy						= function(policyID, isPolicy)		end
+	LuaEvents.CityOccupied					= function(city, player, isForced)	end
+	LuaEvents.CityPuppeted					= function(city, player, isForced)	end
+	LuaEvents.CityLiberated					= function(city, player, isForced)	end
+	LuaEvents.PromotionEarned				= function(unit, promotionType)		end
+	LuaEvents.UnitUpgraded					= function(unit)						end
+	LuaEvents.BuildingConstructed			= function(player, city, buildingID)	end
+	LuaEvents.BuildingDestroyed				= function(player, city, buildingID)	end
+	LuaEvents.CheckPlotBuildingsStatus		= function(plot)						end
+end
+
+
 local startAITurnTime = nil
 
 MapModData.Cep.VanillaTurnTimes	= 0
-MapModData.Cep.StartTurn			= Game.GetGameTurn()
+MapModData.Cep.StartTurn		= Game.GetGameTurn()
 MapModData.Cep.TotalPlayers		= 0
 MapModData.Cep.TotalCities		= 0
-MapModData.Cep.TotalUnits			= 0
-MapModData.Cep.ReplacingUnit		= false
+MapModData.Cep.TotalUnits		= 0
+MapModData.Cep.ReplacingUnit	= false
 
 
 MapModData.Cep.StartTurnTimes = {
@@ -80,6 +74,65 @@ MapModData.Cep.EndTurnTimes = {
 	Plots		= 0,
 	Total		= 0
 }
+
+MapModData.Cep.PlotOwner = {}
+
+for plotID = 0, Map.GetNumPlots() - 1, 1 do
+	local plot = Map.GetPlotByIndex(plotID)
+	--if plot:GetOwner() ~= -1 then
+		--log:Warn("Loading PlotOwner %s", plotID)
+		MapModData.Cep.PlotOwner[plotID] = plot:GetOwner() --LoadPlot(plot, "PlotOwner")
+	--end
+end
+
+MapModData.Cep.HasPolicy = {}
+
+startClockTime = os.clock()
+for playerID, player in pairs(Players) do
+	MapModData.Cep.HasPolicy[playerID] = {}
+	if not player:IsMinorCiv() then
+		for policyInfo in GameInfo.Policies() do
+			MapModData.Cep.HasPolicy[playerID][policyInfo.ID] = player:HasPolicy(policyInfo.ID)
+		end
+	end
+end
+if UI:IsLoadedGame() then
+	log:Info("%3s ms loading HasPolicy", Game.Round((os.clock() - startClockTime)*1000))
+end
+
+MapModData.Cep.UnitXP = {}
+startClockTime = os.clock()
+for playerID,player in pairs(Players) do
+	if player:IsAliveCiv() and not player:IsMinorCiv() then
+		MapModData.Cep.UnitXP[playerID] = {}
+		if UI.IsLoadedGame() then
+			for policyInfo in GameInfo.Policies("GarrisonedExperience <> 0") do
+				if player:HasPolicy(policyInfo.ID) then
+					for unit in player:Units() do
+						--log:Debug("Loading UnitXP %s", unit:GetName())
+						MapModData.Cep.UnitXP[playerID][unit:GetID()] = LoadValue("MapModData.Cep.UnitXP[%s][%s]", playerID, unit:GetID())
+					end
+				end
+			end
+		end		
+	end
+end
+if UI:IsLoadedGame() then
+	log:Info("%3s ms loading UnitXP", Game.Round((os.clock() - startClockTime)*1000))
+end
+
+MapModData.buildingsAlive = {}
+for plotID = 0, Map.GetNumPlots() - 1, 1 do
+	MapModData.buildingsAlive[plotID] = {}
+end
+for playerID,player in pairs(Players) do
+	for city in player:Cities() do
+		for buildingInfo in GameInfo.Buildings() do
+			log:Debug("Loading buildingsAlive %15s %20s = %s", city:GetName(), GetName(buildingInfo), city:IsHasBuilding(buildingInfo.ID))
+			MapModData.buildingsAlive[City_GetID(city)][buildingInfo.ID] = city:IsHasBuilding(buildingInfo.ID)
+		end
+	end
+end
 
 --
 -- Event Definitions
@@ -119,8 +172,7 @@ function OnTurnStart()
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
-			if LuaEvents.ActivePlayerTurnStart_Player(player) then
-			end
+			LuaEvents.ActivePlayerTurnStart_Player(player)
 			MapModData.Cep.TotalPlayers = MapModData.Cep.TotalPlayers + 1
 		end
 	end
@@ -367,20 +419,10 @@ end
 
 ]]
 
-if not MapModData.Cep.PlotOwner then
-	MapModData.Cep.PlotOwner = {}
-	for plotID = 0, Map.GetNumPlots() - 1, 1 do
-		local plot = Map.GetPlotByIndex(plotID)
-		--if plot:GetOwner() ~= -1 then
-			--log:Warn("Loading PlotOwner %s", plotID)
-			MapModData.Cep.PlotOwner[plotID] = plot:GetOwner() --LoadPlot(plot, "PlotOwner")
-		--end
-	end
-end
-
 function OnHexCultureChanged(hexX, hexY, newOwnerID, unknown)
 	local plot = Map.GetPlot(ToGridFromHex(hexX, hexY))
 	local plotID = Plot_GetID(plot)
+	log:Warn("MapModData.Cep.PlotOwner = %s", MapModData.Cep.PlotOwner)
 	--log:Warn("OnHexCultureChanged old=%s new=%s", MapModData.Cep.PlotOwner[plotID], newOwnerID)
 	if newOwnerID ~= MapModData.Cep.PlotOwner[plotID] then
 		MapModData.Cep.PlotOwner[plotID] = newOwnerID
@@ -401,7 +443,7 @@ LuaEvents.ActivePlayerTurnEnd_Player.Add( CheckFreeBuildings )
 LuaEvents.NewPolicy.Add( CheckFreeBuildings )	
 ]]
 
-Events.PolicyAdopted = Events.PolicyAdopted or function(policyID, isPolicy)
+Events.PolicyAdopted = function(policyID, isPolicy)
 	log:Info("TriggerPolicyAdopted %s %s", policyID, isPolicy)
 	if not isPolicy then
 		policyID = GameInfo.Policies[GameInfo.PolicyBranchTypes[policyID].FreePolicy].ID
@@ -411,22 +453,6 @@ Events.PolicyAdopted = Events.PolicyAdopted or function(policyID, isPolicy)
 	LuaEvents.NewPolicy(Players[playerID], policyID)
 end
 
-if not MapModData.Cep.HasPolicy then
-	MapModData.Cep.HasPolicy = {}
-	startClockTime = os.clock()
-	for playerID, player in pairs(Players) do
-		MapModData.Cep.HasPolicy[playerID] = {}
-		if not player:IsMinorCiv() then
-			for policyInfo in GameInfo.Policies() do
-				MapModData.Cep.HasPolicy[playerID][policyInfo.ID] = player:HasPolicy(policyInfo.ID)
-			end
-		end
-	end
-	if UI:IsLoadedGame() then
-		log:Info("%3s ms loading HasPolicy", Game.Round((os.clock() - startClockTime)*1000))
-	end
-end
-
 
 ---------------------------------------------------------------------
 --[[ LuaEvents.UnitExperienceChange(unit, experience) usage example:
@@ -434,28 +460,7 @@ end
 ]]
 --LuaEvents.UnitExperienceChange = LuaEvents.UnitExperienceChange or function(unit, oldXP, newXP) end
 
-if not MapModData.Cep.UnitXP then
-	MapModData.Cep.UnitXP = {}
-	startClockTime = os.clock()
-	for playerID,player in pairs(Players) do
-		if player:IsAliveCiv() and not player:IsMinorCiv() then
-			MapModData.Cep.UnitXP[playerID] = {}
-			if UI.IsLoadedGame() then
-				for policyInfo in GameInfo.Policies("GarrisonedExperience <> 0") do
-					if player:HasPolicy(policyInfo.ID) then
-						for unit in player:Units() do
-							--log:Debug("Loading UnitXP %s", unit:GetName())
-							MapModData.Cep.UnitXP[playerID][unit:GetID()] = LoadValue("MapModData.Cep.UnitXP[%s][%s]", playerID, unit:GetID())
-						end
-					end
-				end
-			end		
-		end
-	end
-	if UI:IsLoadedGame() then
-		log:Info("%3s ms loading UnitXP", Game.Round((os.clock() - startClockTime)*1000))
-	end
-end
+
 
 ---------------------------------------------------------------------
 --[[ GetBranchFinisherID(policyBranchType) usage example:
@@ -499,15 +504,15 @@ end
 --[[ LuaEvents.CityOccupied(city, player) usage example:
 
 ]]
-Events.CityOccupied = Events.CityOccupied or function(city, player, isForced)
+Events.CityOccupied = function(city, player, isForced)
 	LuaEvents.CityOccupied(city, player, isForced)
 end
 
-Events.CityPuppeted = Events.CityPuppeted or function(city, player, isForced)
+Events.CityPuppeted = function(city, player, isForced)
 	LuaEvents.CityPuppeted(city, player, isForced)
 end
 
-Events.CityLiberated = Events.CityLiberated or function(city, player, isForced)
+Events.CityLiberated = function(city, player, isForced)
 	LuaEvents.CityLiberated(city, player, isForced)
 end
 
@@ -515,12 +520,12 @@ end
 --[[ LuaEvents.PromotionEarned(city, player) usage example:
 
 ]]
-Events.PromotionEarned = Events.PromotionEarned or function(unit, promotionType)
+Events.PromotionEarned = function(unit, promotionType)
 	--log:Warn("PromotionEarned")
 	LuaEvents.PromotionEarned(unit, promotionType)
 end
 
-Events.UnitUpgraded = Events.UnitUpgraded or function(unit)
+Events.UnitUpgraded = function(unit)
 	LuaEvents.UnitUpgraded(unit)
 end
 
@@ -530,20 +535,9 @@ end
 ]]
 
 
-if not MapModData.buildingsAlive then
-	MapModData.buildingsAlive = {}
-	for plotID = 0, Map.GetNumPlots() - 1, 1 do
-		MapModData.buildingsAlive[plotID] = {}
-	end
-	for playerID,player in pairs(Players) do
-		for city in player:Cities() do
-			for buildingInfo in GameInfo.Buildings() do
-				log:Debug("Loading buildingsAlive %15s %20s = %s", city:GetName(), GetName(buildingInfo), city:IsHasBuilding(buildingInfo.ID))
-				MapModData.buildingsAlive[City_GetID(city)][buildingInfo.ID] = city:IsHasBuilding(buildingInfo.ID)
-			end
-		end
-	end
-end
+
+
+
 
 function OnBuildingConstructed(player, city, buildingID)
 	log:Debug("%-25s %15s %15s %30s %s", "BuildingConstructed", player:GetName(), city:GetName(), GameInfo.Buildings[buildingID].Type, MapModData.buildingsAlive[City_GetID(city)])

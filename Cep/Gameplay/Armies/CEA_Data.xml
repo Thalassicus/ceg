@@ -22,7 +22,7 @@
 	<UnitCombatInfosEx>
 		<Update>
 			<Where CombatClass="UNITCOMBAT_NAVALMELEE"/>
-			<Set DefaultUnitType="UNIT_CEP_GALLEY" />
+			<Set DefaultUnitType="UNIT_BIREME" />
 		</Update>
 	</UnitCombatInfosEx>
 	-->
@@ -83,7 +83,27 @@
 		</Update>
 		<Update>
 			<Where Name="CITY_STRENGTH_UNIT_DIVISOR" />
-			<Set Value="100" />
+			<Set Value="200" />
+			<!-- 500 -->
+		</Update>
+		<Update>
+			<Where Name="CITY_STRENGTH_TECH_BASE" />
+			<Set Value="5.5" />
+			<!-- 5.5 -->
+		</Update>
+		<Update>
+			<Where Name="CITY_STRENGTH_TECH_EXPONENT" />
+			<Set Value="1" />
+			<!-- 2.8 -->
+		</Update>
+		<Update>
+			<Where Name="CITY_STRENGTH_TECH_MULTIPLIER" />
+			<Set Value="1" />
+			<!-- 1 -->
+		</Update>
+		<Update>
+			<Where Name="CITY_STRENGTH_HILL_CHANGE" />
+			<Set Value="500" />
 			<!-- 500 -->
 		</Update>
 		<Update>

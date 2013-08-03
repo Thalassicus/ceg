@@ -9,18 +9,23 @@ This map script generates climate based on a simplified model of geostrophic
 and monsoon wind patterns. Rivers are generated along accurate drainage paths
 governed by the elevation map used to create the landforms.
 
-In addition to PerfectWorld features, this map includes island chains, ocean rifts,
-lakes, and terrain proportions more closely matching standard Civ 5 maps.
+In addition to PerfectWorld features, this map includes:
+- Natural wonders appear in useful locations.
+- Island chains for offshore settlement.
+- Ocean rifts so triremes can't navigate the whole world.
+- Lakes, and rivers flowing out of lakes.
+- Terrain proportions more closely matching vanilla, with less rough terrain (hills/forest/jungle).
 
 --]]------------------------------------------------------------------------------
 
-include("MapGenerator");
-include("FeatureGenerator");
-include("TerrainGenerator");
-include("IslandMaker");
+include("MapGenerator")
+include("FeatureGenerator")
+include("TerrainGenerator")
+include("IslandMaker")
 
 MapConstants = {}
 
+local debugTime = false
 
 
 function MapConstants:New()
@@ -29,7 +34,7 @@ function MapConstants:New()
 	self.__index = self
 
 	--Percent of land tiles on the map.
-	mconst.landPercent			= 0.40 --0.28
+	mconst.landPercent			= 0.35 --0.28
 
 	--Top and bottom map latitudes.
 	mconst.topLatitude			= 70
@@ -37,19 +42,25 @@ function MapConstants:New()
 
 	--Important latitude markers used for generating climate.
 	mconst.tropicLatitudes		= 23 --23
-	mconst.horseLatitudes		= 28 --28
+	mconst.horseLatitudes		= 30 --28
 	mconst.polarFrontLatitude	= 60 --60
 	
 	-- need open terrain for horses
-	mconst.mountainsPercent = 0.95 --0.85	--Percent of dry land that is below the mountain elevation deviance threshold.
-	mconst.hillsPercent		= 0.80 --0.50	--Percent of dry land that is below the hill elevation deviance threshold.
+	mconst.mountainsPercent		= 0.95 --0.85	--Percent of dry land that is below the mountain elevation deviance threshold.
+	mconst.hillsPercent			= 0.80 --0.50	--Percent of dry land that is below the hill elevation deviance threshold.
+	mconst.hillsBlendPercent	= 0.33 --0.00	--Chance for flat land to become hills per adjacent mountain. Requires at least 2 adjacent mountains.
 	
-	mconst.marshPercent		= 0.92 --0.92	--Percent of land below the marsh rainfall threshold.
-	mconst.junglePercent	= 0.75 --0.75	--Percent of land below the jungle rainfall threshold.
-	mconst.plainsPercent	= 0.56 --0.56	--Percent of land that is below the plains rainfall threshold.
-	mconst.zeroTreesPercent	= 0.30 --0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
-	mconst.desertPercent	= 0.30 --0.36	--Percent of land that is below the desert rainfall threshold.
+	mconst.featurePercent		= 0.80 --1.00	--Percent of potential feature tiles that actually spawn a feature (marsh/jungle/forest)
+	mconst.featureWetVariance	= 0.10 --0.00	--Percent chance increase if freshwater, decrease if dry (groups features near rivers)
 	
+	mconst.marshPercent			= 0.05 --		--Percent chance increase for marsh, from each adjacent watery tile
+	mconst.junglePercent		= 0.75 --0.75	--Percent of land below the jungle rainfall threshold.
+	mconst.plainsPercent		= 0.56 --0.56	--Percent of land that is below the plains rainfall threshold.
+	mconst.zeroTreesPercent		= 0.30 --0.30	--Percent of land that is below the rainfall threshold where no trees can appear.
+	mconst.desertPercent		= 0.30 --0.36	--Percent of land that is below the desert rainfall threshold.
+	
+	mconst.forestRandomPercent	= 0.10 --0.00	--Percent of barren plains and tundra which randomly spawn a forest
+	mconst.forestWetVariance	= 0.00 --0.00	--Percent chance for feature increase if freshwater, decrease if dry (clusters features near rivers)
 	mconst.jungleMinTemperature	= 0.70 --0.70	--Coldest absolute temperature allowed to be jungle, forest if colder.
 	mconst.desertMinTemperature	= 0.40 --0.34	--Coldest absolute temperature allowed to be desert, plains if colder.
 	mconst.tundraTemperature	= 0.35 --0.30	--Absolute temperature below which is tundra.
@@ -152,6 +163,9 @@ function MapConstants:New()
 	--wide per unit by this much. We need to know this to sample the perlin
 	--maps properly so they don't look squished.
 	mconst.YtoXRatio = 1.5/(math.sqrt(0.75) * 2)
+	
+	mconst.tropicalPlots = {}
+	mconst.oceanRiftPlots = {}
 
 	return mconst
 end
@@ -161,74 +175,83 @@ function MapConstants:GetOppositeDir(dir)
 end
 
 
-----------------------------------------------------------------
-function IsBetween(lower, mid, upper)
-	return ((lower <= mid) and (mid <= upper))
+
+
+---------------------------------------------------------------------
+--[[ Plot_GetAreaWeights(centerPlot, minRadius, maxRadius) usage example:
+
+areaWeights = Plot_GetAreaWeights(plot, 2, 2)
+if (areaWeights.PLOT_LAND + areaWeights.PLOT_HILLS) <= 0.25 then
+	return
 end
+]]
 
-function Constrain(lower, mid, upper)
-	return math.max(lower, math.min(mid, upper))
+local plotTypeName		= {}-- -1="NO_PLOT"}
+local terrainTypeName	= {}-- -1="NO_TERRAIN"}
+local featureTypeName	= {}-- -1="NO_FEATURE"}
+
+--function InitAreaWeightValues()
+--end
+
+--[[
+if not MapModData.Cep.InitAreaWeightValues then
+	MapModData.Cep.InitAreaWeightValues = true
+	LuaEvents.MT_Initialize.Add(InitAreaWeightValues)
 end
-----------------------------------------------------------------
-function Plot_GetPlotsInCircle(plot, minR, maxR)
-	if not plot then
-		log:Fatal("plot:GetPlotsInCircle plot=nil")
-		return
-	end
-	if not maxR then
-		maxR = minR
-		minR = 1
-	end
-	
-	local plotList	= {}
-	local iW, iH	= Map.GetGridSize()
-	local isWrapX	= Map:IsWrapX()
-	local isWrapY	= Map:IsWrapY()
-	local centerX	= plot:GetX()
-	local centerY	= plot:GetY()
+--]]
 
-	x1 = isWrapX and ((centerX-maxR) % iW) or Constrain(0, centerX-maxR, iW-1)
-	x2 = isWrapX and ((centerX+maxR) % iW) or Constrain(0, centerX+maxR, iW-1)
-	y1 = isHrapY and ((centerY-maxR) % iH) or Constrain(0, centerY-maxR, iH-1)
-	y2 = isHrapY and ((centerY+maxR) % iH) or Constrain(0, centerY+maxR, iH-1)
-
-	local x		= x1
-	local y		= y1
-	local xStep	= 0
-	local yStep	= 0
-	local rectW	= x2-x1 
-	local rectH	= y2-y1
-	
-	if rectW < 0 then
-		rectW = rectW + iW
+function Plot_GetAreaWeights(plot, minR, maxR)
+	for k, v in pairs(PlotTypes) do
+		plotTypeName[v] = k
+	end
+	for itemInfo in GameInfo.Terrains() do
+		terrainTypeName[itemInfo.ID] = itemInfo.Type
+	end
+	for itemInfo in GameInfo.Features() do
+		featureTypeName[itemInfo.ID] = itemInfo.Type
 	end
 	
-	if rectH < 0 then
-		rectH = rectH + iH
+	local weights = {TOTAL=0, SEA=0, NO_PLOT=0, NO_TERRAIN=0, NO_FEATURE=0}
+	
+	for k, v in pairs(PlotTypes) do
+		weights[k] = 0
+	end
+	for itemInfo in GameInfo.Terrains() do
+		weights[itemInfo.Type] = 0
+	end
+	for itemInfo in GameInfo.Features() do
+		weights[itemInfo.Type] = 0
 	end
 	
-	local adjPlot = Map.GetPlot(x, y)
-
-	while (yStep < 1 + rectH) and adjPlot ~= nil do
-		while (xStep < 1 + rectW) and adjPlot ~= nil do
-			if IsBetween(minR, Map.PlotDistance(x, y, centerX, centerY), maxR) then
-				table.insert(plotList, adjPlot)
+	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, minR, maxR)) do
+		local distance		 = Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY())
+		local adjWeight		 = (distance == 0) and 6 or (1/distance)
+		local plotType		 = plotTypeName[adjPlot:GetPlotType()]
+		local terrainType	 = terrainTypeName[adjPlot:GetTerrainType()]
+		local featureType	 = featureTypeName[adjPlot:GetFeatureType()] or "NO_FEATURE"
+		
+		weights.TOTAL		 = weights.TOTAL		+ adjWeight 
+		weights[plotType]	 = weights[plotType]	+ adjWeight
+		weights[terrainType] = weights[terrainType]	+ adjWeight
+		weights[featureType] = weights[featureType]	+ adjWeight
+				
+		if plotType == "PLOT_OCEAN" then
+			if not adjPlot:IsLake() and featureType ~= "FEATURE_ICE" then
+				weights.SEA = weights.SEA + adjWeight
 			end
-			
-			x		= x + 1
-			x		= isWrapX and (x % iW) or x
-			xStep	= xStep + 1
-			adjPlot	= Map.GetPlot(x, y)
 		end
-		x		= x1
-		y		= y + 1
-		y		= isWrapY and (y % iH) or y
-		xStep	= 0
-		yStep	= yStep + 1
-		adjPlot	= Map.GetPlot(x, y)
 	end
 	
-	return plotList
+	if weights.TOTAL == 0 then
+		log:Fatal("plot:GetAreaWeights Total=0! x=%s y=%s", x, y)
+	end
+	for k, v in pairs(weights) do
+		if k ~= "TOTAL" then
+			weights[k] = weights[k] / weights.TOTAL
+		end
+	end
+	
+	return weights
 end
 ---------------------------------------------------------------------
 
@@ -251,10 +274,10 @@ function CubicInterpolate(v0,v1,v2,v3,mu)
 end
 
 function BicubicInterpolate(v,muX,muY)
-	local a0 = CubicInterpolate(v[1],v[2],v[3],v[4],muX);
-	local a1 = CubicInterpolate(v[5],v[6],v[7],v[8],muX);
-	local a2 = CubicInterpolate(v[9],v[10],v[11],v[12],muX);
-	local a3 = CubicInterpolate(v[13],v[14],v[15],v[16],muX);
+	local a0 = CubicInterpolate(v[1],v[2],v[3],v[4],muX)
+	local a1 = CubicInterpolate(v[5],v[6],v[7],v[8],muX)
+	local a2 = CubicInterpolate(v[9],v[10],v[11],v[12],muX)
+	local a3 = CubicInterpolate(v[13],v[14],v[15],v[16],muX)
 
 	return CubicInterpolate(a0,a1,a2,a3,muY)
 end
@@ -270,10 +293,10 @@ function CubicDerivative(v0,v1,v2,v3,mu)
 end
 
 function BicubicDerivative(v,muX,muY)
-	local a0 = CubicInterpolate(v[1],v[2],v[3],v[4],muX);
-	local a1 = CubicInterpolate(v[5],v[6],v[7],v[8],muX);
-	local a2 = CubicInterpolate(v[9],v[10],v[11],v[12],muX);
-	local a3 = CubicInterpolate(v[13],v[14],v[15],v[16],muX);
+	local a0 = CubicInterpolate(v[1],v[2],v[3],v[4],muX)
+	local a1 = CubicInterpolate(v[5],v[6],v[7],v[8],muX)
+	local a2 = CubicInterpolate(v[9],v[10],v[11],v[12],muX)
+	local a3 = CubicInterpolate(v[13],v[14],v[15],v[16],muX)
 
 	return CubicDerivative(a0,a1,a2,a3,muY)
 end
@@ -438,22 +461,22 @@ function inheritsFrom( baseClass )
 
     -- Return the class object of the instance
     function new_class:class()
-        return new_class;
+        return new_class
     end
 
 	-- Return the super class object of the instance, optional base class of the given class (must be part of hiearchy)
     function new_class:baseClass(class)
-		return new_class:_B(class);
+		return new_class:_B(class)
     end
 
     -- Return the super class object of the instance, optional base class of the given class (must be part of hiearchy)
     function new_class:_B(class)
 		if (class==nil) or (new_class==class) then
-			return baseClass;
+			return baseClass
 		elseif(baseClass~=nil) then
-			return baseClass:_B(class);
+			return baseClass:_B(class)
 		end
-		return nil;
+		return nil
     end
 
 	-- Return true if the caller is an instance of theClass
@@ -481,6 +504,9 @@ end
 -- and Map.rand for in game.
 -----------------------------------------------------------------------------
 function PWRand()
+	if Map then
+		return Map.Rand(10000, "Random - Lua") / 10000
+	end
 	return math.random()
 end
 
@@ -510,7 +536,7 @@ FloatMap = inheritsFrom(nil)
 
 function FloatMap:New(width, height, wrapX, wrapY)
 	local new_inst = {}
-	setmetatable(new_inst, {__index = FloatMap});	--setup metatable
+	setmetatable(new_inst, {__index = FloatMap})	--setup metatable
 
 	new_inst.width = width
 	new_inst.height = height
@@ -973,7 +999,7 @@ ElevationMap = inheritsFrom(FloatMap)
 
 function ElevationMap:New(width, height, wrapX, wrapY)
 	local new_inst = FloatMap:New(width,height,wrapX,wrapY)
-	setmetatable(new_inst, {__index = ElevationMap});	--setup metatable
+	setmetatable(new_inst, {__index = ElevationMap})	--setup metatable
 	return new_inst
 end
 function ElevationMap:IsBelowSeaLevel(x,y)
@@ -991,7 +1017,7 @@ PWAreaMap = inheritsFrom(FloatMap)
 
 function PWAreaMap:New(width,height,wrapX,wrapY)
 	local new_inst = FloatMap:New(width,height,wrapX,wrapY)
-	setmetatable(new_inst, {__index = PWAreaMap});	--setup metatable
+	setmetatable(new_inst, {__index = PWAreaMap})	--setup metatable
 
 	new_inst.areaList = {}
 	new_inst.segStack = {}
@@ -1200,7 +1226,7 @@ PWArea = inheritsFrom(nil)
 
 function PWArea:New(id,seedx,seedy,trueMatch)
 	local new_inst = {}
-	setmetatable(new_inst, {__index = PWArea});	--setup metatable
+	setmetatable(new_inst, {__index = PWArea})	--setup metatable
 
 	new_inst.id = id
 	new_inst.seedx = seedx
@@ -1217,7 +1243,7 @@ LineSeg = inheritsFrom(nil)
 
 function LineSeg:New(y,xLeft,xRight,dy)
 	local new_inst = {}
-	setmetatable(new_inst, {__index = LineSeg});	--setup metatable
+	setmetatable(new_inst, {__index = LineSeg})	--setup metatable
 
 	new_inst.y = y
 	new_inst.xLeft = xLeft
@@ -1234,7 +1260,7 @@ RiverMap = inheritsFrom(nil)
 
 function RiverMap:New(elevationMap)
 	local new_inst = {}
-	setmetatable(new_inst, {__index = RiverMap});
+	setmetatable(new_inst, {__index = RiverMap})
 
 	new_inst.elevationMap = elevationMap
 	new_inst.riverData = {}
@@ -1422,7 +1448,7 @@ function RiverMap:isLake(junction)
 		return false
 	end
 
-	--print(string.format("junction = (%d,%d) N = %s, alt = %f",junction.x,junction.y,tostring(junction.isNorth),junction.altitude))
+	--if debugTime then print(string.format("junction = (%d,%d) N = %s, alt = %f",junction.x,junction.y,tostring(junction.isNorth),junction.altitude)) end
 
 	local vertNeighbor = self:GetJunctionNeighbor(mc.VERTFLOW,junction)
 	local vertAltitude = nil
@@ -1431,7 +1457,7 @@ function RiverMap:isLake(junction)
 		--print("--vertNeighbor == nil")
 	else
 		vertAltitude = vertNeighbor.altitude
-		--print(string.format("--vertNeighbor = (%d,%d) N = %s, alt = %f",vertNeighbor.x,vertNeighbor.y,tostring(vertNeighbor.isNorth),vertNeighbor.altitude))
+		--if debugTime then print(string.format("--vertNeighbor = (%d,%d) N = %s, alt = %f",vertNeighbor.x,vertNeighbor.y,tostring(vertNeighbor.isNorth),vertNeighbor.altitude)) end
 	end
 
 	local westNeighbor = self:GetJunctionNeighbor(mc.WESTFLOW,junction)
@@ -1441,7 +1467,7 @@ function RiverMap:isLake(junction)
 		--print("--westNeighbor == nil")
 	else
 		westAltitude = westNeighbor.altitude
-		--print(string.format("--westNeighbor = (%d,%d) N = %s, alt = %f",westNeighbor.x,westNeighbor.y,tostring(westNeighbor.isNorth),westNeighbor.altitude))
+		--if debugTime then print(string.format("--westNeighbor = (%d,%d) N = %s, alt = %f",westNeighbor.x,westNeighbor.y,tostring(westNeighbor.isNorth),westNeighbor.altitude)) end
 	end
 
 	local eastNeighbor = self:GetJunctionNeighbor(mc.EASTFLOW,junction)
@@ -1451,7 +1477,7 @@ function RiverMap:isLake(junction)
 		--print("--eastNeighbor == nil")
 	else
 		eastAltitude = eastNeighbor.altitude
-		--print(string.format("--eastNeighbor = (%d,%d) N = %s, alt = %f",eastNeighbor.x,eastNeighbor.y,tostring(eastNeighbor.isNorth),eastNeighbor.altitude))
+		--if debugTime then print(string.format("--eastNeighbor = (%d,%d) N = %s, alt = %f",eastNeighbor.x,eastNeighbor.y,tostring(eastNeighbor.isNorth),eastNeighbor.altitude)) end
 	end
 
 	local lowest = math.min(vertAltitude,math.min(westAltitude,math.min(eastAltitude,junction.altitude)))
@@ -1531,9 +1557,9 @@ function RiverMap:SiltifyLakes()
 	local shortestLakeList = #lakeList
 	local iterations = 0
 	local debugOn = false
-	--print(string.format("initial lake count = %d",longestLakeList))
+	--if debugTime then print(string.format("initial lake count = %d",longestLakeList)) end
 	while #lakeList > 0 do
-		--print(string.format("length of lakeList = %d",#lakeList))
+		--if debugTime then print(string.format("length of lakeList = %d",#lakeList)) end
 		iterations = iterations + 1
 		if #lakeList > longestLakeList then
 			longestLakeList = #lakeList
@@ -1541,7 +1567,7 @@ function RiverMap:SiltifyLakes()
 
 		if #lakeList < shortestLakeList then
 			shortestLakeList = #lakeList
-			--print(string.format("shortest lake list = %d, iterations = %d",shortestLakeList,iterations))
+			--if debugTime then print(string.format("shortest lake list = %d, iterations = %d",shortestLakeList,iterations)) end
 			iterations = 0
 		end
 
@@ -1562,13 +1588,13 @@ function RiverMap:SiltifyLakes()
 		end
 
 		if debugOn then
-			print(string.format("processing (%d,%d) N=%s alt=%f",junction.x,junction.y,tostring(junction.isNorth),junction.altitude))
+			if debugTime then print(string.format("processing (%d,%d) N=%s alt=%f",junction.x,junction.y,tostring(junction.isNorth),junction.altitude)) end
 		end
 
 		local avgLowest = self:GetLowerNeighborAverage(junction)
 
 		if debugOn then
-			print(string.format("--avgLowest == %f",avgLowest))
+			if debugTime then print(string.format("--avgLowest == %f",avgLowest)) end
 		end
 
 		if avgLowest < junction.altitude + 0.005 then --cant use == in fp comparison
@@ -1581,13 +1607,13 @@ function RiverMap:SiltifyLakes()
 		end
 
 		if debugOn then
-			print(string.format("--changing altitude to %f",junction.altitude))
+			if debugTime then print(string.format("--changing altitude to %f",junction.altitude)) end
 		end
 
 		for dir = mc.WESTFLOW,mc.VERTFLOW do
 			local neighbor = self:GetJunctionNeighbor(dir,junction)
 			if debugOn and neighbor == nil then
-				print(string.format("--nil neighbor at direction = %d",dir))
+				if debugTime then print(string.format("--nil neighbor at direction = %d",dir)) end
 			end
 			if neighbor ~= nil and self:isLake(neighbor) then
 				local i = self.elevationMap:GetIndex(neighbor.x,neighbor.y)
@@ -1595,21 +1621,21 @@ function RiverMap:SiltifyLakes()
 					Push(lakeList,neighbor)
 					onQueueMapNorth[i] = true
 					if debugOn then
-						print(string.format("--pushing (%d,%d) N=%s alt=%f",neighbor.x,neighbor.y,tostring(neighbor.isNorth),neighbor.altitude))
+						if debugTime then print(string.format("--pushing (%d,%d) N=%s alt=%f",neighbor.x,neighbor.y,tostring(neighbor.isNorth),neighbor.altitude)) end
 					end
 				elseif neighbor.isNorth == false and onQueueMapSouth[i] == false then
 					Push(lakeList,neighbor)
 					onQueueMapSouth[i] = true
 					if debugOn then
-						print(string.format("--pushing (%d,%d) N=%s alt=%f",neighbor.x,neighbor.y,tostring(neighbor.isNorth),neighbor.altitude))
+						if debugTime then print(string.format("--pushing (%d,%d) N=%s alt=%f",neighbor.x,neighbor.y,tostring(neighbor.isNorth),neighbor.altitude)) end
 					end
 				end
 			end
 		end
 	end
-	--print(string.format("longestLakeList = %d",longestLakeList))
+	--if debugTime then print(string.format("longestLakeList = %d",longestLakeList)) end
 
-	--print(string.format("sea level = %f",self.elevationMap.seaLevelThreshold))
+	--if debugTime then print(string.format("sea level = %f",self.elevationMap.seaLevelThreshold)) end
 
 	local belowSeaLevelCount = 0
 	local riverTest = FloatMap:New(self.elevationMap.width,self.elevationMap.height,self.elevationMap.xWrap,self.elevationMap.yWrap)
@@ -1630,13 +1656,13 @@ function RiverMap:SiltifyLakes()
 
 			if self:isLake(self.riverData[i].northJunction) then
 				local junction = self.riverData[i].northJunction
-				print(string.format("lake found at (%d, %d) isNorth = %s, altitude = %f!",junction.x,junction.y,tostring(junction.isNorth),junction.altitude))
+				if debugTime then print(string.format("lake found at (%d, %d) isNorth = %s, altitude = %f!",junction.x,junction.y,tostring(junction.isNorth),junction.altitude)) end
 				riverTest.data[i] = 1.0
 				lakesFound = true
 			end
 			if self:isLake(self.riverData[i].southJunction) then
 				local junction = self.riverData[i].southJunction
-				print(string.format("lake found at (%d, %d) isNorth = %s, altitude = %f!",junction.x,junction.y,tostring(junction.isNorth),junction.altitude))
+				if debugTime then print(string.format("lake found at (%d, %d) isNorth = %s, altitude = %f!",junction.x,junction.y,tostring(junction.isNorth),junction.altitude)) end
 				riverTest.data[i] = 1.0
 				lakesFound = true
 			end
@@ -1736,7 +1762,7 @@ function RiverMap:SetRiverSizes(rainfallMap)
 	table.sort(junctionList,function (a,b) return a.size > b.size end)
 	local riverIndex = math.floor(mc.riverPercent * #junctionList)
 	self.riverThreshold = junctionList[riverIndex].size
-	print(string.format("river threshold = %f",self.riverThreshold))
+	if debugTime then print(string.format("river threshold = %f",self.riverThreshold)) end
 
 --~ 	local riverMap = FloatMap:New(self.elevationMap.width,self.elevationMap.height,self.elevationMap.xWrap,self.elevationMap.yWrap)
 --~ 	for y = 0,self.elevationMap.height - 1 do
@@ -1751,20 +1777,20 @@ end
 
 --This function returns the flow directions needed by civ
 function RiverMap:GetFlowDirections(x,y)
-	--print(string.format("Get flow dirs for %d,%d",x,y))
+	--if debugTime then print(string.format("Get flow dirs for %d,%d",x,y)) end
 	local i = elevationMap:GetIndex(x,y)
 
 	local WOfRiver = FlowDirectionTypes.NO_FLOWDIRECTION
 	local xx,yy = elevationMap:GetNeighbor(x,y,mc.NE)
 	local ii = elevationMap:GetIndex(xx,yy)
 	if ii ~= -1 and self.riverData[ii].southJunction.flow == mc.VERTFLOW and self.riverData[ii].southJunction.size > self.riverThreshold then
-		--print(string.format("--NE(%d,%d) south flow=%d, size=%f",xx,yy,self.riverData[ii].southJunction.flow,self.riverData[ii].southJunction.size))
+		--if debugTime then print(string.format("--NE(%d,%d) south flow=%d, size=%f",xx,yy,self.riverData[ii].southJunction.flow,self.riverData[ii].southJunction.size)) end
 		WOfRiver = FlowDirectionTypes.FLOWDIRECTION_SOUTH
 	end
 	xx,yy = elevationMap:GetNeighbor(x,y,mc.SE)
 	ii = elevationMap:GetIndex(xx,yy)
 	if ii ~= -1 and self.riverData[ii].northJunction.flow == mc.VERTFLOW and self.riverData[ii].northJunction.size > self.riverThreshold then
-		--print(string.format("--SE(%d,%d) north flow=%d, size=%f",xx,yy,self.riverData[ii].northJunction.flow,self.riverData[ii].northJunction.size))
+		--if debugTime then print(string.format("--SE(%d,%d) north flow=%d, size=%f",xx,yy,self.riverData[ii].northJunction.flow,self.riverData[ii].northJunction.size)) end
 		WOfRiver = FlowDirectionTypes.FLOWDIRECTION_NORTH
 	end
 
@@ -1797,7 +1823,7 @@ RiverHex = inheritsFrom(nil)
 
 function RiverHex:New(x, y)
 	local new_inst = {}
-	setmetatable(new_inst, {__index = RiverHex});
+	setmetatable(new_inst, {__index = RiverHex})
 
 	new_inst.x = x
 	new_inst.y = y
@@ -1814,7 +1840,7 @@ RiverJunction = inheritsFrom(nil)
 
 function RiverJunction:New(x,y,isNorth)
 	local new_inst = {}
-	setmetatable(new_inst, {__index = RiverJunction});
+	setmetatable(new_inst, {__index = RiverJunction})
 
 	new_inst.x = x
 	new_inst.y = y
@@ -1993,13 +2019,23 @@ function GetAttenuationFactor(map,x,y)
 end
 
 function GenerateElevationMap(width,height,xWrap,yWrap)
+	local timeStart = debugTime and os.clock() or 0
 	local twistMinFreq = 128/width * mc.twistMinFreq --0.02/128
 	local twistMaxFreq = 128/width * mc.twistMaxFreq --0.12/128
 	local twistVar = 128/width * mc.twistVar --0.042/128
 	local mountainFreq = 128/width * mc.mountainFreq --0.05/128
+	if debugTime then if debugTime then print(string.format("%4s ms for GenerateElevationMap %s", math.floor((os.clock() - timeStart) * 1000), "Start")) end end
+	
+	if debugTime then timeStart = os.clock() end
 	local twistMap = GenerateTwistedPerlinMap(width,height,xWrap,yWrap,twistMinFreq,twistMaxFreq,twistVar)
+	if debugTime then print(string.format("%4s ms for GenerateElevationMap %s", math.floor((os.clock() - timeStart) * 1000), "GenerateTwistedPerlinMap")) end
+	
+	if debugTime then timeStart = os.clock() end
 	local mountainMap = GenerateMountainMap(width,height,xWrap,yWrap,mountainFreq)
-	local elevationMap = ElevationMap:New(width,height,xWrap,yWrap)
+	if debugTime then print(string.format("%4s ms for GenerateElevationMap %s", math.floor((os.clock() - timeStart) * 1000), "GenerateMountainMap")) end
+	
+	if debugTime then timeStart = os.clock() end
+	local elevationMap = ElevationMap:New(width,height,xWrap,yWrap)	
 	for y = 0,height - 1 do
 		for x = 0,width - 1 do
 			local i = elevationMap:GetIndex(x,y)
@@ -2008,6 +2044,8 @@ function GenerateElevationMap(width,height,xWrap,yWrap)
 			elevationMap.data[i] = (tVal + ((mountainMap.data[i] * 2) - 1) * mc.mountainWeight)
 		end
 	end
+	
+	if debugTime then timeStart = os.clock() end
 
 	elevationMap:Normalize()
 
@@ -2019,9 +2057,12 @@ function GenerateElevationMap(width,height,xWrap,yWrap)
 			elevationMap.data[i] = elevationMap.data[i] * attenuationFactor
 		end
 	end
+	
+	if debugTime then timeStart = os.clock() end
 
 	elevationMap.seaLevelThreshold = elevationMap:FindThresholdFromPercent(mc.landPercent,true,false)
 
+	if debugTime then print(string.format("%4s ms for GenerateElevationMap %s", math.floor((os.clock() - timeStart) * 1000), "End")) end
 	return elevationMap
 end
 
@@ -2035,7 +2076,7 @@ function FillInLakes()
 			for n = 0, areaMap.length do
 				if areaMap.data[n] == area.id then
 					elevationMap.data[n] = elevationMap.seaLevelThreshold
-					print("Saving lake of size ".. area.size)
+					--print("Saving lake of size ".. area.size)
 					table.insert(lakePlots, Map.GetPlot(elevationMap:GetXYFromIndex(n)))
 				end
 			end
@@ -2046,13 +2087,168 @@ end
 
 function RestoreLakes(lakePlots)
 	for _, plot in pairs(lakePlots) do
-		print("Loading lake")
+		--print("Loading lake")
 		plot:SetTerrainType(TerrainTypes.TERRAIN_COAST, false, true)
 		--plot:SetFeatureType(FeatureTypes.FEATURE_ICE, -1)
 	end
 end
 
+function GetTemperature(myPlot)
+	if myPlot:GetTerrainType() == TerrainTypes.TERRAIN_SNOW then
+		return 0
+	elseif myPlot:GetTerrainType() == TerrainTypes.TERRAIN_TUNDRA then
+		return 1
+	end
+	return 2
+end
+
+function BlendTerrain()
+	local mapW, mapH = Map.GetGridSize()
+	
+	-- grass -> plains, near desert
+	for plotY = 0, mapH-1 do
+		for plotX = 0,mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			local plotTerrainID = plot:GetTerrainType()
+			if not plot:IsMountain() and plotTerrainID == TerrainTypes.TERRAIN_GRASS then
+				--[[
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					local adjTerrainID = adjPlot:GetTerrainType()
+					if not adjPlot:IsMountain() and (adjTerrainID == TerrainTypes.TERRAIN_SNOW) then
+						plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, false, true)
+						break
+					end
+				end
+				--]]
+				
+				if Plot_GetAreaWeights(plot, 1, 1).TERRAIN_DESERT >= 0.25 then
+					plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, false, true)
+					if plot:GetFeatureType() == FeatureTypes.FEATURE_MARSH then
+						plot:SetFeatureType(FeatureTypes.FEATURE_FOREST, -1)
+					end
+				end
+			end
+		end
+	end
+	
+	-- desert -> plains, near snow/grass
+	for plotY = 0, mapH-1 do
+		for plotX = 0,mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			local plotTerrainID = plot:GetTerrainType()
+			if not plot:IsMountain() and plotTerrainID == TerrainTypes.TERRAIN_DESERT then
+				local favorDesert = 0
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					local adjTerrainID = adjPlot:GetTerrainType()
+					if not adjPlot:IsMountain() and adjTerrainID == TerrainTypes.TERRAIN_SNOW then
+						plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, false, true)
+						break
+					end
+				end
+				if Plot_GetAreaWeights(plot, 1, 1).TERRAIN_GRASS >= 0.25 then
+					plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, false, true)
+				end
+			end
+		end
+	end
+	
+	-- tundra -> plains, near grass/desert
+	for plotY = 0, mapH-1 do
+		for plotX = 0,mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			local plotTerrainID = plot:GetTerrainType()
+			if not plot:IsMountain() and plotTerrainID == TerrainTypes.TERRAIN_TUNDRA then
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					local adjTerrainID = adjPlot:GetTerrainType()
+					if not adjPlot:IsMountain() and (adjTerrainID == TerrainTypes.TERRAIN_GRASS or adjTerrainID == TerrainTypes.TERRAIN_DESERT) then
+						plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, false, true)
+						break
+					end
+				end
+			end
+		end
+	end
+	
+	-- snow -> tundra near river or plains, snow -> plains near grass/desert
+	for plotY = 0, mapH-1 do
+		for plotX = 0,mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			local plotTerrainID = plot:GetTerrainType()
+			if not plot:IsMountain() and plotTerrainID == TerrainTypes.TERRAIN_SNOW then
+				if plot:IsFreshWater() then
+					plot:SetTerrainType(TerrainTypes.TERRAIN_TUNDRA, false, true)
+				end
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					local adjTerrainID = adjPlot:GetTerrainType()
+					if not adjPlot:IsMountain() then
+						if (adjTerrainID == TerrainTypes.TERRAIN_GRASS or adjTerrainID == TerrainTypes.TERRAIN_DESERT) then
+							plot:SetTerrainType(TerrainTypes.TERRAIN_PLAINS, false, true)
+							break
+						elseif (adjTerrainID == TerrainTypes.TERRAIN_PLAINS) then
+							plot:SetTerrainType(TerrainTypes.TERRAIN_TUNDRA, false, true)
+							break
+						end
+					end
+				end
+			end
+		end
+	end
+	
+	-- warm hills -> flat when surrounded by cold
+	for plotY = 0, mapH-1 do
+		for plotX = 0, mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			local plotTerrainID = plot:GetTerrainType()
+			if plot:GetPlotType() == PlotTypes.PLOT_HILLS then
+				local adjCold = 0
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					if not adjPlot:IsWater() and not adjPlot:IsMountain() and GetTemperature(adjPlot) < GetTemperature(plot) then
+						adjCold = adjCold + 1
+					end
+				end
+				if adjCold > 1 and (adjCold * mc.hillsBlendPercent * 100) >= Map.Rand(100, "Blend hills - Lua") then
+					plot:SetPlotType(PlotTypes.PLOT_LAND, false, true)
+				end
+			end
+		end
+	end
+	
+	-- flat -> hills near mountain, and flat cold -> hills when surrounded by warm
+	for plotY = 0, mapH-1 do
+		for plotX = 0, mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			local plotTerrainID = plot:GetTerrainType()
+			if plot:GetPlotType() == PlotTypes.PLOT_LAND then
+				local adjMountains = 0
+				local adjWarm = 0
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+					if not adjPlot:IsWater() then
+						local adjTerrainID = adjPlot:GetTerrainType()
+						
+						if adjPlot:IsMountain() then
+							adjMountains = adjMountains + 1
+						end
+						
+						if GetTemperature(adjPlot) > GetTemperature(plot) then
+							adjWarm = adjWarm + 1
+						end
+					end
+				end
+				if (adjMountains > 1 and (adjMountains * mc.hillsBlendPercent * 100) >= Map.Rand(100, "Blend mountains - Lua")) then
+					--print("Turning flatland near mountain into hills")
+					plot:SetPlotType(PlotTypes.PLOT_HILLS, false, true)
+					--plot:SetTerrainType(TerrainTypes.TERRAIN_SNOW, false, true)
+				elseif adjWarm * mc.hillsBlendPercent * 100 >= Map.Rand(100, "Blend hills - Lua") then
+					plot:SetPlotType(PlotTypes.PLOT_HILLS, false, true)
+				end
+			end
+		end
+	end
+	--]]
+end
+
 function GenerateTempMaps(elevationMap)
+	local timeStart = debugTime and os.clock() or 0
 	local aboveSeaLevelMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	for y = 0,elevationMap.height - 1 do
 		for x = 0,elevationMap.width - 1 do
@@ -2088,7 +2284,9 @@ function GenerateTempMaps(elevationMap)
 	end
 	summerMap:Smooth(math.floor(elevationMap.width/8))
 	summerMap:Normalize()
-
+	if debugTime then print(string.format("%4s ms for GenerateTempMaps %s", math.floor((os.clock() - timeStart) * 1000), "Summer")) end
+	
+	if debugTime then timeStart = os.clock() end
 	local winterMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	zenith = -mc.tropicLatitudes
 	topTempLat = mc.topLatitude
@@ -2108,7 +2306,9 @@ function GenerateTempMaps(elevationMap)
 	end
 	winterMap:Smooth(math.floor(elevationMap.width/8))
 	winterMap:Normalize()
+	if debugTime then print(string.format("%4s ms for GenerateTempMaps %s", math.floor((os.clock() - timeStart) * 1000), "Winter")) end
 
+	if debugTime then timeStart = os.clock() end
 	local temperatureMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	for y = 0,elevationMap.height - 1 do
 		for x = 0,elevationMap.width - 1 do
@@ -2118,11 +2318,16 @@ function GenerateTempMaps(elevationMap)
 	end
 	temperatureMap:Normalize()
 
+	if debugTime then print(string.format("%4s ms for GenerateTempMaps %s", math.floor((os.clock() - timeStart) * 1000), "End")) end
 	return summerMap,winterMap,temperatureMap
 end
 
 function GenerateRainfallMap(elevationMap)
+	local timeStart = debugTime and os.clock() or 0
 	local summerMap,winterMap,temperatureMap = GenerateTempMaps(elevationMap)
+	if debugTime then print(string.format("%4s ms for GenerateRainfallMap %s", math.floor((os.clock() - timeStart) * 1000), "GenerateTempMaps")) end
+	
+	if debugTime then timeStart = os.clock() end
 	--summerMap:Save("summerMap.csv")
 	--winterMap:Save("winterMap.csv")
 	--temperatureMap:Save("temperatureMap.csv")
@@ -2149,7 +2354,7 @@ function GenerateRainfallMap(elevationMap)
 	end
 	table.sort(sortedSummerMap, function (a,b) return a[3] < b[3] end)
 	table.sort(sortedWinterMap, function (a,b) return a[3] < b[3] end)
-
+	
 	local sortedGeoMap = {}
 	local xStart = 0
 	local xStop = 0
@@ -2243,6 +2448,7 @@ function GenerateRainfallMap(elevationMap)
 
 	local rainfallGeostrophicMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
 	moistureMap = FloatMap:New(elevationMap.width,elevationMap.height,elevationMap.xWrap,elevationMap.yWrap)
+	
 	--print("----------------------------------------------------------------------------------------")
 	--print("--GEOSTROPHIC---------------------------------------------------------------------------")
 	--print("----------------------------------------------------------------------------------------")
@@ -2283,6 +2489,7 @@ function GenerateRainfallMap(elevationMap)
 	end
 	rainfallMap:Normalize()
 
+	if debugTime then print(string.format("%4s ms for GenerateRainfallMap %s", math.floor((os.clock() - timeStart) * 1000), "End")) end
 	return rainfallMap, temperatureMap
 end
 
@@ -2296,7 +2503,7 @@ function DistributeRain(x,y,elevationMap,temperatureMap,pressureMap,rainfallMap,
 		moistureMap.data[i] = math.max(moistureMap.data[i], temperatureMap.data[i])
 		--print("water tile = true")
 	end
-	--print(string.format("moistureMap.data[i] = %f",moistureMap.data[i]))
+	--if debugTime then print(string.format("moistureMap.data[i] = %f",moistureMap.data[i])) end
 
 	--make list of neighbors
 	local nList = {}
@@ -2347,13 +2554,13 @@ function DistributeRain(x,y,elevationMap,temperatureMap,pressureMap,rainfallMap,
 				moisturePerNeighbor = mc.geostrophicLateralWindStrength * moistureMap.data[i]
 			end
 		end
-		--print(string.format("---xx=%d, yy=%d, destPressure uplift = %f, upLiftDest = %f, cost = %f, moisturePerNeighbor = %f, bonus = %f",xx,yy,math.pow(pressureMap.data[ii],mc.upLiftExponent),upLiftDest,cost,moisturePerNeighbor,bonus))
+		--if debugTime then print(string.format("---xx=%d, yy=%d, destPressure uplift = %f, upLiftDest = %f, cost = %f, moisturePerNeighbor = %f, bonus = %f",xx,yy,math.pow(pressureMap.data[ii],mc.upLiftExponent),upLiftDest,cost,moisturePerNeighbor,bonus)) end
 		rainfallMap.data[i] = rainfallMap.data[i] + cost * moisturePerNeighbor + bonus
 		--pass to neighbor.
-		--print(string.format("---moistureMap.data[ii] = %f",moistureMap.data[ii]))
+		--if debugTime then print(string.format("---moistureMap.data[ii] = %f",moistureMap.data[ii])) end
 		moistureMap.data[ii] = moistureMap.data[ii] + moisturePerNeighbor - (cost * moisturePerNeighbor)
-		--print(string.format("---dropping %f rain",cost * moisturePerNeighbor + bonus))
-		--print(string.format("---passing on %f moisture",moisturePerNeighbor - (cost * moisturePerNeighbor)))
+		--if debugTime then print(string.format("---dropping %f rain",cost * moisturePerNeighbor + bonus)) end
+		--if debugTime then print(string.format("---passing on %f moisture",moisturePerNeighbor - (cost * moisturePerNeighbor))) end
 	end
 
 end
@@ -2394,113 +2601,6 @@ function GetDifferenceAroundHex(x,y)
 --~ 	return biggestDiff
 end
 
-function IsBarrenDesert(plot)
-	return plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and not plot:IsMountain() and plot:GetFeatureType() == FeatureTypes.NO_FEATURE
-end
-
-function PlacePossibleOasis(plotX,plotY)
-	local plot = Map.GetPlot(plotX,plotY)
-	if not IsBarrenDesert(plot) or plot:IsHills() then
-		return
-	end
-	
-	local odds = 0
-	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 3)) do
-		local distance = Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY()) or 1
-		local featureID = adjPlot:GetFeatureType()
-		
-		if featureID == FeatureTypes.FEATURE_OASIS then
-			if distance <= 2 then
-				-- at least 2 tile spacing between oases
-				return
-			end
-			odds = odds - 200 / distance
-		end
-		
-		if featureID == FeatureTypes.NO_FEATURE and not adjPlot:IsFreshWater() then
-			if adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT then
-				odds = odds + 10 / distance
-			elseif adjPlot:IsMountain() or adjPlot:IsHills() then
-				odds = odds + 10 / distance
-			elseif adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_PLAINS then
-				odds = odds + 5 / distance
-			end
-		else
-			odds = odds - 5 / distance
-		end
-	end
-	
-	if odds >= Map.Rand(100, "PlacePossibleOasis - Lua") then
-		plot:SetFeatureType(FeatureTypes.FEATURE_OASIS, -1)
-	end
-end
-
-function FloodDeserts()
-	local mapW, mapH = Map.GetGridSize();
-	for plotY = 0, mapH-1 do
-		for plotX = 0,mapW-1 do
-			local plot = Map.GetPlot(plotX,plotY)
-			if (plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT
-					and plot:GetFeatureType() == FeatureTypes.NO_FEATURE
-					and plot:IsFreshWater()
-					and not plot:IsHills()
-					and not plot:IsMountain()
-					)then
-				Game.SetPlotExtraYield( plot:GetX(), plot:GetY(), YieldTypes.YIELD_FOOD, 1)
-				--plot:SetFeatureType(FeatureTypes.FEATURE_FLOOD_PLAINS,-1)
-			end
-		end
-	end
-end
-
-function PlacePossibleIce(x,y)
-	local featureIce = FeatureTypes.FEATURE_ICE
-	local plot = Map.GetPlot(x,y)
-	local i = temperatureMap:GetIndex(x,y)
-	if plot:IsWater() then
-		local temp = temperatureMap.data[i]
-		local latitude = temperatureMap:GetLatitudeForY(y)
-		--local randval = PWRand() * (mc.iceMaxTemperature - mc.minWaterTemp) + mc.minWaterTemp * 2
-		local randvalNorth = PWRand() * (mc.iceNorthLatitudeLimit - mc.topLatitude) + mc.topLatitude - 2
-		local randvalSouth = PWRand() * (mc.bottomLatitude - mc.iceSouthLatitudeLimit) + mc.iceSouthLatitudeLimit
-		--print(string.format("lat = %f, randvalNorth = %f, randvalSouth = %f",latitude,randvalNorth,randvalSouth))
-		if latitude > randvalNorth  or latitude < randvalSouth then
-			plot:SetFeatureType(featureIce,-1)
-		end
-	end
-end
-
-function PlacePossibleAtoll(x,y)
-	local shallowWater = GameDefines.SHALLOW_WATER_TERRAIN
-	local deepWater = GameDefines.DEEP_WATER_TERRAIN
-	local featureAtoll = nil
-	for thisFeature in GameInfo.Features() do
-		if thisFeature.Type == "FEATURE_ATOLL" then
-			featureAtoll = thisFeature.ID;
-		end
-	end
-	local plot = Map.GetPlot(x,y)
-	local i = temperatureMap:GetIndex(x,y)
-	if plot:GetTerrainType() == shallowWater then
-		local temp = temperatureMap.data[i]
-		local latitude = temperatureMap:GetLatitudeForY(y)
-		if latitude < mc.atollNorthLatitudeLimit and latitude > mc.atollSouthLatitudeLimit then
-			local tiles = elevationMap:GetRadiusAroundHex(x,y,1)
-			local deepCount = 0
-			for n=1,#tiles do
-				local xx = tiles[n][1]
-				local yy = tiles[n][2]
-				local nPlot = Map.GetPlot(xx,yy)
-				if nPlot:GetTerrainType() == deepWater then
-					deepCount = deepCount + 1
-				end
-			end
-			if deepCount >= mc.atollMinDeepWaterNeighbors then
-				plot:SetFeatureType(featureAtoll,-1)
-			end
-		end
-	end
-end
 
 
 
@@ -2512,7 +2612,7 @@ function GetMapScriptInfo()
 	local world_age, temperature, rainfall, sea_level, resources = GetCoreMapOptions()
 	return {
 		Name = "Communitas",
-		Description = "Creates several large continents and island chains with realistic climate.",
+		Description = "Creates several large continents, island chains, and rainfall based on elevation and wind.",
 		IsAdvancedMap = 0,
 		SupportsMultiplayer = true,
 		IconIndex = 1,
@@ -2528,7 +2628,7 @@ function GetMapScriptInfo()
                 SortPriority = 1,
             },
 			resources},
-	};
+	}
 end
 
 function GetMapInitData(worldSize)
@@ -2548,15 +2648,15 @@ function GetMapInitData(worldSize)
 --~ 		[GameInfo.Worlds.WORLDSIZE_LARGE.ID] = {120, 84},
 --~ 		[GameInfo.Worlds.WORLDSIZE_HUGE.ID] = {140, 98}
 --~ 		}
-	local grid_size = worldsizes[worldSize];
+	local grid_size = worldsizes[worldSize]
 	--
-	local world = GameInfo.Worlds[worldSize];
+	local world = GameInfo.Worlds[worldSize]
 	if(world ~= nil) then
 	return {
 		Width = grid_size[1],
 		Height = grid_size[2],
 		WrapX = true,
-	};
+	}
      end
 end
 
@@ -2564,30 +2664,30 @@ end
 --ShiftMap Class
 -------------------------------------------------------------------------------------------
 function ShiftMaps()
-	--local stripRadius = self.stripRadius;
-	local shift_x = 0; 
-	local shift_y = 0;
+	--local stripRadius = self.stripRadius
+	local shift_x = 0 
+	local shift_y = 0
 
-	shift_x = DetermineXShift();
+	shift_x = DetermineXShift()
 	
-	ShiftMapsBy(shift_x, shift_y);
+	ShiftMapsBy(shift_x, shift_y)
 end
 -------------------------------------------------------------------------------------------	
 function ShiftMapsBy(xshift, yshift)	
-	local W, H = Map.GetGridSize();
+	local W, H = Map.GetGridSize()
 	if(xshift > 0 or yshift > 0) then
 		local Shift = {}
 		local iDestI = 0
 		for iDestY = 0, H-1 do
 			for iDestX = 0, W-1 do
-				local iSourceX = (iDestX + xshift) % W;
+				local iSourceX = (iDestX + xshift) % W
 				
-				--local iSourceY = (iDestY + yshift) % H; -- If using yshift, enable this and comment out the faster line below. - Bobert13
+				--local iSourceY = (iDestY + yshift) % H -- If using yshift, enable this and comment out the faster line below. - Bobert13
 				local iSourceY = iDestY
 				
 				local iSourceI = W * iSourceY + iSourceX
 				Shift[iDestI] = elevationMap.data[iSourceI]
-				--print(string.format("Shift:%d,	%f	|	eMap:%d,	%f",iDestI,Shift[iDestI],iSourceI,elevationMap.data[iSourceI]))
+				--if debugTime then print(string.format("Shift:%d,	%f	|	eMap:%d,	%f",iDestI,Shift[iDestI],iSourceI,elevationMap.data[iSourceI])) end
 				iDestI = iDestI + 1
 			end
 		end
@@ -2606,52 +2706,52 @@ function DetermineXShift()
 	center of the most water heavy group of columns to be the new vertical map edge. ]]--
 
 	-- First loop through the map columns and record land plots in each column.
-	local gridWidth, gridHeight = Map.GetGridSize();
-	local land_totals = {};
+	local gridWidth, gridHeight = Map.GetGridSize()
+	local land_totals = {}
 	for x = 0, gridWidth - 1 do
-		local current_column = 0;
+		local current_column = 0
 		for y = 0, gridHeight - 1 do
-			local i = y * gridWidth + x + 1;
+			local i = y * gridWidth + x + 1
 			if not elevationMap:IsBelowSeaLevel(x,y) then
-				current_column = current_column + 1;
+				current_column = current_column + 1
 			end
 		end
-		table.insert(land_totals, current_column);
+		table.insert(land_totals, current_column)
 	end
 	
 	-- Now evaluate column groups, each record applying to the center column of the group.
-	local column_groups = {};
+	local column_groups = {}
 	-- Determine the group size in relation to map width.
-	local group_radius = 3;
+	local group_radius = 3
 	-- Measure the groups.
 	for column_index = 1, gridWidth do
-		local current_group_total = 0;
+		local current_group_total = 0
 		--for current_column = column_index - group_radius, column_index + group_radius do
 		--Changed how group_radius works to get groups of four. -Bobert13
 		for current_column = column_index, column_index + group_radius do
-			local current_index = current_column % gridWidth;
-			if current_index == 0 then -- Modulo of the last column will be zero; this repairs the issue.
-				current_index = gridWidth;
+			local current_index = current_column % gridWidth
+			if current_index == 0 then -- Modulo of the last column will be zero this repairs the issue.
+				current_index = gridWidth
 			end
-			current_group_total = current_group_total + land_totals[current_index];
+			current_group_total = current_group_total + land_totals[current_index]
 		end
-		table.insert(column_groups, current_group_total);
+		table.insert(column_groups, current_group_total)
 	end
 	
 	-- Identify the group with the least amount of land in it.
-	local best_value = gridHeight * (group_radius + 1); -- Set initial value to max possible.
-	local best_group = 1; -- Set initial best group as current map edge.
+	local best_value = gridHeight * (group_radius + 1) -- Set initial value to max possible.
+	local best_group = 1 -- Set initial best group as current map edge.
 	for column_index, group_land_plots in ipairs(column_groups) do
 		if group_land_plots < best_value then
-			best_value = group_land_plots;
-			best_group = column_index;
+			best_value = group_land_plots
+			best_group = column_index
 		end
 	end
 	
 	-- Determine X Shift	
-	local x_shift = best_group + 2;
+	local x_shift = best_group + 2
 
-	return x_shift;
+	return x_shift
 end
 ------------------------------------------------------------------------------
 --DiffMap Class
@@ -2693,25 +2793,40 @@ end
 -------------------------------------------------------------------------------------------
 function GeneratePlotTypes()
 	print("Creating initial map data - PerfectWorld3")
-	local gridWidth, gridHeight = Map.GetGridSize();
+	local timeStart = debugTime and os.clock() or 0
+	local gridWidth, gridHeight = Map.GetGridSize()
 	--first do all the preliminary calculations in this function
-	print(string.format("map size: width=%d, height=%d",gridWidth,gridHeight))
+	if debugTime then print(string.format("map size: width=%d, height=%d",gridWidth,gridHeight)) end
 	mc = MapConstants:New()
 	PWRandSeed()
+	if debugTime then print(string.format("%4s ms for GeneratePlotTypes %s", math.floor((os.clock() - timeStart) * 1000), "Start")) end
 
-	elevationMap = GenerateElevationMap(gridWidth,gridHeight,true,false)
-	--elevationMap:Save("elevationMap.csv")
-
-	--now gen plot types
-	print("Generating plot types - PerfectWorld3")
-	ShiftMaps();
-
-	DiffMap = GenerateDiffMap(gridWidth,gridHeight,true,false);
+	-- Elevations
+	if debugTime then timeStart = os.clock() end
 	
+	elevationMap = GenerateElevationMap(gridWidth,gridHeight,true,false)
+	
+	--elevationMap:Save("elevationMap.csv")
+	if debugTime then print(string.format("%4s ms for GeneratePlotTypes %s", math.floor((os.clock() - timeStart) * 1000), "GenerateElevationMap")) end
+
+	-- Plots
+	if debugTime then timeStart = os.clock() end
+	print("Generating plot types - PerfectWorld3")
+	ShiftMaps()
+	DiffMap = GenerateDiffMap(gridWidth,gridHeight,true,false)	
 	lakePlots = FillInLakes()
+	GenerateOceanRifts()
+	elevationMap = SetOceanRiftElevations(elevationMap)	
+	if debugTime then print(string.format("%4s ms for GeneratePlotTypes %s", math.floor((os.clock() - timeStart) * 1000), "B")) end
+	
+	-- Rainfall
+	if debugTime then timeStart = os.clock() end	
 	rainfallMap, temperatureMap = GenerateRainfallMap(elevationMap)
 	--rainfallMap:Save("rainfallMap.csv")
-
+	if debugTime then print(string.format("%4s ms for GeneratePlotTypes %s", math.floor((os.clock() - timeStart) * 1000), "GenerateRainfallMap")) end
+	
+	-- Rivers
+	if debugTime then timeStart = os.clock() end
 	riverMap = RiverMap:New(elevationMap)
 	riverMap:SetJunctionAltitudes()
 	riverMap:SiltifyLakes()
@@ -2724,7 +2839,7 @@ function GeneratePlotTypes()
 	local i = 0
 	for y = 0, gridHeight - 1,1 do
 		for x = 0,gridWidth - 1,1 do
-			local plot = Map.GetPlot(x,y);
+			local plot = Map.GetPlot(x,y)
 			if elevationMap:IsBelowSeaLevel(x,y) then
 				plot:SetPlotType(PlotTypes.PLOT_OCEAN, false, false)
 			elseif DiffMap.data[i] < hillsThreshold then
@@ -2744,18 +2859,20 @@ function GeneratePlotTypes()
 	end
 	Map.RecalculateAreas()	
 	GenerateIslands()
-	GenerateCoasts();
+	GenerateCoasts()
+	if debugTime then print(string.format("%4s ms for GeneratePlotTypes %s", math.floor((os.clock() - timeStart) * 1000), "End")) end
+	if debugTime then timeStart = os.clock() end
 end
 ------------------------------------------------------------------------------
 
 --[=[
 function GeneratePlotTypes()
 	print("Creating initial map data - PerfectWorld3")
-	local mapW, mapH = Map.GetGridSize();
+	local mapW, mapH = Map.GetGridSize()
 	
 	
 	--first do all the preliminary calculations in this function
-	print(string.format("map size: width=%d, height=%d",mapW,mapH))
+	if debugTime then print(string.format("map size: width=%d, height=%d",mapW,mapH)) end
 
 	mc = MapConstants:New()
 	PWRandSeed()	
@@ -2809,7 +2926,7 @@ function GeneratePlotTypes()
 	for y = 0, mapH-1 do
 		for x = 0,mapW-1 do
 			local i = diffMap:GetIndex(x,y)
-			local plot = Map.GetPlot(x, y);
+			local plot = Map.GetPlot(x, y)
 			if elevationMap:IsBelowSeaLevel(x,y) then
 				plot:SetPlotType(PlotTypes.PLOT_OCEAN, false, false)
 			elseif diffMap.data[i] < hillsThreshold then
@@ -2830,10 +2947,23 @@ end
 
 function GenerateOceanRifts()
 	-- Creates simple ocean rifts by placing randomly-pathing ocean lines from north to south.
-	local width, height = Map.GetGridSize();
+	local width, height = Map.GetGridSize()
 	
 	CreateOceanRift(0)
 	CreateOceanRift(width / 2)
+end
+
+function SetOceanRiftElevations(elevationMap)
+	for _, plot in pairs(mc.oceanRiftPlots) do
+		elevationMap.data[elevationMap:GetIndex(plot:GetX(), plot:GetY())] = elevationMap.seaLevelThreshold - 1
+	end
+	return elevationMap
+end
+
+function SetOceanRiftPlots()
+	for _, plot in pairs(mc.oceanRiftPlots) do
+		plot:SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
+	end
 end
 
 function CreateOceanRift(midline)
@@ -2846,22 +2976,14 @@ function CreateOceanRift(midline)
 	local plotX = midline
 	local plotY = 0
 	
-	while true do
-		--print(string.format("Creating ocean at (%s, %s)", plotX, plotY))	
+	while plotY < height - 1 do
+		--if debugTime then print(string.format("Creating ocean at (%s, %s)", plotX, plotY))	 end
 		
-		Map.GetPlot((plotX-2) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
-		Map.GetPlot((plotX-1) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
-		Map.GetPlot((plotX+0) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
-		Map.GetPlot((plotX+1) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)
-		Map.GetPlot((plotX+2) % width, plotY % height):SetTerrainType(TerrainTypes.TERRAIN_OCEAN, false, true)	
-		
-		--[[
-		elevationMap.data[elevationMap:GetIndex((plotX-2) % width, plotY % height)] = -100
-		elevationMap.data[elevationMap:GetIndex((plotX-1) % width, plotY % height)] = -100
-		elevationMap.data[elevationMap:GetIndex((plotX+0) % width, plotY % height)] = -100
-		elevationMap.data[elevationMap:GetIndex((plotX+1) % width, plotY % height)] = -100
-		elevationMap.data[elevationMap:GetIndex((plotX+2) % width, plotY % height)] = -100
-		--]]
+		table.insert(mc.oceanRiftPlots, Map.GetPlot((plotX-2) % width, plotY % height))
+		table.insert(mc.oceanRiftPlots, Map.GetPlot((plotX-1) % width, plotY % height))
+		table.insert(mc.oceanRiftPlots, Map.GetPlot((plotX+0) % width, plotY % height))
+		table.insert(mc.oceanRiftPlots, Map.GetPlot((plotX+1) % width, plotY % height))
+		table.insert(mc.oceanRiftPlots, Map.GetPlot((plotX+2) % width, plotY % height))
 		
 		plotY = plotY + 1
 		
@@ -2872,32 +2994,203 @@ function CreateOceanRift(midline)
 		else
 			plotX = plotX + (Map.Rand(3, "Ocean Rifts - Lua") - 1)
 		end
-		
-		if plotY >= height - 1 then
-			return
+	end
+end
+
+function FixRivers()
+	-- No artwork was created for an alluvial fan, so rivers should not end on land tiles.
+	-- http://wiki.2kgames.com/civ5/index.php/River_system_overview
+	
+	print("Fixing Rivers")
+	local iW, iH = Map.GetGridSize()
+	for x = 0, iW - 1 do
+		for y = 0, iH - 1 do
+			local plot = Map.GetPlot(x, y)
+			if plot:IsRiverSide() then
+				if Plot_IsRiverBroken(plot, DirectionTypes.DIRECTION_EAST) then
+					print("Fix river")
+					plot:SetFeatureType(FeatureTypes.FEATURE_ICE, -1)
+					--Plot_SetRiver(plot, DirectionTypes.DIRECTION_EAST, FlowDirectionTypes.NO_FLOWDIRECTION)
+				end
+				if Plot_IsRiverBroken(plot, DirectionTypes.DIRECTION_SOUTHWEST) then
+					print("Fix river")
+					plot:SetFeatureType(FeatureTypes.FEATURE_ICE, -1)
+					--Plot_SetRiver(plot, DirectionTypes.DIRECTION_SOUTHWEST, FlowDirectionTypes.NO_FLOWDIRECTION)
+				end
+				if Plot_IsRiverBroken(plot, DirectionTypes.DIRECTION_SOUTHEAST) then
+					print("Fix river")
+					plot:SetFeatureType(FeatureTypes.FEATURE_ICE, -1)
+					--Plot_SetRiver(plot, DirectionTypes.DIRECTION_SOUTHEAST, FlowDirectionTypes.NO_FLOWDIRECTION)
+				end
+			end
 		end
-	end	
+	end
+end
+
+
+function Plot_IsRiverBroken(plot, edgeDirection)
+	local plotOverEdge = Map.PlotDirection(plot:GetX(), plot:GetY(), edgeDirection)
+	
+	-- There is no artwork for an alluvial fan, so rivers should not end on land tiles.
+	
+	-- Is river?
+	if not Plot_IsRiver(plot, edgeDirection) or not plotOverEdge then
+		return false
+	end
+	
+	--[[ Double ocean?
+	if plot:GetPlotType() ~= PlotTypes.PLOT_OCEAN and plotOverEdge:GetPlotType() ~= PlotTypes.PLOT_OCEAN then
+		return false
+	end
+	--]]
+	
+	-- Is the next plot a land tile?
+	local nextPlot = Plot_GetNextRiverPlot(plot, edgeDirection)
+	if not nextPlot or nextPlot:GetPlotType() == PlotTypes.PLOT_OCEAN then
+		return false
+	end
+	
+	-- Does it continue the river?
+	if Plot_IsRiverContinued(plot, edgeDirection) then
+		return false
+	end
+	
+	return true
+end
+
+
+function Plot_IsRiverContinued(plot, edgeDirection)
+	local flowDirection = Plot_GetRiverFlowDirection(plot, edgeDirection)
+	local nextPlot = Plot_GetNextRiverPlot(plot, edgeDirection)
+	if not nextPlot then
+		return false
+	end
+	
+	if edgeDirection == DirectionTypes.DIRECTION_EAST then
+		if flowDirection == FlowDirectionTypes.FLOWDIRECTION_NORTH then
+			if Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_SOUTHEAST) or Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_SOUTHWEST) then
+				return true
+			end
+		elseif flowDirection == FlowDirectionTypes.FLOWDIRECTION_SOUTH then
+			if Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_NORTHEAST) or Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_NORTHWEST) then
+				return true
+			end
+		end
+	elseif edgeDirection == DirectionTypes.DIRECTION_NORTHEAST then
+		if flowDirection == FlowDirectionTypes.FLOWDIRECTION_SOUTHEAST then
+			if Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_NORTHWEST) or Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_WEST) then
+				return true
+			end
+		elseif flowDirection == FlowDirectionTypes.FLOWDIRECTION_NORTHWEST then
+			if Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_SOUTHEAST) or Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_EAST) then
+				return true
+			end
+		end
+	elseif edgeDirection == DirectionTypes.DIRECTION_NORTHWEST then
+		if flowDirection == FlowDirectionTypes.FLOWDIRECTION_SOUTHWEST then
+			if Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_NORTHEAST) or Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_EAST) then
+				return true
+			end
+		elseif flowDirection == FlowDirectionTypes.FLOWDIRECTION_NORTHEAST then
+			if Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_SOUTHWEST) or Plot_IsRiver(nextPlot, DirectionTypes.DIRECTION_WEST) then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+function Plot_GetNextRiverPlot(plot, edgeDirection)
+	local flowDirection = Plot_GetRiverFlowDirection(plot, edgeDirection)
+	local nextPlot = nil
+	
+	if edgeDirection == DirectionTypes.DIRECTION_EAST then
+		if flowDirection == FlowDirectionTypes.FLOWDIRECTION_NORTH then
+			nextPlot = Map.PlotDirection(plot:GetX(), plot:GetY(), DirectionTypes.DIRECTION_NORTHEAST) 
+		elseif flowDirection == FlowDirectionTypes.FLOWDIRECTION_SOUTH then
+			nextPlot = Map.PlotDirection(plot:GetX(), plot:GetY(), DirectionTypes.DIRECTION_SOUTHEAST) 
+		end
+	elseif edgeDirection == DirectionTypes.DIRECTION_NORTHEAST then
+		if flowDirection == FlowDirectionTypes.FLOWDIRECTION_SOUTHEAST then
+			nextPlot = Map.PlotDirection(plot:GetX(), plot:GetY(), DirectionTypes.DIRECTION_EAST) 
+		elseif flowDirection == FlowDirectionTypes.FLOWDIRECTION_NORTHWEST then
+			nextPlot = Map.PlotDirection(plot:GetX(), plot:GetY(), DirectionTypes.DIRECTION_NORTHWEST) 
+		end
+	elseif edgeDirection == DirectionTypes.DIRECTION_NORTHWEST then
+		if flowDirection == FlowDirectionTypes.FLOWDIRECTION_SOUTHWEST then
+			nextPlot = Map.PlotDirection(plot:GetX(), plot:GetY(), DirectionTypes.DIRECTION_WEST) 
+		elseif flowDirection == FlowDirectionTypes.FLOWDIRECTION_NORTHEAST then
+			nextPlot = Map.PlotDirection(plot:GetX(), plot:GetY(), DirectionTypes.DIRECTION_NORTHEAST) 
+		end
+	end
+	
+	return nextPlot
+end
+
+function Plot_GetRiverFlowDirection(plot, edgeDirection)
+	if edgeDirection == DirectionTypes.DIRECTION_EAST then
+		return plot:GetRiverEFlowDirection()
+	elseif edgeDirection == DirectionTypes.DIRECTION_NORTHEAST then
+		return plot:GetRiverNEFlowDirection()
+	elseif edgeDirection == DirectionTypes.DIRECTION_NORTHWEST then
+		return plot:GetRiverNWFlowDirection()
+	end
+	return FlowDirectionTypes.NO_FLOWDIRECTION
+end
+
+function Plot_IsRiver(plot, edgeDirection)
+	if edgeDirection == DirectionTypes.DIRECTION_EAST then
+		return plot:IsWOfRiver()
+	elseif edgeDirection == DirectionTypes.DIRECTION_SOUTHEAST then
+		return plot:IsNWOfRiver()
+	elseif edgeDirection == DirectionTypes.DIRECTION_SOUTHWEST then
+		return plot:IsNEOfRiver()
+	else
+		plot = Map.PlotDirection(plot:GetX(), plot:GetY(), edgeDirection)
+		if not plot then
+			return false
+		end
+		if edgeDirection == DirectionTypes.DIRECTION_WEST then
+			return plot:IsWOfRiver()
+		elseif edgeDirection == DirectionTypes.DIRECTION_NORTHEAST then
+			return plot:IsNEOfRiver()
+		elseif edgeDirection == DirectionTypes.DIRECTION_NORTHWEST then
+			return plot:IsNWOfRiver()
+		end
+	end
+	return false
+end
+
+function Plot_SetRiver(plot, edgeDirection, flowDirection)
+	local isRiver = (flowDirection ~= FlowDirectionTypes.NO_FLOWDIRECTION)
+	if edgeDirection == DirectionTypes.DIRECTION_EAST then
+		plot:SetWOfRiver(isRiver, flowDirection)
+	elseif edgeDirection == DirectionTypes.DIRECTION_SOUTHEAST then
+		plot:SetNWOfRiver(isRiver, flowDirection)
+	elseif edgeDirection == DirectionTypes.DIRECTION_SOUTHWEST then
+		plot:SetNEOfRiver(isRiver, flowDirection)
+	end
 end
 
 function GenerateIslands()
 	-- A cell system will be used to combine predefined land chunks with randomly generated island groups.
 	-- Define the cell traits. (These need to fit correctly with the map grid width and height.)
-	local iW, iH = Map.GetGridSize();
-	local iCellWidth = 10;
-	local iCellHeight = 8;
-	local iNumCellColumns = math.floor(iW / iCellWidth);
-	local iNumCellRows = math.floor(iH / iCellHeight);
-	local iNumTotalCells = iNumCellColumns * iNumCellRows;
+	local iW, iH = Map.GetGridSize()
+	local iCellWidth = 10
+	local iCellHeight = 8
+	local iNumCellColumns = math.floor(iW / iCellWidth)
+	local iNumCellRows = math.floor(iH / iCellHeight)
+	local iNumTotalCells = iNumCellColumns * iNumCellRows
 	local cell_data = table.fill(false, iNumTotalCells) -- Stores data on map cells in use. All cells begin as empty.
-	local iNumCellsInUse = 0;
-	local iNumCellTarget = math.floor(iNumTotalCells * 0.66);
-	local island_chain_PlotTypes = table.fill(PlotTypes.PLOT_OCEAN, iW * iH);
+	local iNumCellsInUse = 0
+	local iNumCellTarget = math.floor(iNumTotalCells * 0.66)
+	local island_chain_PlotTypes = table.fill(PlotTypes.PLOT_OCEAN, iW * iH)
 
 	-- Add randomly generated island groups
-	local iNumGroups = iNumCellTarget; -- Should virtually never use all the groups.
+	local iNumGroups = iNumCellTarget -- Should virtually never use all the groups.
 	for group = 1, iNumGroups do
 		if iNumCellsInUse >= iNumCellTarget then -- Map has reeached desired island population.
-			print("-"); print("** Number of Island Groups produced:", group - 1); print("-");
+			print("-") print("** Number of Island Groups produced:", group - 1) print("-")
 			break
 		end
 		--[[ Formation Chart
@@ -2913,8 +3206,8 @@ function GenerateIslands()
 		10. Rectangle 2x3 With Double Dots ]]--
 		--
 		-- Choose a formation
-		local rate_threshold = {};
-		local total_appearance_rate, iNumFormations = 0, 0;
+		local rate_threshold = {}
+		local total_appearance_rate, iNumFormations = 0, 0
 		local appearance_rates = { -- These numbers are relative to one another. No specific target total is necessary.
 			7, -- #1
 			3, -- #2
@@ -2926,84 +3219,84 @@ function GenerateIslands()
 			6, -- #8
 			4, -- #9
 			3, -- #10
-		};
+		}
 		for i, rate in ipairs(appearance_rates) do
-			total_appearance_rate = total_appearance_rate + rate;
-			iNumFormations = iNumFormations + 1;
+			total_appearance_rate = total_appearance_rate + rate
+			iNumFormations = iNumFormations + 1
 		end
-		local accumulated_rate = 0;
+		local accumulated_rate = 0
 		for index = 1, iNumFormations do
-			local threshold = (appearance_rates[index] + accumulated_rate) * 10000 / total_appearance_rate;
-			table.insert(rate_threshold, threshold);
-			accumulated_rate = accumulated_rate + appearance_rates[index];
+			local threshold = (appearance_rates[index] + accumulated_rate) * 10000 / total_appearance_rate
+			table.insert(rate_threshold, threshold)
+			accumulated_rate = accumulated_rate + appearance_rates[index]
 		end
-		local formation_type;
-		local diceroll = Map.Rand(10000, "Choose formation type - Island Making - Lua");
+		local formation_type
+		local diceroll = Map.Rand(10000, "Choose formation type - Island Making - Lua")
 		for index, threshold in ipairs(rate_threshold) do
 			if diceroll <= threshold then -- Choose this formation type.
-				formation_type = index;
+				formation_type = index
 				break
 			end
 		end
-		-- Choose cell(s) not in use;
-		local iNumAttemptsToFindOpenCells = 0;
-		local found_unoccupied_cell = false;
-		local anchor_cell, cell_x, cell_y, foo;
+		-- Choose cell(s) not in use
+		local iNumAttemptsToFindOpenCells = 0
+		local found_unoccupied_cell = false
+		local anchor_cell, cell_x, cell_y, foo
 		while found_unoccupied_cell == false do
 			if iNumAttemptsToFindOpenCells > 100 then -- Too many attempts on this pass. Might not be any valid locations for this formation.
-				print("-"); print("*-* ERROR:  Formation type of", formation_type, "for island group#", group, "unable to find an open space. Switching to single-cell.");
-				formation_type = 3; -- Reset formation type.
-				iNumAttemptsToFindOpenCells = 0;
+				print("-") print("*-* ERROR:  Formation type of", formation_type, "for island group#", group, "unable to find an open space. Switching to single-cell.")
+				formation_type = 3 -- Reset formation type.
+				iNumAttemptsToFindOpenCells = 0
 			end
-			local diceroll = 1 + Map.Rand(iNumTotalCells, "Choosing a cell for an island group - Polynesia LUA");
+			local diceroll = 1 + Map.Rand(iNumTotalCells, "Choosing a cell for an island group - Polynesia LUA")
 			if cell_data[diceroll] == false then -- Anchor cell is unoccupied.
 				-- If formation type is multiple-cell, all secondary cells must also be unoccupied.
 				if formation_type == 1 or formation_type == 3 then -- single cell, proceed.
-					anchor_cell = diceroll;
-					found_unoccupied_cell = true;
+					anchor_cell = diceroll
+					found_unoccupied_cell = true
 				elseif formation_type == 2 or formation_type == 4 then -- double cell, horizontal.
 					-- Check to see if anchor cell is in the final column. If so, reject.
-					cell_x = math.fmod(diceroll, iNumCellColumns);
+					cell_x = math.fmod(diceroll, iNumCellColumns)
 					if cell_x ~= 0 then -- Anchor cell is valid, but still have to check adjacent cell.
 						if cell_data[diceroll + 1] == false then -- Adjacent cell is unoccupied.
-							anchor_cell = diceroll;
-							found_unoccupied_cell = true;
+							anchor_cell = diceroll
+							found_unoccupied_cell = true
 						end
 					end
 				elseif formation_type == 5 or formation_type == 6 then -- double cell, vertical.
 					-- Check to see if anchor cell is in the final row. If so, reject.
-					cell_y, foo = math.modf(diceroll / iNumCellColumns);
-					cell_y = cell_y + 1;
+					cell_y, foo = math.modf(diceroll / iNumCellColumns)
+					cell_y = cell_y + 1
 					if cell_y < iNumCellRows then -- Anchor cell is valid, but still have to check cell above it.
 						if cell_data[diceroll + iNumCellColumns] == false then -- Adjacent cell is unoccupied.
-							anchor_cell = diceroll;
-							found_unoccupied_cell = true;
+							anchor_cell = diceroll
+							found_unoccupied_cell = true
 						end
 					end
 				elseif formation_type == 7 then -- triple cell, vertical.
 					-- Check to see if anchor cell is in the northern two rows. If so, reject.
-					cell_y, foo = math.modf(diceroll / iNumCellColumns);
-					cell_y = cell_y + 1;
+					cell_y, foo = math.modf(diceroll / iNumCellColumns)
+					cell_y = cell_y + 1
 					if cell_y < iNumCellRows - 1 then -- Anchor cell is valid, but still have to check cells above it.
 						if cell_data[diceroll + iNumCellColumns] == false then -- Cell directly above is unoccupied.
 							if cell_data[diceroll + (iNumCellColumns * 2)] == false then -- Cell two rows above is unoccupied.
-								anchor_cell = diceroll;
-								found_unoccupied_cell = true;
+								anchor_cell = diceroll
+								found_unoccupied_cell = true
 							end
 						end
 					end
 				elseif formation_type == 8 then -- square, 2x2.
 					-- Check to see if anchor cell is in the final row or column. If so, reject.
-					cell_x = math.fmod(diceroll, iNumCellColumns);
+					cell_x = math.fmod(diceroll, iNumCellColumns)
 					if cell_x ~= 0 then
-						cell_y, foo = math.modf(diceroll / iNumCellColumns);
-						cell_y = cell_y + 1;
+						cell_y, foo = math.modf(diceroll / iNumCellColumns)
+						cell_y = cell_y + 1
 						if cell_y < iNumCellRows then -- Anchor cell is valid. Still have to check the other three cells.
 							if cell_data[diceroll + iNumCellColumns] == false then
 								if cell_data[diceroll + 1] == false then
 									if cell_data[diceroll + iNumCellColumns + 1] == false then -- All cells are open.
-										anchor_cell = diceroll;
-										found_unoccupied_cell = true;
+										anchor_cell = diceroll
+										found_unoccupied_cell = true
 									end
 								end
 							end
@@ -3011,17 +3304,17 @@ function GenerateIslands()
 					end
 				elseif formation_type == 9 then -- horizontal, 3x2.
 					-- Check to see if anchor cell is too near to an edge. If so, reject.
-					cell_x = math.fmod(diceroll, iNumCellColumns);
+					cell_x = math.fmod(diceroll, iNumCellColumns)
 					if cell_x ~= 0 and cell_x ~= iNumCellColumns - 1 then
-						cell_y, foo = math.modf(diceroll / iNumCellColumns);
-						cell_y = cell_y + 1;
+						cell_y, foo = math.modf(diceroll / iNumCellColumns)
+						cell_y = cell_y + 1
 						if cell_y < iNumCellRows then -- Anchor cell is valid. Still have to check the other cells.
 							if cell_data[diceroll + iNumCellColumns] == false then
 								if cell_data[diceroll + 1] == false and cell_data[diceroll + 2] == false then
 									if cell_data[diceroll + iNumCellColumns + 1] == false then
 										if cell_data[diceroll + iNumCellColumns + 2] == false then -- All cells are open.
-											anchor_cell = diceroll;
-											found_unoccupied_cell = true;
+											anchor_cell = diceroll
+											found_unoccupied_cell = true
 										end
 									end
 								end
@@ -3030,18 +3323,18 @@ function GenerateIslands()
 					end
 				elseif formation_type == 10 then -- vertical, 2x3.
 					-- Check to see if anchor cell is too near to an edge. If so, reject.
-					cell_x = math.fmod(diceroll, iNumCellColumns);
+					cell_x = math.fmod(diceroll, iNumCellColumns)
 					if cell_x ~= 0 then
-						cell_y, foo = math.modf(diceroll / iNumCellColumns);
-						cell_y = cell_y + 1;
+						cell_y, foo = math.modf(diceroll / iNumCellColumns)
+						cell_y = cell_y + 1
 						if cell_y < iNumCellRows - 1 then -- Anchor cell is valid. Still have to check the other cells.
 							if cell_data[diceroll + iNumCellColumns] == false then
 								if cell_data[diceroll + 1] == false then
 									if cell_data[diceroll + iNumCellColumns + 1] == false then
 										if cell_data[diceroll + (iNumCellColumns * 2)] == false then
 											if cell_data[diceroll + (iNumCellColumns * 2) + 1] == false then -- All cells are open.
-												anchor_cell = diceroll;
-												found_unoccupied_cell = true;
+												anchor_cell = diceroll
+												found_unoccupied_cell = true
 											end
 										end
 									end
@@ -3051,490 +3344,490 @@ function GenerateIslands()
 					end
 				end
 			end
-			iNumAttemptsToFindOpenCells = iNumAttemptsToFindOpenCells + 1;
+			iNumAttemptsToFindOpenCells = iNumAttemptsToFindOpenCells + 1
 		end
 		-- Find Cell X and Y
-		cell_x = math.fmod(anchor_cell, iNumCellColumns);
+		cell_x = math.fmod(anchor_cell, iNumCellColumns)
 		if cell_x == 0 then
-			cell_x = iNumCellColumns;
+			cell_x = iNumCellColumns
 		end
-		cell_y, foo = math.modf(anchor_cell / iNumCellColumns);
-		cell_y = cell_y + 1;
+		cell_y, foo = math.modf(anchor_cell / iNumCellColumns)
+		cell_y = cell_y + 1
 		
 		-- Debug
-		--print("-"); print("-"); print("* Group# " .. group, "Formation Type: " .. formation_type, "Cell X, Y: " .. cell_x .. ", " .. cell_y);
+		--print("-") print("-") print("* Group# " .. group, "Formation Type: " .. formation_type, "Cell X, Y: " .. cell_x .. ", " .. cell_y)
 
 		-- Create this island group.
-		local iWidth, iHeight, fTilt; -- Scope the variables needed for island group creation.
-		local plot_data = {};
-		local x_shift, y_shift;
+		local iWidth, iHeight, fTilt -- Scope the variables needed for island group creation.
+		local plot_data = {}
+		local x_shift, y_shift
 		if formation_type == 1 then -- single cell
-			local x_shrinkage = Map.Rand(4, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(4, "Cell Width adjustment - Lua")
 			if x_shrinkage > 2 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua")
 			if y_shrinkage > 2 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth - x_shrinkage;
-			iHeight = iCellHeight - y_shrinkage;
-			fTilt = Map.Rand(181, "Angle for island chain axis - LUA");
+			iWidth = iCellWidth - x_shrinkage
+			iHeight = iCellHeight - y_shrinkage
+			fTilt = Map.Rand(181, "Angle for island chain axis - LUA")
 			plot_data = CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 
 		elseif formation_type == 2 then -- two cells, horizontal
-			local x_shrinkage = Map.Rand(8, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(8, "Cell Width adjustment - Lua")
 			if x_shrinkage > 5 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua")
 			if y_shrinkage > 2 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth * 2 - x_shrinkage;
-			iHeight = iCellHeight - y_shrinkage;
+			iWidth = iCellWidth * 2 - x_shrinkage
+			iHeight = iCellHeight - y_shrinkage
 			-- Limit angles to mostly horizontal ones.
-			fTilt = 145 + Map.Rand(90, "Angle for island chain axis - LUA");
+			fTilt = 145 + Map.Rand(90, "Angle for island chain axis - LUA")
 			if fTilt > 180 then
-				fTilt = fTilt - 180;
+				fTilt = fTilt - 180
 			end
 			plot_data = CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 			
 		elseif formation_type == 3 then -- single cell, with dots
-			local x_shrinkage = Map.Rand(4, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(4, "Cell Width adjustment - Lua")
 			if x_shrinkage > 2 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua")
 			if y_shrinkage > 2 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth - x_shrinkage;
-			iHeight = iCellHeight - y_shrinkage;
-			fTilt = Map.Rand(181, "Angle for island chain axis - LUA");
+			iWidth = iCellWidth - x_shrinkage
+			iHeight = iCellHeight - y_shrinkage
+			fTilt = Map.Rand(181, "Angle for island chain axis - LUA")
 			-- Determine "dot box"
-			local iInnerWidth, iInnerHeight = iWidth - 2, iHeight - 2;
+			local iInnerWidth, iInnerHeight = iWidth - 2, iHeight - 2
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(8, "Diceroll - Lua");
-			local iNumDots = 4;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(8, "Diceroll - Lua")
+			local iNumDots = 4
 			if die_1 + die_2 > 1 then
-				iNumDots = iNumDots + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots = iNumDots + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots = iNumDots + die_1 + die_2;
+				iNumDots = iNumDots + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithDots(iWidth, iHeight, fTilt, iInnerWidth, iInnerHeight, iNumDots)
 
 		elseif formation_type == 4 then -- two cells, horizontal, with dots
-			local x_shrinkage = Map.Rand(8, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(8, "Cell Width adjustment - Lua")
 			if x_shrinkage > 5 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua")
 			if y_shrinkage > 2 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth * 2 - x_shrinkage;
-			iHeight = iCellHeight - y_shrinkage;
+			iWidth = iCellWidth * 2 - x_shrinkage
+			iHeight = iCellHeight - y_shrinkage
 			-- Limit angles to mostly horizontal ones.
-			fTilt = 145 + Map.Rand(90, "Angle for island chain axis - LUA");
+			fTilt = 145 + Map.Rand(90, "Angle for island chain axis - LUA")
 			if fTilt > 180 then
-				fTilt = fTilt - 180;
+				fTilt = fTilt - 180
 			end
 			-- Determine "dot box"
-			local iInnerWidth = math.floor(iWidth / 2);
-			local iInnerHeight = iHeight - 2;
-			local iInnerWest = 2 + Map.Rand((iWidth - 1) - iInnerWidth, "Shift for sub island group - Lua");
-			local iInnerSouth = 2;
+			local iInnerWidth = math.floor(iWidth / 2)
+			local iInnerHeight = iHeight - 2
+			local iInnerWest = 2 + Map.Rand((iWidth - 1) - iInnerWidth, "Shift for sub island group - Lua")
+			local iInnerSouth = 2
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(10, "Diceroll - Lua");
-			local iNumDots = 5;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(10, "Diceroll - Lua")
+			local iNumDots = 5
 			if die_1 + die_2 > 1 then
-				iNumDots = iNumDots + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots = iNumDots + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots = iNumDots + die_1 + die_2;
+				iNumDots = iNumDots + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithShiftedDots(iWidth, iHeight, fTilt, iInnerWidth, iInnerHeight, iInnerWest, iInnerSouth, iNumDots)
 			
 		elseif formation_type == 5 then -- Double Cell, Vertical, Axis Only
-			local x_shrinkage = Map.Rand(5, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(5, "Cell Width adjustment - Lua")
 			if x_shrinkage > 2 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(7, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(7, "Cell Height adjustment - Lua")
 			if y_shrinkage > 4 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth - x_shrinkage;
-			iHeight = iCellHeight * 2 - y_shrinkage;
+			iWidth = iCellWidth - x_shrinkage
+			iHeight = iCellHeight * 2 - y_shrinkage
 			-- Limit angles to mostly vertical ones.
-			fTilt = 55 + Map.Rand(71, "Angle for island chain axis - LUA");
+			fTilt = 55 + Map.Rand(71, "Angle for island chain axis - LUA")
 			plot_data = CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 		
 		elseif formation_type == 6 then -- Double Cell, Vertical With Dots
-			local x_shrinkage = Map.Rand(5, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(5, "Cell Width adjustment - Lua")
 			if x_shrinkage > 2 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(7, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(7, "Cell Height adjustment - Lua")
 			if y_shrinkage > 4 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth - x_shrinkage;
-			iHeight = iCellHeight * 2 - y_shrinkage;
+			iWidth = iCellWidth - x_shrinkage
+			iHeight = iCellHeight * 2 - y_shrinkage
 			-- Limit angles to mostly vertical ones.
-			fTilt = 55 + Map.Rand(71, "Angle for island chain axis - LUA");
+			fTilt = 55 + Map.Rand(71, "Angle for island chain axis - LUA")
 			-- Determine "dot box"
-			local iInnerWidth = iWidth - 2;
-			local iInnerHeight = math.floor(iHeight / 2);
-			local iInnerWest = 2;
-			local iInnerSouth = 2 + Map.Rand((iHeight - 1) - iInnerHeight, "Shift for sub island group - Lua");
+			local iInnerWidth = iWidth - 2
+			local iInnerHeight = math.floor(iHeight / 2)
+			local iInnerWest = 2
+			local iInnerSouth = 2 + Map.Rand((iHeight - 1) - iInnerHeight, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(10, "Diceroll - Lua");
-			local iNumDots = 5;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(10, "Diceroll - Lua")
+			local iNumDots = 5
 			if die_1 + die_2 > 1 then
-				iNumDots = iNumDots + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots = iNumDots + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots = iNumDots + die_1 + die_2;
+				iNumDots = iNumDots + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithShiftedDots(iWidth, iHeight, fTilt, iInnerWidth, iInnerHeight, iInnerWest, iInnerSouth, iNumDots)
 		
 		elseif formation_type == 7 then -- Triple Cell, Vertical With Double Dots
-			local x_shrinkage = Map.Rand(4, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(4, "Cell Width adjustment - Lua")
 			if x_shrinkage > 1 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(9, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(9, "Cell Height adjustment - Lua")
 			if y_shrinkage > 5 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth - x_shrinkage;
-			iHeight = iCellHeight * 3 - y_shrinkage;
+			iWidth = iCellWidth - x_shrinkage
+			iHeight = iCellHeight * 3 - y_shrinkage
 			-- Limit angles to steep ones.
-			fTilt = 70 + Map.Rand(41, "Angle for island chain axis - LUA");
+			fTilt = 70 + Map.Rand(41, "Angle for island chain axis - LUA")
 			-- Handle Dots Group 1.
-			local iInnerWidth1 = iWidth - 3;
-			local iInnerHeight1 = iCellHeight - 1;
-			local iInnerWest1 = 2 + Map.Rand(2, "Shift for sub island group - Lua");
-			local iInnerSouth1 = 2 + Map.Rand(iCellHeight - 3, "Shift for sub island group - Lua");
+			local iInnerWidth1 = iWidth - 3
+			local iInnerHeight1 = iCellHeight - 1
+			local iInnerWest1 = 2 + Map.Rand(2, "Shift for sub island group - Lua")
+			local iInnerSouth1 = 2 + Map.Rand(iCellHeight - 3, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(8, "Diceroll - Lua");
-			local iNumDots1 = 4;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(8, "Diceroll - Lua")
+			local iNumDots1 = 4
 			if die_1 + die_2 > 1 then
-				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots1 = iNumDots1 + die_1 + die_2;
+				iNumDots1 = iNumDots1 + die_1 + die_2
 			end
 			-- Handle Dots Group 2.
-			local iInnerWidth2 = iWidth - 3;
-			local iInnerHeight2 = iCellHeight - 1;
-			local iInnerWest2 = 2 + Map.Rand(2, "Shift for sub island group - Lua");
-			local iInnerSouth2 = iCellHeight + 2 + Map.Rand(iCellHeight - 3, "Shift for sub island group - Lua");
+			local iInnerWidth2 = iWidth - 3
+			local iInnerHeight2 = iCellHeight - 1
+			local iInnerWest2 = 2 + Map.Rand(2, "Shift for sub island group - Lua")
+			local iInnerSouth2 = iCellHeight + 2 + Map.Rand(iCellHeight - 3, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(8, "Diceroll - Lua");
-			local iNumDots2 = 4;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(8, "Diceroll - Lua")
+			local iNumDots2 = 4
 			if die_1 + die_2 > 1 then
-				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots2 = iNumDots2 + die_1 + die_2;
+				iNumDots2 = iNumDots2 + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithDoubleDots(iWidth, iHeight, fTilt, iInnerWidth1, iInnerHeight1, iInnerWest1, iInnerSouth1,
                                                       iNumDots1, iInnerWidth2, iInnerHeight2, iInnerWest2, iInnerSouth2, iNumDots2)
 		elseif formation_type == 8 then -- Square Block 2x2 With Double Dots
-			local x_shrinkage = Map.Rand(6, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(6, "Cell Width adjustment - Lua")
 			if x_shrinkage > 4 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua")
 			if y_shrinkage > 3 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth * 2 - x_shrinkage;
-			iHeight = iCellHeight * 2 - y_shrinkage;
+			iWidth = iCellWidth * 2 - x_shrinkage
+			iHeight = iCellHeight * 2 - y_shrinkage
 			-- Full range of angles
-			fTilt = Map.Rand(181, "Angle for island chain axis - LUA");
+			fTilt = Map.Rand(181, "Angle for island chain axis - LUA")
 			-- Handle Dots Group 1.
-			local iInnerWidth1 = iCellWidth - 2;
-			local iInnerHeight1 = iCellHeight - 2;
-			local iInnerWest1 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua");
-			local iInnerSouth1 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua");
+			local iInnerWidth1 = iCellWidth - 2
+			local iInnerHeight1 = iCellHeight - 2
+			local iInnerWest1 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua")
+			local iInnerSouth1 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(6, "Diceroll - Lua");
-			local die_2 = Map.Rand(10, "Diceroll - Lua");
-			local iNumDots1 = 5;
+			local die_1 = Map.Rand(6, "Diceroll - Lua")
+			local die_2 = Map.Rand(10, "Diceroll - Lua")
+			local iNumDots1 = 5
 			if die_1 + die_2 > 1 then
-				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots1 = iNumDots1 + die_1 + die_2;
+				iNumDots1 = iNumDots1 + die_1 + die_2
 			end
 			-- Handle Dots Group 2.
-			local iInnerWidth2 = iCellWidth - 2;
-			local iInnerHeight2 = iCellHeight - 2;
-			local iInnerWest2 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua");
-			local iInnerSouth2 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua");
+			local iInnerWidth2 = iCellWidth - 2
+			local iInnerHeight2 = iCellHeight - 2
+			local iInnerWest2 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua")
+			local iInnerSouth2 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(8, "Diceroll - Lua");
-			local iNumDots2 = 5;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(8, "Diceroll - Lua")
+			local iNumDots2 = 5
 			if die_1 + die_2 > 1 then
-				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots2 = iNumDots2 + die_1 + die_2;
+				iNumDots2 = iNumDots2 + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithDoubleDots(iWidth, iHeight, fTilt, iInnerWidth1, iInnerHeight1, iInnerWest1, iInnerSouth1,
                                                       iNumDots1, iInnerWidth2, iInnerHeight2, iInnerWest2, iInnerSouth2, iNumDots2)
 
 		elseif formation_type == 9 then -- Horizontal Block 3x2 With Double Dots
-			local x_shrinkage = Map.Rand(8, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(8, "Cell Width adjustment - Lua")
 			if x_shrinkage > 5 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(5, "Cell Height adjustment - Lua")
 			if y_shrinkage > 3 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth * 3 - x_shrinkage;
-			iHeight = iCellHeight * 2 - y_shrinkage;
+			iWidth = iCellWidth * 3 - x_shrinkage
+			iHeight = iCellHeight * 2 - y_shrinkage
 			-- Limit angles to mostly horizontal ones.
-			fTilt = 145 + Map.Rand(90, "Angle for island chain axis - LUA");
+			fTilt = 145 + Map.Rand(90, "Angle for island chain axis - LUA")
 			if fTilt > 180 then
-				fTilt = fTilt - 180;
+				fTilt = fTilt - 180
 			end
 			-- Handle Dots Group 1.
-			local iInnerWidth1 = iCellWidth;
-			local iInnerHeight1 = iCellHeight - 2;
-			local iInnerWest1 = 4 + Map.Rand(iCellWidth + 2, "Shift for sub island group - Lua");
-			local iInnerSouth1 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua");
+			local iInnerWidth1 = iCellWidth
+			local iInnerHeight1 = iCellHeight - 2
+			local iInnerWest1 = 4 + Map.Rand(iCellWidth + 2, "Shift for sub island group - Lua")
+			local iInnerSouth1 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(8, "Diceroll - Lua");
-			local iNumDots1 = 9;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(8, "Diceroll - Lua")
+			local iNumDots1 = 9
 			if die_1 + die_2 > 1 then
-				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots1 = iNumDots1 + die_1 + die_2;
+				iNumDots1 = iNumDots1 + die_1 + die_2
 			end
 			-- Handle Dots Group 2.
-			local iInnerWidth2 = iCellWidth;
-			local iInnerHeight2 = iCellHeight - 2;
-			local iInnerWest2 = 4 + Map.Rand(iCellWidth + 2, "Shift for sub island group - Lua");
-			local iInnerSouth2 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua");
+			local iInnerWidth2 = iCellWidth
+			local iInnerHeight2 = iCellHeight - 2
+			local iInnerWest2 = 4 + Map.Rand(iCellWidth + 2, "Shift for sub island group - Lua")
+			local iInnerSouth2 = 3 + Map.Rand(iCellHeight - 2, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(5, "Diceroll - Lua");
-			local die_2 = Map.Rand(7, "Diceroll - Lua");
-			local iNumDots2 = 8;
+			local die_1 = Map.Rand(5, "Diceroll - Lua")
+			local die_2 = Map.Rand(7, "Diceroll - Lua")
+			local iNumDots2 = 8
 			if die_1 + die_2 > 1 then
-				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots2 = iNumDots2 + die_1 + die_2;
+				iNumDots2 = iNumDots2 + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithDoubleDots(iWidth, iHeight, fTilt, iInnerWidth1, iInnerHeight1, iInnerWest1, iInnerSouth1,
                                                       iNumDots1, iInnerWidth2, iInnerHeight2, iInnerWest2, iInnerSouth2, iNumDots2)
 
 		elseif formation_type == 10 then -- Vertical Block 2x3 With Double Dots
-			local x_shrinkage = Map.Rand(6, "Cell Width adjustment - Lua");
+			local x_shrinkage = Map.Rand(6, "Cell Width adjustment - Lua")
 			if x_shrinkage > 4 then
-				x_shrinkage = 0;
+				x_shrinkage = 0
 			end
-			local y_shrinkage = Map.Rand(8, "Cell Height adjustment - Lua");
+			local y_shrinkage = Map.Rand(8, "Cell Height adjustment - Lua")
 			if y_shrinkage > 5 then
-				y_shrinkage = 0;
+				y_shrinkage = 0
 			end
-			x_shift, y_shift = 0, 0;
+			x_shift, y_shift = 0, 0
 			if x_shrinkage > 0 then
-				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua");
+				x_shift = Map.Rand(x_shrinkage, "Cell Width offset - Lua")
 			end
 			if y_shrinkage > 0 then
-				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua");
+				y_shift = Map.Rand(y_shrinkage, "Cell Height offset - Lua")
 			end
-			iWidth = iCellWidth * 2 - x_shrinkage;
-			iHeight = iCellHeight * 3 - y_shrinkage;
+			iWidth = iCellWidth * 2 - x_shrinkage
+			iHeight = iCellHeight * 3 - y_shrinkage
 			-- Mostly vertical
-			fTilt = 55 + Map.Rand(71, "Angle for island chain axis - LUA");
+			fTilt = 55 + Map.Rand(71, "Angle for island chain axis - LUA")
 			-- Handle Dots Group 1.
-			local iInnerWidth1 = iCellWidth - 2;
-			local iInnerHeight1 = iCellHeight;
-			local iInnerWest1 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua");
-			local iInnerSouth1 = 4 + Map.Rand(iCellHeight + 2, "Shift for sub island group - Lua");
+			local iInnerWidth1 = iCellWidth - 2
+			local iInnerHeight1 = iCellHeight
+			local iInnerWest1 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua")
+			local iInnerSouth1 = 4 + Map.Rand(iCellHeight + 2, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(10, "Diceroll - Lua");
-			local iNumDots1 = 8;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(10, "Diceroll - Lua")
+			local iNumDots1 = 8
 			if die_1 + die_2 > 1 then
-				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots1 = iNumDots1 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots1 = iNumDots1 + die_1 + die_2;
+				iNumDots1 = iNumDots1 + die_1 + die_2
 			end
 			-- Handle Dots Group 2.
-			local iInnerWidth2 = iCellWidth - 2;
-			local iInnerHeight2 = iCellHeight;
-			local iInnerWest2 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua");
-			local iInnerSouth2 = 4 + Map.Rand(iCellHeight + 2, "Shift for sub island group - Lua");
+			local iInnerWidth2 = iCellWidth - 2
+			local iInnerHeight2 = iCellHeight
+			local iInnerWest2 = 3 + Map.Rand(iCellWidth - 2, "Shift for sub island group - Lua")
+			local iInnerSouth2 = 4 + Map.Rand(iCellHeight + 2, "Shift for sub island group - Lua")
 			-- Determine number of dots
-			local die_1 = Map.Rand(4, "Diceroll - Lua");
-			local die_2 = Map.Rand(8, "Diceroll - Lua");
-			local iNumDots2 = 7;
+			local die_1 = Map.Rand(4, "Diceroll - Lua")
+			local die_2 = Map.Rand(8, "Diceroll - Lua")
+			local iNumDots2 = 7
 			if die_1 + die_2 > 1 then
-				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua");
+				iNumDots2 = iNumDots2 + Map.Rand(die_1 + die_2, "Number of dots to add to island chain - Lua")
 			else
-				iNumDots2 = iNumDots2 + die_1 + die_2;
+				iNumDots2 = iNumDots2 + die_1 + die_2
 			end
 			plot_data = CreateAxisChainWithDoubleDots(iWidth, iHeight, fTilt, iInnerWidth1, iInnerHeight1, iInnerWest1, iInnerSouth1,
                                                       iNumDots1, iInnerWidth2, iInnerHeight2, iInnerWest2, iInnerSouth2, iNumDots2)
 		end
 
 		-- Obtain land plots from the plot data
-		local x_adjust = (cell_x - 1) * iCellWidth + x_shift;
-		local y_adjust = (cell_y - 1) * iCellHeight + y_shift;
+		local x_adjust = (cell_x - 1) * iCellWidth + x_shift
+		local y_adjust = (cell_y - 1) * iCellHeight + y_shift
 		for y = 1, iHeight do
 			for x = 1, iWidth do
-				local data_index = (y - 1) * iWidth + x;
+				local data_index = (y - 1) * iWidth + x
 				if plot_data[data_index] == true then -- This plot is land.
-					local real_x, real_y = x + x_adjust - 1, y + y_adjust - 1;
-					local plot_index = real_y * iW + real_x + 1;
-					island_chain_PlotTypes[plot_index] = PlotTypes.PLOT_LAND;
+					local real_x, real_y = x + x_adjust - 1, y + y_adjust - 1
+					local plot_index = real_y * iW + real_x + 1
+					island_chain_PlotTypes[plot_index] = PlotTypes.PLOT_LAND
 				end
 			end
 		end
 		
 		-- Record cells in use
 		if formation_type == 1 then -- single cell
-			cell_data[anchor_cell] = true;
-			iNumCellsInUse = iNumCellsInUse + 1;
+			cell_data[anchor_cell] = true
+			iNumCellsInUse = iNumCellsInUse + 1
 		elseif formation_type == 2 then
-			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 2;
+			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true
+			iNumCellsInUse = iNumCellsInUse + 2
 		elseif formation_type == 3 then
-			cell_data[anchor_cell] = true;
-			iNumCellsInUse = iNumCellsInUse + 1;
+			cell_data[anchor_cell] = true
+			iNumCellsInUse = iNumCellsInUse + 1
 		elseif formation_type == 4 then
-			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 2;
+			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true
+			iNumCellsInUse = iNumCellsInUse + 2
 		elseif formation_type == 5 then
-			cell_data[anchor_cell], cell_data[anchor_cell + iNumCellColumns] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 2;
+			cell_data[anchor_cell], cell_data[anchor_cell + iNumCellColumns] = true, true
+			iNumCellsInUse = iNumCellsInUse + 2
 		elseif formation_type == 6 then
-			cell_data[anchor_cell], cell_data[anchor_cell + iNumCellColumns] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 2;
+			cell_data[anchor_cell], cell_data[anchor_cell + iNumCellColumns] = true, true
+			iNumCellsInUse = iNumCellsInUse + 2
 		elseif formation_type == 7 then
-			cell_data[anchor_cell], cell_data[anchor_cell + iNumCellColumns] = true, true;
-			cell_data[anchor_cell + (iNumCellColumns * 2)] = true;
-			iNumCellsInUse = iNumCellsInUse + 3;
+			cell_data[anchor_cell], cell_data[anchor_cell + iNumCellColumns] = true, true
+			cell_data[anchor_cell + (iNumCellColumns * 2)] = true
+			iNumCellsInUse = iNumCellsInUse + 3
 		elseif formation_type == 8 then
-			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true;
-			cell_data[anchor_cell + iNumCellColumns], cell_data[anchor_cell + iNumCellColumns + 1] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 4;
+			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true
+			cell_data[anchor_cell + iNumCellColumns], cell_data[anchor_cell + iNumCellColumns + 1] = true, true
+			iNumCellsInUse = iNumCellsInUse + 4
 		elseif formation_type == 9 then
-			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true;
-			cell_data[anchor_cell + iNumCellColumns], cell_data[anchor_cell + iNumCellColumns + 1] = true, true;
-			cell_data[anchor_cell + 2], cell_data[anchor_cell + iNumCellColumns + 2] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 6;
+			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true
+			cell_data[anchor_cell + iNumCellColumns], cell_data[anchor_cell + iNumCellColumns + 1] = true, true
+			cell_data[anchor_cell + 2], cell_data[anchor_cell + iNumCellColumns + 2] = true, true
+			iNumCellsInUse = iNumCellsInUse + 6
 		elseif formation_type == 10 then
-			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true;
-			cell_data[anchor_cell + iNumCellColumns], cell_data[anchor_cell + iNumCellColumns + 1] = true, true;
-			cell_data[anchor_cell + (iNumCellColumns * 2)], cell_data[anchor_cell + (iNumCellColumns * 2) + 1] = true, true;
-			iNumCellsInUse = iNumCellsInUse + 6;
+			cell_data[anchor_cell], cell_data[anchor_cell + 1] = true, true
+			cell_data[anchor_cell + iNumCellColumns], cell_data[anchor_cell + iNumCellColumns + 1] = true, true
+			cell_data[anchor_cell + (iNumCellColumns * 2)], cell_data[anchor_cell + (iNumCellColumns * 2) + 1] = true, true
+			iNumCellsInUse = iNumCellsInUse + 6
 		end
 	end
 	
 	-- Debug check of cell occupation.
-	--print("- - -");
+	--print("- - -")
 	for loop = iNumCellRows, 1, -1 do
-		local c = (loop - 1) * iNumCellColumns;
-		local stringdata = {};
+		local c = (loop - 1) * iNumCellColumns
+		local stringdata = {}
 		for innerloop = 1, iNumCellColumns do
 			if cell_data[c + innerloop] == false then
-				stringdata[innerloop] = "false";
+				stringdata[innerloop] = "false"
 			else
-				stringdata[innerloop] = "true ";
+				stringdata[innerloop] = "true "
 			end
 		end
-		--print("Row: ", table.concat(stringdata));
+		--print("Row: ", table.concat(stringdata))
 	end
 	--
 	
 	-- Add Hills and Peaks to randomly generated islands.
-	local regionHillsFrac = Fractal.Create(iW, iH, 5, {}, 7, 7);
-	local regionPeaksFrac = Fractal.Create(iW, iH, 6, {}, 7, 7);
-	local iHillsBottom1 = regionHillsFrac:GetHeight(20);
-	local iHillsTop1 = regionHillsFrac:GetHeight(35);
-	local iHillsBottom2 = regionHillsFrac:GetHeight(65);
-	local iHillsTop2 = regionHillsFrac:GetHeight(80);
-	local iPeakThreshold = regionPeaksFrac:GetHeight(80);
+	local regionHillsFrac = Fractal.Create(iW, iH, 5, {}, 7, 7)
+	local regionPeaksFrac = Fractal.Create(iW, iH, 6, {}, 7, 7)
+	local iHillsBottom1 = regionHillsFrac:GetHeight(20)
+	local iHillsTop1 = regionHillsFrac:GetHeight(35)
+	local iHillsBottom2 = regionHillsFrac:GetHeight(65)
+	local iHillsTop2 = regionHillsFrac:GetHeight(80)
+	local iPeakThreshold = regionPeaksFrac:GetHeight(80)
 	for x = 0, iW - 1 do
 		for y = 0, iH - 1 do
-			local i = y * iW + x + 1;
+			local i = y * iW + x + 1
 			if island_chain_PlotTypes[i] ~= PlotTypes.PLOT_OCEAN then
-				local hillVal = regionHillsFrac:GetHeight(x,y);
+				local hillVal = regionHillsFrac:GetHeight(x,y)
 				if ((hillVal >= iHillsBottom1 and hillVal <= iHillsTop1) or (hillVal >= iHillsBottom2 and hillVal <= iHillsTop2)) then
-					local peakVal = regionPeaksFrac:GetHeight(x,y);
+					local peakVal = regionPeaksFrac:GetHeight(x,y)
 					if (peakVal >= iPeakThreshold) then
 						island_chain_PlotTypes[i] = PlotTypes.PLOT_MOUNTAIN
 					else
@@ -3548,14 +3841,14 @@ function GenerateIslands()
 	-- Apply island data to the map.
 	for y = 2, iH - 3 do -- avoid polar caps
 		for x = 0, iW - 1 do
-			local i = y * iW + x + 1;
-			local plot = Map.GetPlot(x, y);
+			local i = y * iW + x + 1
+			local plot = Map.GetPlot(x, y)
 			if island_chain_PlotTypes[i] ~= PlotTypes.PLOT_OCEAN and plot:GetPlotType() == PlotTypes.PLOT_OCEAN and not plot:IsLake() and not plot:IsRiverSide() then
 				local isValid = true
 				local numAdjacentLand = 0
 				-- Don't fill river deltas with land
 				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
-					if adjPlot:IsRiverSide() then -- does not appear to work
+					if adjPlot:IsRiverSide() then -- does not appear to work?
 						isValid = false
 						break
 					end
@@ -3570,7 +3863,7 @@ function GenerateIslands()
 					--]]
 				end
 				if isValid then
-					plot:SetPlotType(island_chain_PlotTypes[i], false, false);
+					plot:SetPlotType(island_chain_PlotTypes[i], false, false)
 				else
 					--plot:SetPlotType(PlotTypes.PLOT_MOUNTAIN, false, false)
 				end
@@ -3580,7 +3873,7 @@ function GenerateIslands()
 end
 
 function ErasePolarLand(y)
-	local mapW, mapH = Map.GetGridSize();
+	local mapW, mapH = Map.GetGridSize()
 	
 	
 	for x = 0,mapW-1 do
@@ -3593,14 +3886,16 @@ end
 
 function GenerateTerrain()
 	print("Generating terrain - PerfectWorld3")
-	local terrainDesert	= GameInfoTypes["TERRAIN_DESERT"];
-	local terrainPlains	= GameInfoTypes["TERRAIN_PLAINS"];
-	local terrainSnow	= GameInfoTypes["TERRAIN_SNOW"];
-	local terrainTundra	= GameInfoTypes["TERRAIN_TUNDRA"];
-	local terrainGrass	= GameInfoTypes["TERRAIN_GRASS"];
+	local timeStart = debugTime and os.clock() or 0
+	local terrainDesert	= GameInfoTypes["TERRAIN_DESERT"]
+	local terrainPlains	= GameInfoTypes["TERRAIN_PLAINS"]
+	local terrainSnow	= GameInfoTypes["TERRAIN_SNOW"]
+	local terrainTundra	= GameInfoTypes["TERRAIN_TUNDRA"]
+	local terrainGrass	= GameInfoTypes["TERRAIN_GRASS"]
 
-	local mapW, mapH = Map.GetGridSize();
+	local mapW, mapH = Map.GetGridSize()
 	
+	SetOceanRiftPlots()
 	
 	--first find minimum rain above sea level for a soft desert transition
 	local minRain = 100.0
@@ -3624,7 +3919,7 @@ function GenerateTerrain()
 			local plot = Map.GetPlot(x, y)
 			if not elevationMap:IsBelowSeaLevel(x,y) then
 				if rainfallMap.data[i] < desertThreshold then
-					if temperatureMap.data[i] < mc.snowTemperature then
+					if temperatureMap.data[i] < mc.snowTemperature then--and elevationMap:GetZone(y) ~= mc.NEQUATOR and elevationMap:GetZone(y) ~= mc.SEQUATOR then
 						plot:SetTerrainType(terrainSnow,false,false)
 					elseif temperatureMap.data[i] < mc.tundraTemperature then
 						plot:SetTerrainType(terrainTundra,false,false)
@@ -3638,7 +3933,7 @@ function GenerateTerrain()
 						--end
 					end
 				elseif rainfallMap.data[i] < plainsThreshold then
-					if temperatureMap.data[i] < mc.snowTemperature then
+					if temperatureMap.data[i] < mc.snowTemperature then--and elevationMap:GetZone(y) ~= mc.NEQUATOR and elevationMap:GetZone(y) ~= mc.SEQUATOR then
 						plot:SetTerrainType(terrainSnow,false,false)
 					elseif temperatureMap.data[i] < mc.tundraTemperature then
 						plot:SetTerrainType(terrainTundra,false,false)
@@ -3650,7 +3945,7 @@ function GenerateTerrain()
 						end
 					end
 				else
-					if temperatureMap.data[i] < mc.snowTemperature then
+					if temperatureMap.data[i] < mc.snowTemperature then--and elevationMap:GetZone(y) ~= mc.NEQUATOR and elevationMap:GetZone(y) ~= mc.SEQUATOR then
 						plot:SetTerrainType(terrainSnow,false,false)
 					elseif temperatureMap.data[i] < mc.tundraTemperature then
 						plot:SetTerrainType(terrainTundra,false,false)
@@ -3662,83 +3957,301 @@ function GenerateTerrain()
 		end
 	end
 	
-	--now we fix things up so that the border of tundra and ice regions are hills
-	--this looks a bit more believable. Also keep desert away from tundra and ice
-	--by turning it into plains
+	if debugTime then print(string.format("%4s ms for GenerateTerrain %s", math.floor((os.clock() - timeStart) * 1000), "Main")) end
+	if debugTime then timeStart = os.clock() end
+	BlendTerrain()
+	if debugTime then print(string.format("%4s ms for GenerateTerrain %s", math.floor((os.clock() - timeStart) * 1000), "BlendTerrain")) end
+end
+------------------------------------------------------------------------------
+
+
+
+------------------------------------------------------------------------------
+function AddFeatures()
+	print("Adding Features PerfectWorld3")
+	local mapW, mapH = Map.GetGridSize()
+	Map.RecalculateAreas()	
+	
+	local timeStart = debugTime and os.clock() or 0
+	local zeroTreesThreshold	= rainfallMap:FindThresholdFromPercent(mc.zeroTreesPercent,false,true)
+	local jungleThreshold		= rainfallMap:FindThresholdFromPercent(mc.junglePercent,false,true)
 	for y = 0, mapH-1 do
 		for x = 0,mapW-1 do
-			local i = elevationMap:GetIndex(x,y)
+			Plot_AddMainFeatures(x, y, zeroTreesThreshold, jungleThreshold)
+		end
+	end
+	
+	for y = 0, mapH-1 do
+		for x = 0,mapW-1 do
 			local plot = Map.GetPlot(x, y)
-			if not elevationMap:IsBelowSeaLevel(x,y) then
-				if plot:GetTerrainType() == terrainSnow and plot:GetPlotType() ~= PlotTypes.PLOT_MOUNTAIN then
-					local lowerFound = false
-					for dir = mc.W,mc.SW do
-						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
-						local ii = elevationMap:GetIndex(xx,yy)
-						if ii ~= -1 then
-							local nPlot = Map.GetPlot(xx,yy)
-							local terrainVal = nPlot:GetTerrainType()
-							if not elevationMap:IsBelowSeaLevel(xx,yy) and terrainVal ~= terrainSnow then
-								lowerFound = true
-							end
-							if terrainVal == terrainDesert then
-								nPlot:SetTerrainType(terrainPlains,false,false)
-							end
-						end
-					end
-					if lowerFound and plot:GetPlotType() == PlotTypes.PLOT_LAND then
-						plot:SetPlotType(PlotTypes.PLOT_HILLS,false,false)
-					end
-				elseif plot:GetTerrainType() == terrainTundra and plot:GetPlotType() ~= PlotTypes.PLOT_MOUNTAIN then
-					local lowerFound = false
-					for dir = mc.W,mc.SW do
-						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
-						local ii = elevationMap:GetIndex(xx,yy)
-						if ii ~= -1 then
-							local nPlot = Map.GetPlot(xx,yy)
-							local terrainVal = nPlot:GetTerrainType()
-							if not elevationMap:IsBelowSeaLevel(xx,yy) and terrainVal ~= terrainSnow and terrainVal ~= terrainTundra then
-								lowerFound = true
-							end
-							if terrainVal == terrainDesert then
-								nPlot:SetTerrainType(terrainPlains,false,false)
-							end
-						end
-					end
-					if lowerFound and plot:GetPlotType() == PlotTypes.PLOT_LAND then
-						plot:SetPlotType(PlotTypes.PLOT_HILLS,false,false)
-					end
-				else
-					local higherFound = false
-					for dir = mc.W,mc.SW do
-						local xx,yy = elevationMap:GetNeighbor(x,y,dir)
-						local ii = elevationMap:GetIndex(xx,yy)
-						if ii ~= -1 then
-							local nPlot = Map.GetPlot(xx,yy)
-							local terrainVal = nPlot:GetTerrainType()
-							if terrainVal == terrainSnow or terrainVal == terrainTundra then
-								higherFound = true
-							end
-						end
-					end
-					if higherFound and plot:GetPlotType() == PlotTypes.PLOT_HILLS then
-						plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
-					end
-				end
+			if not plot:IsWater() then
+				PlacePossibleOasis(x,y)
+				PlaceRandomForest(x,y)
+			else
+				--PlacePossibleAtoll(x,y)
+				PlacePossibleIce(x,y)
+			end
+		end
+	end
+	AddAtolls()	
+	
+	RestoreLakes(lakePlots)
+	FloodDeserts()
+	FixRivers()
+	if debugTime then print(string.format("%4s ms for AddFeatures %s", math.floor((os.clock() - timeStart) * 1000), "End")) end
+end
+
+function Plot_AddMainFeatures(x, y, zeroTreesThreshold, jungleThreshold)
+	local i						= elevationMap:GetIndex(x,y)
+	local plot					= Map.GetPlot(x, y)
+	local mapW, mapH			= Map.GetGridSize()
+	local terrainPlains			= TerrainTypes.TERRAIN_PLAINS
+	local terrainDesert			= TerrainTypes.TERRAIN_DESERT
+	local terrainSnow			= TerrainTypes.TERRAIN_SNOW
+	local featureFlood			= FeatureTypes.FEATURE_FLOOD_PLAINS
+	local featureIce			= FeatureTypes.FEATURE_ICE
+	local featureJungle			= FeatureTypes.FEATURE_JUNGLE
+	local featureForest			= FeatureTypes.FEATURE_FOREST
+	local featureOasis			= FeatureTypes.FEATURE_OASIS
+	local featureMarsh			= FeatureTypes.FEATURE_MARSH
+	--local zeroTreesThreshold	= rainfallMap:FindThresholdFromPercent(mc.zeroTreesPercent,false,true)
+	--local jungleThreshold		= rainfallMap:FindThresholdFromPercent(mc.junglePercent,false,true)
+	
+	if plot:IsWater() or plot:IsMountain() then
+		return
+	end
+	
+	-- Set desert rivers to floodplains
+	if plot:CanHaveFeature(featureFlood) then
+		plot:SetFeatureType(featureFlood,-1)
+		return
+	end
+	
+	-- Micro-climates for tiny volcanic islands 
+	if not plot:IsMountain() and (plotTerrainID == terrainPlains or plotTerrainID == terrainGrass) then
+		local areaSize = plot:Area():GetNumTiles()
+		if areaSize <= 5 and (6 - areaSize) >= Map.Rand(5, "Add Island Features - Lua") then
+			local zone = elevationMap:GetZone(y)
+			if zone == mc.NEQUATOR or zone == mc.SEQUATOR then
+				plot:SetTerrainType(terrainPlains,false,false)
+				plot:SetFeatureType(featureJungle,-1)
+				return
+			elseif zone == mc.NTEMPERATE or zone == mc.STEMPERATE then
+				plot:SetFeatureType(featureForest,-1)
+				return
 			end
 		end
 	end
 	
-	GenerateOceanRifts()
+	-- Too dry for jungle
+	local plotTerrainID = plot:GetTerrainType()
+	if rainfallMap.data[i] < jungleThreshold then
+		local treeRange = jungleThreshold - zeroTreesThreshold
+		if (rainfallMap.data[i] > PWRand() * treeRange + zeroTreesThreshold) and (temperatureMap.data[i] > mc.treesMinTemperature) then
+			if IsGoodFeatureTile(plot) then
+				plot:SetFeatureType(featureForest,-1)
+			end
+		end
+		return
+	end
+	
+	-- Too cold for jungle
+	if temperatureMap.data[i] < mc.jungleMinTemperature then
+		if temperatureMap.data[i] > mc.treesMinTemperature and IsGoodFeatureTile(plot) then
+			plot:SetFeatureType(featureForest,-1)
+		end
+		return
+	end	
+	
+	-- Too near desert for jungle
+	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+		if adjPlot:GetTerrainType() == terrainDesert then
+			return
+		end
+	end
+	
+	-- This tile is tropical forest or jungle	
+	table.insert(mc.tropicalPlots, plot)
+	
+	-- Check marsh
+	if temperatureMap.data[i] > mc.treesMinTemperature and IsGoodFeatureTile(plot, featureMarsh) then
+		plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
+		plot:SetFeatureType(featureMarsh,-1)
+		return
+	end
+	
+	if plot:IsHills() then
+		--jungle on hill looks terrible in Civ5. Can't use it.
+		plot:SetTerrainType(terrainGrass,false,false)
+		if IsGoodFeatureTile(plot) then
+			plot:SetFeatureType(featureForest,-1)
+		end
+		return
+	end
+	
+	if IsGoodFeatureTile(plot) then
+		plot:SetTerrainType(terrainPlains,false,false)
+		plot:SetFeatureType(featureJungle,-1)
+	else
+		plot:SetTerrainType(terrainGrass,false,false)
+	end
 end
-------------------------------------------------------------------------------
+
+function IsGoodFeatureTile(plot, featureID)
+	local odds = 0
+	
+	if featureID == FeatureTypes.FEATURE_MARSH then
+		if plot:GetPlotType() ~= PlotTypes.PLOT_LAND then
+			return false
+		end
+		for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 0, 1)) do
+			local adjTerrainID = adjPlot:GetTerrainType()
+			if adjPlot:GetPlotType() == PlotTypes.PLOT_OCEAN then
+				if plot:IsRiverSide() then
+					odds = odds + 2 * mc.marshPercent
+				end
+				if adjPlot:IsLake() then
+					odds = odds + 8 * mc.marshPercent
+				else
+					odds = odds + mc.marshPercent
+				end
+			elseif adjTerrainID == TerrainTypes.TERRAIN_DESERT or adjTerrainID == TerrainTypes.TERRAIN_SNOW or adjTerrainID == TerrainTypes.TERRAIN_TUNDRA then
+				return 0
+			elseif adjPlot:GetFeatureType() == FeatureTypes.FEATURE_MARSH then
+				odds = odds - 4 * mc.marshPercent -- avoid clumping
+			elseif plot:IsRiverSide() and adjPlot:IsFreshWater() then
+				odds = odds + mc.marshPercent
+			end
+		end
+		return math.min(odds, mc.featurePercent) >= PWRand()
+	end
+	
+	odds = mc.featurePercent 
+	if plot:IsFreshWater() then
+		odds = odds + mc.featureWetVariance
+	else
+		odds = odds - mc.featureWetVariance
+	end
+	
+	return odds >= PWRand()
+end
+
+function IsBarrenDesert(plot)
+	return plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and not plot:IsMountain() and plot:GetFeatureType() == FeatureTypes.NO_FEATURE
+end
+
+function PlacePossibleOasis(plotX,plotY)
+	local plot = Map.GetPlot(plotX,plotY)
+	if not plot:CanHaveFeature(FeatureTypes.FEATURE_OASIS) or plot:IsHills() then
+		return
+	end
+	
+	local odds = 0
+	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 3)) do
+		local distance = Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY()) or 1
+		local featureID = adjPlot:GetFeatureType()
+		
+		if featureID == FeatureTypes.FEATURE_OASIS then
+			if distance <= 2 then
+				-- at least 2 tile spacing between oases
+				return
+			end
+			odds = odds - 200 / distance
+		end
+		
+		if featureID == FeatureTypes.NO_FEATURE and not adjPlot:IsFreshWater() then
+			if adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT then
+				odds = odds + 10 / distance
+			elseif adjPlot:IsMountain() or adjPlot:IsHills() then
+				odds = odds + 10 / distance
+			elseif adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_PLAINS then
+				odds = odds + 5 / distance
+			end
+		else
+			odds = odds - 5 / distance
+		end
+	end
+	
+	if odds >= Map.Rand(100, "PlacePossibleOasis - Lua") then
+		plot:SetFeatureType(FeatureTypes.FEATURE_OASIS, -1)
+	end
+end
+
+function PlaceRandomForest(plotX,plotY)
+	local plot = Map.GetPlot(plotX,plotY)
+	local terrainID = plot:GetTerrainType() 
+	
+	if not plot:CanHaveFeature(FeatureTypes.FEATURE_FOREST) then
+		return false
+	end
+	
+	local resID = plot:GetResourceType()
+	if resID ~= -1 and terrainID == TerrainTypes.TERRAIN_TUNDRA then
+		plot:SetFeatureType(FeatureTypes.FEATURE_FOREST, -1)
+		return true
+	end
+	
+	local odds = mc.forestRandomPercent
+	if plot:IsFreshWater() then
+		odds = odds + mc.forestWetVariance
+	else
+		odds = odds - mc.forestWetVariance
+	end
+	if 100 * odds >= Map.Rand(100, "Add Extra Forest - Lua") then
+		plot:SetFeatureType(FeatureTypes.FEATURE_FOREST, -1)
+		return true
+	end
+end
+
+function FloodDeserts()
+	local mapW, mapH = Map.GetGridSize()
+	for plotY = 0, mapH-1 do
+		for plotX = 0,mapW-1 do
+			local plot = Map.GetPlot(plotX,plotY)
+			if (plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT
+					and plot:GetFeatureType() == FeatureTypes.NO_FEATURE
+					and plot:IsFreshWater()
+					and not plot:IsHills()
+					and not plot:IsMountain()
+					)then
+				if not Cep then
+					Game.SetPlotExtraYield( plot:GetX(), plot:GetY(), YieldTypes.YIELD_FOOD, 1)
+				end
+			end
+		end
+	end
+end
+
+function PlacePossibleIce(x,y)
+	local featureIce = FeatureTypes.FEATURE_ICE
+	local plot = Map.GetPlot(x,y)
+	local i = temperatureMap:GetIndex(x,y)
+	if plot:IsWater() then
+		local temp = temperatureMap.data[i]
+		local latitude = temperatureMap:GetLatitudeForY(y)
+		--local randval = PWRand() * (mc.iceMaxTemperature - mc.minWaterTemp) + mc.minWaterTemp * 2
+		local randvalNorth = PWRand() * (mc.iceNorthLatitudeLimit - mc.topLatitude) + mc.topLatitude - 2
+		local randvalSouth = PWRand() * (mc.bottomLatitude - mc.iceSouthLatitudeLimit) + mc.iceSouthLatitudeLimit
+		--if debugTime then print(string.format("lat = %f, randvalNorth = %f, randvalSouth = %f",latitude,randvalNorth,randvalSouth)) end
+		if latitude > randvalNorth  or latitude < randvalSouth then
+			plot:SetFeatureType(featureIce,-1)
+			for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1)) do
+				-- grass -> tundra, near ice
+				if adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_GRASS then
+					plot:SetTerrainType(TerrainTypes.TERRAIN_TUNDRA, false, true)
+					break
+				end
+			end
+		end
+	end
+end
 
 function AddAtolls()
 	-- This function added Feb 2011 by Bob Thomas.
 	-- Adds the new feature Atolls in to the game, for oceanic maps.
 	local iW, iH = Map.GetGridSize()
 	local biggest_ocean = Map.FindBiggestArea(true)
-	local iNumBiggestOceanPlots = 0;
+	local iNumBiggestOceanPlots = 0
 	
 	if biggest_ocean ~= nil then
 		iNumBiggestOceanPlots = biggest_ocean:GetNumTiles()
@@ -3748,7 +4261,7 @@ function AddAtolls()
 	end
 	
 	-- World has oceans, proceed with adding Atolls.
-	local iNumAtollsPlaced = 0;
+	local iNumAtollsPlaced = 0
 	local direction_types = {
 		DirectionTypes.DIRECTION_NORTHEAST,
 		DirectionTypes.DIRECTION_EAST,
@@ -3756,7 +4269,7 @@ function AddAtolls()
 		DirectionTypes.DIRECTION_SOUTHWEST,
 		DirectionTypes.DIRECTION_WEST,
 		DirectionTypes.DIRECTION_NORTHWEST
-	};
+	}
 	local numCoast = 0
 	local coastID = GameInfo.Terrains.TERRAIN_COAST.ID
 	for i, plot in Plots() do
@@ -3772,25 +4285,25 @@ function AddAtolls()
 		[GameInfo.Worlds.WORLDSIZE_STANDARD.ID] = 7,
 		[GameInfo.Worlds.WORLDSIZE_LARGE.ID] = 9,
 		[GameInfo.Worlds.WORLDSIZE_HUGE.ID] = 12,
-	};
+	}
 	--]]
-	local atoll_target = numCoast * 0.10;
+	local atoll_target = numCoast * 0.10
 	local variance = 25
 		  variance = atoll_target * (Map.Rand(2 * variance, "Number of Atolls to place - LUA") - variance) / 100
-	local atoll_number = math.floor(atoll_target + variance);
-	local feature_atoll;
+	local atoll_number = math.floor(atoll_target + variance)
+	local feature_atoll
 	for thisFeature in GameInfo.Features() do
 		if thisFeature.Type == "FEATURE_ATOLL" then
-			feature_atoll = thisFeature.ID;
+			feature_atoll = thisFeature.ID
 		end
 	end
 
 	-- Generate candidate plot lists.
-	local temp_one_tile_island_list, temp_alpha_list, temp_beta_list = {}, {}, {};
-	local temp_gamma_list, temp_delta_list, temp_epsilon_list = {}, {}, {};
+	local temp_one_tile_island_list, temp_alpha_list, temp_beta_list = {}, {}, {}
+	local temp_gamma_list, temp_delta_list, temp_epsilon_list = {}, {}, {}
 	for y = 0, iH - 1 do
 		for x = 0, iW - 1 do
-			local i = y * iW + x + 1; -- Lua tables/lists/arrays start at 1, not 0 like C++ or Python
+			local i = y * iW + x + 1 -- Lua tables/lists/arrays start at 1, not 0 like C++ or Python
 			local plot = Map.GetPlot(x, y)
 			local plotType = plot:GetPlotType()
 			if plotType == PlotTypes.PLOT_OCEAN then
@@ -3800,27 +4313,27 @@ function AddAtolls()
 						local terrainType = plot:GetTerrainType()
 						if terrainType == TerrainTypes.TERRAIN_COAST then
 							-- Check all adjacent plots and identify adjacent landmasses.
-							local iNumLandAdjacent, biggest_adj_area = 0, 0;
-							local bPlotValid = true;
+							local iNumLandAdjacent, biggest_adj_area = 0, 0
+							local bPlotValid = true
 							for loop, direction in ipairs(direction_types) do
 								local adjPlot = Map.PlotDirection(x, y, direction)
 								if adjPlot ~= nil then
 									local adjPlotType = adjPlot:GetPlotType()
 									--[[
 									if adjPlot:GetFeatureType() == FeatureTypes.FEATURE_ICE then
-										bPlotValid = false;
+										bPlotValid = false
 									elseif adjPlot:GetTerrainType() == TerrainTypes.TERRAIN_SNOW then
-										bPlotValid = false;
+										bPlotValid = false
 									end
 									--]]
 									if adjPlotType ~= PlotTypes.PLOT_OCEAN then -- Found land.
-										iNumLandAdjacent = iNumLandAdjacent + 1;
+										iNumLandAdjacent = iNumLandAdjacent + 1
 										if adjPlotType == PlotTypes.PLOT_LAND or adjPlotType == PlotTypes.PLOT_HILLS then
 											local iArea = adjPlot:GetArea()
 											local adjArea = Map.GetArea(iArea)
 											local iNumAreaPlots = adjArea:GetNumTiles()
 											if iNumAreaPlots > biggest_adj_area then
-												biggest_adj_area = iNumAreaPlots;
+												biggest_adj_area = iNumAreaPlots
 											end
 										end
 									end
@@ -3831,17 +4344,17 @@ function AddAtolls()
 								--if biggest_adj_area >= 152 then
 									-- discard this site
 								if biggest_adj_area >= 82 then
-									table.insert(temp_epsilon_list, i);
+									table.insert(temp_epsilon_list, i)
 								elseif biggest_adj_area >= 34 then
-									table.insert(temp_delta_list, i);
+									table.insert(temp_delta_list, i)
 								elseif biggest_adj_area >= 16 or biggest_adj_area == 0 then
-									table.insert(temp_gamma_list, i);
+									table.insert(temp_gamma_list, i)
 								elseif biggest_adj_area >= 6 then
-									table.insert(temp_beta_list, i);
+									table.insert(temp_beta_list, i)
 								elseif biggest_adj_area >= 1 then
-									table.insert(temp_alpha_list, i);
+									table.insert(temp_alpha_list, i)
 								else -- Unexpected result
-									--print("** Area Plot Count =", biggest_adj_area);
+									--print("** Area Plot Count =", biggest_adj_area)
 								end
 							end
 						end
@@ -3857,119 +4370,119 @@ function AddAtolls()
 	local epsilon_list = GetShuffledCopyOfTable(temp_epsilon_list)
 
 	-- Determine maximum number able to be placed, per candidate category.
-	local max_alpha = math.ceil(table.maxn(alpha_list) )--* .25);
-	local max_beta = math.ceil(table.maxn(beta_list) )--* .2);
-	local max_gamma = math.ceil(table.maxn(gamma_list) )--* .25);
-	local max_delta = math.ceil(table.maxn(delta_list) )--* .3);
-	local max_epsilon = math.ceil(table.maxn(epsilon_list) )--* .4);
+	local max_alpha = math.ceil(table.maxn(alpha_list) )--* .25)
+	local max_beta = math.ceil(table.maxn(beta_list) )--* .2)
+	local max_gamma = math.ceil(table.maxn(gamma_list) )--* .25)
+	local max_delta = math.ceil(table.maxn(delta_list) )--* .3)
+	local max_epsilon = math.ceil(table.maxn(epsilon_list) )--* .4)
 	
 	-- Place Atolls.
-	local plotIndex;
-	local i_alpha, i_beta, i_gamma, i_delta, i_epsilon = 1, 1, 1, 1, 1;		
-	local passNum = 0;	
+	local plotIndex
+	local i_alpha, i_beta, i_gamma, i_delta, i_epsilon = 1, 1, 1, 1, 1		
+	local passNum = 0	
 	
 	while (iNumAtollsPlaced < atoll_number) and (passNum < atoll_number * 5) do
-		local able_to_proceed = true;
-		local diceroll = 1 + Map.Rand(100, "Atoll Placement Type - LUA");
+		local able_to_proceed = true
+		local diceroll = 1 + Map.Rand(100, "Atoll Placement Type - LUA")
 		if diceroll <= 40 and max_alpha > 0 then
-			plotIndex = alpha_list[i_alpha];
-			i_alpha = i_alpha + 1;
-			max_alpha = max_alpha - 1;
-			--print("- Alpha site chosen");
+			plotIndex = alpha_list[i_alpha]
+			i_alpha = i_alpha + 1
+			max_alpha = max_alpha - 1
+			--print("- Alpha site chosen")
 		elseif diceroll <= 65 then
 			if max_beta > 0 then
-				plotIndex = beta_list[i_beta];
-				i_beta = i_beta + 1;
-				max_beta = max_beta - 1;
-				--print("- Beta site chosen");
+				plotIndex = beta_list[i_beta]
+				i_beta = i_beta + 1
+				max_beta = max_beta - 1
+				--print("- Beta site chosen")
 			elseif max_alpha > 0 then
-				plotIndex = alpha_list[i_alpha];
-				i_alpha = i_alpha + 1;
-				max_alpha = max_alpha - 1;
-				--print("- Alpha site chosen");
+				plotIndex = alpha_list[i_alpha]
+				i_alpha = i_alpha + 1
+				max_alpha = max_alpha - 1
+				--print("- Alpha site chosen")
 			else -- Unable to place this Atoll
-				--print("-"); print("* Atoll #", loop, "was unable to be placed.");
-				able_to_proceed = false;
+				--print("-") print("* Atoll #", loop, "was unable to be placed.")
+				able_to_proceed = false
 			end
 		elseif diceroll <= 80 then
 			if max_gamma > 0 then
-				plotIndex = gamma_list[i_gamma];
-				i_gamma = i_gamma + 1;
-				max_gamma = max_gamma - 1;
-				--print("- Gamma site chosen");
+				plotIndex = gamma_list[i_gamma]
+				i_gamma = i_gamma + 1
+				max_gamma = max_gamma - 1
+				--print("- Gamma site chosen")
 			elseif max_beta > 0 then
-				plotIndex = beta_list[i_beta];
-				i_beta = i_beta + 1;
-				max_beta = max_beta - 1;
-				--print("- Beta site chosen");
+				plotIndex = beta_list[i_beta]
+				i_beta = i_beta + 1
+				max_beta = max_beta - 1
+				--print("- Beta site chosen")
 			elseif max_alpha > 0 then
-				plotIndex = alpha_list[i_alpha];
-				i_alpha = i_alpha + 1;
-				max_alpha = max_alpha - 1;
-				--print("- Alpha site chosen");
+				plotIndex = alpha_list[i_alpha]
+				i_alpha = i_alpha + 1
+				max_alpha = max_alpha - 1
+				--print("- Alpha site chosen")
 			else -- Unable to place this Atoll
-				--print("-"); print("* Atoll #", loop, "was unable to be placed.");
-				able_to_proceed = false;
+				--print("-") print("* Atoll #", loop, "was unable to be placed.")
+				able_to_proceed = false
 			end
 		elseif diceroll <= 90 then
 			if max_delta > 0 then
-				plotIndex = delta_list[i_delta];
-				i_delta = i_delta + 1;
-				max_delta = max_delta - 1;
-				--print("- Delta site chosen");
+				plotIndex = delta_list[i_delta]
+				i_delta = i_delta + 1
+				max_delta = max_delta - 1
+				--print("- Delta site chosen")
 			elseif max_gamma > 0 then
-				plotIndex = gamma_list[i_gamma];
-				i_gamma = i_gamma + 1;
-				max_gamma = max_gamma - 1;
-				--print("- Gamma site chosen");
+				plotIndex = gamma_list[i_gamma]
+				i_gamma = i_gamma + 1
+				max_gamma = max_gamma - 1
+				--print("- Gamma site chosen")
 			elseif max_beta > 0 then
-				plotIndex = beta_list[i_beta];
-				i_beta = i_beta + 1;
-				max_beta = max_beta - 1;
-				--print("- Beta site chosen");
+				plotIndex = beta_list[i_beta]
+				i_beta = i_beta + 1
+				max_beta = max_beta - 1
+				--print("- Beta site chosen")
 			elseif max_alpha > 0 then
-				plotIndex = alpha_list[i_alpha];
-				i_alpha = i_alpha + 1;
-				max_alpha = max_alpha - 1;
-				--print("- Alpha site chosen");
+				plotIndex = alpha_list[i_alpha]
+				i_alpha = i_alpha + 1
+				max_alpha = max_alpha - 1
+				--print("- Alpha site chosen")
 			else -- Unable to place this Atoll
-				--print("-"); print("* Atoll #", loop, "was unable to be placed.");
-				able_to_proceed = false;
+				--print("-") print("* Atoll #", loop, "was unable to be placed.")
+				able_to_proceed = false
 			end
 		else
 			if max_epsilon > 0 then
-				plotIndex = epsilon_list[i_epsilon];
-				i_epsilon = i_epsilon + 1;
-				max_epsilon = max_epsilon - 1;
-				--print("- Epsilon site chosen");
+				plotIndex = epsilon_list[i_epsilon]
+				i_epsilon = i_epsilon + 1
+				max_epsilon = max_epsilon - 1
+				--print("- Epsilon site chosen")
 			elseif max_delta > 0 then
-				plotIndex = delta_list[i_delta];
-				i_delta = i_delta + 1;
-				max_delta = max_delta - 1;
-				--print("- Delta site chosen");
+				plotIndex = delta_list[i_delta]
+				i_delta = i_delta + 1
+				max_delta = max_delta - 1
+				--print("- Delta site chosen")
 			elseif max_gamma > 0 then
-				plotIndex = gamma_list[i_gamma];
-				i_gamma = i_gamma + 1;
-				max_gamma = max_gamma - 1;
-				--print("- Gamma site chosen");
+				plotIndex = gamma_list[i_gamma]
+				i_gamma = i_gamma + 1
+				max_gamma = max_gamma - 1
+				--print("- Gamma site chosen")
 			elseif max_beta > 0 then
-				plotIndex = beta_list[i_beta];
-				--print("- Beta site chosen");
-				i_beta = i_beta + 1;
-				max_beta = max_beta - 1;
+				plotIndex = beta_list[i_beta]
+				--print("- Beta site chosen")
+				i_beta = i_beta + 1
+				max_beta = max_beta - 1
 			elseif max_alpha > 0 then
-				plotIndex = alpha_list[i_alpha];
-				i_alpha = i_alpha + 1;
-				max_alpha = max_alpha - 1;
-				--print("- Alpha site chosen");
+				plotIndex = alpha_list[i_alpha]
+				i_alpha = i_alpha + 1
+				max_alpha = max_alpha - 1
+				--print("- Alpha site chosen")
 			else -- Unable to place this Atoll
-				--print("-"); print("* Atoll #", loop, "was unable to be placed.");
-				able_to_proceed = false;
+				--print("-") print("* Atoll #", loop, "was unable to be placed.")
+				able_to_proceed = false
 			end
 		end
 		if able_to_proceed and plotIndex then
-			local x = (plotIndex - 1) % iW;
-			local y = (plotIndex - x - 1) / iW;
+			local x = (plotIndex - 1) % iW
+			local y = (plotIndex - x - 1) / iW
 			local plot = Map.GetPlot(x, y)
 			for _, direction in ipairs(direction_types) do
 				local adjPlot = Map.PlotDirection(x, y, direction)
@@ -3980,108 +4493,64 @@ function AddAtolls()
 				end
 			end
 			if able_to_proceed then
-				plot:SetFeatureType(feature_atoll, -1);
-				iNumAtollsPlaced = iNumAtollsPlaced + 1;
+				plot:SetFeatureType(feature_atoll, -1)
+				iNumAtollsPlaced = iNumAtollsPlaced + 1
 			end
 		end
 		passNum = passNum + 1
 	end 
 	
 	-- Debug report
-	print("-");
-	print("-                 Atoll Target Number: ", atoll_number);
-	print("-             Number of Atolls placed: ", iNumAtollsPlaced);
-	print("-                            Attempts: ", passNum);
-	print("-");	
-	print("- Atolls placed in Alpha locations   : ", i_alpha - 1);
-	print("- Atolls placed in Beta locations    : ", i_beta - 1);
-	print("- Atolls placed in Gamma locations   : ", i_gamma - 1);
-	print("- Atolls placed in Delta locations   : ", i_delta - 1);
-	print("- Atolls placed in Epsilon locations : ", i_epsilon - 1);
+	print("-")
+	print("-                 Atoll Target Number: ", atoll_number)
+	print("-             Number of Atolls placed: ", iNumAtollsPlaced)
+	print("-                            Attempts: ", passNum)
+	print("-")	
+	print("- Atolls placed in Alpha locations   : ", i_alpha - 1)
+	print("- Atolls placed in Beta locations    : ", i_beta - 1)
+	print("- Atolls placed in Gamma locations   : ", i_gamma - 1)
+	print("- Atolls placed in Delta locations   : ", i_delta - 1)
+	print("- Atolls placed in Epsilon locations : ", i_epsilon - 1)
 	--]]
 end
-------------------------------------------------------------------------------
-function AddFeatures()
-	print("Adding Features PerfectWorld3");
 
-	local terrainPlains	= GameInfoTypes["TERRAIN_PLAINS"];
-	local featureFloodPlains = FeatureTypes.FEATURE_FLOOD_PLAINS
-	local featureIce = FeatureTypes.FEATURE_ICE
-	local featureJungle = FeatureTypes.FEATURE_JUNGLE
-	local featureForest = FeatureTypes.FEATURE_FOREST
-	local featureOasis = FeatureTypes.FEATURE_OASIS
-	local featureMarsh = FeatureTypes.FEATURE_MARSH
-
-	local mapW, mapH = Map.GetGridSize();
-	
-	
-
-	local zeroTreesThreshold = rainfallMap:FindThresholdFromPercent(mc.zeroTreesPercent,false,true)
-	local jungleThreshold = rainfallMap:FindThresholdFromPercent(mc.junglePercent,false,true)
-	--local marshThreshold = rainfallMap:FindThresholdFromPercent(marshPercent,false,true)
-	for y = 0, mapH-1 do
-		for x = 0,mapW-1 do
-			local i = elevationMap:GetIndex(x,y)
-			local plot = Map.GetPlot(x, y)
-			if not plot:IsWater() then
-				if rainfallMap.data[i] < jungleThreshold then
-					if not plot:IsMountain() then
-						local treeRange = jungleThreshold - zeroTreesThreshold
-						if rainfallMap.data[i] > PWRand() * treeRange + zeroTreesThreshold then
-							if temperatureMap.data[i] > mc.treesMinTemperature then
-								plot:SetFeatureType(featureForest,-1)
-							end
-						end
-					end
-				else
-					local marshRange = 1.0 - jungleThreshold
-					if rainfallMap.data[i] > PWRand() * marshRange + jungleThreshold and temperatureMap.data[i] > mc.treesMinTemperature then
-						plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
-						plot:SetFeatureType(featureMarsh,-1)
-					else
-						if not plot:IsMountain() then
-							if temperatureMap.data[i] < mc.jungleMinTemperature and temperatureMap.data[i] > mc.treesMinTemperature then
-								plot:SetFeatureType(featureForest,-1)
-							elseif temperatureMap.data[i] >= mc.jungleMinTemperature then
-								if plot:IsHills() then
-									--jungle on hill looks terrible in Civ5. Can't use it.
-									plot:SetFeatureType(featureForest,-1)
-									plot:SetTerrainType(terrainGrass,false,false)
-								else
-									plot:SetFeatureType(featureJungle,-1)
-									plot:SetTerrainType(terrainPlains,false,false)
-								end
-							end
-						end
-					end
+function PlacePossibleAtoll(x,y)
+	local shallowWater = GameDefines.SHALLOW_WATER_TERRAIN
+	local deepWater = GameDefines.DEEP_WATER_TERRAIN
+	local featureAtoll = nil
+	for thisFeature in GameInfo.Features() do
+		if thisFeature.Type == "FEATURE_ATOLL" then
+			featureAtoll = thisFeature.ID
+		end
+	end
+	local plot = Map.GetPlot(x,y)
+	local i = temperatureMap:GetIndex(x,y)
+	if plot:GetTerrainType() == shallowWater then
+		local temp = temperatureMap.data[i]
+		local latitude = temperatureMap:GetLatitudeForY(y)
+		if latitude < mc.atollNorthLatitudeLimit and latitude > mc.atollSouthLatitudeLimit then
+			local tiles = elevationMap:GetRadiusAroundHex(x,y,1)
+			local deepCount = 0
+			for n=1,#tiles do
+				local xx = tiles[n][1]
+				local yy = tiles[n][2]
+				local nPlot = Map.GetPlot(xx,yy)
+				if nPlot:GetTerrainType() == deepWater then
+					deepCount = deepCount + 1
 				end
-				if plot:CanHaveFeature(featureFloodPlains) then
-					plot:SetFeatureType(featureFloodPlains,-1)
-				end
+			end
+			if deepCount >= mc.atollMinDeepWaterNeighbors then
+				plot:SetFeatureType(featureAtoll,-1)
 			end
 		end
 	end
-	for y = 0, mapH-1 do
-		for x = 0,mapW-1 do
-			local plot = Map.GetPlot(x, y)
-			if not plot:IsWater() then
-				PlacePossibleOasis(x,y)
-			else
-				--PlacePossibleAtoll(x,y)
-				PlacePossibleIce(x,y)
-			end
-		end
-	end
-	RestoreLakes(lakePlots)
-	FloodDeserts()
-	AddAtolls()
 end
 
 function StartPlotSystem()
 	-- Get Resources setting input by user.
 	local res = Map.GetCustomOption(2)
 	if res == 6 then
-		res = 1 + Map.Rand(3, "Random Resources Option - Lua");
+		res = 1 + Map.Rand(3, "Random Resources Option - Lua")
 	end
 
 	local starts = Map.GetCustomOption(1)
@@ -4092,33 +4561,33 @@ function StartPlotSystem()
 		divMethod = 1
 	end
 
-	print("Creating start plot database.");
+	print("Creating start plot database.")
 	local start_plot_database = AssignStartingPlots.Create()
 
-	print("Dividing the map in to Regions.");
+	print("Dividing the map in to Regions.")
 	-- Regional Division Method 2: Continental or 1:Terra
 	local args = {
 		method = divMethod,
 		resources = res,
-		};
+		}
 	start_plot_database:GenerateRegions(args)
 
-	print("Choosing start locations for civilizations.");
+	print("Choosing start locations for civilizations.")
 	start_plot_database:ChooseLocations()
 
-	print("Normalizing start locations and assigning them to Players.");
+	print("Normalizing start locations and assigning them to Players.")
 	start_plot_database:BalanceAndAssign()
 
 	--error(":P")
-	print("Placing Natural Wonders.");
+	print("Placing Natural Wonders.")
 	start_plot_database:PlaceNaturalWonders()
 
-	print("Placing Resources and City States.");
+	print("Placing Resources and City States.")
 	start_plot_database:PlaceResourcesAndCityStates()
 end
 
 function AddRivers()
-	local mapW, mapH = Map.GetGridSize();
+	local mapW, mapH = Map.GetGridSize()
 	
 	
 	for y = 0, mapH-1 do
@@ -4136,7 +4605,7 @@ function AddRivers()
 					plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
 				end
 				plot:SetWOfRiver(true,WOfRiver)
-				--print(string.format("(%d,%d)WOfRiver = true dir=%d",x,y,WOfRiver))
+				--if debugTime then print(string.format("(%d,%d)WOfRiver = true dir=%d",x,y,WOfRiver)) end
 			end
 
 			if NWOfRiver == FlowDirectionTypes.NO_FLOWDIRECTION then
@@ -4148,7 +4617,7 @@ function AddRivers()
 					plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
 				end
 				plot:SetNWOfRiver(true,NWOfRiver)
-				--print(string.format("(%d,%d)NWOfRiver = true dir=%d",x,y,NWOfRiver))
+				--if debugTime then print(string.format("(%d,%d)NWOfRiver = true dir=%d",x,y,NWOfRiver)) end
 			end
 
 			if NEOfRiver == FlowDirectionTypes.NO_FLOWDIRECTION then
@@ -4160,7 +4629,7 @@ function AddRivers()
 					plot:SetPlotType(PlotTypes.PLOT_LAND,false,false)
 				end
 				plot:SetNEOfRiver(true,NEOfRiver)
-				--print(string.format("(%d,%d)NEOfRiver = true dir=%d",x,y,NEOfRiver))
+				--if debugTime then print(string.format("(%d,%d)NEOfRiver = true dir=%d",x,y,NEOfRiver)) end
 			end
 		end
 	end
@@ -4175,9 +4644,9 @@ function oceanMatch(x,y)
 end
 
 function jungleMatch(x,y)
-	local terrainGrass	= GameInfoTypes["TERRAIN_GRASS"];
+	local terrainGrass	= GameInfoTypes["TERRAIN_GRASS"]
 	local plot = Map.GetPlot(x,y)
-	if plot:GetFeatureType() == FeatureTypes.FEATURE_JUNGLE then
+	if plot:GetFeatureType() == FeatureTypes.FEATURE_JUNGLE or Contains(mc.tropicalPlots, plot) then
 		return true
 	--include any mountains on the border as part of the desert.
 	elseif (plot:GetFeatureType() == FeatureTypes.FEATURE_MARSH or plot:GetFeatureType() == FeatureTypes.FEATURE_FOREST) and plot:GetTerrainType() == terrainGrass then
@@ -4198,7 +4667,7 @@ function jungleMatch(x,y)
 end
 
 function desertMatch(x,y)
-	local terrainDesert	= GameInfoTypes["TERRAIN_DESERT"];
+	local terrainDesert	= GameInfoTypes["TERRAIN_DESERT"]
 	local plot = Map.GetPlot(x,y)
 	if plot:GetTerrainType() == terrainDesert then
 		return true
@@ -4220,45 +4689,53 @@ function desertMatch(x,y)
 	return false
 end
 
+
+
+------------------------------------------------------------------------------
+
 function DetermineContinents()
 	print("Determining continents for art purposes (PerfectWorld)")
-	-- Each plot has a continent art type. Mixing and matching these could look
-	-- extremely bad, but there is nothing technical to prevent it. The worst
-	-- that will happen is that it can't find a blend and draws red checkerboards.
-
+	-- Each plot has a continent art type.
 	-- Command for setting the art type for a plot is: <plot object>:SetContinentArtType(<art_set_number>)
-
-	-- CONTINENTAL ART SETS
+	
+	-- CONTINENTAL ART SETS - in order from hot to cold
 	-- 0) Ocean
-	-- 1) America
-	-- 2) Asia
 	-- 3) Africa
+	-- 2) Asia
+	-- 1) America
 	-- 4) Europe
+	
+	contArt = {}
+	contArt.OCEAN	= 0
+	contArt.AFRICA	= 3
+	contArt.ASIA	= 2
+	contArt.AMERICA	= 1
+	contArt.EUROPE	= 4
+	
+	local mapW, mapH = Map.GetGridSize()
 
-	-- Here is an example that sets all land in the world to use the European art set.
-
---~ 	for i, plot in Plots() do
---~ 		if plot:IsWater() then
---~ 			plot:SetContinentArtType(0)
---~ 		else
---~ 			plot:SetContinentArtType(4)
---~ 		end
---~ 	end
-
+ 	for i, plot in Plots() do
+ 		if plot:IsWater() then
+ 			plot:SetContinentArtType(contArt.OCEAN)
+ 		else
+ 			plot:SetContinentArtType(contArt.AFRICA)
+ 		end
+ 	end
+	
 	local continentMap = PWAreaMap:New(elevationMap.width,elevationMap.height,elevationMap.wrapX,elevationMap.wrapY)
 	continentMap:DefineAreas(oceanMatch)
 	table.sort(continentMap.areaList,function (a,b) return a.size > b.size end)
 
 	--check for jungle
-	for y=0,elevationMap.height - 1 do
+	for y=0, elevationMap.height - 1 do
 		for x=0,elevationMap.width - 1 do
 			local i = elevationMap:GetIndex(x,y)
 			local area = continentMap:GetAreaByID(continentMap.data[i])
 			area.hasJungle = false
 		end
 	end
-	for y=0,elevationMap.height - 1 do
-		for x=0,elevationMap.width - 1 do
+	for y=0, elevationMap.height - 1 do
+		for x=0, elevationMap.width - 1 do
 			local plot = Map.GetPlot(x,y)
 			if plot:GetFeatureType() == FeatureTypes.FEATURE_JUNGLE then
 				local i = elevationMap:GetIndex(x,y)
@@ -4267,32 +4744,28 @@ function DetermineContinents()
 			end
 		end
 	end
-	local firstArtStyle = PWRandint(1,3)
-	print("firstArtStyle = %d",firstArtStyle)
-	for n=1,#continentMap.areaList do
-		--print(string.format("area[%d] size = %d",n,desertMap.areaList[n].size))
+	for n=1, #continentMap.areaList do
+		--if debugTime then print(string.format("area[%d] size = %d",n,desertMap.areaList[n].size)) end
 --		if not continentMap.areaList[n].trueMatch and not continentMap.areaList[n].hasJungle then
 		if not continentMap.areaList[n].trueMatch then
-			continentMap.areaList[n].artStyle = (firstArtStyle % 4) + 1
-			--print(string.format("area[%d] size = %d, artStyle = %d",n,continentMap.areaList[n].size,continentMap.areaList[n].artStyle))
-			firstArtStyle = firstArtStyle + 1
+			continentMap.areaList[n].artStyle = 1 + Map.Rand(2, "Continent Art Styles - Lua") -- left out America's orange trees
 		end
-	end
-	for y=0,elevationMap.height - 1 do
-		for x=0,elevationMap.width - 1 do
+	end 
+	for y=0, elevationMap.height - 1 do
+		for x=0, elevationMap.width - 1 do
 			local plot = Map.GetPlot(x,y)
 			local i = elevationMap:GetIndex(x,y)
-			local area = continentMap:GetAreaByID(continentMap.data[i])
-			local artStyle = area.artStyle
+			local artStyle = continentMap:GetAreaByID(continentMap.data[i]).artStyle
 			if plot:IsWater() then
-				plot:SetContinentArtType(0)
+				plot:SetContinentArtType(contArt.OCEAN)
 			elseif jungleMatch(x,y) then
-				plot:SetContinentArtType(4)
+				plot:SetContinentArtType(contArt.EUROPE)
 			else
-				plot:SetContinentArtType(artStyle)
+				plot:SetContinentArtType(contArt.AFRICA)
 			end
 		end
 	end
+	
 	--Africa has the best looking deserts, so for the biggest
 	--desert use Africa. America has a nice dirty looking desert also, so
 	--that should be the second biggest desert.
@@ -4302,7 +4775,7 @@ function DetermineContinents()
 	local largestDesertID = nil
 	local secondLargestDesertID = nil
 	for n=1,#desertMap.areaList do
-		--print(string.format("area[%d] size = %d",n,desertMap.areaList[n].size))
+		--if debugTime then print(string.format("area[%d] size = %d",n,desertMap.areaList[n].size)) end
 		if desertMap.areaList[n].trueMatch then
 			if largestDesertID == nil then
 				largestDesertID = desertMap.areaList[n].id
@@ -4317,13 +4790,105 @@ function DetermineContinents()
 			local plot = Map.GetPlot(x,y)
 			local i = elevationMap:GetIndex(x,y)
 			if desertMap.data[i] == largestDesertID then
-				plot:SetContinentArtType(3)
+				plot:SetContinentArtType(contArt.AFRICA)
 			elseif desertMap.data[i] == secondLargestDesertID then
-				plot:SetContinentArtType(1)
+				plot:SetContinentArtType(contArt.ASIA)
 			end
 		end
 	end
+	
+	-- Set tundra/mountains -> snowy when adjacent to snow tiles
+	for y = 0, mapH-1 do
+		for x = 0, mapW-1 do
+			local plot = Map.GetPlot(x,y)
+			local plotTerrainID = plot:GetTerrainType()
+			if plot:IsMountain() then
+				local coldness = 0
+				local zone = elevationMap:GetZone(y)
+				
+				if (zone == mc.NPOLAR or zone == mc.SPOLAR) then
+					coldness = coldness + 2
+				elseif (zone == mc.NTEMPERATE or zone == mc.STEMPERATE) then
+					coldness = coldness + 1
+				else
+					coldness = coldness - 1
+				end
+				
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1, 1)) do
+					local adjTerrainID = adjPlot:GetTerrainType()
+					local adjFeatureID = adjPlot:GetFeatureType()
+					if adjPlot:IsMountain() then
+						coldness = coldness + 0.5
+					elseif adjTerrainID == TerrainTypes.TERRAIN_SNOW then
+						coldness = coldness + 2
+					elseif adjTerrainID == TerrainTypes.TERRAIN_TUNDRA then
+						coldness = coldness + 1
+					elseif adjTerrainID == TerrainTypes.TERRAIN_DESERT then
+						coldness = coldness - 1
+					elseif adjFeatureID == FeatureTypes.FEATURE_JUNGLE or adjFeatureID == FeatureTypes.FEATURE_MARSH then
+						coldness = coldness - 8
+					end
+				end
+				
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 2, 2)) do
+					if adjPlot:IsMountain() then
+						coldness = coldness + 0.25
+					end
+				end
+				
+				-- Avoid snow near tropical jungle
+				if coldness >= 1 then
+					for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 2, 3)) do
+						local adjFeatureID = adjPlot:GetFeatureType()
+						if adjFeatureID == FeatureTypes.FEATURE_JUNGLE or adjFeatureID == FeatureTypes.FEATURE_MARSH then
+							coldness = coldness - 8 / Map.PlotDistance(x, y, adjPlot:GetX(), adjPlot:GetY())
+						end
+					end
+				end
+				
+				if coldness >= 7 then
+					plot:SetContinentArtType(contArt.EUROPE)
+				elseif coldness >= 1 then
+					plot:SetContinentArtType(contArt.AMERICA)
+				elseif coldness >= 0 then
+					plot:SetContinentArtType(contArt.ASIA)
+				else
+					plot:SetContinentArtType(contArt.AFRICA)
+				end
+				
 
+			elseif plotTerrainID == TerrainTypes.TERRAIN_TUNDRA then
+				local coldness = 0
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1, 1)) do
+					local adjTerrainID = adjPlot:GetTerrainType()
+					local adjFeatureID = adjPlot:GetFeatureType()
+					if adjTerrainID == TerrainTypes.TERRAIN_SNOW then
+						coldness = coldness + 5
+					elseif adjTerrainID == TerrainTypes.TERRAIN_TUNDRA then
+						coldness = coldness + 1
+					elseif adjTerrainID == TerrainTypes.TERRAIN_DESERT or adjFeatureID == FeatureTypes.FEATURE_JUNGLE or adjFeatureID == FeatureTypes.FEATURE_MARSH then
+						coldness = coldness - 2
+					end
+				end
+				for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 2, 2)) do
+					if adjTerrainID == TerrainTypes.TERRAIN_DESERT or adjFeatureID == FeatureTypes.FEATURE_JUNGLE or adjFeatureID == FeatureTypes.FEATURE_MARSH then
+						coldness = coldness - 1
+					end
+				end
+				if coldness >= 5 then
+					if plot:GetFeatureType() == FeatureTypes.FEATURE_FOREST then
+						plot:SetContinentArtType(contArt.ASIA)
+					else
+						plot:SetContinentArtType(contArt.EUROPE)
+					end
+				else
+					plot:SetContinentArtType(contArt.AFRICA)
+				end
+			elseif plotTerrainID == TerrainTypes.TERRAIN_SNOW then
+				plot:SetContinentArtType(contArt.EUROPE)
+			end
+		end
+	end
 end
 
 ------------------------------------------------------------------------------
@@ -4347,3 +4912,218 @@ end
 
 
 
+
+
+
+
+-- Override AssignStartingPlots functions
+
+function AssignStartingPlots:ExaminePlotForNaturalWondersEligibility(x, y)
+	-- This function checks only for eligibility requirements applicable to all 
+	-- Natural Wonders. If a candidate plot passes all such checks, we will move
+	-- on to checking it against specific needs for each particular wonderID.
+	--
+	-- Update, May 2011: Control over wonderID placement is being migrated to XML. Some checks here moved to there.
+	local iW, iH = Map.GetGridSize();
+	local plotIndex = iW * y + x + 1;
+	
+	-- Check for collision with player starts
+	if self.naturalWondersData[plotIndex] > 0 then
+		return false
+	end
+	
+	-- Check the location is a decent city site, otherwise the wonderID is pointless
+	local plot = Map.GetPlot(x, y);
+	if Plot_GetFertilityInRange(plot, 3) < 12 then
+		return false
+	end
+	return true
+end
+
+function AssignStartingPlots:CanPlaceCityStateAt(x, y, area_ID, force_it, ignore_collisions)
+	local iW, iH = Map.GetGridSize();
+	local plot = Map.GetPlot(x, y)
+	local area = plot:GetArea()
+	if area ~= area_ID and area_ID ~= -1 then
+		return false
+	end
+	
+	local plotType = plot:GetPlotType()
+	if plotType == PlotTypes.PLOT_OCEAN or plotType == PlotTypes.PLOT_MOUNTAIN then
+		return false
+	end
+	
+	-- Avoid horrible locations
+	if Plot_GetFertilityInRange(plot, 1) < 6 then
+		return false
+	end
+	
+	-- Discourage citystates from claiming natural wonders
+	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1, 3)) do
+		local featureInfo = GameInfo.Features[adjPlot:GetFeatureType()]
+		if featureInfo and featureInfo.NaturalWonder then
+			return false
+		end
+	end
+	
+	local plotIndex = y * iW + x + 1;
+	if self.cityStateData[plotIndex] > 0 and force_it == false then
+		return false
+	end
+	local plotIndex = y * iW + x + 1;
+	if self.playerCollisionData[plotIndex] == true and ignore_collisions == false then
+		--print("-"); print("City State candidate plot rejected: collided with already-placed civ or City State at", x, y);
+		return false
+	end
+	return true
+end
+
+--
+-- Helper functions
+--
+
+---------------------------------------------------------------------
+-- Plot_GetFertility(plot) usage example:
+--[[
+basicYields = {
+	YieldTypes.YIELD_FOOD,
+	YieldTypes.YIELD_PRODUCTION,
+	YieldTypes.YIELD_GOLD,
+	YieldTypes.YIELD_SCIENCE,
+	YieldTypes.YIELD_CULTURE,
+	YieldTypes.YIELD_FAITH
+}
+--]]
+basicYields = nil
+function Plot_GetFertilityInRange(plot, range)
+	basicYields = {
+		YieldTypes.YIELD_FOOD,
+		YieldTypes.YIELD_PRODUCTION,
+		YieldTypes.YIELD_GOLD,
+		YieldTypes.YIELD_SCIENCE,
+		YieldTypes.YIELD_CULTURE,
+		YieldTypes.YIELD_FAITH
+	}
+	local value = 0
+	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, range)) do
+		value = value + Plot_GetFertility(adjPlot) / (math.max(1, Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY())))
+	end
+	return value
+end
+function Plot_GetFertility(plot)
+	local value = 0
+	--
+	if plot:IsImpassable() or plot:GetTerrainType() == TerrainTypes.TERRAIN_OCEAN then
+		return value
+	end
+	
+	for _, yieldID in pairs(basicYields) do
+		value = value + plot:CalculateYield(yieldID, true)
+	end
+	
+	if plot:IsFreshWater() then
+		value = value + 1
+	end
+
+	local featureID = plot:GetFeatureType()
+	if featureID == FeatureTypes.FEATURE_FOREST then
+		value = value + 1
+	end
+	
+	local resID = plot:GetResourceType()
+	if resID == -1 then
+		if featureID == -1 and plot:GetTerrainType() == TerrainTypes.TERRAIN_COAST then
+			-- can't do much with these tiles in BNW
+			value = value - 0.5
+		end
+	else
+		local resInfo = GameInfo.Resources[resID]
+		value = value + 4 * resInfo.Happiness
+		if resInfo.ResourceClassType == "RESOURCECLASS_RUSH" then
+			value = value + math.ceil(5 * math.sqrt(plot:GetNumResource()))
+		elseif resInfo.ResourceClassType == "RESOURCECLASS_BONUS" then
+			value = value + 2
+		end
+	end
+	--]]
+	return value
+end
+----------------------------------------------------------------
+function Plot_GetPlotsInCircle(plot, minR, maxR)
+	if not plot then
+		log:Fatal("plot:GetPlotsInCircle plot=nil")
+		return
+	end
+	if not maxR then
+		maxR = minR
+		minR = 1
+	end
+	
+	local plotList	= {}
+	local iW, iH	= Map.GetGridSize()
+	local isWrapX	= Map:IsWrapX()
+	local isWrapY	= Map:IsWrapY()
+	local centerX	= plot:GetX()
+	local centerY	= plot:GetY()
+
+	x1 = isWrapX and ((centerX-maxR) % iW) or Constrain(0, centerX-maxR, iW-1)
+	x2 = isWrapX and ((centerX+maxR) % iW) or Constrain(0, centerX+maxR, iW-1)
+	y1 = isHrapY and ((centerY-maxR) % iH) or Constrain(0, centerY-maxR, iH-1)
+	y2 = isHrapY and ((centerY+maxR) % iH) or Constrain(0, centerY+maxR, iH-1)
+
+	local x		= x1
+	local y		= y1
+	local xStep	= 0
+	local yStep	= 0
+	local rectW	= x2-x1 
+	local rectH	= y2-y1
+	
+	if rectW < 0 then
+		rectW = rectW + iW
+	end
+	
+	if rectH < 0 then
+		rectH = rectH + iH
+	end
+	
+	local adjPlot = Map.GetPlot(x, y)
+
+	while (yStep < 1 + rectH) and adjPlot ~= nil do
+		while (xStep < 1 + rectW) and adjPlot ~= nil do
+			if IsBetween(minR, Map.PlotDistance(x, y, centerX, centerY), maxR) then
+				table.insert(plotList, adjPlot)
+			end
+			
+			x		= x + 1
+			x		= isWrapX and (x % iW) or x
+			xStep	= xStep + 1
+			adjPlot	= Map.GetPlot(x, y)
+		end
+		x		= x1
+		y		= y + 1
+		y		= isWrapY and (y % iH) or y
+		xStep	= 0
+		yStep	= yStep + 1
+		adjPlot	= Map.GetPlot(x, y)
+	end
+	
+	return plotList
+end
+----------------------------------------------------------------
+function IsBetween(lower, mid, upper)
+	return ((lower <= mid) and (mid <= upper))
+end
+
+function Contains(list, value)
+	for k, v in pairs(list) do
+		if v == value then
+			return true
+		end
+	end
+	return false
+end
+
+function Constrain(lower, mid, upper)
+	return math.max(lower, math.min(mid, upper))
+end
+----------------------------------------------------------------

@@ -46,22 +46,22 @@
 		</Update>
 		<Update>
 			<Where Name="SCORE_WONDER_MULTIPLIER" />
-			<Set Value="25" />
+			<Set Value="10" />
 			<!-- 25 -->
 		</Update>
 		<Update>
 			<Where Name="SCORE_TECH_MULTIPLIER" />
-			<Set Value="8" />
+			<Set Value="4" />
 			<!-- 4 -->
 		</Update>
 		<Update>
 			<Where Name="SCORE_FUTURE_TECH_MULTIPLIER" />
-			<Set Value="10" />
+			<Set Value="15" />
 			<!-- 10 -->
 		</Update>
 		<Update>
 			<Where Name="SCORE_POLICY_MULTIPLIER" />
-			<Set Value="4" />
+			<Set Value="8" />
 			<!--4  -->
 		</Update>
 		<Update>
@@ -71,7 +71,7 @@
 		</Update>
 		<Update>
 			<Where Name="SCORE_BELIEF_MULTIPLIER" />
-			<Set Value="20" />
+			<Set Value="10" />
 			<!-- 20 -->
 		</Update>
 		<Update>

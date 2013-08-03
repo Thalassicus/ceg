@@ -55,32 +55,32 @@
 		<Row>
 			<Melee>PROMOTION_SHOCK_1</Melee>
 			<Ranged>PROMOTION_ACCURACY_1</Ranged>
-			<Vanguard>PROMOTION_TRENCHES_1</Vanguard>
+			<Vanguard>PROMOTION_SHOCK_1</Vanguard>
 		</Row>
 		<Row>
 			<Melee>PROMOTION_SHOCK_2</Melee>
 			<Ranged>PROMOTION_ACCURACY_2</Ranged>
-			<Vanguard>PROMOTION_TRENCHES_2</Vanguard>
+			<Vanguard>PROMOTION_SHOCK_2</Vanguard>
 		</Row>
 		<Row>
 			<Melee>PROMOTION_SHOCK_3</Melee>
 			<Ranged>PROMOTION_ACCURACY_3</Ranged>
-			<Vanguard>PROMOTION_TRENCHES_3</Vanguard>
+			<Vanguard>PROMOTION_SHOCK_3</Vanguard>
 		</Row>
 		<Row>
 			<Melee>PROMOTION_DRILL_1</Melee>
 			<Ranged>PROMOTION_BARRAGE_1</Ranged>
-			<Vanguard>PROMOTION_GUERRILLA_1</Vanguard>
+			<Vanguard>PROMOTION_DRILL_1</Vanguard>
 		</Row>
 		<Row>
 			<Melee>PROMOTION_DRILL_2</Melee>
 			<Ranged>PROMOTION_BARRAGE_2</Ranged>
-			<Vanguard>PROMOTION_GUERRILLA_2</Vanguard>
+			<Vanguard>PROMOTION_DRILL_2</Vanguard>
 		</Row>
 		<Row>
 			<Melee>PROMOTION_DRILL_3</Melee>
 			<Ranged>PROMOTION_BARRAGE_3</Ranged>
-			<Vanguard>PROMOTION_GUERRILLA_3</Vanguard>
+			<Vanguard>PROMOTION_DRILL_3</Vanguard>
 		</Row>
 		<Row>
 			<Melee>PROMOTION_COVER_1</Melee>
@@ -103,6 +103,7 @@
 		<Row>
 			<Melee>PROMOTION_AMBUSH_1</Melee>
 			<Ranged>PROMOTION_INDIRECT_FIRE</Ranged>
+			<Vanguard>PROMOTION_AMBUSH_1</Vanguard>		
 		</Row>
 		<Row>
 			<Melee>PROMOTION_SIEGE</Melee>
@@ -123,12 +124,20 @@
 			<Ranged>PROMOTION_SCOUTING_2</Ranged>
 			<Vanguard>PROMOTION_SCOUTING_2</Vanguard>
 		</Row>
-		<!--
 		<Row>
-			<Melee>PROMOTION_SURVIVALISM_1</Melee>
-			<Ranged>PROMOTION_SURVIVALISM_1</Ranged>
-			<Vanguard>PROMOTION_SURVIVALISM_1</Vanguard>
+			<Melee>PROMOTION_BUFFALO_HORNS</Melee>
+			<Ranged>PROMOTION_BUFFALO_HORNS</Ranged>
+			<Vanguard>PROMOTION_BUFFALO_HORNS</Vanguard>
 		</Row>
-		-->
+		<Row>
+			<Melee>PROMOTION_BUFFALO_CHEST</Melee>
+			<Ranged>PROMOTION_BUFFALO_CHEST</Ranged>
+			<Vanguard>PROMOTION_BUFFALO_CHEST</Vanguard>
+		</Row>
+		<Row>
+			<Melee>PROMOTION_BUFFALO_LOINS</Melee>
+			<Ranged>PROMOTION_BUFFALO_LOINS</Ranged>
+			<Vanguard>PROMOTION_BUFFALO_LOINS</Vanguard>
+		</Row>
 	</UnitPromotions_Equivilancy>
 </GameData>

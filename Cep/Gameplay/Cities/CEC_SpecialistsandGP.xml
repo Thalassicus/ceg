@@ -60,7 +60,7 @@
 		</Update>
 		<Update>
 			<Where SpecialistType="SPECIALIST_ARTIST" YieldType="YIELD_CULTURE" />
-			<Set Yield="2" />
+			<Set Yield="3" />
 		</Update>
 	</SpecialistYields>
 </GameData>

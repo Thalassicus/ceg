@@ -134,7 +134,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_PRIZE_SHIPS_HELP', '[ICON_WAR] [COLOR_POSITIVE_TEXT]Captures[ENDCOLOR] defeated enemy [COLOR_POSITIVE_TEXT]Ships[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_RANGE_HELP', '[ICON_RANGE_STRENGTH] +1 [COLOR_POSITIVE_TEXT]Range[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_RIVAL_TERRITORY_HELP', '[ICON_MOVES] Can enter [COLOR_POSITIVE_TEXT]Rival Territory[ENDCOLOR]', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_2_HELP', '[ICON_DETECT] +1 [COLOR_POSITIVE_TEXT]Sight Range[ENDCOLOR]', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-01'), 'TXT_KEY_PROMOTION_SCOUTING_2_HELP', '[ICON_MOVES] Ignores terrain cost[NEWLINE][ICON_MOVES] Pillaging costs 0 moves[NEWLINE][ICON_MOVES] Can use enemy roads', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_3_HELP', '[ICON_MOVES] +1 [COLOR_POSITIVE_TEXT]Movement[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SENTRY_HELP', '[ICON_DETECT] +1 [COLOR_POSITIVE_TEXT]Sight Range[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SHOCK_1_HELP', '[ICON_STRENGTH] +15% in [COLOR_POSITIVE_TEXT]OPEN[ENDCOLOR] Terrain (NO Hills, Forest or Jungle)', '', '');
@@ -168,7 +168,6 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_XTRA_SIGHT_III_HELP', '[ICON_DETECT] 3 [COLOR_POSITIVE_TEXT]Sight Range[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_XTRA_SIGHT_IV_HELP', '[ICON_DETECT] 4 [COLOR_POSITIVE_TEXT]Sight Range[ENDCOLOR]', '', '');
 
-
 --· EN_US/Armies.sql
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_SUBMARINE', 'Submarine Units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNITCOMBAT_MOUNTED_ARCHER', 'Mounted Archers', '', '');
@@ -184,7 +183,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTIONS_SECTION_5', 'Vanguard Promotions', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_DUMMY_COAL', '_', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_DUMMY_COAL_HELP', 'Ignore this. It simply works around a bug with strategic resources in the game (if no unit uses a resource, it cannot be traded).', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_GAME_OPTION_PROMOTION_SAVING', 'No Promotion Saving', '', '');
+--INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_GAME_OPTION_PROMOTION_SAVING', 'No Promotion Saving', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_GAME_OPTION_PROMOTION_SAVING_HELP', 'Players must pick Promotions immediately when available.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_CNOTIFICATION_REFUGEES_OPTION', '[ICON_CITIZEN] War Refugees', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_CNOTIFICATION_CAPTURED_MARITIME_OPTION', '[ICON_WAR] Captured Maritime Citystate', '', '');
@@ -216,9 +215,10 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 /*  Ships  */
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_CARAVEL', 'Carrack', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_CIVILOPEDIA_UNITS_RENAISSANCE_CARAVEL_TEXT', 'Carracks were the main European warship from the 1400s-1500s. They were developed for use in the Atlantic Ocean, large enough to be stable in heavy seas, and roomy enough to carry provisions for long voyages. The tall "castles" on each end gave a height advantage to archers firing down on enemy ships. These replace caravels because carracks were used in warfare and exploration, while caravels were only used for exploration.', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_CEP_GALLEY', 'Galley', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_BIREME', 'Bireme', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_BIREME_PEDIA', 'The bireme was an ancient type of rowed ship. They emerged in an era when there was no distinction between merchant and war ships. They were versatile, long-range ships used for sea trade, piracy and warfare, capable of transporting freight or troops. A midship mast with sail could also propel the ship under favourable wind.', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_GALLEY', 'Pirate', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_LIBURNA_PEDIA', 'This light and fast hunter was a dominant ship of the Classical era. It originally had one bench with 25 oars on each side, while in later years it was equipped with two banks of oars (a bireme), faster, lighter, and more agile than triremes.', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_CEP_GALLEY_PEDIA', 'A galley is a type of ship propelled by rowers that originated in the Mediterranean region and was used for warfare, trade and piracy from the first millennium BC.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_SHIP_OF_THE_LINE', 'Ship of the Line', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_SHIP_OF_THE_LINE_PEDIA', 'The first major shift in naval warfare occurred in the 1600s as broadsides became the primary naval tactic. Ships formed long single-file lines and battered the enemy fleet from afar. This was called a "line of battle." The height advantage given by castles on ships were nearly eliminated, now that hand-to-hand combat was less essential. The castles shrank, making the ship of the line lighter and more maneuverable, and the hull grew larger and stronger. The phrase "line of battle ship" eventually shortened to "battleship."', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_UNIT_PRIVATEER', 'Galleon', '', '');
@@ -335,9 +335,9 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_RANGED_DEFENSE_II', 'Defense vs Ranged (50)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_RANGED_DEFENSE_II_HELP', '[ICON_STRENGTH] +50% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] vs [COLOR_POSITIVE_TEXT]Ranged Damage[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_1', 'Recon I', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_SCOUTING_1_HELP', '[ICON_DETECT] +1 Sight[NEWLINE][ICON_MOVES] Ignores terrain cost[NEWLINE][ICON_MOVES] Attempts to [COLOR_POSITIVE_TEXT]withdraw[ENDCOLOR] from melee combat', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_SCOUTING_1_HELP', '[ICON_DETECT] +2 Sight[NEWLINE][ICON_MOVES] Attempts to [COLOR_POSITIVE_TEXT]withdraw[ENDCOLOR] from melee combat', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_2', 'Recon II', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_2_HELP', '[ICON_MOVES] +1 Movement[NEWLINE][ICON_MOVES] Pillaging costs 0 moves[NEWLINE][ICON_MOVES] Can use enemy roads', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_2_HELP', '[ICON_MOVES] Ignores terrain cost[NEWLINE][ICON_MOVES] +1 Movement[NEWLINE][ICON_MOVES] Pillaging costs 0 moves[NEWLINE][ICON_MOVES] Can use enemy roads', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_3', 'Recon III', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SEA_BONUS_I', 'Bonus vs Sea (25)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SEA_BONUS_I_HELP', '[ICON_STRENGTH] +25% vs [COLOR_POSITIVE_TEXT]Sea[ENDCOLOR] units', '', '');
@@ -366,4 +366,4 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_VOLLEY_HELP', '[ICON_STRENGTH] +30% vs [COLOR_POSITIVE_TEXT]Fortified[ENDCOLOR] units', '', '');
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='GEM_Armies.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEP_Armies.sql';

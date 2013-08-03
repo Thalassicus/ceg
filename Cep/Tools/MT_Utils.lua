@@ -14,6 +14,8 @@ log:SetLevel("WARN")
 -- Game.CepLoadGame()
 -- Fixes a bug causing defense buildings to not update city max health upon game load.
 --
+
+--[[
 MapModData.Cep.DefenseBuildingsReal = MapModData.Cep.DefenseBuildingsReal or {}
 MapModData.Cep.DefenseBuildingsFree = MapModData.Cep.DefenseBuildingsFree or {}
 
@@ -66,6 +68,7 @@ function Game.CepLoadGame()
 		end
 	end
 end
+--]]
 ----------------------------------------------------------------
 --[[ Init(string) usage example:
 Game.DoOnce("TurnAcquired") and LuaEvents.MT_Initialize.Add(InitTurnAcquired)

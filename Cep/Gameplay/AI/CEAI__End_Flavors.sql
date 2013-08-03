@@ -81,6 +81,7 @@ WHERE (building.BuildingClass = class.Type AND (
 -- Building Priorities
 --
 
+/*
 INSERT OR IGNORE INTO Building_Flavors(BuildingType, FlavorType, Flavor)
 SELECT building.Type, flavor.FlavorType, 2 * flavor.Flavor
 FROM Buildings building, Buildings buildingDefault, BuildingClasses class, Building_Flavors flavor
@@ -90,6 +91,7 @@ WHERE ( buildingDefault.BuildingClass	= building.BuildingClass
 	AND buildingDefault.Type			= class.DefaultBuilding
 	AND buildingDefault.Type			= flavor.BuildingType
 );
+*/
 
 
 --
@@ -109,16 +111,10 @@ DELETE FROM Unit_Flavors WHERE FlavorType = 'FLAVOR_AIR'	AND UnitType = 'UNIT_PA
 DELETE FROM Unit_Flavors WHERE FlavorType IN ('FLAVOR_NAVAL', 'FLAVOR_NAVAL_RECON');
 
 DELETE FROM Unit_Flavors WHERE UnitType IN (SELECT Type FROM Units WHERE Class IN (
-	'UNITCLASS_CEP_GALLEY'			,
-	'UNITCLASS_SHIP_OF_THE_LINE'	,
-	'UNITCLASS_SCOUT'				,
-	'UNITCLASS_SPEARMAN'			,
-	'UNITCLASS_PIKEMAN'				,
-	--'UNITCLASS_SENTINEL'			,
-	--'UNITCLASS_LEVY'				,
-	'UNITCLASS_MILITIA'			,
-	'UNITCLASS_CONSCRIPT'			,
-	'UNITCLASS_PARATROOPER'			
+	'UNITCLASS_BIREME'			,
+	'UNITCLASS_SHIP_OF_THE_LINE'	
+) OR CombatClass IN (
+	'UNITCOMBAT_RECON'			
 ));
 
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
@@ -177,7 +173,7 @@ INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_NAVAL_RECON', 1
 FROM Units WHERE Class IN (
 	'UNITCLASS_TRIREME'				,
-	'UNITCLASS_CEP_GALLEY'			,
+	'UNITCLASS_BIREME'			,
 	'UNITCLASS_CARAVEL'				,
 	'UNITCLASS_PRIVATEER'			,
 	'UNITCLASS_DESTROYER'			,
@@ -219,11 +215,17 @@ FROM Units unit, Flavors flavor
 WHERE unit.CombatClass IN (
 	'UNITCOMBAT_RECON'			
 ) AND flavor.Type IN (
+	'FLAVOR_VANGUARD'				,
 	'FLAVOR_HEALING'				,
 	'FLAVOR_PILLAGE'				,
-	'FLAVOR_VANGUARD'				
+	'FLAVOR_RECON'					,
+	'FLAVOR_DEFENSE'				,
+	'FLAVOR_CONQUEST'				,
+	--'FLAVOR_CITY_DEFENSE'			,
+	'FLAVOR_ANTI_MOBILE'			
 );
 
+/*
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT unit.Type, flavor.Type, 1
 FROM Units unit, Flavors flavor
@@ -231,9 +233,14 @@ WHERE unit.Class IN (
 	'UNITCLASS_SCOUT'				,
 	'UNITCLASS_SPEARMAN'			,
 	'UNITCLASS_PIKEMAN'				,
+	'UNITCLASS_MUSKETMAN'			,
+	'UNITCLASS_RIFLEMAN'			,
+	'UNITCLASS_GREAT_WAR_INFANTRY'	,
+	'UNITCLASS_INFANTRY'			,
+	'UNITCLASS_MECHANIZED_INFANTRY'	,
 	--'UNITCLASS_SENTINEL'			,
 	--'UNITCLASS_LEVY'				,
-	'UNITCLASS_MILITIA'			
+	--'UNITCLASS_MILITIA'			
 ) AND flavor.Type IN (
 	'FLAVOR_RECON'					,
 	'FLAVOR_DEFENSE'				,
@@ -241,7 +248,7 @@ WHERE unit.Class IN (
 	'FLAVOR_CITY_DEFENSE'			,
 	'FLAVOR_ANTI_MOBILE'			
 );
-
+*/
 
 
 --
@@ -269,7 +276,7 @@ WHERE UnitType IN (SELECT unit.Type FROM Units unit, UnitClasses class WHERE (
 
 -- Vanguard
 UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
-WHERE FlavorType IN ('FLAVOR_HEALING', 'FLAVOR_PILLAGE', 'FLAVOR_RECON', 'FLAVOR_DEFENSE')
+WHERE FlavorType IN ('FLAVOR_HEALING', 'FLAVOR_PILLAGE', 'FLAVOR_RECON')
 AND UnitType IN (SELECT Type FROM Units WHERE CombatClass IN (
 	'UNITCOMBAT_RECON'
 ));
@@ -286,7 +293,7 @@ UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
 WHERE FlavorType = 'FLAVOR_NAVAL_BOMBARDMENT'
 AND UnitType IN (SELECT Type FROM Units WHERE Class IN (
 	'UNITCLASS_GALLEY'				,
-	'UNITCLASS_CEP_GALLEY'			,
+	'UNITCLASS_BIREME'			,
 	'UNITCLASS_GALLEASS'			
 ));
 
@@ -405,4 +412,4 @@ AND UnitType IN (SELECT UnitType FROM Unit_ResourceQuantityRequirements);
 */
 
 
-UPDATE LoadedFile SET Value=1 WHERE Type='CEP_AI__End_Flavors.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='CEAI__End_Flavors.sql';

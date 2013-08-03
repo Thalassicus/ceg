@@ -18,6 +18,10 @@
 			<Set Help="TXT_KEY_BUILDING_AMPHITHEATER_HELP"/>
 		</Update>
 		<Update>
+			<Where Type="BUILDING_AQUEDUCT"/>
+			<Set Help="TXT_KEY_BUILDING_AQUEDUCT_HELP"/>
+		</Update>
+		<Update>
 			<Where Type="BUILDING_STABLE"/>
 			<Set Help="TXT_KEY_BUILDING_STABLE_HELP"/>
 		</Update>
@@ -41,6 +45,14 @@
 			<Where Type="BUILDING_COLOSSUS"/>
 			<Set Help="TXT_KEY_BUILDING_COLOSSUS_HELP"/>
 		</Update>
+		<Update>
+			<Where Type="BUILDING_UNIVERSITY"/>
+			<Set Help="TXT_KEY_BUILDING_UNIVERSITY_HELP"/>
+		</Update>
+		<Update>
+			<Where Type="BUILDING_LABORATORY"/>
+			<Set Help="TXT_KEY_BUILDING_LABORATORY_HELP"/>
+		</Update>
 	</Buildings>
 	<Language_EN_US>
 		<Row>
@@ -48,12 +60,16 @@
 			<Text>[ICON_PEACE] Faith: +1 [ICON_RES_WINE][ICON_RES_INCENSE]</Text>
 		</Row>
 		<Update>
+			<Where Tag="TXT_KEY_BUILDING_AQUEDUCT_HELP"/>
+			<Set Text="[ICON_FOOD] Food Storage: 40%[NEWLINE][ICON_FOOD] Food: +1 [ICON_RES_CITRUS][ICON_RES_TRUFFLES][ICON_RES_SALT][ICON_RES_BANANA][NEWLINE][NEWLINE]Improves exotic foods."/>
+		</Update>
+		<Update>
 			<Where Tag="TXT_KEY_BUILDING_GRANARY_HELP"/>
 			<Set Text="[ICON_FOOD] City can trade Food[NEWLINE][ICON_FOOD] Food: +1 [ICON_RES_WHEAT][ICON_RES_SPICES][ICON_RES_SUGAR][NEWLINE][NEWLINE]Improves grains."/>
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_CARAVANSARY_HELP"/>
-			<Set Text="[ICON_TRADE] Caravan Range: +50%[NEWLINE][ICON_GOLD] Gold: +2 per Caravan from here[NEWLINE][ICON_GOLD] Gold: +1 [ICON_RES_CITRUS][ICON_RES_TRUFFLES][ICON_RES_SALT][ICON_RES_BANANA][NEWLINE][NEWLINE]Improves exotic foods."/>
+			<Set Text="[ICON_TRADE] Caravan Range: +50%[NEWLINE][ICON_GOLD] Gold: +2 per Caravan from here[NEWLINE][ICON_GOLD] Gold: +1 on Luxury Resources[NEWLINE][NEWLINE]Improves luxury resources."/>
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_AMPHITHEATER_HELP</Tag>
@@ -73,7 +89,7 @@
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_MARKET_HELP</Tag>
-			<Text>[ICON_GOLD] Gold: +2 per Trade Route from here[NEWLINE][ICON_GOLD] Gold: +1 on Luxury Resources[NEWLINE][NEWLINE]Improves luxury resources.</Text>
+			<Text>[ICON_GOLD] Gold: +2 per Trade Route from here</Text>
 		</Row>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_BAZAAR_HELP"/>
@@ -87,5 +103,13 @@
 			<Tag>TXT_KEY_BUILDING_COLOSSUS_HELP</Tag>
 			<Text>[ICON_TEAM_2] Cargo Ships: +1[NEWLINE][ICON_TRADE] Max Trade Routes: +1[NEWLINE][ICON_GOLD] Gold: +2 per Trade Route from here[NEWLINE][ICON_LOCKED] Requires: Coastal City</Text>
 		</Row>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_UNIVERSITY_HELP"/>
+			<Set Text="[ICON_RESEARCH] Science: +1 from Jungle[NEWLINE][ICON_RES_ARTIFACTS] Can build Archaeologists[NEWLINE][ICON_LOCKED]Requires: Library"/>
+		</Update>
+		<Update>
+			<Where Tag="BUILDING_LABORATORY"/>
+			<Set Text="[ICON_RESEARCH] Science: +1 from Jungle[NEWLINE][ICON_LOCKED]Requires: Public School"/>
+		</Update>
 	</Language_EN_US>
 </GameData>

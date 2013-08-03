@@ -242,4 +242,4 @@ WHERE Type IN (
 --
 -- Done
 --
-UPDATE LoadedFile SET Value=1 WHERE Type='Civup_Promotions.sql';
+UPDATE LoadedFile SET Value=1 WHERE Type='MT_Promotions.sql';

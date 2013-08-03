@@ -23,7 +23,7 @@ function City_GetBestPlotPurchaseCity(city, plot)
 		return nil, math.huge
 	end
 	local hasAdjacentPlot = false
-	for _, adjPlot in pairs(Plot_GetPlotsInCircle(plot, 1, 1)) do
+	for adjPlot in Plot_GetPlotsInCircle(plot, 1, 1) do
 		if adjPlot:GetOwner() == playerID then
 			hasAdjacentPlot = true
 		end

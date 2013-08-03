@@ -74,7 +74,7 @@
 		</Update>
 		<Update>
 			<Where Type="BELIEF_TITHE" />
-			<Set GoldPerXFollowers="3"/>
+			<Set GoldPerXFollowers="5"/>
 		</Update>
 		<Update>
 			<Where Type="BELIEF_INTERFAITH_DIALOGUE" />
@@ -114,7 +114,7 @@
 		-->
 		<Update>
 			<Where Type="BELIEF_MISSIONARY_ZEAL" />
-			<Set MissionaryStrengthModifier="-50"
+			<Set MissionaryStrengthModifier="200"
 				 />
 		</Update>
 		<Update>
@@ -155,7 +155,7 @@
 	<Belief_BuildingClassYieldChanges>
 		<Update>
 			<Where BeliefType="BELIEF_ANCESTOR_WORSHIP" />
-			<Set YieldChange="3"/>
+			<Set YieldChange="2"/>
 		</Update>
 		<Update>
 			<Where BeliefType="BELIEF_CHORAL_MUSIC" />
@@ -218,10 +218,12 @@
 		</Update>
 	</Belief_TerrainYieldChanges>
 	<Belief_FeatureYieldChanges>
+		<!--
 		<Update>
 			<Where BeliefType="BELIEF_SACRED_PATH" />
 			<Set Yield="1" YieldType="YIELD_FOOD" />
 		</Update>
+		-->
 		<Row>
 			<BeliefType>BELIEF_SACRED_ISLES</BeliefType>
 			<FeatureType>FEATURE_ATOLL</FeatureType>

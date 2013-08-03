@@ -46,9 +46,9 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_RELIQUARY', 'Gain 500 [ICON_PEACE] Faith each time a Great Person is expended', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_SACRED_ISLES_SHORT', 'Sacred Isles', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_SACRED_ISLES', '+2 [ICON_CULTURE][ICON_PEACE] Culture and Faith from Isles', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_SACRED_PATH', '+1 [ICON_FOOD] Food from Jungle tiles', '', '');
+--INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_SACRED_PATH', '+1 [ICON_FOOD] Food from Jungle tiles', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_SWORD_PLOWSHARES', '+25% [ICON_FOOD] Surplus Food in all cities when not at war', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_TITHE', '+1 [ICON_GOLD] Gold for every 4 followers of this religion', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_TITHE', '+1 [ICON_GOLD] Gold for every 5 followers of this religion', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_WORLD_CHURCH', '+1 [ICON_CULTURE] Culture for every 3 followers of this religion in foreign civilizations', '', '');
 
 

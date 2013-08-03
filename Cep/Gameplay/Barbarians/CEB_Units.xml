@@ -35,13 +35,10 @@
 				 Description="TXT_KEY_UNIT_BARBARIAN_SWORDSMAN"
 				 />
 		</Update>
+		-->
 		<Update>
 			<Where Type="UNIT_GALLEY"/>
-			<Set BarbUpgradeType="UNIT_BARBARIAN_TRIREME"
-				 Description="TXT_KEY_UNIT_BARBARIAN_GALLEY"
-				 PrereqTech="TECH_AGRICULTURE"
-				 ObsoleteTech="TECH_SAILING"/>
+			<Set ShowInPedia="0"/>
 		</Update>
-		-->
 	</Units>
 </GameData>

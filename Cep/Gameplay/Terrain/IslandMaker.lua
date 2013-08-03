@@ -6,6 +6,8 @@
 --	Copyright (c) 2011 Firaxis Games, Inc. All rights reserved.
 ------------------------------------------------------------------------------
 
+function print() end
+
 --[[ -------------------------------------------------------------------------
 CONTENTS OF THIS FILE:
 
@@ -100,9 +102,9 @@ function CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 	end
 	
 	-- Debugging
-	--print("-"); print("- Traits List - Width:", iWidth, "Height:", iHeight, "Angle:", fTilt);
-	--print("-"); print("Degrees:", fTilt_in_degrees, " - Radians:", fTilt_in_radians); print("-");
-	--print("Start Coordinates:", start_x, start_y, " - End Coordinates:", end_x, end_y); print("-");
+	print("-"); print("- Traits List - Width:", iWidth, "Height:", iHeight, "Angle:", fTilt);
+	print("-"); print("Degrees:", fTilt_in_degrees, " - Radians:", fTilt_in_radians); print("-");
+	print("Start Coordinates:", start_x, start_y, " - End Coordinates:", end_x, end_y); print("-");
 
 	local startX, startY, endX, endY, bReverseFlag, slope;
 	-- Note: Incoming x/y are starting at 0/0, but we need to convert them to Lua array values that start at 1.
@@ -110,11 +112,11 @@ function CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 		if start_x > end_x then
 			startX, startY, endX, endY = end_x + 1, end_y + 1, start_x + 1, start_y + 1; -- swap start and end
 			bReverseFlag = true;
-			--print("Path reversed, working from the end plot.");
+			print("Path reversed, working from the end plot.");
 		else -- don't swap
 			startX, startY, endX, endY = start_x + 1, start_y + 1, end_x + 1, end_y + 1;
 			bReverseFlag = false;
-			--print("Path not reversed.");
+			print("Path not reversed.");
 		end
 		local dx = endX - startX;
 		local dy = endY - startY;
@@ -123,7 +125,7 @@ function CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 		else
 			slope = dy/dx;
 		end
-		--print("Slope: ", slope);
+		print("Slope: ", slope);
 		local y, y_true = nil, startY;
 		-- Process the Axis.
 		for x = startX, endX do
@@ -141,18 +143,18 @@ function CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 			end	
 			-- Adjust y for the next iteration of the loop.		
 			y_true = y_true + slope;
-			--print("y plus slope: ", y_true);
+			print("y plus slope: ", y_true);
 		end
 
 	else -- line is closer to vertical
 		if start_y > end_y then
 			startX, startY, endX, endY = end_x + 1, end_y + 1, start_x + 1, start_y + 1; -- swap start and end
 			bReverseFlag = true;
-			--print("Path reversed, working from the end plot.");
+			print("Path reversed, working from the end plot.");
 		else -- don't swap
 			startX, startY, endX, endY = start_x + 1, start_y + 1, end_x + 1, end_y + 1;
 			bReverseFlag = false;
-			--print("Path not reversed.");
+			print("Path not reversed.");
 		end
 		local dx = endX - startX;
 		local dy = endY - startY;
@@ -161,7 +163,7 @@ function CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 		else
 			slope = dx/dy;
 		end
-		--print("Slope: ", slope);
+		print("Slope: ", slope);
 		local x, x_true = nil, startX;
 		-- Process the Axis.
 		for y = startY, endY do
@@ -179,7 +181,7 @@ function CreateSingleAxisIslandChain(iWidth, iHeight, fTilt)
 			end	
 			-- Adjust x for the next iteration of the loop.		
 			x_true = x_true + slope;
-			--print("x plus slope: ", x_true);
+			print("x plus slope: ", x_true);
 		end
 	end
 	

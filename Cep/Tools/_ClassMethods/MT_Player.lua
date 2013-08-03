@@ -706,7 +706,7 @@ function PlayerClass.GetImprovableResources(player)
 	local activePlayer = Players[Game.GetActivePlayer()]
 	for city in player:Cities() do
 		if not city:IsRazing() then
-			for _, plot in pairs(Plot_GetPlotsInCircle(city:Plot(), 1, 4)) do
+			for plot in Plot_GetPlotsInCircle(city:Plot(), 1, 4) do
 				local resID = plot:GetResourceType(Game.GetActiveTeam())
 				if plot:GetOwner() == playerID and resID ~= -1 and Game.GetResourceUsageType(resID) ~= ResourceUsageTypes.RESOURCEUSAGE_BONUS then
 					local query = string.format("ResourceType = '%s'", GameInfo.Resources[resID].Type)
@@ -843,7 +843,7 @@ function PlayerClass.IsMilitaristicLeader(player)
 	if player:IsMinorCiv() then
 		return player:GetMinorCivTrait() == MinorCivTraitTypes.MINOR_CIV_TRAIT_MILITARISTIC
 	end
-	return player:GetPersonalityInfo().Boldness >= 5
+	return GameInfo.Leaders[player:GetLeaderType()].Boldness >= 5
 	--[[
 	local personality = player:GetPersonalityInfo().Type
 	return (personality == "PERSONALITY_CONQUEROR" or personality == "PERSONALITY_COALITION")
