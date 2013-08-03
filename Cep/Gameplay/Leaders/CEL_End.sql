@@ -206,8 +206,6 @@ SELECT	'UNIT_AMERICAN_PIONEER', 'PROMOTION_SCOUTING_1';
 -- Other
 --
 
---UPDATE Buildings SET Defense = Defense + 100
---WHERE Type IN ('BUILDING_WALLS_OF_BABYLON');
 
 UPDATE Buildings SET SpecialistType = 'SPECIALIST_SCIENTIST', SpecialistCount = 1
 WHERE Type IN ('BUILDING_WALLS_OF_BABYLON');
@@ -224,18 +222,6 @@ INSERT INTO Trait_ImprovementYieldChanges
 		(TraitType, ImprovementType, YieldType, Yield)
 SELECT 'TRAIT_ALLOTMENT', 'IMPROVEMENT_FARM', 'YIELD_PRODUCTION', 1;
 
-/*
-INSERT INTO Improvement_TechFreshWaterYieldChanges
-		(ImprovementType, TechType,YieldType, Yield)
-SELECT	'IMPROVEMENT_TERRACE_FARM', 'TECH_CIVIL_SERVICE', 'YIELD_FOOD', '1'
-WHERE EXISTS (SELECT * FROM Improvements WHERE Type='IMPROVEMENT_TERRACE_FARM' );
-
-INSERT INTO Improvement_TechNoFreshWaterYieldChanges
-		(ImprovementType, TechType,YieldType, Yield)
-SELECT	'IMPROVEMENT_TERRACE_FARM', 'TECH_FERTILIZER', 'YIELD_FOOD', '1'
-WHERE EXISTS (SELECT * FROM Improvements WHERE Type='IMPROVEMENT_TERRACE_FARM' );
-*/
-
 INSERT INTO Improvement_Flavors
 		(ImprovementType, FlavorType, Flavor)
 SELECT	'IMPROVEMENT_TERRACE_FARM', 'FLAVOR_GROWTH', '50'
@@ -251,22 +237,6 @@ INSERT INTO Improvement_Flavors
 SELECT	'IMPROVEMENT_TERRACE_FARM', 'FLAVOR_GOLD', '50'
 WHERE EXISTS (SELECT * FROM Improvements WHERE Type='IMPROVEMENT_TERRACE_FARM' );
 
-/*
-INSERT INTO Trait_YieldFromConstructionInCapital (TraitType, BuildingType, YieldType, YieldMod)
-SELECT 'TRAIT_SCHOLARS_JADE_HALL', Type, 'YIELD_SCIENCE', 100
-FROM Buildings WHERE Type IN (
-	'BUILDING_LIBRARY',
-	'BUILDING_UNIVERSITY',
-	'BUILDING_PUBLIC_SCHOOL',
-	'BUILDING_LABORATORY',
-	'BUILDING_OBSERVATORY',
-	'BUILDING_NATIONAL_COLLEGE',
-	'BUILDING_OXFORD_UNIVERSITY',
-	'BUILDING_GREAT_LIBRARY',
-	'BUILDING_PORCELAIN_TOWER'
-);
-*/
-
 INSERT INTO Trait_YieldFromConstruction (TraitType, BuildingType, YieldType, Yield)
 SELECT 'TRAIT_POPULATION_GROWTH', Type, 'YIELD_POPULATION', 1
 FROM Buildings WHERE Type IN (
@@ -277,13 +247,6 @@ FROM Buildings WHERE Type IN (
 	'BUILDING_HOSPITAL',
 	'BUILDING_MEDICAL_LAB'
 );
-
-/*
-INSERT INTO Civilization_BuildingClassOverrides
-		(CivilizationType, BuildingClassType, BuildingType)
-SELECT	'CIVILIZATION_DENMARK', 'BUILDINGCLASS_HEROIC_EPIC', 'BUILDING_JELLING_STONES'
-WHERE EXISTS (SELECT * FROM Civilizations WHERE Type='CIVILIZATION_DENMARK');
-*/
 
 INSERT INTO Civilization_Start_Region_Avoid
 		(CivilizationType, RegionType)
