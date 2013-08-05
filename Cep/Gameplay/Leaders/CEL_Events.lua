@@ -271,4 +271,10 @@ end
 
 --Events.NaturalWonderRevealed.Add(NationalWonderDiscoveryBonus)
 
---]=]
+
+
+function CheckTradeBonuses(player)
+	print("CheckTradeBonuses " .. player:GetName())
+end
+LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
+LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)

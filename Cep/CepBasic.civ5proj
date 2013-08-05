@@ -1410,6 +1410,12 @@
         <Description>CET_Events</Description>
         <FileName>Gameplay/Terrain/CET_Events.lua</FileName>
       </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>CEL_Events</Name>
+        <Description>CEL_Events</Description>
+        <FileName>Gameplay/Leaders/CEL_Events.lua</FileName>
+      </Content>
     </ModContent>
     <ModReferences />
     <SupportsHotSeat>false</SupportsHotSeat>
