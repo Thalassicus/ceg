@@ -3,6 +3,11 @@
 -- DateCreated: 2/6/2011 5:17:42 AM
 --------------------------------------------------------------
 
+if Game == nil then
+	print("WARN  Game is nil")
+	return
+end
+
 --include("SaveUtils.lua")
 MY_MOD_NAME = "Communitas"
 
