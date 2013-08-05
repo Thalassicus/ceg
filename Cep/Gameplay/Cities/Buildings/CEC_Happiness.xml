@@ -5,12 +5,10 @@
 			<Where BuildingClass="BUILDINGCLASS_COURTHOUSE" />
 			<Set GoldMaintenance="0"
 				 HurryCostModifier="100"
-				 PopCostMod="0"
 				 />
-			<!-- 100, 4, 50 -->
 		</Update>
 	</Buildings>
-	<Building_ResourceYieldChanges>
+	<Building_ResourceYieldChanges>	
 		<Row>
 			<BuildingType>BUILDING_CIRCUS</BuildingType>
 			<ResourceType>RESOURCE_HORSE</ResourceType>

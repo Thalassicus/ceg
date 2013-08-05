@@ -56,11 +56,14 @@
 			<Description>TXT_KEY_PROMOTION_MARCH</Description>
 			<Help>TXT_KEY_PROMOTION_MARCH_HELP</Help>
 			<Sound>AS2D_IF_LEVELUP</Sound>
-			<PromotionPrereqOr1>PROMOTION_SCOUTING_2</PromotionPrereqOr1>
-			<PromotionPrereqOr2>PROMOTION_TRENCHES_3</PromotionPrereqOr2>
-			<PromotionPrereqOr3>PROMOTION_GUERRILLA_3</PromotionPrereqOr3>
-			<PromotionPrereqOr4>PROMOTION_COVER_VANGUARD_1</PromotionPrereqOr4>
-			<PromotionPrereqOr5>PROMOTION_MEDIC</PromotionPrereqOr5>
+			<PromotionPrereqOr1>PROMOTION_TRENCHES_3</PromotionPrereqOr1>
+			<PromotionPrereqOr2>PROMOTION_GUERRILLA_3</PromotionPrereqOr2>
+			<PromotionPrereqOr3>PROMOTION_COVER_VANGUARD_1</PromotionPrereqOr3>
+			<PromotionPrereqOr4>PROMOTION_AMBUSH_VANGUARD_1</PromotionPrereqOr4>
+			<!--
+			<PromotionPrereqOr4>PROMOTION_MEDIC</PromotionPrereqOr4>
+			<PromotionPrereqOr5>PROMOTION_SCOUTING_2</PromotionPrereqOr5>
+			-->
 			<OrderPriority>15</OrderPriority>
 			<AlwaysHeal>true</AlwaysHeal>
 			<PortraitIndex>31</PortraitIndex>
@@ -383,65 +386,6 @@
 			<Set PromotionCategory="Submarine" />
 		</Update>
 	</UnitCombatInfos>
-	<UnitPromotions_Equivilancy>
-		<Row>
-			<Melee>PROMOTION_SHOCK_1</Melee>
-			<Ranged>PROMOTION_ACCURACY_1</Ranged>
-			<Vanguard>PROMOTION_SCOUTING_1</Vanguard>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_SHOCK_2</Melee>
-			<Ranged>PROMOTION_ACCURACY_2</Ranged>
-			<Vanguard>PROMOTION_SCOUTING_2</Vanguard>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_SHOCK_3</Melee>
-			<Ranged>PROMOTION_ACCURACY_3</Ranged>
-			<Vanguard>PROMOTION_SCOUTING_3</Vanguard>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_DRILL_1</Melee>
-			<Ranged>PROMOTION_BARRAGE_1</Ranged>
-			<Vanguard>PROMOTION_SURVIVALISM_1</Vanguard>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_DRILL_2</Melee>
-			<Ranged>PROMOTION_BARRAGE_2</Ranged>
-			<Vanguard>PROMOTION_SURVIVALISM_2</Vanguard>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_DRILL_3</Melee>
-			<Ranged>PROMOTION_BARRAGE_3</Ranged>
-			<Vanguard>PROMOTION_SURVIVALISM_3</Vanguard>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_COVER_1</Melee>
-			<Ranged>PROMOTION_COVER_1</Ranged>
-		</Row>
-		<!--
-		<Row>
-			<Melee>PROMOTION_MARCH</Melee>
-			<Ranged>PROMOTION_MARCH_RANGED</Ranged>
-		</Row>
-		-->
-		<Row>
-			<Melee>PROMOTION_BLITZ</Melee>
-			<Ranged>PROMOTION_AIR_LOGISTICS</Ranged>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_CHARGE</Melee>
-			<Ranged>PROMOTION_RANGE</Ranged>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_AMBUSH_1</Melee>
-			<Ranged>PROMOTION_VOLLEY</Ranged>
-		</Row>
-		<Row>
-			<Melee>PROMOTION_MEDIC</Melee>
-			<Ranged>PROMOTION_MEDIC</Ranged>
-			<Vanguard>PROMOTION_MEDIC</Vanguard>
-		</Row>
-	</UnitPromotions_Equivilancy>
 	<UnitPromotions>
 		<Update>
 			<Where Type="PROMOTION_DEFENSE_PENALTY"/>
@@ -527,7 +471,8 @@
 			<PediaEntry>TXT_KEY_PROMOTION_HANDICAP</PediaEntry>
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<VisibilityChange>2</VisibilityChange>
-			<CityAttack>25</CityAttack>
+			<CityAttack>100</CityAttack>
+			<CityDefense>50</CityDefense>
 			<ExperiencePercent>-25</ExperiencePercent>
 			<FreePillageMoves>true</FreePillageMoves>
 			<PortraitIndex>58</PortraitIndex>

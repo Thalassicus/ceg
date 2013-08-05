@@ -366,8 +366,8 @@ function PlayerClass.GetTurnAcquired(player, city)
 	end
 	local playerID = player:GetID()
 	local cityID = City_GetID(city)
-	MapModData.Cep.TurnAcquired[playerID] = MapModData.Cep.TurnAcquired[playerID] or {}
-	return MapModData.Cep.TurnAcquired[playerID][City_GetID(city)]
+	MapModData.CepTurnAcquired[playerID] = MapModData.CepTurnAcquired[playerID] or {}
+	return MapModData.CepTurnAcquired[playerID][City_GetID(city)]
 end
 
 function PlayerClass.SetTurnAcquired(player, city, turn)
@@ -377,9 +377,9 @@ function PlayerClass.SetTurnAcquired(player, city, turn)
 	end
 	local playerID = player:GetID()
 	local cityID = City_GetID(city)
-	MapModData.Cep.TurnAcquired[playerID] = MapModData.Cep.TurnAcquired[playerID] or {}
-	MapModData.Cep.TurnAcquired[playerID][cityID] = turn
-	SaveValue(turn, "MapModData.Cep.TurnAcquired[%s][%s]", playerID, cityID)
+	MapModData.CepTurnAcquired[playerID] = MapModData.CepTurnAcquired[playerID] or {}
+	MapModData.CepTurnAcquired[playerID][cityID] = turn
+	SaveValue(turn, "MapModData.CepTurnAcquired[%s][%s]", playerID, cityID)
 end
 
 function UpdateTurnAcquiredFounding(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState)
@@ -880,7 +880,7 @@ function PlayerClass.IsAtWarWithAny(player)
 end
 
 function PlayerClass.EverAtWarWithHuman(player)
-	return (MapModData.Cep.EverAtWarWithHuman[player:GetID()] == 1)
+	return (MapModData.CepEverAtWarWithHuman[player:GetID()] == 1)
 end
 
 ---------------------------------------------------------------------
@@ -932,19 +932,19 @@ end
 --
 
 --function InitTurnAcquired()
-	if not MapModData.Cep.TurnAcquired then
+	if not MapModData.CepTurnAcquired then
 		--print("InitTurnAcquired()")
-		MapModData.Cep.TurnAcquired = {}
+		MapModData.CepTurnAcquired = {}
 		startClockTime = os.clock()
 		for playerID, player in pairs(Players) do
-			MapModData.Cep.TurnAcquired[playerID] = {}
+			MapModData.CepTurnAcquired[playerID] = {}
 			if player:IsAliveCiv() then
 				for city in player:Cities() do
 					local cityID = City_GetID(city)
 					if UI:IsLoadedGame() then
-						MapModData.Cep.TurnAcquired[playerID][cityID] = LoadValue("MapModData.Cep.TurnAcquired[%s][%s]", playerID, cityID) 
+						MapModData.CepTurnAcquired[playerID][cityID] = LoadValue("MapModData.CepTurnAcquired[%s][%s]", playerID, cityID) 
 					end
-					if not MapModData.Cep.TurnAcquired[playerID][cityID] then
+					if not MapModData.CepTurnAcquired[playerID][cityID] then
 						player:SetTurnAcquired(city, city:GetGameTurnAcquired())
 					end
 				end
@@ -957,8 +957,8 @@ end
 --end
 
 --[[
-if not MapModData.Cep.InitTurnAcquired then
-	MapModData.Cep.InitTurnAcquired = true
+if not MapModData.CepInitTurnAcquired then
+	MapModData.CepInitTurnAcquired = true
 	LuaEvents.MT_Initialize.Add(InitTurnAcquired)
 end
 --]]

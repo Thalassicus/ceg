@@ -356,6 +356,15 @@ ALTER TABLE HandicapInfos	ADD AIGold								integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalRevealRadius				integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalYieldPeaceful				integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalYieldMilitaristic			integer default 0;
+UPDATE HandicapInfos		SET AIFreeXPPerEra						= 0;
+UPDATE HandicapInfos		SET AIFreePromotion						= "";
+UPDATE HandicapInfos		SET AIResearchPercent					= 0;
+UPDATE HandicapInfos		SET AIResearchPercentPerEra				= 0;
+UPDATE HandicapInfos		SET AIProductionPercentPerEra			= 0;
+UPDATE HandicapInfos		SET AIGold								= 0;
+UPDATE HandicapInfos		SET AICapitalRevealRadius				= 0;
+UPDATE HandicapInfos		SET AICapitalYieldPeaceful				= 0;
+UPDATE HandicapInfos		SET AICapitalYieldMilitaristic			= 0;
 
 ALTER TABLE HurryInfos		ADD YieldType							text REFERENCES Yields(Type);
 

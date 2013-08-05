@@ -71,6 +71,8 @@ UPDATE Units SET FaithCost = 1 * Cost WHERE FaithCost > 0 AND Cost > 0;
 -- Conquest
 --
 
+UPDATE Improvements SET PillageGold = PillageGold * 4 WHERE PillageGold <> 0;
+
 UPDATE Buildings
 SET ConquestProb = 100
 WHERE HurryCostModifier != -1;
@@ -109,7 +111,6 @@ WHERE BuildingClass IN (
 --
 
 UPDATE Units SET Cost = -1, ShowInPedia = 0 WHERE Class IN (
-	--'UNITCLASS_BATTLESHIP'		,
 	'UNITCLASS_ANTI_TANK_GUN'		,
 	'UNITCLASS_MARINES'				
 );

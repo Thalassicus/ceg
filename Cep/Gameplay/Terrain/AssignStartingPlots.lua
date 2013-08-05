@@ -13,7 +13,7 @@
 ------------------------------------------------------------------------------
 
 if Game == nil then
-	print("Game is nil")
+	print("Game = nil")
 	--return
 end
 
@@ -6459,7 +6459,7 @@ function AssignStartingPlots:PlaceNaturalWonders()
 	
 	-- Determine how many NWs to attempt to place. Target is regulated per map size.
 	-- The final number cannot exceed the number the map has locations to support.
-	local target_number = GameInfo.Worlds[Map.GetWorldSize()].NumNaturalWonders;
+	local target_number = Game.GetWorldInfo().NumNaturalWonders;
 	local iNumNWtoPlace = math.min(target_number, iNumNWCandidates);
 	local selected_NWs, fallback_NWs = {}, {};
 	for loop, wonderID in ipairs(NW_eligibility_order) do
@@ -10390,7 +10390,7 @@ function AssignStartingPlots:GetResourceQuantities(resIDs)
 		if resInfo.MutuallyExclusiveGroup == -1 then
 			resNum[resID] = resInfo.NumPerTerritory * stratMultiplier * 0.01 * (resLower + Map.Rand(resUpper - resLower, "Strategic Resource Placement"))
 			if resNum[resID] < 0 then
-				local worldInfo = GameInfo.Worlds[Map.GetWorldSize()]
+				local worldInfo = Game.GetWorldInfo()
 				local resourceMod = 100
 				--[[
 				if not worldInfo.ResourceMod then

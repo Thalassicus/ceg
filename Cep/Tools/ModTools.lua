@@ -6,10 +6,8 @@
 --include("SaveUtils.lua")
 MY_MOD_NAME = "Communitas"
 
-if not MapModData.Cep then
-	print("Init MapModData.Cep")
-	MapModData.Cep = {}
-end
+--print("Init ModTools.lua")
+--MapModData.Cep = {}
 saveDB = Modding.OpenSaveData()
 
 Cep = {}
@@ -25,24 +23,25 @@ end
 
 --include("MT_LuaEvents.lua")
 
-MapModData.Cep.EverAtWarWithHuman = {}
-startClockTime = os.clock()
-if UI:IsLoadedGame() then
-	for playerID, player in pairs(Players) do
-		MapModData.Cep.EverAtWarWithHuman[playerID] = LoadValue("MapModData.Cep.EverAtWarWithHuman[%s]", playerID)
-	end
-end
-if UI:IsLoadedGame() then
-	log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
-end
-
-
-include("MT_Utils.lua")
+include("MT_FixTables.lua")
 include("MT_ErrorHandler.lua")
 include("MT_LuaLogger.lua")
 include("MT_LoadSave.lua")
+include("MT_Utils.lua")
 include("MT_City.lua")
 include("MT_Player.lua")
 include("MT_Plot.lua")
 include("MT_Unit.lua")
 include("MT_Misc.lua")
+
+
+MapModData.CepEverAtWarWithHuman = {}
+startClockTime = os.clock()
+if UI:IsLoadedGame() then
+	for playerID, player in pairs(Players) do
+		MapModData.CepEverAtWarWithHuman[playerID] = LoadValue("MapModData.CepEverAtWarWithHuman[%s]", playerID)
+	end
+end
+if UI:IsLoadedGame() then
+	log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
+end

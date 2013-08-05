@@ -15,7 +15,7 @@
     <AffectsSavedGames>true</AffectsSavedGames>
     <MinCompatibleSaveVersion>0</MinCompatibleSaveVersion>
     <SupportsSinglePlayer>true</SupportsSinglePlayer>
-    <SupportsMultiplayer>true</SupportsMultiplayer>
+    <SupportsMultiplayer>false</SupportsMultiplayer>
     <SupportsMac>true</SupportsMac>
     <AssemblyName>Mod Template</AssemblyName>
     <RootNamespace>Mod Template</RootNamespace>
@@ -1412,7 +1412,7 @@
       </Content>
     </ModContent>
     <ModReferences />
-    <SupportsHotSeat>true</SupportsHotSeat>
+    <SupportsHotSeat>false</SupportsHotSeat>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Default' ">
     <OutputPath>.</OutputPath>
@@ -1465,12 +1465,12 @@
     <Folder Include="Interface" />
     <Folder Include="Interface\Icons" />
     <Folder Include="Tools" />
-    <Folder Include="Tuner" />
+    <Folder Include="TunerMods" />
     <Folder Include="Tools\_ClassMethods" />
     <Folder Include="Text" />
     <Folder Include="Text\DE_DE" />
     <Folder Include="Text\en_US" />
-    <Folder Include="Tuner\DebugFolder" />
+    <Folder Include="TunerMods\DebugFolder" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Civup_Language.xls">
@@ -1625,7 +1625,23 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Gameplay\Cities\Buildings\CEC_Food.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Cities\Buildings\CEC_Happiness.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Cities\Buildings\CEC_Other.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Gameplay\Cities\Buildings\CEC_Science.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Gameplay\Cities\Buildings\CEC_Sea.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1675,7 +1691,7 @@
     </Content>
     <Content Include="Gameplay\Terrain\AssignStartingPlots.lua">
       <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
+      <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Terrain\CET_Events.lua">
       <SubType>Lua</SubType>
@@ -1687,11 +1703,11 @@
     </Content>
     <Content Include="Gameplay\Terrain\FeatureGenerator.lua">
       <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
+      <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Terrain\IslandMaker.lua">
       <SubType>Lua</SubType>
-      <ImportIntoVFS>True</ImportIntoVFS>
+      <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Interface\CityView.lua">
       <SubType>Lua</SubType>
@@ -1797,15 +1813,15 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
+    <Content Include="Text\en_US\Cities.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="Text\en_US\Core.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Text\en_US\Faith.sql">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Text\en_US\Leaders.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1981,6 +1997,10 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
+    <Content Include="Tools\MT_FixTables.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
     <Content Include="Tools\MT_Initialize.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
@@ -2041,31 +2061,35 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\DebugFolder\Active Player.ltp">
+    <Content Include="TunerMods\DebugFolder\Active Player.ltp">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\DebugFolder\DefaultPanels.xml">
+    <Content Include="TunerMods\DebugFolder\DefaultPanels.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\DebugFolder\Game.ltp">
+    <Content Include="TunerMods\DebugFolder\Game.ltp">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\DebugFolder\Map.ltp">
+    <Content Include="TunerMods\DebugFolder\Map.ltp">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\DebugFolder\Selected City.ltp">
+    <Content Include="TunerMods\DebugFolder\Selected City.ltp">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\DebugFolder\Selected Unit.ltp">
+    <Content Include="TunerMods\DebugFolder\Selected Unit.ltp">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Tuner\WorldView.lua">
+    <Content Include="TunerMods\Readme.txt">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="TunerMods\WorldView.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>

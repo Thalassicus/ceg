@@ -10,7 +10,7 @@
 		<Row>
 			<BuildingType>BUILDING_OBSERVATORY</BuildingType>
 			<YieldType>YIELD_SCIENCE</YieldType>
-			<Yield>8</Yield>
+			<Yield>4</Yield>
 		</Row>
 	</Building_YieldChanges>
 	<Building_YieldModifiers>

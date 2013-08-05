@@ -12,10 +12,28 @@ log:SetLevel("INFO")
 --
 
 ----------------------------------------------------------------
+--[[
+
+VFS lua files set their GameInfo table before the program reads database tables used on the "modding game setup" screen.
+We must therefore hardcode these data values in a Lua table.
+
+--]]
+function Game.GetWorldInfo()
+	return GameInfoCep.Worlds[Map.GetWorldSize()]
+end
+function Game.GetSpeedInfo()
+	return GameInfoCep.GameSpeeds[Game.GetGameSpeedType()]
+end
+function Game.GetHandicapInfo()
+	return GameInfoCep.HandicapInfos[Game.GetAverageHumanHandicap()]
+end
+
+
+----------------------------------------------------------------
 -- Game.GetAdjustedTurn()
 --
 function Game.GetAdjustedTurn()
-	return Game.GetGameTurn() / (GameInfo.GameSpeeds[Game.GetGameSpeedType()].VictoryDelayPercent / 100)
+	return Game.GetGameTurn() / (Game.GetSpeedInfo().VictoryDelayPercent / 100)
 end
 
 ----------------------------------------------------------------
@@ -148,17 +166,17 @@ end
 ]]
 function Game.GetSpeedYieldMod(yieldID)
 	if yieldID == YieldTypes.YIELD_FOOD then
-		return 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].GrowthPercent
+		return 0.01 * Game.GetSpeedInfo().GrowthPercent
 	elseif yieldID == YieldTypes.YIELD_PRODUCTION then
-		return 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent
+		return 0.01 * Game.GetSpeedInfo().TrainPercent
 	elseif yieldID == YieldTypes.YIELD_GOLD then
-		return 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].GoldPercent
+		return 0.01 * Game.GetSpeedInfo().GoldPercent
 	elseif yieldID == YieldTypes.YIELD_SCIENCE then
-		return 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].ResearchPercent
+		return 0.01 * Game.GetSpeedInfo().ResearchPercent
 	elseif yieldID == YieldTypes.YIELD_CULTURE then
-		return 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].CulturePercent
+		return 0.01 * Game.GetSpeedInfo().CulturePercent
 	elseif yieldID == YieldTypes.YIELD_FAITH then
-		return 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].FaithPercent
+		return 0.01 * Game.GetSpeedInfo().FaithPercent
 	end
 	return 0
 end

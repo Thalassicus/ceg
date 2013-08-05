@@ -16,6 +16,10 @@ FROM					Buildings
 WHERE					BuildingClass = 'BUILDINGCLASS_AQUEDUCT';
 */
 
+UPDATE Buildings SET Cost = -1 WHERE BuildingClass IN (
+	'BUILDINGCLASS_HYDRO_PLANT'		,
+	'BUILDINGCLASS_BOMB_SHELTER'				
+);
 
 
 --
@@ -32,7 +36,7 @@ WHERE BuildingType IN (
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges
 						(BuildingType, ResourceType, YieldType, Yield) 
-SELECT					building.Type, res.Type, 'YIELD_FAITH', 1
+SELECT					building.Type, res.Type, 'YIELD_FAITH', 2
 FROM					Buildings building, Resources res
 WHERE					building.BuildingClass = 'BUILDINGCLASS_TEMPLE'
 						AND res.Type IN (
@@ -152,15 +156,16 @@ SELECT					building.Type, 'YIELD_PRODUCTION', 1
 FROM					Buildings building
 WHERE					building.BuildingClass IN (
 						'BUILDINGCLASS_STABLE'		,
-						'BUILDINGCLASS_BARRACKS'	
+						'BUILDINGCLASS_BARRACKS'	,
+						'BUILDINGCLASS_FORGE'
 						);
 
 INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
 SELECT					building.Type, 'YIELD_PRODUCTION', 2
 FROM					Buildings building
 WHERE					building.BuildingClass IN (
-						'BUILDINGCLASS_ARMORY'				,
-						'BUILDINGCLASS_MILITARY_ACADEMY'	,
+						--'BUILDINGCLASS_ARMORY'			,
+						--'BUILDINGCLASS_MILITARY_ACADEMY'	,
 						'BUILDINGCLASS_SEAPORT'				
 						);
 						
@@ -174,5 +179,40 @@ AND						BuildingType IN (SELECT Type FROM Buildings WHERE BuildingClass IN (
 						'BUILDINGCLASS_MUSEUM'			,
 						'BUILDINGCLASS_BROADCAST_TOWER'	
 						)));
+
+
+
+
+
+--
+-- Rename Buildings
+--
+
+UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=51	WHERE Type = 'BUILDING_STADIUM';
+UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=59	WHERE Type = 'BUILDING_THEATRE';
+UPDATE Buildings SET							PortraitIndex=28	WHERE Type = 'BUILDING_WINDMILL';
+UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
+--UPDATE Buildings SET							PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';
+UPDATE Buildings SET							PortraitIndex=2		WHERE Type = 'BUILDING_WORKSHOP';
+
+UPDATE Technologies SET							PortraitIndex=30	WHERE Type = 'TECH_PRINTING_PRESS';
+
+-- This GEC__End.sql data created by:
+-- Renames tab of GEM_Details.xls spreadsheet (in mod folder).
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_THEATRE',             Civilopedia='TXT_KEY_BUILDING_THEATRE_PEDIA'              WHERE Type = 'BUILDING_AMPHITHEATER';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_ARENA',               Civilopedia='TXT_KEY_BUILDING_ARENA_PEDIA'                WHERE Type = 'BUILDING_COLOSSEUM';
+--UPDATE Buildings SET Description='TXT_KEY_BUILDING_PUBLISHING_HOUSE',    Civilopedia='TXT_KEY_BUILDING_PUBLISHING_HOUSE_PEDIA'     WHERE Type = 'BUILDING_THEATRE';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_CINEMA',              Civilopedia='TXT_KEY_BUILDING_CINEMA_PEDIA'               WHERE Type = 'BUILDING_STADIUM';
+--UPDATE Buildings SET Description='TXT_KEY_BUILDING_SANITATION_SYSTEM',   Civilopedia='TXT_KEY_BUILDING_SANITATION_SYSTEM_PEDIA'    WHERE Type = 'BUILDING_AQUEDUCT';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_VACCINATIONS',        Civilopedia='TXT_KEY_BUILDING_VACCINATIONS_PEDIA'         WHERE Type = 'BUILDING_MEDICAL_LAB';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_RADIO_STATION',       Civilopedia='TXT_KEY_BUILDING_RADIO_STATION_PEDIA'        WHERE Type = 'BUILDING_BROADCAST_TOWER';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_SUPERMAX_PRISON',     Civilopedia='TXT_KEY_BUILDING_SUPERMAX_PRISON_PEDIA'      WHERE Type = 'BUILDING_POLICE_STATION';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_CAPITAL_BUILDING',    Civilopedia='TXT_KEY_BUILDING_CAPITAL_BUILDING_PEDIA'     WHERE Type = 'BUILDING_PALACE';
+--UPDATE Buildings SET Description='TXT_KEY_BUILDING_BLAST_FURNACE',       Civilopedia='TXT_KEY_BUILDING_BLAST_FURNACE_PEDIA'        WHERE Type = 'BUILDING_FORGE';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_SMITHY',              Civilopedia='TXT_KEY_BUILDING_SMITHY_PEDIA'               WHERE Type = 'BUILDING_WORKSHOP';
+--UPDATE Buildings SET Description='TXT_KEY_BUILDING_FOUNDRY',             Civilopedia='TXT_KEY_BUILDING_FOUNDRY_PEDIA'              WHERE Type = 'BUILDING_IRONWORKS';
+
+UPDATE BuildingClasses SET Description = (SELECT Description FROM Buildings b WHERE BuildingClasses.DefaultBuilding = b.Type);
+
 
 UPDATE LoadedFile SET Value=1 WHERE Type='CEC_End.sql';

@@ -3,7 +3,6 @@
 -- DateCreated: 10/29/2010 12:44:28 AM
 --------------------------------------------------------------
 
-include("ModTools.lua")
 include("MT_LuaEvents.lua")
 
 local log = Events.LuaLogger:New()
@@ -196,7 +195,7 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	lostCityPop = lostCity:GetPopulation()
 
 	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
-	local heldMinTime	= Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
+	local heldMinTime	= Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * Game.GetSpeedInfo().TrainPercent / 100
 	local resistMaxTime	= math.max(1, math.min(heldTime, lostCityPop))
 	local resistTime	= (lostCityPop - 0.1*lostCityPop^1.5) * resistMod
 		  resistTime	= Game.Constrain(1, Game.Round(resistTime), resistMaxTime)
@@ -214,7 +213,7 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	log:Info("%s captured: heldMinTime=%s MinTurns=%s TrainPercent=%s turn=%s acquired=%s resistMaxTime=%s resistTime=%s",
 		heldMinTime,
 		Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
-		GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100,
+		Game.GetSpeedInfo().TrainPercent / 100,
 		Game.GetGameTurn(),
 		lostPlayer:GetTurnAcquired(lostCity),
 		resistMaxTime,

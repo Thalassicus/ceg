@@ -3,11 +3,10 @@
 -- DateCreated: 7/13/2013 4:27:24 PM
 --------------------------------------------------------------
 
-include("ModTools.lua")
 include("MT_LuaEvents.lua")
 
 local log = Events.LuaLogger:New()
-log:SetLevel("TRACE")
+log:SetLevel("WARN")
 
 print("CEA_Promotions.lua")
 
@@ -31,7 +30,7 @@ function UpdatePromotions(unit, isUpgrading)
 		--log:Debug("UpdatePromotions upgrade %s to %s", GameInfo.Units[unit:GetUnitType()].Type, tostring(unitInfo.Type))
 	end
 	
-	log:Info("UpdatePromotions %s", unitInfo.Type)
+	log:Info("Debug %s", unitInfo.Type)
 		
 	local promoCategory = GameInfo.UnitCombatInfos[unitInfo.CombatClass].PromotionCategory
 

@@ -5,7 +5,6 @@
 
 print("MT_Initialize.lua")
 
-include("ModTools.lua")
 include("MT_LuaEvents.lua")
 
 LoadedFile = LoadedFile or {}
@@ -16,9 +15,9 @@ for row in GameInfo.LoadedFile() do
 	end
 end
 
---if not MapModData.Cep.MT_Initialized then
-	MapModData.Cep.MT_Initialized = true
-	--print("MapModData.Cep.MT_Initialized")
+--if not MapModData.CepMT_Initialized then
+	MapModData.CepMT_Initialized = true
+	--print("MapModData.CepMT_Initialized")
 
 	LuaEvents.MT_Initialize()
 	--Game.CepLoadGame()
@@ -50,7 +49,7 @@ end
 	Events.SerialEventImprovementCreated	.Add(OnPlotChanged)
 	Events.SerialEventRoadCreated			.Add(OnPlotChanged)
 
-	Events.LoadScreenClose					.Add(function() MapModData.Cep.Initialized = true end)
+	Events.LoadScreenClose					.Add(function() MapModData.CepInitialized = true end)
 --end
 
 

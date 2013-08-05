@@ -5,6 +5,9 @@
 --
 
 UPDATE Units SET Class = 'UNITCLASS_BIREME',		CombatClass = 'UNITCOMBAT_NAVALRANGED',		GoodyHutUpgradeUnitClass = 'UNITCLASS_GALLEASS',	PrereqTech = 'TECH_SAILING'
+Where Type = 'UNIT_CARTHAGINIAN_QUINQUEREME';
+
+UPDATE Units SET Class = 'UNITCLASS_BIREME',		CombatClass = 'UNITCOMBAT_NAVALRANGED',		GoodyHutUpgradeUnitClass = 'UNITCLASS_GALLEASS',	PrereqTech = 'TECH_SAILING'
 Where Type = 'UNIT_BYZANTINE_DROMON';
 
 UPDATE Units SET Class = 'UNITCLASS_FRIGATE',		CombatClass = 'UNITCOMBAT_NAVALMELEE',		GoodyHutUpgradeUnitClass = 'UNITCLASS_SUBMARINE',	PrereqTech = 'TECH_NAVIGATION'
@@ -19,7 +22,8 @@ Where Type = 'UNIT_AMERICAN_MINUTEMAN';
 UPDATE Units SET Class = 'UNITCLASS_HORSEMAN',		CombatClass = 'UNITCOMBAT_MOUNTED_ARCHER',	GoodyHutUpgradeUnitClass = 'UNITCLASS_KNIGHT',		PrereqTech = 'TECH_HORSEBACK_RIDING'
 Where Type = 'UNIT_INDIAN_WARELEPHANT';
 
-UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_CARAVEL'		Where UnitType = 'UNIT_BYZANTINE_DROMON';
+UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_GALLEASS'		Where UnitType = 'UNIT_CARTHAGINIAN_QUINQUEREME';
+UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_GALLEASS'		Where UnitType = 'UNIT_BYZANTINE_DROMON';
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_CONSCRIPT'		Where UnitType = 'UNIT_AMERICAN_MINUTEMAN';
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_KNIGHT'		Where UnitType = 'UNIT_INDIAN_WARELEPHANT';
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_SPEARMAN'		Where UnitType = 'UNIT_AZTEC_JAGUAR';
@@ -28,6 +32,7 @@ UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_SPEARMAN'		Where UnitTy
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_HORSEMAN'		Where UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_CHARIOT_ARCHER');
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_RIFLEMAN'		Where UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_LONGSWORDSMAN');
 
+UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_BIREME'		Where UnitType = 'UNIT_CARTHAGINIAN_QUINQUEREME';
 UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_BIREME'		Where UnitType = 'UNIT_BYZANTINE_DROMON';
 UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_PRIVATEER'	Where UnitType = 'UNIT_ENGLISH_SHIPOFTHELINE';
 --UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_MILITIA'	Where UnitType = 'UNIT_AMERICAN_MINUTEMAN';
@@ -118,7 +123,7 @@ UPDATE Units SET Cost = Cost * 0.661, Combat = 22 , RangedCombat = 29, Range = 2
 UPDATE Units SET Cost = Cost * 0.694, Combat = 20 , RangedCombat = 0 , Range = 0, CombatClass = 'UNITCOMBAT_NAVALMELEE' , Moves = 4  WHERE Class = 'UNITCLASS_CARAVEL';
 UPDATE Units SET Cost = Cost * 0.833, Combat = 15 , RangedCombat = 20, Range = 2, CombatClass = 'UNITCOMBAT_NAVALRANGED', Moves = 3  WHERE Class = 'UNITCLASS_GALLEASS';
 UPDATE Units SET Cost = Cost * 0.864, Combat = 13 , RangedCombat = 0 , Range = 0, CombatClass = 'UNITCOMBAT_NAVALMELEE' , Moves = 4  WHERE Class = 'UNITCLASS_TRIREME';
-UPDATE Units SET Cost = 70          , Combat = 9  , RangedCombat = 13, Range = 2, CombatClass = 'UNITCOMBAT_NAVALRANGED', Moves = 3  WHERE Class = 'UNITCLASS_CEP_GALLEY';
+UPDATE Units SET Cost = 70          , Combat = 9  , RangedCombat = 13, Range = 2, CombatClass = 'UNITCOMBAT_NAVALRANGED', Moves = 3  WHERE Class = 'UNITCLASS_BIREME';
 UPDATE Units SET Cost = 60          , Combat = 8  , RangedCombat = 10, Range = 2, CombatClass = 'UNITCOMBAT_NAVALRANGED', Moves = 3  WHERE Class = 'UNITCLASS_GALLEY';
 
 

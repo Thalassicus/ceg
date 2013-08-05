@@ -16,26 +16,26 @@ log:SetLevel("WARN")
 --
 
 --[[
-MapModData.Cep.DefenseBuildingsReal = MapModData.Cep.DefenseBuildingsReal or {}
-MapModData.Cep.DefenseBuildingsFree = MapModData.Cep.DefenseBuildingsFree or {}
+MapModData.CepDefenseBuildingsReal = MapModData.CepDefenseBuildingsReal or {}
+MapModData.CepDefenseBuildingsFree = MapModData.CepDefenseBuildingsFree or {}
 
 function Game.CepSaveGame(fileName)
 	for playerID, player in pairs(Players) do
 		for city in player:Cities() do
 			local cityID = City_GetID(city)
-			if not MapModData.Cep.DefenseBuildingsReal[cityID] then MapModData.Cep.DefenseBuildingsReal[cityID] = {} end
+			if not MapModData.CepDefenseBuildingsReal[cityID] then MapModData.CepDefenseBuildingsReal[cityID] = {} end
 			for buildingInfo in GameInfo.Buildings("ExtraCityHitPoints <> 0") do
 				local numBuilding = city:GetNumRealBuilding(buildingInfo.ID)
-				if MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID] ~= numBuilding then
-					MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
-					SaveValue(numBuilding, "MapModData.Cep.DefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID)
+				if MapModData.CepDefenseBuildingsReal[cityID][buildingInfo.ID] ~= numBuilding then
+					MapModData.CepDefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
+					SaveValue(numBuilding, "MapModData.CepDefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID)
 					--log:Info("Save %s %s", city:GetName(), buildingInfo.Type)
 				end
 				city:SetNumRealBuilding(buildingInfo.ID, 0)
 				
 				-- city:SetNumFreeBuilding core function not pushed to lua?!
-				--MapModData.Cep.DefenseBuildingsFree[cityID][buildingInfo.ID] = city:GetNumFreeBuilding(buildingInfo.ID)
-				--SaveValue(MapModData.Cep.DefenseBuildingsFree[cityID][buildingInfo.ID], "MapModData.Cep.DefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID)
+				--MapModData.CepDefenseBuildingsFree[cityID][buildingInfo.ID] = city:GetNumFreeBuilding(buildingInfo.ID)
+				--SaveValue(MapModData.CepDefenseBuildingsFree[cityID][buildingInfo.ID], "MapModData.CepDefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID)
 				--city:SetNumFreeBuilding(buildingInfo.ID, 0)
 			end			
 		end
@@ -47,8 +47,8 @@ function Game.CepSaveGame(fileName)
 		for city in player:Cities() do
 			local cityID = City_GetID(city)
 			for buildingInfo in GameInfo.Buildings("ExtraCityHitPoints <> 0") do
-				city:SetNumRealBuilding(buildingInfo.ID, MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID])
-				--city:SetNumFreeBuilding(buildingInfo.ID, MapModData.Cep.DefenseBuildingsFree[cityID][buildingInfo.ID])
+				city:SetNumRealBuilding(buildingInfo.ID, MapModData.CepDefenseBuildingsReal[cityID][buildingInfo.ID])
+				--city:SetNumFreeBuilding(buildingInfo.ID, MapModData.CepDefenseBuildingsFree[cityID][buildingInfo.ID])
 			end			
 		end
 	end
@@ -58,12 +58,12 @@ function Game.CepLoadGame()
 	for playerID, player in pairs(Players) do
 		for city in player:Cities() do
 			local cityID = City_GetID(city)
-			if not MapModData.Cep.DefenseBuildingsReal[cityID] then MapModData.Cep.DefenseBuildingsReal[cityID] = {} end
+			if not MapModData.CepDefenseBuildingsReal[cityID] then MapModData.CepDefenseBuildingsReal[cityID] = {} end
 			for buildingInfo in GameInfo.Buildings("ExtraCityHitPoints <> 0") do
-				local numBuilding = LoadValue("MapModData.Cep.DefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID) or 0
-				MapModData.Cep.DefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
+				local numBuilding = LoadValue("MapModData.CepDefenseBuildingsReal[%s][%s]", cityID, buildingInfo.ID) or 0
+				MapModData.CepDefenseBuildingsReal[cityID][buildingInfo.ID] = numBuilding
 				city:SetNumRealBuilding(buildingInfo.ID, numBuilding)
-				--city:SetNumFreeBuilding(buildingInfo.ID, LoadValue("MapModData.Cep.DefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID) or 0)
+				--city:SetNumFreeBuilding(buildingInfo.ID, LoadValue("MapModData.CepDefenseBuildingsFree[%s][%s]", cityID, buildingInfo.ID) or 0)
 			end
 		end
 	end

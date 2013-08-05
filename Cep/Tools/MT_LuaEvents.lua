@@ -47,15 +47,15 @@ end
 
 local startAITurnTime = nil
 
-MapModData.Cep.VanillaTurnTimes	= 0
-MapModData.Cep.StartTurn		= Game.GetGameTurn()
-MapModData.Cep.TotalPlayers		= 0
-MapModData.Cep.TotalCities		= 0
-MapModData.Cep.TotalUnits		= 0
-MapModData.Cep.ReplacingUnit	= false
+MapModData.CepVanillaTurnTimes	= 0
+MapModData.CepStartTurn		= Game.GetGameTurn()
+MapModData.CepTotalPlayers		= 0
+MapModData.CepTotalCities		= 0
+MapModData.CepTotalUnits		= 0
+MapModData.CepReplacingUnit	= false
 
 
-MapModData.Cep.StartTurnTimes = {
+MapModData.CepStartTurnTimes = {
 	Turn		= 0,
 	Players		= 0,
 	Units		= 0,
@@ -65,7 +65,7 @@ MapModData.Cep.StartTurnTimes = {
 	Total		= 0
 }
 
-MapModData.Cep.EndTurnTimes = {
+MapModData.CepEndTurnTimes = {
 	Turn		= 0,
 	Players		= 0,
 	Units		= 0,
@@ -75,24 +75,24 @@ MapModData.Cep.EndTurnTimes = {
 	Total		= 0
 }
 
-MapModData.Cep.PlotOwner = {}
+MapModData.CepPlotOwner = {}
 
 for plotID = 0, Map.GetNumPlots() - 1, 1 do
 	local plot = Map.GetPlotByIndex(plotID)
 	--if plot:GetOwner() ~= -1 then
 		--log:Warn("Loading PlotOwner %s", plotID)
-		MapModData.Cep.PlotOwner[plotID] = plot:GetOwner() --LoadPlot(plot, "PlotOwner")
+		MapModData.CepPlotOwner[plotID] = plot:GetOwner() --LoadPlot(plot, "PlotOwner")
 	--end
 end
 
-MapModData.Cep.HasPolicy = {}
+MapModData.CepHasPolicy = {}
 
 startClockTime = os.clock()
 for playerID, player in pairs(Players) do
-	MapModData.Cep.HasPolicy[playerID] = {}
+	MapModData.CepHasPolicy[playerID] = {}
 	if not player:IsMinorCiv() then
 		for policyInfo in GameInfo.Policies() do
-			MapModData.Cep.HasPolicy[playerID][policyInfo.ID] = player:HasPolicy(policyInfo.ID)
+			MapModData.CepHasPolicy[playerID][policyInfo.ID] = player:HasPolicy(policyInfo.ID)
 		end
 	end
 end
@@ -100,17 +100,17 @@ if UI:IsLoadedGame() then
 	log:Info("%3s ms loading HasPolicy", Game.Round((os.clock() - startClockTime)*1000))
 end
 
-MapModData.Cep.UnitXP = {}
+MapModData.CepUnitXP = {}
 startClockTime = os.clock()
 for playerID,player in pairs(Players) do
 	if player:IsAliveCiv() and not player:IsMinorCiv() then
-		MapModData.Cep.UnitXP[playerID] = {}
+		MapModData.CepUnitXP[playerID] = {}
 		if UI.IsLoadedGame() then
 			for policyInfo in GameInfo.Policies("GarrisonedExperience <> 0") do
 				if player:HasPolicy(policyInfo.ID) then
 					for unit in player:Units() do
 						--log:Debug("Loading UnitXP %s", unit:GetName())
-						MapModData.Cep.UnitXP[playerID][unit:GetID()] = LoadValue("MapModData.Cep.UnitXP[%s][%s]", playerID, unit:GetID())
+						MapModData.CepUnitXP[playerID][unit:GetID()] = LoadValue("MapModData.CepUnitXP[%s][%s]", playerID, unit:GetID())
 					end
 				end
 			end
@@ -158,7 +158,7 @@ LuaEvents.ActivePlayerTurnStart_Unit.Add(UpdatePromotions)
 function OnTurnStart()
 	if startAITurnTime then
 		log:Info("VanillaStuff %10s %10.3f seconds", "Total", os.clock() - startAITurnTime)
-		MapModData.Cep.VanillaTurnTimes = MapModData.Cep.VanillaTurnTimes + (os.clock() - startAITurnTime)
+		MapModData.CepVanillaTurnTimes = MapModData.CepVanillaTurnTimes + (os.clock() - startAITurnTime)
 	else
 		log:Info("OnTurnStart")
 	end
@@ -167,51 +167,51 @@ function OnTurnStart()
 	local startClockTime = os.clock()
 	local stepClockTime = os.clock()
 	LuaEvents.ActivePlayerTurnStart_Turn()
-	MapModData.Cep.StartTurnTimes.Turn = MapModData.Cep.StartTurnTimes.Turn + (os.clock() - stepClockTime)
+	MapModData.CepStartTurnTimes.Turn = MapModData.CepStartTurnTimes.Turn + (os.clock() - stepClockTime)
 	log:Debug("OnTurnStart %10s %10.3f seconds", "Turn", os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
 			LuaEvents.ActivePlayerTurnStart_Player(player)
-			MapModData.Cep.TotalPlayers = MapModData.Cep.TotalPlayers + 1
+			MapModData.CepTotalPlayers = MapModData.CepTotalPlayers + 1
 		end
 	end
 	log:Debug("OnTurnStart %10s %10.3f seconds", "Players", os.clock() - stepClockTime)
-	MapModData.Cep.StartTurnTimes.Players = MapModData.Cep.StartTurnTimes.Players + (os.clock() - stepClockTime)
+	MapModData.CepStartTurnTimes.Players = MapModData.CepStartTurnTimes.Players + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
 			for city in player:Cities() do
 				if city then
 					LuaEvents.ActivePlayerTurnStart_City(city, player)
-					MapModData.Cep.TotalCities = MapModData.Cep.TotalCities + 1
+					MapModData.CepTotalCities = MapModData.CepTotalCities + 1
 				end
 			end
 		end
 	end
 	log:Debug("OnTurnStart %10s %10.3f seconds", "Cities", os.clock() - stepClockTime)
-	MapModData.Cep.StartTurnTimes.Cities = MapModData.Cep.StartTurnTimes.Cities + (os.clock() - stepClockTime)
+	MapModData.CepStartTurnTimes.Cities = MapModData.CepStartTurnTimes.Cities + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
 			for pUnit in player:Units() do
 				if pUnit then
 					LuaEvents.ActivePlayerTurnStart_Unit(pUnit)
-					MapModData.Cep.TotalUnits = MapModData.Cep.TotalUnits + 1
+					MapModData.CepTotalUnits = MapModData.CepTotalUnits + 1
 				end
 			end
 		end
 	end
 	log:Debug("OnTurnStart %10s %10.3f seconds", "Units", os.clock() - stepClockTime)
-	MapModData.Cep.StartTurnTimes.Units = MapModData.Cep.StartTurnTimes.Units + (os.clock() - stepClockTime)
+	MapModData.CepStartTurnTimes.Units = MapModData.CepStartTurnTimes.Units + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
 			if not player:IsMinorCiv() then
 				for policyInfo in GameInfo.Policies() do
 					local policyID = policyInfo.ID
-					if MapModData.Cep.HasPolicy[playerID][policyID] ~= player:HasPolicy(policyID) then
-						MapModData.Cep.HasPolicy[playerID][policyID] = player:HasPolicy(policyID)
+					if MapModData.CepHasPolicy[playerID][policyID] ~= player:HasPolicy(policyID) then
+						MapModData.CepHasPolicy[playerID][policyID] = player:HasPolicy(policyID)
 						LuaEvents.NewPolicy(player, policyID)
 					end
 				end
@@ -219,16 +219,16 @@ function OnTurnStart()
 		end
 	end
 	log:Debug("OnTurnStart %10s %10.3f seconds", "Policies", os.clock() - stepClockTime)
-	MapModData.Cep.StartTurnTimes.Policies = MapModData.Cep.StartTurnTimes.Policies + (os.clock() - stepClockTime)
+	MapModData.CepStartTurnTimes.Policies = MapModData.CepStartTurnTimes.Policies + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for plotID = 0, Map.GetNumPlots() - 1, 1 do
 		local plot = Map.GetPlotByIndex(plotID)
 		LuaEvents.ActivePlayerTurnStart_Plot(plot)
 	end
 	log:Debug("OnTurnStart %10s %10.3f seconds", "Plots", os.clock() - stepClockTime)
-	MapModData.Cep.StartTurnTimes.Plots = MapModData.Cep.StartTurnTimes.Plots + (os.clock() - stepClockTime)
+	MapModData.CepStartTurnTimes.Plots = MapModData.CepStartTurnTimes.Plots + (os.clock() - stepClockTime)
 	log:Info("OnTurnStart  %10s %10.3f seconds", "Total", os.clock() - startClockTime)
-	MapModData.Cep.StartTurnTimes.Total = MapModData.Cep.StartTurnTimes.Total + (os.clock() - startClockTime)
+	MapModData.CepStartTurnTimes.Total = MapModData.CepStartTurnTimes.Total + (os.clock() - startClockTime)
 end
 
 ----------------------------------------------------------------
@@ -253,7 +253,7 @@ function OnTurnEnd()
 	local startClockTime = os.clock()
 	local stepClockTime = os.clock()
 	LuaEvents.ActivePlayerTurnEnd_Turn()
-	MapModData.Cep.EndTurnTimes.Turn = MapModData.Cep.EndTurnTimes.Turn + (os.clock() - stepClockTime)
+	MapModData.CepEndTurnTimes.Turn = MapModData.CepEndTurnTimes.Turn + (os.clock() - stepClockTime)
 	log:Debug("OnTurnEnd   %10s %10.3f seconds", "Turn", os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
@@ -262,7 +262,7 @@ function OnTurnEnd()
 		end
 	end
 	log:Debug("OnTurnEnd   %10s %10.3f seconds", "Players", os.clock() - stepClockTime)
-	MapModData.Cep.EndTurnTimes.Players = MapModData.Cep.EndTurnTimes.Players + (os.clock() - stepClockTime)
+	MapModData.CepEndTurnTimes.Players = MapModData.CepEndTurnTimes.Players + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
@@ -274,7 +274,7 @@ function OnTurnEnd()
 		end
 	end
 	log:Debug("OnTurnEnd   %10s %10.3f seconds", "Units", os.clock() - stepClockTime)
-	MapModData.Cep.EndTurnTimes.Units = MapModData.Cep.EndTurnTimes.Units + (os.clock() - stepClockTime)
+	MapModData.CepEndTurnTimes.Units = MapModData.CepEndTurnTimes.Units + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
@@ -286,15 +286,15 @@ function OnTurnEnd()
 		end
 	end
 	log:Debug("OnTurnEnd   %10s %10.3f seconds", "Cities", os.clock() - stepClockTime)
-	MapModData.Cep.EndTurnTimes.Cities = MapModData.Cep.EndTurnTimes.Cities + (os.clock() - stepClockTime)
+	MapModData.CepEndTurnTimes.Cities = MapModData.CepEndTurnTimes.Cities + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() then
 			if not player:IsMinorCiv() then
 				for policyInfo in GameInfo.Policies() do
 					local policyID = policyInfo.ID
-					if MapModData.Cep.HasPolicy[playerID][policyID] ~= player:HasPolicy(policyID) then
-						MapModData.Cep.HasPolicy[playerID][policyID] = player:HasPolicy(policyID)
+					if MapModData.CepHasPolicy[playerID][policyID] ~= player:HasPolicy(policyID) then
+						MapModData.CepHasPolicy[playerID][policyID] = player:HasPolicy(policyID)
 						LuaEvents.NewPolicy(player, policyID)
 					end
 				end
@@ -302,16 +302,16 @@ function OnTurnEnd()
 		end
 	end
 	log:Debug("OnTurnEnd   %10s %10.3f seconds", "Policies", os.clock() - stepClockTime)
-	MapModData.Cep.EndTurnTimes.Policies = MapModData.Cep.EndTurnTimes.Policies + (os.clock() - stepClockTime)
+	MapModData.CepEndTurnTimes.Policies = MapModData.CepEndTurnTimes.Policies + (os.clock() - stepClockTime)
 	stepClockTime = os.clock()
 	for plotID = 0, Map.GetNumPlots() - 1, 1 do
 		local plot = Map.GetPlotByIndex(plotID)
 		LuaEvents.ActivePlayerTurnEnd_Plot(plot)
 	end
 	log:Debug("OnTurnEnd   %10s %10.3f seconds", "Plots", os.clock() - stepClockTime)
-	MapModData.Cep.EndTurnTimes.Plots = MapModData.Cep.EndTurnTimes.Plots + (os.clock() - stepClockTime)
+	MapModData.CepEndTurnTimes.Plots = MapModData.CepEndTurnTimes.Plots + (os.clock() - stepClockTime)
 	log:Info("OnTurnEnd    %10s %10.3f seconds", "Total", os.clock() - startClockTime)
-	MapModData.Cep.EndTurnTimes.Total = MapModData.Cep.EndTurnTimes.Total + (os.clock() - startClockTime)
+	MapModData.CepEndTurnTimes.Total = MapModData.CepEndTurnTimes.Total + (os.clock() - startClockTime)
 	startAITurnTime = os.clock()
 end
 --]]
@@ -323,7 +323,7 @@ LuaEvents.NewCity.Add(CityCreatedChecks)
 ]]
 
 function OnNewCity(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState)
-	if MapModData.Cep.Initialized or not UI.IsLoadedGame() then
+	if MapModData.CepInitialized or not UI.IsLoadedGame() then
 		LuaEvents.NewCity(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState)
 	end
 end
@@ -333,7 +333,7 @@ end
 ]]
 
 function OnPlotChanged(hexX, hexY)
-	if MapModData.Cep.Initialized or not UI.IsLoadedGame() then
+	if MapModData.CepInitialized or not UI.IsLoadedGame() then
 		LuaEvents.PlotChanged(hexX, hexY)
 	end
 end
@@ -343,7 +343,7 @@ end
 ]]
 
 function OnNewImprovement(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resourceID, eraID, improvementState)
-	if MapModData.Cep.Initialized or not UI.IsLoadedGame() then
+	if MapModData.CepInitialized or not UI.IsLoadedGame() then
 		LuaEvents.NewImprovement(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resourceID, eraID, improvementState)
 	end
 end
@@ -369,7 +369,7 @@ function OnNewUnit(playerID, unitID, hexVec, unitType, cultureType, civID, prima
     end
 
 	unit:SetHasPromotion(GameInfo.UnitPromotions.PROMOTION_NEW_UNIT.ID, true)
-	if not MapModData.Cep.ReplacingUnit then
+	if not MapModData.CepReplacingUnit then
 		--log:Warn("New %s %s", unit:GetName(), Players[playerID]:GetName())
 		LuaEvents.NewUnit(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible)
 	end
@@ -380,22 +380,22 @@ function RemoveNewUnitFlag(unit)
 end
 
 --[[
-if not MapModData.Cep.UnitCreated then
-	MapModData.Cep.UnitCreated = {}
+if not MapModData.CepUnitCreated then
+	MapModData.CepUnitCreated = {}
 	for playerID, player in pairs(Players) do
-		MapModData.Cep.UnitCreated[playerID] = {}
+		MapModData.CepUnitCreated[playerID] = {}
 		for unit in player:Units() do
-			MapModData.Cep.UnitCreated[playerID][unit:GetID()] = true
+			MapModData.CepUnitCreated[playerID][unit:GetID()] = true
 		end
 	end
 end
 
 function OnNewUnit(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible)
-	if MapModData.Cep.Initialized or not UI.IsLoadedGame() then
+	if MapModData.CepInitialized or not UI.IsLoadedGame() then
 		local unit = Players[playerID]:GetUnitByID(unitID)
 
-		if not MapModData.Cep.UnitCreated[playerID][unitID] then
-			MapModData.Cep.UnitCreated[playerID][unitID] = true
+		if not MapModData.CepUnitCreated[playerID][unitID] then
+			MapModData.CepUnitCreated[playerID][unitID] = true
 			LuaEvents.NewUnit(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible)
 		end
 	end
@@ -422,10 +422,10 @@ end
 function OnHexCultureChanged(hexX, hexY, newOwnerID, unknown)
 	local plot = Map.GetPlot(ToGridFromHex(hexX, hexY))
 	local plotID = Plot_GetID(plot)
-	log:Warn("MapModData.Cep.PlotOwner = %s", MapModData.Cep.PlotOwner)
-	--log:Warn("OnHexCultureChanged old=%s new=%s", MapModData.Cep.PlotOwner[plotID], newOwnerID)
-	if newOwnerID ~= MapModData.Cep.PlotOwner[plotID] then
-		MapModData.Cep.PlotOwner[plotID] = newOwnerID
+	log:Warn("MapModData.CepPlotOwner = %s", MapModData.CepPlotOwner)
+	--log:Warn("OnHexCultureChanged old=%s new=%s", MapModData.CepPlotOwner[plotID], newOwnerID)
+	if newOwnerID ~= MapModData.CepPlotOwner[plotID] then
+		MapModData.CepPlotOwner[plotID] = newOwnerID
 		--SavePlot(plot, "PlotOwner", newOwnerID)
 		--log:Warn("PlotAcquired")
 		LuaEvents.PlotAcquired(plot, newOwnerID)
@@ -449,7 +449,7 @@ Events.PolicyAdopted = function(policyID, isPolicy)
 		policyID = GameInfo.Policies[GameInfo.PolicyBranchTypes[policyID].FreePolicy].ID
 	end
 	local playerID = Game.GetActivePlayer()
-	MapModData.Cep.HasPolicy[playerID][policyID] = true
+	MapModData.CepHasPolicy[playerID][policyID] = true
 	LuaEvents.NewPolicy(Players[playerID], policyID)
 end
 
@@ -555,11 +555,11 @@ function OnBuildingDestroyed(player, city, buildingID)
 	local cityID = City_GetID(city)
 	MapModData.buildingsAlive[cityID] = MapModData.buildingsAlive[cityID] or {}
 	MapModData.buildingsAlive[cityID][buildingID] = false
-	if MapModData.Cep.FreeFlavorBuilding then
+	if MapModData.CepFreeFlavorBuilding then
 		for flavorInfo in GameInfo.Flavors() do
-			if buildingID == MapModData.Cep.FreeFlavorBuilding[flavorInfo.Type][cityID] then
-				MapModData.Cep.FreeFlavorBuilding[flavorInfo.Type][cityID] = false
-				SaveValue(false, "MapModData.Cep.FreeFlavorBuilding[%s][%s]", flavorInfo.Type, cityID)
+			if buildingID == MapModData.CepFreeFlavorBuilding[flavorInfo.Type][cityID] then
+				MapModData.CepFreeFlavorBuilding[flavorInfo.Type][cityID] = false
+				SaveValue(false, "MapModData.CepFreeFlavorBuilding[%s][%s]", flavorInfo.Type, cityID)
 			end
 		end
 	end
@@ -595,14 +595,14 @@ function LuaEvents.CheckActiveBuildingStatus()
 			MapModData.buildingsAlive[plotID] = nil
 		end
 	end
-	if not MapModData.Cep.FreeFlavorBuilding then
+	if not MapModData.CepFreeFlavorBuilding then
 		return
 	end
 	for flavorInfo in GameInfo.Flavors() do
-		for plotID, data in pairs(MapModData.Cep.FreeFlavorBuilding[flavorInfo.Type]) do
+		for plotID, data in pairs(MapModData.CepFreeFlavorBuilding[flavorInfo.Type]) do
 			if not Map_GetCity(plotID) then
-				MapModData.Cep.FreeFlavorBuilding[flavorInfo.Type][plotID] = false
-				SaveValue(false, "MapModData.Cep.FreeFlavorBuilding[%s][%s]", flavorInfo.Type, plotID)
+				MapModData.CepFreeFlavorBuilding[flavorInfo.Type][plotID] = false
+				SaveValue(false, "MapModData.CepFreeFlavorBuilding[%s][%s]", flavorInfo.Type, plotID)
 			end			
 		end
 	end
@@ -621,14 +621,14 @@ end
 --
 function LuaEvents.PrintDebug()
 	local text			= ""
-	local turnTime		= Game.GetGameTurn() - MapModData.Cep.StartTurn
+	local turnTime		= Game.GetGameTurn() - MapModData.CepStartTurn
 	local avgPlayers	= 0
 	local avgCities		= 0
 	local avgUnits		= 0
 	if turnTime > 0 then
-		avgPlayers = MapModData.Cep.TotalPlayers / turnTime
-		avgCities = MapModData.Cep.TotalCities / turnTime
-		avgUnits = MapModData.Cep.TotalUnits / turnTime
+		avgPlayers = MapModData.CepTotalPlayers / turnTime
+		avgCities = MapModData.CepTotalCities / turnTime
+		avgUnits = MapModData.CepTotalUnits / turnTime
 	else
 		for playerID, player in pairs(Players) do
 			if player:IsAliveCiv() then
@@ -647,38 +647,38 @@ function LuaEvents.PrintDebug()
 	text = string.format("%s%14s %-s\n", text, "Map:", PreGame.GetMapScript())
 	text = string.format("%s%14s %-s\n", text, "Leader:", GameInfo.Leaders[Players[Game.GetActivePlayer()]:GetLeaderType()].Type)
 	text = string.format("%s%14s %-s\n", text, "Difficulty:", GameInfo.HandicapInfos[Game:GetHandicapType()].Type)
-	text = string.format("%s%14s %-s\n", text, "Size:", GameInfo.Worlds[Map.GetWorldSize()].Type)	
-	text = string.format("%s%14s %-s%%%%\n", text, "Speed:", GameInfo.GameSpeeds[Game.GetGameSpeedType()].VictoryDelayPercent)
+	text = string.format("%s%14s %-s\n", text, "Size:", Game.GetWorldInfo().Type)	
+	text = string.format("%s%14s %-s%%%%\n", text, "Speed:", Game.GetSpeedInfo().VictoryDelayPercent)
 	text = string.format("%s%14s %-s\n", text, "Animations:", tostring(Cep.PLAY_COMBAT_ANIMATIONS == 1))
 	text = string.format("%s%14s %-i\n", text, "Players:", avgPlayers)
 	text = string.format("%s%14s %-i\n", text, "Cities:", avgCities)
 	text = string.format("%s%14s %-i\n", text, "Units:", avgUnits)
 	text = string.format("%s%14s %-i\n", text, "Plots:", Map.GetNumPlots())
-	text = string.format("%s%14s %-i\n", text, "Start turn:", MapModData.Cep.StartTurn)
+	text = string.format("%s%14s %-i\n", text, "Start turn:", MapModData.CepStartTurn)
 	text = string.format("%s%14s %-i\n", text, "End turn:", Game.GetGameTurn())
 
 	text = string.format("%s\n\n==== Average Processing per Turn ====\n", text)
 	if turnTime > 0 then		
 		text = string.format("%s\n%14s %10s\n", text, "VanillaStuff", "seconds")
-		text = string.format("%s%14s %10.3f seconds\n", text, "Total", MapModData.Cep.VanillaTurnTimes / turnTime)
+		text = string.format("%s%14s %10.3f seconds\n", text, "Total", MapModData.CepVanillaTurnTimes / turnTime)
 		
 		text = string.format("%s\n%14s %10s\n", text, "ModTurnStart", "seconds")
-		text = string.format("%s%14s %10.3f\n", text, "Turn", MapModData.Cep.StartTurnTimes.Turn / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Players", MapModData.Cep.StartTurnTimes.Players / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Policies", MapModData.Cep.StartTurnTimes.Policies / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Cities", MapModData.Cep.StartTurnTimes.Cities / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Units", MapModData.Cep.StartTurnTimes.Units / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Plots", MapModData.Cep.StartTurnTimes.Plots / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Total", MapModData.Cep.StartTurnTimes.Total / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Turn", MapModData.CepStartTurnTimes.Turn / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Players", MapModData.CepStartTurnTimes.Players / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Policies", MapModData.CepStartTurnTimes.Policies / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Cities", MapModData.CepStartTurnTimes.Cities / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Units", MapModData.CepStartTurnTimes.Units / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Plots", MapModData.CepStartTurnTimes.Plots / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Total", MapModData.CepStartTurnTimes.Total / turnTime)
 
 		text = string.format("%s\n%14s %10s\n", text, "ModTurnEnd", "seconds")
-		text = string.format("%s%14s %10.3f\n", text, "Turn", MapModData.Cep.EndTurnTimes.Turn / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Players", MapModData.Cep.EndTurnTimes.Players / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Policies", MapModData.Cep.EndTurnTimes.Policies / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Cities", MapModData.Cep.EndTurnTimes.Cities / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Units", MapModData.Cep.EndTurnTimes.Units / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Plots", MapModData.Cep.EndTurnTimes.Plots / turnTime)
-		text = string.format("%s%14s %10.3f\n", text, "Total", MapModData.Cep.EndTurnTimes.Total / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Turn", MapModData.CepEndTurnTimes.Turn / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Players", MapModData.CepEndTurnTimes.Players / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Policies", MapModData.CepEndTurnTimes.Policies / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Cities", MapModData.CepEndTurnTimes.Cities / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Units", MapModData.CepEndTurnTimes.Units / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Plots", MapModData.CepEndTurnTimes.Plots / turnTime)
+		text = string.format("%s%14s %10.3f\n", text, "Total", MapModData.CepEndTurnTimes.Total / turnTime)
 	end
 
 	text = string.format("%s\n\n========= Player Yield Rates =========\n\n", text)

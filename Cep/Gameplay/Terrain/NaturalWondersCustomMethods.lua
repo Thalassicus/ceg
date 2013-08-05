@@ -21,7 +21,7 @@ CONTENTS OF THIS FILE:
 ------------------------------------------------------------------------- ]]--
 
 include("MapmakerUtilities");
-include("ModTools.lua")
+--include("ModTools.lua")
 
 ------------------------------------------------------------------------------
 function NWCustomEligibility(x, y, method_number)
@@ -99,7 +99,7 @@ function NWCustomEligibility(x, y, method_number)
 		
 		-- Looking for a moderate amount of distant land.		
 		local areaWeights = Plot_GetAreaWeights(plot, 2, 4)
-		if not Game.IsBetween(0.1, areaWeights.PLOT_LAND + areaWeights.PLOT_HILLS, 0.6) then
+		if not IsBetween(0.1, areaWeights.PLOT_LAND + areaWeights.PLOT_HILLS, 0.6) then
 			return false
 		end
 		--]]
@@ -265,8 +265,20 @@ function Constrain(lower, mid, upper)
 end
 ----------------------------------------------------------------
 function Plot_GetPlotsInCircle(plot, minR, maxR)
+	--[[ Plot_GetPlotsInCircle(plot, minR, [maxR]) usage examples:
+	for nearPlot in Plot_GetPlotsInCircle(plot, 0, 4) do
+		-- check all plots in radius 0-4
+		nearPlot:GetX()
+	end
+	for nearPlot, distance in Plot_GetPlotsInCircle(plot, 3) do
+		-- check all plots in radius 1-3
+		if distance == 3 then
+			print(nearPlot:GetX())
+		end
+	end
+	]]
 	if not plot then
-		log:Fatal("plot:GetPlotsInCircle plot=nil")
+		print("plot:GetPlotsInCircle plot=nil")
 		return
 	end
 	if not maxR then
@@ -274,53 +286,113 @@ function Plot_GetPlotsInCircle(plot, minR, maxR)
 		minR = 1
 	end
 	
-	local plotList	= {}
-	local iW, iH	= Map.GetGridSize()
-	local isWrapX	= Map:IsWrapX()
-	local isWrapY	= Map:IsWrapY()
-	local centerX	= plot:GetX()
-	local centerY	= plot:GetY()
-
-	x1 = isWrapX and ((centerX-maxR) % iW) or Constrain(0, centerX-maxR, iW-1)
-	x2 = isWrapX and ((centerX+maxR) % iW) or Constrain(0, centerX+maxR, iW-1)
-	y1 = isHrapY and ((centerY-maxR) % iH) or Constrain(0, centerY-maxR, iH-1)
-	y2 = isHrapY and ((centerY+maxR) % iH) or Constrain(0, centerY+maxR, iH-1)
-
-	local x		= x1
-	local y		= y1
-	local xStep	= 0
-	local yStep	= 0
-	local rectW	= x2-x1 
-	local rectH	= y2-y1
+	local mapW, mapH	= Map.GetGridSize()
+	local isWrapX		= Map:IsWrapX()
+	local isWrapY		= Map:IsWrapY()
+	local centerX		= plot:GetX()
+	local centerY		= plot:GetY()
+	
+	leftX	= isWrapX and ((centerX-maxR) % mapW) or Constrain(0, centerX-maxR, mapW-1)
+	rightX	= isWrapX and ((centerX+maxR) % mapW) or Constrain(0, centerX+maxR, mapW-1)
+	bottomY	= isWrapY and ((centerY-maxR) % mapH) or Constrain(0, centerY-maxR, mapH-1)
+	topY	= isWrapY and ((centerY+maxR) % mapH) or Constrain(0, centerY+maxR, mapH-1)
+	
+	local nearX	= leftX
+	local nearY	= bottomY
+	local stepX	= 0
+	local stepY	= 0
+	local rectW	= rightX-leftX 
+	local rectH	= topY-bottomY
 	
 	if rectW < 0 then
-		rectW = rectW + iW
+		rectW = rectW + mapW
 	end
 	
 	if rectH < 0 then
-		rectH = rectH + iH
+		rectH = rectH + mapH
 	end
 	
-	local adjPlot = Map.GetPlot(x, y)
-
-	while (yStep < 1 + rectH) and adjPlot ~= nil do
-		while (xStep < 1 + rectW) and adjPlot ~= nil do
-			if IsBetween(minR, Map.PlotDistance(x, y, centerX, centerY), maxR) then
-				table.insert(plotList, adjPlot)
+	local nextPlot = Map.GetPlot(nearX, nearY)
+	
+	return function ()
+		while (stepY < 1 + rectH) and nextPlot do
+			while (stepX < 1 + rectW) and nextPlot do
+				local plot		= nextPlot
+				local distance	= Map.PlotDistance(nearX, nearY, centerX, centerY)
+				
+				nearX		= (nearX + 1) % mapW
+				stepX		= stepX + 1
+				nextPlot	= Map.GetPlot(nearX, nearY)
+				
+				if IsBetween(minR, distance, maxR) then
+					return plot, distance
+				end
 			end
-			
-			x		= x + 1
-			x		= isWrapX and (x % iW) or x
-			xStep	= xStep + 1
-			adjPlot	= Map.GetPlot(x, y)
+			nearX		= leftX
+			nearY		= (nearY + 1) % mapH
+			stepX		= 0
+			stepY		= stepY + 1
+			nextPlot	= Map.GetPlot(nearX, nearY)
 		end
-		x		= x1
-		y		= y + 1
-		y		= isWrapY and (y % iH) or y
-		xStep	= 0
-		yStep	= yStep + 1
-		adjPlot	= Map.GetPlot(x, y)
+	end
+end
+
+----------------------------------------------------------------
+
+function Plot_GetAreaWeights(plot, minR, maxR)
+	local weights = {TOTAL=0, SEA=0, NO_PLOT=0, NO_TERRAIN=0, NO_FEATURE=0}
+
+	local plotTypeName		= {}-- -1="NO_PLOT"}
+	local terrainTypeName	= {}-- -1="NO_TERRAIN"}
+	local featureTypeName	= {}-- -1="NO_FEATURE"}
+	
+	for k, v in pairs(PlotTypes) do
+		plotTypeName[v] = k
+	end
+	for itemInfo in GameInfo.Terrains() do
+		terrainTypeName[itemInfo.ID] = itemInfo.Type
+	end
+	for itemInfo in GameInfo.Features() do
+		featureTypeName[itemInfo.ID] = itemInfo.Type
 	end
 	
-	return plotList
+	for k, v in pairs(PlotTypes) do
+		weights[k] = 0
+	end
+	for itemInfo in GameInfo.Terrains() do
+		weights[itemInfo.Type] = 0
+	end
+	for itemInfo in GameInfo.Features() do
+		weights[itemInfo.Type] = 0
+	end
+	
+	for adjPlot in Plot_GetPlotsInCircle(plot, minR, maxR) do
+		local distance		 = Map.PlotDistance(adjPlot:GetX(), adjPlot:GetY(), plot:GetX(), plot:GetY())
+		local adjWeight		 = (distance == 0) and 6 or (1/distance)
+		local plotType		 = plotTypeName[adjPlot:GetPlotType()]
+		local terrainType	 = terrainTypeName[adjPlot:GetTerrainType()]
+		local featureType	 = featureTypeName[adjPlot:GetFeatureType()] or "NO_FEATURE"
+		
+		weights.TOTAL		 = weights.TOTAL		+ adjWeight 
+		weights[plotType]	 = weights[plotType]	+ adjWeight
+		weights[terrainType] = weights[terrainType]	+ adjWeight
+		weights[featureType] = weights[featureType]	+ adjWeight
+				
+		if plotType == "PLOT_OCEAN" then
+			if not adjPlot:IsLake() and featureType ~= "FEATURE_ICE" then
+				weights.SEA = weights.SEA + adjWeight
+			end
+		end
+	end
+	
+	if weights.TOTAL == 0 then
+		log:Fatal("plot:GetAreaWeights Total=0! x=%s y=%s", x, y)
+	end
+	for k, v in pairs(weights) do
+		if k ~= "TOTAL" then
+			weights[k] = weights[k] / weights.TOTAL
+		end
+	end
+	
+	return weights
 end

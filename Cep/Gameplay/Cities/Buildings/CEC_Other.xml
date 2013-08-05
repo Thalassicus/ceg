@@ -31,7 +31,6 @@
 				 ExtraCityHitPoints="100"
 				 IconAtlas="EXPANSION_SCEN_BUILDING_ATLAS"
 				 PortraitIndex="1"
-				 UnmoddedHappiness="8"
 				 />
 		</Update>
 		<!--
@@ -66,8 +65,8 @@
 		</Update>
 	</Buildings>
 	<Building_YieldChanges>
-		<Delete BuildingType="BUILDING_PALACE"/>
 		<!--
+		<Delete BuildingType="BUILDING_PALACE"/>
 		<Row>
 			<BuildingType>BUILDING_GREAT_HALL</BuildingType>
 			<YieldType>YIELD_FOOD</YieldType>
@@ -110,7 +109,6 @@
 	
 	<!--
 			Puppet State
-	-->
 	<AICityStrategy_Flavors>
 		<Row>
 			<AICityStrategyType>AICITYSTRATEGY_IS_PUPPET</AICityStrategyType>
@@ -123,6 +121,7 @@
 			<Flavor>-10</Flavor>
 		</Row>
 	</AICityStrategy_Flavors>
+	-->
 	<!-- Firaxis included this in G&K -->
 	<!--
 	<Buildings>

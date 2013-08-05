@@ -2,8 +2,12 @@
 <GameData>
 	<Buildings>
 		<Update>
+			<Where BuildingClass="BUILDINGCLASS_WINDMILL" />
+			<Set Cost="150" />
+		</Update>
+		<Update>
 			<Where BuildingClass="BUILDINGCLASS_BARRACKS" />
-			<Set Experience="10" />
+			<Set Experience="10" GoldMaintenance="0" />
 		</Update>
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_ARMORY" />
@@ -22,7 +26,14 @@
 			<Set ProhibitedCityTerrain="NULL" 
 				 />
 		</Update>
+		<Update>
+			<Where BuildingClass="BUILDINGCLASS_WATERMILL" />
+			<Set GoldMaintenance="1" />
+		</Update>
 	</Buildings>
+	<Building_ResourceQuantityRequirements>
+		<Delete BuildingType="BUILDING_HYDRO_PLANT" />
+	</Building_ResourceQuantityRequirements>
 	<Building_YieldChanges>
 		<Delete BuildingType="BUILDING_STONE_WORKS" />
 	</Building_YieldChanges>

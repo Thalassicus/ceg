@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
 	<Buildings>
+		<!--
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_HOSPITAL" />
 			<Set Happiness="1" />
@@ -17,31 +18,38 @@
 			<Where BuildingClass="BUILDINGCLASS_MEDICAL_LAB" />
 			<Set FoodKept="0" />
 		</Update>
+		-->
 	</Buildings>
 	<Building_YieldSurplusModifiers>
+		<!--
 		<Row>
 			<BuildingType>BUILDING_MEDICAL_LAB</BuildingType>
 			<YieldType>YIELD_FOOD</YieldType>
 			<Yield>100</Yield>
 		</Row>
+		-->
 	</Building_YieldSurplusModifiers>
 	<Building_YieldInstant>
+		<!--
 		<Row>
 			<BuildingType>BUILDING_MEDICAL_LAB</BuildingType>
 			<YieldType>YIELD_POPULATION</YieldType>
 			<Yield>1</Yield>
 		</Row>
+		-->
 	</Building_YieldInstant>
 	<Building_YieldChanges>
+		<!--
+		<Update>
+			<Where BuildingType="BUILDING_HOSPITAL" YieldType="YIELD_FOOD" />
+			<Set Yield="10" />
+		</Update>
+		-->
 		<Row>
 			<BuildingType>BUILDING_GARDEN</BuildingType>
 			<YieldType>YIELD_FOOD</YieldType>
 			<Yield>1</Yield>
 		</Row>
-		<Update>
-			<Where BuildingType="BUILDING_HOSPITAL" YieldType="YIELD_FOOD" />
-			<Set Yield="10" />
-		</Update>
 		<Update>
 			<Where BuildingType="BUILDING_WATERMILL" YieldType="YIELD_FOOD" />
 			<Set Yield="1" />
@@ -59,28 +67,4 @@
 			<Set Yield="3" />
 		</Update>
 	</Building_YieldChanges>
-	<Building_ResourceYieldChanges>
-		<Delete BuildingType="BUILDING_GRANARY" ResourceType="RESOURCE_BANANA" />
-		<Delete BuildingType="BUILDING_GRANARY" ResourceType="RESOURCE_WINE" />
-		<!--
-		<Row>
-			<BuildingType>BUILDING_GRANARY</BuildingType>
-			<ResourceType>RESOURCE_SPICES</ResourceType>
-			<YieldType>YIELD_FOOD</YieldType>
-			<Yield>1</Yield>
-		</Row>
-		<Row>
-			<BuildingType>BUILDING_GRANARY</BuildingType>
-			<ResourceType>RESOURCE_SUGAR</ResourceType>
-			<YieldType>YIELD_FOOD</YieldType>
-			<Yield>1</Yield>
-		</Row>
-		<Row>
-			<BuildingType>BUILDING_GRANARY</BuildingType>
-			<ResourceType>RESOURCE_WINE</ResourceType>
-			<YieldType>YIELD_FOOD</YieldType>
-			<Yield>1</Yield>
-		</Row>
-		-->
-	</Building_ResourceYieldChanges>
 </GameData>

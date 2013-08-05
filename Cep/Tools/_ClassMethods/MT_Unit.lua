@@ -22,7 +22,7 @@ end
 
 ]]
 function Unit_GetMaintenance(unitType)
-	return GameInfo.Units[unitType].ExtraMaintenanceCost --* 0.01 * GameInfo.GameSpeeds[Game.GetGameSpeedType()].GoldPercent
+	return GameInfo.Units[unitType].ExtraMaintenanceCost --* 0.01 * Game.GetSpeedInfo().GoldPercent
 end
 ----------------------------------------------------------------
 --[[ Unit_IsCombatDomain(unit, domain) usage example:
@@ -121,9 +121,9 @@ end
 
 ]]
 function Unit_Replace(oldUnit, unitClass)
-	MapModData.Cep.ReplacingUnit = true
+	MapModData.CepReplacingUnit = true
 	local newUnit = Players[oldUnit:GetOwner()]:InitUnitClass(unitClass, oldUnit:GetPlot(), oldUnit:GetExperience())
-	MapModData.Cep.ReplacingUnit = false
+	MapModData.CepReplacingUnit = false
 	for promoInfo in GameInfo.UnitPromotions() do
 		if oldUnit:IsHasPromotion(promoInfo.ID) and promoInfo.Class == "PROMOTION_CLASS_PERSISTANT" then
 			newUnit:SetHasPromotion(promoInfo.ID, true)

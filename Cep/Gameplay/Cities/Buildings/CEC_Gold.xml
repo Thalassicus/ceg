@@ -2,7 +2,7 @@
 <GameData>
 	<Buildings>
 		<Update>
-			<Where Type="BUILDING_CARAVANSARY"/>
+			<Where BuildingClass="BUILDINGCLASS_CARAVANSARY"/>
 			<Set Cost="180"/>
 		</Update>
 	</Buildings>
@@ -22,6 +22,12 @@
 		<Row>
 			<BuildingType>BUILDING_MINT</BuildingType>
 			<ResourceType>RESOURCE_COPPER</ResourceType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_MINT</BuildingType>
+			<ResourceType>RESOURCE_GEMS</ResourceType>
 			<YieldType>YIELD_GOLD</YieldType>
 			<Yield>1</Yield>
 		</Row>

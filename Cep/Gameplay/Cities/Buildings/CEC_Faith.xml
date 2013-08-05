@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
-	<!--
 	<Buildings>
 		<Update>
-			<Where Type="BUILDING_CATHEDRAL" />
-			<Set GreatWorkCount="2" />
+			<Where Type="BUILDING_TEMPLE" />
+			<Set GoldMaintenance="1" />
 		</Update>
 	</Buildings>
-	-->
 	<Building_YieldChanges>
 		<Update>
 			<Where BuildingType="BUILDING_PAGODA" YieldType="YIELD_FAITH" />

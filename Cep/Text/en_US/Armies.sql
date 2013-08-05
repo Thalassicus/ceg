@@ -335,10 +335,11 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_RANGED_DEFENSE_II', 'Defense vs Ranged (50)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_RANGED_DEFENSE_II_HELP', '[ICON_STRENGTH] +50% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] vs [COLOR_POSITIVE_TEXT]Ranged Damage[ENDCOLOR]', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_1', 'Recon I', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_SCOUTING_1_HELP', '[ICON_DETECT] +2 Sight[NEWLINE][ICON_MOVES] Attempts to [COLOR_POSITIVE_TEXT]withdraw[ENDCOLOR] from melee combat', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-04'), 'TXT_KEY_PROMOTION_SCOUTING_1_HELP', '[ICON_DETECT] +2 Sight', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_2', 'Recon II', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_2_HELP', '[ICON_MOVES] Ignores terrain cost[NEWLINE][ICON_MOVES] +1 Movement[NEWLINE][ICON_MOVES] Pillaging costs 0 moves[NEWLINE][ICON_MOVES] Can use enemy roads', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-04'), 'TXT_KEY_PROMOTION_SCOUTING_2_HELP', '[ICON_MOVES] +1 Movement[NEWLINE][ICON_MOVES] Can use enemy roads', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SCOUTING_3', 'Recon III', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-04'), 'TXT_KEY_PROMOTION_SCOUTING_3_HELP', '[ICON_MOVES] Can paradrop 10 tiles.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SEA_BONUS_I', 'Bonus vs Sea (25)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SEA_BONUS_I_HELP', '[ICON_STRENGTH] +25% vs [COLOR_POSITIVE_TEXT]Sea[ENDCOLOR] units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_SEA_BONUS_II', 'Bonus vs Sea (50)', '', '');

@@ -332,79 +332,73 @@
 			</Set>
 		</Update>
 	</HandicapInfos>
-	<!--New AI Standard Handicap-->
-	<Language_en_US>
-		<Row Tag="TXT_KEY_AI_HAPPINESS">
-			<Text>AI - Not for Players</Text>
-		</Row>
-		<Row Tag="TXT_KEY_AI_HAPPINESS_HELP">
-			<Text>Equalizes AI happiness to human. Not intended for Player use.</Text>
-		</Row>
-	</Language_en_US>
 	<HandicapInfos>
-		<Row>
-			<Type>AI_HAPPINESS</Type>
-			<Description>TXT_KEY_AI_HAPPINESS</Description>
-			<Help>TXT_KEY_AI_HAPPINESS_HELP</Help>
-			<StartingLocPercent>50</StartingLocPercent>
-			<AdvancedStartPointsMod>130</AdvancedStartPointsMod>
-			<HappinessDefault>17</HappinessDefault>
-			<ExtraHappinessPerLuxury>0</ExtraHappinessPerLuxury>
-			<NumCitiesUnhappinessMod>90</NumCitiesUnhappinessMod>
-			<PopulationUnhappinessMod>90</PopulationUnhappinessMod>
-			<Gold>0</Gold>
-			<GoldFreeUnits>0</GoldFreeUnits>
-			<ProductionFreeUnits>7</ProductionFreeUnits>
-			<ProductionFreeUnitsPopulationPercent>50</ProductionFreeUnitsPopulationPercent>
-			<ProductionFreeUnitsPerCity>3</ProductionFreeUnitsPerCity>
-			<RouteCostPercent>100</RouteCostPercent>
-			<UnitCostPercent>100</UnitCostPercent>
-			<BuildingCostPercent>100</BuildingCostPercent>
-			<ResearchPercent>100</ResearchPercent>
-			<PolicyPercent>100</PolicyPercent>
-			<ImprovementCostPercent>50</ImprovementCostPercent>
-			<CityProductionNumOptionsConsidered>4</CityProductionNumOptionsConsidered>
-			<TechNumOptionsConsidered>4</TechNumOptionsConsidered>
-			<PolicyNumOptionsConsidered>4</PolicyNumOptionsConsidered>
-			<!--<InflationPercent>70</InflationPercent>-->
-			<AttitudeChange>1</AttitudeChange>
-			<NoTechTradeModifier>90</NoTechTradeModifier>
-			<TechTradeKnownModifier>-50</TechTradeKnownModifier>
-			<AIDeclareWarProb>75</AIDeclareWarProb>
-			<AIUnhappinessPercent>100</AIUnhappinessPercent>
-			<AIGrowthPercent>100</AIGrowthPercent>
-			<AITrainPercent>100</AITrainPercent>
-			<AIWorldTrainPercent>100</AIWorldTrainPercent>
-			<AIConstructPercent>100</AIConstructPercent>
-			<AIWorldConstructPercent>75</AIWorldConstructPercent>
-			<AICreatePercent>100</AICreatePercent>
-			<AIWorldCreatePercent>100</AIWorldCreatePercent>
-			<AIBuildingCostPercent>100</AIBuildingCostPercent>
-			<AIUnitCostPercent>100</AIUnitCostPercent>
-			<AIUnitSupplyPercent>0</AIUnitSupplyPercent>
-			<AIUnitUpgradePercent>50</AIUnitUpgradePercent>
-			<!--<AIInflationPercent>90</AIInflationPercent>-->
-			<AIAdvancedStartPercent>100</AIAdvancedStartPercent>
-			<IconAtlas>DIFFICULTY_ATLAS</IconAtlas>
-			<PortraitIndex>8</PortraitIndex>
-		</Row>
+		<Update>
+			<Where Type="HANDICAP_AI_DEFAULT" />
+			<Set>
+				<Type>HANDICAP_AI_DEFAULT</Type>
+				<Description>TXT_KEY_HANDICAP_AI_DEFAULT</Description>
+				<Help>TXT_KEY_HANDICAP_AI_DEFAULT_HELP</Help>
+				<StartingLocPercent>50</StartingLocPercent>
+				<AdvancedStartPointsMod>130</AdvancedStartPointsMod>
+				<HappinessDefault>17</HappinessDefault>
+				<ExtraHappinessPerLuxury>0</ExtraHappinessPerLuxury>
+				<NumCitiesUnhappinessMod>90</NumCitiesUnhappinessMod>
+				<PopulationUnhappinessMod>90</PopulationUnhappinessMod>
+				<Gold>0</Gold>
+				<GoldFreeUnits>0</GoldFreeUnits>
+				<ProductionFreeUnits>7</ProductionFreeUnits>
+				<ProductionFreeUnitsPopulationPercent>50</ProductionFreeUnitsPopulationPercent>
+				<ProductionFreeUnitsPerCity>3</ProductionFreeUnitsPerCity>
+				<RouteCostPercent>100</RouteCostPercent>
+				<UnitCostPercent>100</UnitCostPercent>
+				<BuildingCostPercent>100</BuildingCostPercent>
+				<ResearchPercent>100</ResearchPercent>
+				<PolicyPercent>100</PolicyPercent>
+				<ImprovementCostPercent>50</ImprovementCostPercent>
+				<CityProductionNumOptionsConsidered>4</CityProductionNumOptionsConsidered>
+				<TechNumOptionsConsidered>4</TechNumOptionsConsidered>
+				<PolicyNumOptionsConsidered>4</PolicyNumOptionsConsidered>
+				<!--<InflationPercent>70</InflationPercent>-->
+				<AttitudeChange>1</AttitudeChange>
+				<NoTechTradeModifier>90</NoTechTradeModifier>
+				<TechTradeKnownModifier>-50</TechTradeKnownModifier>
+				<AIDeclareWarProb>75</AIDeclareWarProb>
+				<AIUnhappinessPercent>100</AIUnhappinessPercent>
+				<AIGrowthPercent>100</AIGrowthPercent>
+				<AITrainPercent>100</AITrainPercent>
+				<AIWorldTrainPercent>100</AIWorldTrainPercent>
+				<AIConstructPercent>100</AIConstructPercent>
+				<AIWorldConstructPercent>75</AIWorldConstructPercent>
+				<AICreatePercent>100</AICreatePercent>
+				<AIWorldCreatePercent>100</AIWorldCreatePercent>
+				<AIBuildingCostPercent>100</AIBuildingCostPercent>
+				<AIUnitCostPercent>100</AIUnitCostPercent>
+				<AIUnitSupplyPercent>0</AIUnitSupplyPercent>
+				<AIUnitUpgradePercent>50</AIUnitUpgradePercent>
+				<!--<AIInflationPercent>90</AIInflationPercent>-->
+				<AIAdvancedStartPercent>100</AIAdvancedStartPercent>
+				<IconAtlas>DIFFICULTY_ATLAS</IconAtlas>
+				<PortraitIndex>8</PortraitIndex>
+			</Set>
+		</Update>
 	</HandicapInfos>
 	<PostDefines>
 		<Update>
 			<Where Name="STANDARD_HANDICAP" />
-			<Set Key="AI_HAPPINESS" />
+			<Set Key="HANDICAP_AI_DEFAULT" />
 		</Update>
 		<Update>
 			<Where Name="STANDARD_HANDICAP_QUICK" />
-			<Set Key="AI_HAPPINESS" />
+			<Set Key="HANDICAP_AI_DEFAULT" />
 		</Update>
 		<Update>
 			<Where Name="AI_HANDICAP" />
-			<Set Key="AI_HAPPINESS" />
+			<Set Key="HANDICAP_AI_DEFAULT" />
 		</Update>
 		<Update>
 			<Where Name="MINOR_CIV_HANDICAP" />
-			<Set Key="AI_HAPPINESS" />
+			<Set Key="HANDICAP_AI_DEFAULT" />
 		</Update>
 	</PostDefines>
 	<Worlds>

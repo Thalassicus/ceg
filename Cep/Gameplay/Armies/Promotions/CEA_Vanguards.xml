@@ -16,23 +16,21 @@
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_SCOUTING_1" />
-			<Set ExtraWithdrawal="80"
-				 VisibilityChange="2"
+			<Set VisibilityChange="2"
 				 />
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_SCOUTING_2" />
-			<Set IgnoreTerrainCost="true"
-				 MovesChange="0"
+			<Set MovesChange="1"
 				 EnemyRoute="1"
-				 FreePillageMoves="1"
 				 VisibilityChange="0"
 				 />
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_SCOUTING_3" />
-			<Set CannotBeChosen="true"
-				 PediaType="NONE"
+			<Set MovesChange="0"
+				 TechPrereq="TECH_FLIGHT"
+				 DropRange="10"
 				 />
 		</Update>
 		<Update>
@@ -220,7 +218,6 @@
 	<UnitPromotions_UnitCombats>
 		<Delete PromotionType="PROMOTION_SURVIVALISM_2" />
 		<Delete PromotionType="PROMOTION_SURVIVALISM_3" />
-		<Delete PromotionType="PROMOTION_SCOUTING_3" />
 		<Delete PromotionType="PROMOTION_MEDIC" />
 		<Row>
 			<PromotionType>PROMOTION_MEDIC</PromotionType>

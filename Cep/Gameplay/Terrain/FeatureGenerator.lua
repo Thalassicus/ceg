@@ -160,7 +160,7 @@ function FeatureGenerator.Create(args)
 	]]--
 
 	local gridWidth, gridHeight = Map.GetGridSize();
-	local world_info = GameInfo.Worlds[Map.GetWorldSize()];
+	local world_info = Game.GetWorldInfo();
 	jungle_grain = jungle_grain + world_info.FeatureGrainChange;
 	forest_grain = forest_grain + world_info.FeatureGrainChange;
 

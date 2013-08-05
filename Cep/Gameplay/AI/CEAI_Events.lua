@@ -3,14 +3,15 @@
 -- DateCreated: 6/6/2011 2:11:50 PM
 --------------------------------------------------------------
 
-include("ModTools.lua")
+local gold =  Game.GetHandicapInfo().BarbCampGold
+
 include("MT_LuaEvents.lua")
 include("FLuaVector");
 
 local log = Events.LuaLogger:New();
 log:SetLevel("INFO");
 
-log:Warn("BarbCampGold = %s", GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].BarbCampGold)
+log:Warn("BarbCampGold = %s, %s", gold, Game.GetHandicapInfo().BarbCampGold)
 
 if not Cep then
 	print("Cep table does not exist!")
@@ -86,7 +87,7 @@ function SpendAIGold(player)
 	local isWarAny			= player:IsAtWarWithAny()
 	local isEarlyEra		= (player:GetCurrentEra() < GameInfo.Eras.ERA_RENAISSANCE.ID)
 	local activePlayer		= Players[Game.GetActivePlayer()]
-	local costRA			= GameInfo.Eras[eraID].ResearchAgreementCost * GameInfo.GameSpeeds[Game.GetGameSpeedType()].GoldPercent / 100
+	local costRA			= GameInfo.Eras[eraID].ResearchAgreementCost * Game.GetSpeedInfo().GoldPercent / 100
 	local goldStored		= player:GetYieldStored(YieldTypes.YIELD_GOLD)
 	local goldHigh			= Game.Round(costRA * Cep.AI_PURCHASE_BUDGET_HIGH)
 	local goldLow			= Game.Round(costRA * Cep.AI_PURCHASE_BUDGET_LOW)
@@ -257,7 +258,7 @@ function SpendAIGold(player)
 	end
 	
 	-- Diplomatic victory
-	if MapModData.Cep.DiploVictoryUnlocked then
+	if MapModData.CepDiploVictoryUnlocked then
 		PurchaseAllInfluence(player, goldMin)
 		if player:IsBudgetGone(goldLow) then return end
 	end
@@ -604,7 +605,7 @@ function PurchaseAllInfluence(player, goldMin)
 end
 
 function CheckDiploVictoryUnlocked()	
-	if MapModData.Cep.DiploVictoryUnlocked or not PreGame.IsVictory(GameInfo.Victories.VICTORY_DIPLOMATIC.ID) then
+	if MapModData.CepDiploVictoryUnlocked or not PreGame.IsVictory(GameInfo.Victories.VICTORY_DIPLOMATIC.ID) then
 		return
 	end
 	for buildingInfo in GameInfo.Buildings("VictoryPrereq = 'VICTORY_DIPLOMATIC'") do
@@ -612,7 +613,7 @@ function CheckDiploVictoryUnlocked()
 		for playerID, player in pairs(Players) do
 			if player:IsAliveCiv() and not player:IsMinorCiv() and player:HasTech(tech) then
 				log:Info("DiploVictoryUnlocked")
-				MapModData.Cep.DiploVictoryUnlocked = true
+				MapModData.CepDiploVictoryUnlocked = true
 				return
 			end
 		end
@@ -674,9 +675,9 @@ end
 function PlayerStartBonuses(player)
 	--print("PlayerStartBonuses "..player:GetName())
 	local activePlayer	= Players[Game.GetActivePlayer()]
-	local worldInfo		= GameInfo.Worlds[Map.GetWorldSize()]
-	local speedInfo		= GameInfo.GameSpeeds[Game.GetGameSpeedType()]
-	local handicapInfo	= GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()]
+	local worldInfo		= Game.GetWorldInfo()
+	local speedInfo		= Game.GetSpeedInfo()
+	local handicapInfo	= Game.GetHandicapInfo()
 	local leaderInfo	= GameInfo.Leaders[player:GetLeaderType()]
 	local handicapID	= 1 + handicapInfo.ID
 	local trait			= player:GetTraitInfo()
@@ -814,9 +815,9 @@ function AIEarlyBonuses(player)
 	--print("AIEarlyBonuses "..player:GetName())
 	local playerID		= player:GetID()
 	local activePlayer	= Players[Game.GetActivePlayer()]
-	local worldInfo		= GameInfo.Worlds[Map.GetWorldSize()]
-	local speedInfo		= GameInfo.GameSpeeds[Game.GetGameSpeedType()]
-	local handicapInfo	= GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()]
+	local worldInfo		= Game.GetWorldInfo()
+	local speedInfo		= Game.GetSpeedInfo()
+	local handicapInfo	= Game.GetHandicapInfo()
 	local leaderInfo	= GameInfo.Leaders[player:GetLeaderType()]
 	local handicapID	= 1 + handicapInfo.ID
 	local capitalCity	= player:GetCapitalCity()
@@ -850,21 +851,21 @@ function AIEarlyBonuses(player)
 	log:Info("AIEarlyBonuses %s", player:GetName())
 	
 	if player:IsMinorCiv() then
-		if handicapID >= 2 then -- Chieftain
+		if handicapInfo.Type == "HANDICAP_CHIEFTAIN" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_CARAVANSARY", 1)
 			player:InitUnitClass("UNITCLASS_SPEARMAN", startPlot)
 		end
-		if handicapID >= 4 then -- Prince
+		if handicapInfo.Type == "HANDICAP_PRINCE" then
 			if isCoastal then
 				player:InitUnitClass("UNITCLASS_TRIREME", oceanPlot)
 			else
 				player:InitUnitClass("UNITCLASS_ARCHER", startPlot)
 			end
 		end		
-		if handicapID >= 7 then -- Immortal
+		if handicapInfo.Type == "HANDICAP_IMMORTAL" then
 			player:InitUnitClass("UNITCLASS_SPEARMAN", startPlot)
 		end		
-		if handicapID >= 8 then -- Deity
+		if handicapInfo.Type == "HANDICAP_DEITY" then
 			if isCoastal then
 				player:InitUnitClass("UNITCLASS_ARCHER", startPlot)
 			else
@@ -872,19 +873,19 @@ function AIEarlyBonuses(player)
 			end
 		end
 	else
-		if handicapID >= 2 then -- Chieftain
+		if handicapInfo.Type == "HANDICAP_CHIEFTAIN" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_CARAVANSARY", 1)
 		end
-		if handicapID >= 3 then -- Warlord
+		if handicapInfo.Type == "HANDICAP_WARLORD" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_GRANARY", 1)	
 		end
-		if handicapID >= 4 then -- Prince
+		if handicapInfo.Type == "HANDICAP_PRINCE" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_MONUMENT", 1)
 		end
-		if handicapID >= 5 then -- King
+		if handicapInfo.Type == "HANDICAP_KING" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_LIBRARY", 1)
 		end
-		if handicapID >= 6 then -- Emperor
+		if handicapInfo.Type == "HANDICAP_EMPEROR" then
 			if relFlavor >= 7 then
 				City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_SHRINE", 1)
 				log:Info("Gave %20s a Shrine", player:GetName())
@@ -914,10 +915,10 @@ function AIEarlyBonuses(player)
 				City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_BARRACKS", 1)
 			end
 		end		
-		if handicapID >= 7 then -- Immortal
+		if handicapInfo.Type == "HANDICAP_IMMORTAL" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_WALLS", 1)
 		end		
-		if handicapID >= 8 then -- Deity
+		if handicapInfo.Type == "HANDICAP_DEITY" then
 			City_SetNumBuildingClass(capitalCity, "BUILDINGCLASS_CASTLE", 1)
 		end
 	end
@@ -1005,9 +1006,9 @@ function AIMilitaryHandicap(  playerID,
 				hostileMultiplier = 0
 			end
 		end
-		local freeXP = 0--hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
+		local freeXP = 0--hostileMultiplier * Game.GetHandicapInfo().AIFreeXP
 		local freeXPPerEra = hostileMultiplier * 4 * (Game.GetAverageHumanHandicap() - 1)
-		--local freeXPPerEra = hostileMultiplier * GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
+		--local freeXPPerEra = hostileMultiplier * Game.GetHandicapInfo().AIFreeXPPerEra
 		if freeXP > 0 or freeXPPerEra > 0 then
 			local era = 1 + Game.GetAverageHumanEra()
 			--log:Warn(player:GetName().. " " ..unit:GetName().. " " ..freeXP.. " + " ..freeXPPerEra.. "*" ..Game.GetAverageHumanHandicap().. " xp")
@@ -1064,17 +1065,17 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 	local aiPlayer = Players[aiPlayerID]
 	if (not humanPlayer:IsHuman() 
 		or aiPlayer:IsHuman()
-		or (MapModData.Cep.EverAtWarWithHuman[aiPlayerID] ~= 1)
+		or (MapModData.CepEverAtWarWithHuman[aiPlayerID] ~= 1)
 		or aiPlayer:IsMilitaristicLeader()
 		) then
 		return
 	end
 	log:Warn("War State %s %s %s", humanPlayer:GetName(), aiPlayer:GetName(), isAtWar and "War" or "Peace")
-	MapModData.Cep.EverAtWarWithHuman[aiPlayerID] = 1
-	SaveValue(1, "MapModData.Cep.EverAtWarWithHuman[%s]", aiPlayerID)
+	MapModData.CepEverAtWarWithHuman[aiPlayerID] = 1
+	SaveValue(1, "MapModData.CepEverAtWarWithHuman[%s]", aiPlayerID)
 	
-	local freeXP = 0--GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXP
-	local freeXPPerEra = 4 * (Game.GetAverageHumanHandicap() - 1) --GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].AIFreeXPPerEra
+	local freeXP = 0--Game.GetHandicapInfo().AIFreeXP
+	local freeXPPerEra = 4 * (Game.GetAverageHumanHandicap() - 1) --Game.GetHandicapInfo().AIFreeXPPerEra
 	local era = 1 + Game.GetAverageHumanEra()
 	if freeXP > 0 or freeXPPerEra > 0 then
 		for unit in aiPlayer:Units() do
@@ -1132,7 +1133,7 @@ end
 LuaEvents.ActivePlayerTurnStart_Unit.Add(function(unit) return SafeCall(ClearCampsUnit, unit) end)
 
 function ClearCamp(player, plot)
-	local campGold = 25 + GameInfo.HandicapInfos[Game.GetAverageHumanHandicap()].BarbCampGold
+	local campGold = 25 + Game.GetHandicapInfo().BarbCampGold
 	plot:SetImprovementType(-1)
 	player:ChangeGold(campGold)
 	log:Info("Cleared camp for %s +%s gold", player:GetName(), campGold)

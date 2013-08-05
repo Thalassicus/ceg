@@ -38,8 +38,8 @@ function Plot_Buy(plot, player, city, cost)
 	local playerID = player:GetID()
 	player:ChangeYieldStored(YieldTypes.YIELD_GOLD, -cost)
 	plot:SetOwner(playerID, city:GetID())
-	MapModData.Cep.PlotCostExtra[playerID] = MapModData.Cep.PlotCostExtra[playerID] + GameDefines.PLOT_ADDITIONAL_COST_PER_PLOT
-	SaveValue(MapModData.Cep.PlotCostExtra[playerID], "MapModData.Cep.PlotCostExtra[%s]", playerID)
+	MapModData.CepPlotCostExtra[playerID] = MapModData.CepPlotCostExtra[playerID] + GameDefines.PLOT_ADDITIONAL_COST_PER_PLOT
+	SaveValue(MapModData.CepPlotCostExtra[playerID], "MapModData.CepPlotCostExtra[%s]", playerID)
 end
 
 function Plot_CanBuy(city, plot, notCheckGold)
@@ -49,19 +49,19 @@ end
 
 function Plot_GetCost(city, plot)
 	if Plot_CanBuy(city, plot, true) then
-		return city:GetBuyPlotCost(plot:GetX(), plot:GetY()) + MapModData.Cep.PlotCostExtra[city:GetOwner()]
+		return city:GetBuyPlotCost(plot:GetX(), plot:GetY()) + MapModData.CepPlotCostExtra[city:GetOwner()]
 	end
 	return math.huge
 end
 
-if not MapModData.Cep.PlotCostExtra then
-	MapModData.Cep.PlotCostExtra = {}
+if not MapModData.CepPlotCostExtra then
+	MapModData.CepPlotCostExtra = {}
 	startClockTime = os.clock()
 	for playerID, player in pairs(Players) do
 		if UI.IsLoadedGame() then
-			MapModData.Cep.PlotCostExtra[playerID] = LoadValue("MapModData.Cep.PlotCostExtra[%s]", playerID) or 0
+			MapModData.CepPlotCostExtra[playerID] = LoadValue("MapModData.CepPlotCostExtra[%s]", playerID) or 0
 		else
-			MapModData.Cep.PlotCostExtra[playerID] = 0
+			MapModData.CepPlotCostExtra[playerID] = 0
 		end
 	end
 	if UI:IsLoadedGame() then
@@ -141,8 +141,8 @@ local featureTypeName	= {}-- -1="NO_FEATURE"}
 --end
 
 --[[
-if not MapModData.Cep.InitAreaWeightValues then
-	MapModData.Cep.InitAreaWeightValues = true
+if not MapModData.CepInitAreaWeightValues then
+	MapModData.CepInitAreaWeightValues = true
 	LuaEvents.MT_Initialize.Add(InitAreaWeightValues)
 end
 --]]
