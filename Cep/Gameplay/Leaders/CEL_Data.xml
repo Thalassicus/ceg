@@ -88,7 +88,7 @@
 		</Update>
 		<Update>
 			<Where Type="TRAIT_LAND_TRADE_GOLD" />
-			<Set TradeRouteChange="0"
+			<Set CityConnectionTradeRouteChange="0"
 				 CityGoldPerLuxuryPercent="0"
 				 />
 		</Update>
