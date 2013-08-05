@@ -25,6 +25,7 @@
 		</Row>
 	</Cep>
 	<Yields>
+		<!--
 		<Update>
 			<Where Type="YIELD_FOOD" />
 			<Set LakeChange="0" />
@@ -33,6 +34,7 @@
 			<Where Type="YIELD_GOLD" />
 			<Set LakeChange="1" />
 		</Update>
+		-->
 	</Yields>
 	<Terrains>
 		<Update>

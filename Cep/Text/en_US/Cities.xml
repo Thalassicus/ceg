@@ -57,7 +57,7 @@
 	<Language_EN_US>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_TEMPLE_HELP</Tag>
-			<Text>[ICON_PEACE] Faith: +1 [ICON_RES_WINE][ICON_RES_INCENSE]</Text>
+			<Text>[ICON_PEACE] Faith: +2 [ICON_RES_WINE][ICON_RES_INCENSE][NEWLINE][NEWLINE]Benefits from religious resources.</Text>
 		</Row>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_AQUEDUCT_HELP"/>
@@ -73,7 +73,7 @@
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_AMPHITHEATER_HELP</Tag>
-			<Text>[ICON_CULTURE] Culture: +1 [ICON_RES_SILK][ICON_RES_COTTON][ICON_RES_FUR][ICON_RES_DYE][NEWLINE][NEWLINE]Improves clothing.</Text>
+			<Text>[ICON_CULTURE] Culture: +1 [ICON_RES_SILK][ICON_RES_COTTON][ICON_RES_FUR][ICON_RES_DYE][NEWLINE][NEWLINE]Benefits from costume resources.</Text>
 		</Row>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_STABLE_HELP"/>

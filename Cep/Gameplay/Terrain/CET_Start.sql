@@ -50,7 +50,8 @@ WHERE (
 	(improve.CreatedByGreatPerson = 1 OR improve.SpecificCivRequired = 1)
 	AND NOT res.TechCityTrade = 'TECH_SAILING'
 	AND NOT improve.Type IN (
-		'IMPROVEMENT_POLDER',
+		'IMPROVEMENT_TERRACE_FARM'		,
+		'IMPROVEMENT_POLDER'			,
 		'IMPROVEMENT_BRAZILWOOD_CAMP'
 	)
 );

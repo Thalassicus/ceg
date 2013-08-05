@@ -353,7 +353,7 @@ ALTER TABLE HandicapInfos	ADD AIResearchPercent					variant default 0;
 ALTER TABLE HandicapInfos	ADD AIResearchPercentPerEra				variant default 0;
 ALTER TABLE HandicapInfos	ADD AIProductionPercentPerEra			variant default 0;
 ALTER TABLE HandicapInfos	ADD AIGold								integer default 0;
-ALTER TABLE HandicapInfos	ADD AICapitalRevealRadius				integer default 0;
+ALTER TABLE HandicapInfos	ADD AIRevealRadius				integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalYieldPeaceful				integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalYieldMilitaristic			integer default 0;
 UPDATE HandicapInfos		SET AIFreeXPPerEra						= 0;
@@ -362,7 +362,7 @@ UPDATE HandicapInfos		SET AIResearchPercent					= 0;
 UPDATE HandicapInfos		SET AIResearchPercentPerEra				= 0;
 UPDATE HandicapInfos		SET AIProductionPercentPerEra			= 0;
 UPDATE HandicapInfos		SET AIGold								= 0;
-UPDATE HandicapInfos		SET AICapitalRevealRadius				= 0;
+UPDATE HandicapInfos		SET AIRevealRadius				= 0;
 UPDATE HandicapInfos		SET AICapitalYieldPeaceful				= 0;
 UPDATE HandicapInfos		SET AICapitalYieldMilitaristic			= 0;
 
@@ -420,7 +420,7 @@ ALTER TABLE UnitPromotions	ADD FullMovesAfterAttack				boolean;
 ALTER TABLE UnitPromotions	ADD GoldenPoints						integer default 0;
 ALTER TABLE UnitPromotions	ADD Class								text default 'PROMOTION_CLASS_PERSISTANT';
 
-ALTER TABLE Worlds			ADD AICapitalRevealRadius				integer default 0;
+ALTER TABLE Worlds			ADD AIRevealRadius				integer default 0;
 ALTER TABLE Worlds			ADD ResourceMod							integer default 100;
 UPDATE Worlds SET ResourceMod = 100;
 

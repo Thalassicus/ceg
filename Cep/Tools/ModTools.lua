@@ -39,6 +39,9 @@ include("MT_Plot.lua")
 include("MT_Unit.lua")
 include("MT_Misc.lua")
 
+local log = Events.LuaLogger:New()
+log:SetLevel("WARN")
+
 
 MapModData.CepEverAtWarWithHuman = {}
 startClockTime = os.clock()
@@ -48,5 +51,5 @@ if UI:IsLoadedGame() then
 	end
 end
 if UI:IsLoadedGame() then
-	log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
+	--log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
 end

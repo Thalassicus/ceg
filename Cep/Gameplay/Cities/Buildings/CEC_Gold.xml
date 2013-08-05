@@ -3,7 +3,7 @@
 	<Buildings>
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_CARAVANSARY"/>
-			<Set Cost="180"/>
+			<Set Cost="140"/>
 		</Update>
 	</Buildings>
 	<Building_YieldChanges>

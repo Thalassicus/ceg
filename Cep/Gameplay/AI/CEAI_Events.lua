@@ -3,15 +3,11 @@
 -- DateCreated: 6/6/2011 2:11:50 PM
 --------------------------------------------------------------
 
-local gold =  Game.GetHandicapInfo().BarbCampGold
-
 include("MT_LuaEvents.lua")
 include("FLuaVector");
 
 local log = Events.LuaLogger:New();
 log:SetLevel("INFO");
-
-log:Warn("BarbCampGold = %s, %s", gold, Game.GetHandicapInfo().BarbCampGold)
 
 if not Cep then
 	print("Cep table does not exist!")
@@ -687,7 +683,7 @@ function PlayerStartBonuses(player)
 	local isCoastal		= false	
 	local settlerID		= player:GetUniqueUnitID("UNITCLASS_SETTLER")
 	local warriorID		= player:GetUniqueUnitID("UNITCLASS_WARRIOR")
-	local revealRadius	= 8 --worldInfo.AICapitalRevealRadius
+	local revealRadius	= worldInfo.AIRevealRadius
 	
 	if trait.NoWarrior then
 		for unit in player:Units() do
@@ -824,7 +820,7 @@ function AIEarlyBonuses(player)
 	local startPlot		= capitalCity and capitalCity:Plot()
 	local isCoastal		= false	
 	local settlerID		= player:GetUniqueUnitID("UNITCLASS_SETTLER")
-	local revealRadius	= 8 --worldInfo.AICapitalRevealRadius
+	local revealRadius	= worldInfo.AIRevealRadius
 	local relFlavor		= Game.GetValue("Flavor", {LeaderType=leaderInfo.Type, FlavorType="FLAVOR_RELIGION"}, GameInfo.Leader_Flavors)
 	
 	if not startPlot then
@@ -906,7 +902,7 @@ function AIEarlyBonuses(player)
 					end
 				end
 				if bestCS then
-					local influence = bestCS:GetFriendshipFromGoldGift(playerID, 500)
+					local influence = 80 --bestCS:GetFriendshipFromGoldGift(playerID, 500)
 					bestCS:ChangeMinorCivFriendshipWithMajor(playerID, influence)
 					log:Info("Gave %20s %s influence with %s", player:GetName(), influence, bestCS:GetName())
 				end
@@ -941,7 +937,7 @@ function AIPerTurnBonuses(player)
 	end
 	--log:Info("%-25s %15s", "AIPerTurnBonuses", player:GetName())
 	local activePlayer		= Players[Game.GetActivePlayer()]
-	local handicapInfo		= GameInfo.HandicapInfos[activePlayer:GetHandicapType()]
+	local handicapInfo		= Game.GetHandicapInfo()
 	local yieldStored		= player:GetYieldStored(YieldTypes.YIELD_SCIENCE)
 	local yieldRate			= player:GetYieldRate(YieldTypes.YIELD_SCIENCE)
 	local yieldMod			= handicapInfo.AIResearchPercent/100
@@ -1006,7 +1002,7 @@ function AIMilitaryHandicap(  playerID,
 				hostileMultiplier = 0
 			end
 		end
-		local freeXP = 0--hostileMultiplier * Game.GetHandicapInfo().AIFreeXP
+		local freeXP = hostileMultiplier * Game.GetHandicapInfo().AIFreeXP
 		local freeXPPerEra = hostileMultiplier * 4 * (Game.GetAverageHumanHandicap() - 1)
 		--local freeXPPerEra = hostileMultiplier * Game.GetHandicapInfo().AIFreeXPPerEra
 		if freeXP > 0 or freeXPPerEra > 0 then
@@ -1074,7 +1070,7 @@ function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 	MapModData.CepEverAtWarWithHuman[aiPlayerID] = 1
 	SaveValue(1, "MapModData.CepEverAtWarWithHuman[%s]", aiPlayerID)
 	
-	local freeXP = 0--Game.GetHandicapInfo().AIFreeXP
+	local freeXP = Game.GetHandicapInfo().AIFreeXP
 	local freeXPPerEra = 4 * (Game.GetAverageHumanHandicap() - 1) --Game.GetHandicapInfo().AIFreeXPPerEra
 	local era = 1 + Game.GetAverageHumanEra()
 	if freeXP > 0 or freeXPPerEra > 0 then
@@ -1096,12 +1092,21 @@ function ClearCampsCity(city, player)
 		return
 	end
 	
-	local revealRadius = 8 --worldInfo.AICapitalRevealRadius
-	local campID = GameInfo.Improvements.IMPROVEMENT_CAMP.ID
-	for nearPlot in Plot_GetPlotsInCircle(city:Plot(), 1, revealRadius) do
-		if nearPlot:GetImprovementType() == campID and not nearPlot:IsVisibleToWatchingHuman() then
-			log:Info("ClearCampsCity %s %s", player:GetName(), city:GetName())
-			ClearCamp(player, nearPlot)
+	local revealRadius = Game.GetWorldInfo().AIRevealRadius
+	local campID = GameInfo.Improvements.IMPROVEMENT_BARBARIAN_CAMP.ID
+	log:Debug("ClearCampsCity %s %s distance=%s", player:GetName(), city:GetName(), revealRadius)
+	for nearPlot, distance in Plot_GetPlotsInCircle(city:Plot(), 2, revealRadius) do
+		local impID = nearPlot:GetImprovementType()
+		if impID ~= -1 then
+			log:Trace("%s", GameInfo.Improvements[impID].Type)
+		end
+		if impID == campID then
+			log:Debug("ClearCampsCity %s %s distance=%s", player:GetName(), city:GetName(), distance)
+			if nearPlot:IsVisibleToWatchingHuman() then
+				log:Info("ClearCampsCity aborting: visible to human", player:GetName(), city:GetName())
+			else
+				ClearCamp(player, nearPlot)
+			end
 		end
 	end
 end
@@ -1113,18 +1118,22 @@ function ClearCampsUnit(unit)
 		return
 	end
 	
-	local campID = GameInfo.Improvements.IMPROVEMENT_CAMP.ID
+	local campID = GameInfo.Improvements.IMPROVEMENT_BARBARIAN_CAMP.ID
 	for nearPlot in Plot_GetPlotsInCircle(unit:GetPlot(), 1, 1) do
-		if nearPlot:GetImprovementType() == campID and not nearPlot:IsVisibleToWatchingHuman() then
-			log:Info("ClearCampsUnit %s %s", player:GetName(), unit:GetName())
-			ClearCamp(player, nearPlot)
-			for i=0, nearPlot:GetNumUnits()-1 do
-				local nearUnit = nearPlot:GetUnit(i)
-				if Players[nearUnit:GetOwner()]:IsBarbarian() and nearUnit:IsCombatUnit() then
-					nearUnit:Kill()
-					unit:ChangeExperience(10)
-					log:Info("Killed barbarian %s with 10 experience for %s", nearUnit:GetName(), unit:GetName())
-					break
+		if nearPlot:GetImprovementType() == campID then
+			if nearPlot:IsVisibleToWatchingHuman() then
+				log:Info("ClearCampsUnit aborting: visible to human", player:GetName(), unit:GetName())
+			else
+				log:Debug("ClearCampsUnit %s %s", player:GetName(), unit:GetName())
+				ClearCamp(player, nearPlot)
+				for i=0, nearPlot:GetNumUnits()-1 do
+					local nearUnit = nearPlot:GetUnit(i)
+					if Players[nearUnit:GetOwner()]:IsBarbarian() and nearUnit:IsCombatUnit() then
+						nearUnit:Kill()
+						unit:ChangeExperience(10)
+						log:Info("Killed barbarian %s with 10 experience for %s", nearUnit:GetName(), unit:GetName())
+						break
+					end
 				end
 			end
 		end
@@ -1133,7 +1142,7 @@ end
 LuaEvents.ActivePlayerTurnStart_Unit.Add(function(unit) return SafeCall(ClearCampsUnit, unit) end)
 
 function ClearCamp(player, plot)
-	local campGold = 25 + Game.GetHandicapInfo().BarbCampGold
+	local campGold = Game.GetHandicapInfo().BarbCampGold
 	plot:SetImprovementType(-1)
 	player:ChangeGold(campGold)
 	log:Info("Cleared camp for %s +%s gold", player:GetName(), campGold)

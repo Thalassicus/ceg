@@ -111,6 +111,17 @@ function Game.Literalize(str)
 	return str:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", function(c) return "%" .. c end)
 end
 
+---------------------------------------------------------------------
+--[[ GetName(itemInfo, itemTable) usage example:
+
+]]
+function GetName(itemInfo, itemTable)
+	if itemTable then
+		itemInfo = itemTable[itemInfo]
+	end
+	return Locale.ConvertTextKey(itemInfo.Description)
+end
+
 ----------------------------------------------------------------
 --[[ Game.GetTruthTableResult(inputs, truthTable) usage example:
 showYieldString = {

@@ -10,88 +10,6 @@ local log = Events.LuaLogger:New()
 log:SetLevel("INFO")
 
 
---[[
-function TestOceanRifts()
-	if UI.IsLoadedGame() then
-		return
-	end
-	print("TestOceanRifts")
-	local iW, iH			= Map.GetGridSize();
-	local weights			= {}
-	local maxWeight			= 0
-	local iMax				= math.max(iW, iH)
-	local oceanPlots		= {}
-	local numPlotsToScan	= 0
-	local attempts			= 0
-	for plotID, plot in Plots() do
-		if (plot:GetPlotType() ~= PlotTypes.PLOT_OCEAN) and (plot:Area():GetNumTiles() > 15 ) then-- 0.05 * Map.GetNumPlots()) then
-			weights[plotID] = 0
-		else
-			oceanPlots[plotID] = plot
-			numPlotsToScan = numPlotsToScan + 1
-		end
-	end
-	while numPlotsToScan > 0 and attempts < iMax do
-		local newWeights = {}
-		for plotID, plot in pairs(oceanPlots) do
-			for adjPlot in Plot_GetPlotsInCircle(plot, 1) do
-				local id = Plot_GetID(adjPlot)
-				if weights[id] then
-					newWeights[plotID] = weights[id] + 1 --(newWeights[plotID] or 0) + weights[id]
-					break
-				end
-			end
-		end
-		for plotID, weight in pairs(newWeights) do
-			--log:Warn("%5s %5s = %5s", attempts, plotID, weight)
-			oceanPlots[plotID] = nil
-			weights[plotID] = weight
-			numPlotsToScan = numPlotsToScan - 1
-			if maxWeight < weight then
-				maxWeight = weight
-			end
-		end
-		attempts = attempts + 1
-	end
-	maxWeight = math.max(maxWeight, 1)
-	for plotID, plot in Plots() do
-		--local hex = ToHexFromGrid(Vector2(plot:GetX(), plot:GetY()))
-		--local color = Vector4(math.random(), 0.0, 0.0, 1.0) --weights[plotID] / maxWeight
-		--Events.SerialEventHexHighlight(hex, true, color);
-	end
-	
-	local iW, iH = Map.GetGridSize();
-	for y = iH - 1, 0, -1 do
-		local string = ""
-		for x = 0, iW - 1 do
-			local plotID = y * iW + x
-			if weights[plotID] then
-				weight = weights[plotID]
-				--weight = shadeMap[math.ceil(4 * weights[plotID] / maxWeight) + 1]
-			else
-				weight = "X"
-			end
-			string = string.format("%s %s", string, weight)
-		end
-		print("DEPTH: "..string)
-	end
-	print("TestOceanRifts Done")
-end
---Events.SequenceGameInitComplete.Add(TestOceanRifts)
---]]
-
---[[
-function RevealMap()
-	local teamID = Players[Game.GetActivePlayer()]:GetTeam()
-	for plotID, plot in Plots() do
-		plot:SetRevealed(teamID, true)
-	end	
-end
-Events.SequenceGameInitComplete.Add(RevealMap)
-
---]]
-
-
 function UpdatePlotYields()
 	print("UpdatePlotYields Start")
 	--
@@ -120,7 +38,29 @@ function UpdatePlotYields()
 	end
 	print("UpdatePlotYields Done")
 end
-Events.SequenceGameInitComplete.Add(UpdatePlotYields)
+Events.SequenceGameInitComplete.Add(function() return SafeCall(UpdatePlotYields) end)
+
+
+function MoveIncanMountainResources()
+	--[[
+	print("MoveIncanMountainResources Start")
+	if UI:IsLoadedGame() then
+		return
+	end
+	local settlers = {}
+	for playerID, player in pairs(Players) do
+		if player:IsAliveCiv() and not player:IsMinorCiv() then
+			
+		end
+	end
+	
+	print("MoveIncanMountainResources Done")
+	--]]
+end
+if GameInfo.Builds.BUILD_TERRACE_FARM then
+	Events.SequenceGameInitComplete.Add(function() return SafeCall(MoveIncanMountainResources) end)
+end
+
 
 function DoResourceDiscovered(playerID, techID)
 	local player = Players[playerID]

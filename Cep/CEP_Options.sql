@@ -169,6 +169,15 @@ SET TurnRateMax = 4 * TurnRateMax
 WHERE MoveRate > 0;
 
 
+/*
+Debug Mode
+1 = display lua logger messages
+0 = do not display messages
+*/
+INSERT INTO Defines (Name, Value)
+VALUES ('CEP_DEBUG_MODE', 1);
+
+
 
 
 

@@ -304,5 +304,9 @@
 			<Where UnitType="UNIT_SCOUT" PromotionType="PROMOTION_IGNORE_TERRAIN_COST" />
 			<Set PromotionType="PROMOTION_IGNORE_TERRAIN_COST_NOUPGRADE" />
 		</Update>
+		<Update>
+			<Where UnitType="UNIT_SHOSHONE_PATHFINDER" PromotionType="PROMOTION_IGNORE_TERRAIN_COST" />
+			<Set PromotionType="PROMOTION_IGNORE_TERRAIN_COST_NOUPGRADE" />
+		</Update>
 	</Unit_FreePromotions>
 </GameData>
