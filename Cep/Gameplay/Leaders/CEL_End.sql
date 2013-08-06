@@ -200,6 +200,9 @@ INSERT INTO Unit_FreePromotions
 		(UnitType, PromotionType)
 SELECT	'UNIT_AMERICAN_PIONEER', 'PROMOTION_SCOUTING_1';
 
+INSERT INTO Unit_FreePromotions
+		(UnitType, PromotionType)
+SELECT	'UNIT_ARABIAN_CAMELARCHER', 'PROMOTION_DESERT_POWER';
 
 		
 --

@@ -22,6 +22,13 @@
 				 />
 		</Update>
 		<Update>
+			<Where Type="UNIT_SPANISH_CONQUISTADOR" />
+			<Set SpreadReligion="1"
+				 ReligionSpreads="2"
+				 ReligiousStrength="1000"
+				 />
+		</Update>
+		<Update>
 			<Where Type="UNIT_MONGOLIAN_KHAN" />
 			<Set Moves="4" />
 			<!-- 5 -->
@@ -30,6 +37,7 @@
 			<Where Type="UNIT_ROMAN_LEGION" />
 			<Set WorkRate="200"
 				 ObsoleteTech="TECH_GUNPOWDER"
+				 PrereqTech="TECH_BRONZE_WORKING"
 				 />
 		</Update>
 	</Units>
@@ -160,6 +168,10 @@
 			<UnitType>UNIT_JAPANESE_SAMURAI</UnitType>
 			<PromotionType>PROMOTION_BLITZ</PromotionType>
 		</Row>
+		<Row>
+			<UnitType>UNIT_JAPANESE_SAMURAI</UnitType>
+			<PromotionType>PROMOTION_OPEN_TERRAIN</PromotionType>
+		</Row>
 		<Update>
 			<Where UnitType="UNIT_KOREAN_HWACHA" PromotionType="PROMOTION_SMALL_CITY_PENALTY" />
 			<Set PromotionType="PROMOTION_CITY_PENALTY" />
@@ -192,6 +204,14 @@
 		<Row>
 			<UnitType>UNIT_SONGHAI_MUSLIMCAVALRY</UnitType>
 			<PromotionType>PROMOTION_SIEGE</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_SPANISH_CONQUISTADOR</UnitType>
+			<PromotionType>PROMOTION_UNWELCOME_EVANGELIST</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_SPANISH_CONQUISTADOR</UnitType>
+			<PromotionType>PROMOTION_RIVAL_TERRITORY</PromotionType>
 		</Row>
 		<Row>
 			<UnitType>UNIT_SWEDISH_CAROLEAN</UnitType>
