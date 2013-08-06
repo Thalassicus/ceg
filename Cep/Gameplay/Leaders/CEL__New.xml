@@ -110,6 +110,25 @@
 -->	
 	
 	
+	<!--	Ottoman Building for Tribute
+	-->
+	<Buildings>
+		<Row>
+			<Type>BUILDING_TRIBUTE</Type>
+			<BuildingClass>BUILDINGCLASS_MARKET</BuildingClass>
+			<Cost>-1</Cost>
+			<PrereqTech></PrereqTech>
+		</Row>
+	</Buildings>
+	<Building_YieldChanges>
+		<Row>
+			<BuildingType>BUILDING_TRIBUTE</BuildingType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>5</Yield>
+		</Row>
+	</Building_YieldChanges>
+	
+	
 	<!--	American Pioneer Fort
 
 	<Buildings>

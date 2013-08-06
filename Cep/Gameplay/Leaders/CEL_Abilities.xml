@@ -3,7 +3,7 @@
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_ART_OF_WAR" />
-			<Set GreatGeneralExtraBonus="10" 
+			<Set GreatGeneralExtraBonus="10"
 				 GreatGeneralRateModifier="0"
 				 FreeUnit="UNITCLASS_GREAT_GENERAL"
 				 ExtraSpies="1"
@@ -14,6 +14,12 @@
 			<Type>TRAIT_ALLOTMENT</Type>
 			<Description>TXT_KEY_TRAIT_ALLOTMENT</Description>
 			<ShortDescription>TXT_KEY_TRAIT_ALLOTMENT_SHORT</ShortDescription>
+		</Row>
+		<Row>
+			<Type>TRAIT_TRIBUTE</Type>
+			<Description>TXT_KEY_TRAIT_TRIBUTE</Description>
+			<ShortDescription>TXT_KEY_TRAIT_TRIBUTE_SHORT</ShortDescription>
+			<Tribute>BUILDING_TRIBUTE</Tribute>
 		</Row>
 		<Update>
 			<Where Type="TRAIT_BONUS_AGAINST_TECH" />
@@ -64,7 +70,7 @@
 			<ShortDescription>TXT_KEY_TRAIT_FASTER_RANGED_SHORT</ShortDescription>
 			<NoWarrior>1</NoWarrior>
 			<FreeUnit>UNITCLASS_ARCHER</FreeUnit>
-		</Row>	
+		</Row>
 		<Row>
 			<Type>TRAIT_HARAPPAN_ENGINEERING</Type>
 			<Description>TXT_KEY_TRAIT_HARAPPAN_ENGINEERING</Description>
@@ -86,12 +92,14 @@
 				 GreatScientistRateModifier="25"
 				 />
 		</Update>
+		<!-- The 'TradeRouteChange' & 'CityGoldLuxuryPercent' no longer supported
 		<Update>
 			<Where Type="TRAIT_LAND_TRADE_GOLD" />
 			<Set TradeRouteChange="0"
 				 CityGoldPerLuxuryPercent="0"
 				 />
 		</Update>
+		-->
 		<Update>
 			<Where Type="TRAIT_LONG_COUNT" />
 			<Set NoWarrior="true"
@@ -128,7 +136,7 @@
 				 NoWarrior="true"
 				 FreeUnit="UNITCLASS_CHARIOT_ARCHER"
 				 />
-		</Update>		
+		</Update>
 		<Update>
 			<Where Type="TRAIT_RIVER_EXPANSION" />
 			<Set CityUnhappinessModifier="-25"
@@ -144,7 +152,7 @@
 				 FreeUnit="UNITCLASS_WORKER"
 				 TechBoostFromCapitalScienceBuildings="false"
 				 />
-		</Update>	
+		</Update>
 		<Update>
 			<Where Type="TRAIT_SEVEN_CITIES" />
 			<Set NaturalWonderYieldModifier="100"
