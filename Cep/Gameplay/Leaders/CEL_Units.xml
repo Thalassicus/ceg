@@ -112,6 +112,18 @@
 			<PromotionType>PROMOTION_CHARGE</PromotionType>
 		</Row>
 		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<PromotionType>PROMOTION_SKI_INFANTRY</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<PromotionType>PROMOTION_HOMELAND_GUARDIAN</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<PromotionType>PROMOTION_HOVERING_UNIT</PromotionType>
+		</Row>
+		<Row>
 			<UnitType>UNIT_EGYPTIAN_WARCHARIOT</UnitType>
 			<PromotionType>PROMOTION_DESERT_POWER</PromotionType>
 		</Row>

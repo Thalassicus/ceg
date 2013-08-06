@@ -308,6 +308,17 @@ UPDATE Eras SET EmbarkedUnitDefense = 28 WHERE ID = 5;
 UPDATE Eras SET EmbarkedUnitDefense = 35 WHERE ID = 6;
 UPDATE Eras SET EmbarkedUnitDefense = 46 WHERE ID = 7;
 
+-- This is to fix the no animation for mounted archer units.
+UPDATE Units
+SET CombatClass = 'UNITCOMBAT_HELICOPTER'
+WHERE CombatClass = 'UNITCOMBAT_ARCHER' AND Class NOT IN (
+ 'UNITCLASS_ARCHER',
+ 'UNITCLASS_COMPOSITE_BOWMAN',
+ 'UNITCLASS_CROSSBOWMAN',
+ 'UNITCLASS_GATLINGGUN',
+ 'UNITCLASS_MACHINE_GUN'
+);
+
 
 
 UPDATE LoadedFile SET Value=1 WHERE Type='CEA_Start.sql';

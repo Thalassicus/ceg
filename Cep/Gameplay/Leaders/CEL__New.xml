@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
-	<!--
-			American Pioneer
+	<!-- Austrian UU - Imperial-Royal Mountain Troops
 	-->
+	<Units>
+	<Row>
+			<Class>UNITCLASS_GREAT_WAR_INFANTRY</Class>
+			<Type>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</Type>
+			<PrereqTech>TECH_REPLACEABLE_PARTS</PrereqTech>
+			<Combat>60</Combat>
+			<Cost>320</Cost>
+			<FaithCost>640</FaithCost>
+			<Moves>2</Moves>
+			<CombatClass>UNITCOMBAT_GUN</CombatClass>
+			<Domain>DOMAIN_LAND</Domain>
+			<DefaultUnitAI>UNITAI_DEFENSE</DefaultUnitAI>
+			<Description>TXT_KEY_UNIT_AUSTRIAN_MOUNTAIN_TROOPS</Description>
+			<Civilopedia>TXT_KEY_UNIT_AUSTRIAN_MOUNTAIN_TROOPS_TEXT</Civilopedia>
+			<Strategy>TXT_KEY_UNIT_AUSTRIAN_MOUNTAIN_TROOPS_STRATEGY</Strategy>
+			<Help>TXT_KEY_UNIT_AUSTRIAN_MOUNTAIN_TROOPS_HELP</Help>
+			<MilitarySupport>true</MilitarySupport>
+			<MilitaryProduction>true</MilitaryProduction>
+			<Pillage>true</Pillage>
+			<IgnoreBuildingDefense>true</IgnoreBuildingDefense>
+			<ObsoleteTech>TECH_PLASTIC</ObsoleteTech>
+			<GoodyHutUpgradeUnitClass>UNITCLASS_INFANTRY</GoodyHutUpgradeUnitClass>
+			<AdvancedStartCost>35</AdvancedStartCost>
+			<XPValueAttack>3</XPValueAttack>
+			<XPValueDefense>3</XPValueDefense>
+			<Conscription>6</Conscription>
+			<UnitArtInfo>ART_DEF_UNIT_U_DANISH_SKI_INFANTRY</UnitArtInfo>
+			<UnitFlagAtlas>HARALD_UNIT_FLAG_ATLAS</UnitFlagAtlas>
+			<UnitFlagIconOffset>1</UnitFlagIconOffset>
+			<IconAtlas>HARALD_UNIT_ATLAS</IconAtlas>
+			<PortraitIndex>1</PortraitIndex>
+		</Row>
+	</Units>
+	<Civilization_UnitClassOverrides>
+		<Row>
+			<CivilizationType>CIVILIZATION_AUSTRIA</CivilizationType>
+			<UnitClassType>UNITCLASS_GREAT_WAR_INFANTRY</UnitClassType>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+		</Row>
+	</Civilization_UnitClassOverrides>
+	<Unit_ClassUpgrades>
+		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<UnitClassType>UNITCLASS_INFANTRY</UnitClassType>
+		</Row>
+	</Unit_ClassUpgrades>
+	
+	
+	<!--	American Pioneer
+
 
 	
 	<Units>
@@ -58,11 +107,10 @@
 			<Set ShowInPedia="0" />
 		</Update>
 	</Units>
+-->	
 	
 	
-	
-	<!--
-			American Pioneer Fort
+	<!--	American Pioneer Fort
 
 	<Buildings>
 		<Row>
@@ -109,8 +157,7 @@
 
 
 
-	<!--
-			Byzantine Basilica
+	<!--	Byzantine Basilica
 	-->
 	<Buildings>
 		<Row>
@@ -178,8 +225,7 @@
 
 
 
-	<!--
-			Carthaginian Cothon
+	<!--	Carthaginian Cothon
 	-->
 
 	<Buildings>
@@ -236,8 +282,7 @@
 
 
 
-	<!--
-			Danish Jelling Stones
+	<!--	Danish Jelling Stones
 	-->
 	<Buildings>
 		<Row>
@@ -281,8 +326,7 @@
 	
 	
 
-	<!--
-			English Steam Mill
+	<!--	English Steam Mill
 	-->
 	<Buildings>
 		<Row>
@@ -329,8 +373,7 @@
 
 
 
-	<!--
-			Indian Indus Sanitation
+	<!--	Indian Indus Sanitation
 	-->
 
 	<Buildings>
@@ -370,8 +413,7 @@
 
 
 
-	<!--
-			Japanese Dōjō
+	<!--	Japanese Dōjō
 	-->
 	<Buildings>
 		<Row>
@@ -457,8 +499,7 @@
 
 
 
-	<!--
-			Korean Jade Hall
+	<!--	Korean Jade Hall
 	-->
 	<Buildings>
 		<Row>
@@ -557,8 +598,7 @@
 	
 	
 
-	<!--
-			Mumun Granary
+	<!--	Mumun Granary
 	<Buildings>
 		<Row>
 			<Type>BUILDING_KOREAN_MUMUN_GRANARY</Type>
@@ -606,8 +646,7 @@
 
 
 
-	<!--
-			Swedish Folkskola
+	<!--	Swedish Folkskola
 	-->
 	<Buildings>
 		<Row>
@@ -651,8 +690,7 @@
 		</Row>
 	</Civilization_BuildingClassOverrides>
 	
-	<!--
-			NASA Space Centre		added 2013-2-28
+	<!--	NASA Space Centre		added 2013-2-28
 	-->
 	<Buildings>
 		<Row>
@@ -705,8 +743,8 @@
 			<Set ShowInPedia="0" />
 		</Update>
 	</Units>
-	<!--
-		Egyptian Basin Irrigation
+	
+	<!--	Egyptian Basin Irrigation
 	-->
 	<Buildings>
 		<Row>
@@ -747,8 +785,7 @@
 		</Update>
 	</Buildings>
 	
-	<!--
-		Greek Odeon
+	<!--	Greek Odeon
 	-->
 	<Buildings>
 		<Row>
@@ -793,8 +830,7 @@
 		</Update>
 	</Units>
 	
-	<!--
-		Barbary Port
+	<!--	Barbary Port
 	-->
 	<Buildings>
 		<Row>
