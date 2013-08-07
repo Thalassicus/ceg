@@ -42,14 +42,14 @@ PopupLayouts[ButtonPopupTypes.BUTTONPOPUP_CITY_CAPTURED] = function(popupInfo)
 	
 	-- Calculate Happiness info
 	local iUnhappinessNoCity = activePlayer:GetUnhappiness();
-	local iUnhappinessAnnexedCity = activePlayer:GetUnhappinessForecast(newCity, nil);	-- pAssumeCityAnnexed, pAssumeCityPuppeted
+	local iUnhappinessSackedCity = activePlayer:GetUnhappinessForecast(newCity, nil);	-- pAssumeCityAnnexed, pAssumeCityPuppeted
 	if (bMinorCivBuyout) then
 		-- For minor civ buyout (Austria UA), there are no unhappiness benefits of annexing because the city is not occupied
-		iUnhappinessAnnexedCity = activePlayer:GetUnhappinessForecast(nil, newCity);
+		iUnhappinessSackedCity = activePlayer:GetUnhappinessForecast(nil, newCity);
 	end
 	local iUnhappinessPuppetCity = activePlayer:GetUnhappinessForecast(nil, newCity);		-- pAssumeCityAnnexed, pAssumeCityPuppeted
 	
-	local iUnhappinessForAnnexing = iUnhappinessAnnexedCity - iUnhappinessNoCity;
+	local iUnhappinessForSacking = iUnhappinessSackedCity - iUnhappinessNoCity;
 	local iUnhappinessForPuppeting = iUnhappinessPuppetCity - iUnhappinessNoCity;
 	
 	-- Initialize 'Liberate' button.
@@ -63,21 +63,18 @@ PopupLayouts[ButtonPopupTypes.BUTTONPOPUP_CITY_CAPTURED] = function(popupInfo)
 		AddButton(buttonText, OnLiberateClicked, strToolTip);
 	end
 	
-	-- Initialize 'Annex' button.
-	local OnCaptureClicked = function()
-		Network.SendDoTask(cityID, TaskTypes.TASK_ANNEX_PUPPET, -1, -1, false, false, false, false);
-		newCity:ChooseProduction();
-	end
-	
-	if (not activePlayer:MayNotAnnex()) then
-		local buttonText = Locale.ConvertTextKey("TXT_KEY_POPUP_ANNEX_CITY");
-		local strToolTip = Locale.ConvertTextKey("TXT_KEY_POPUP_CITY_CAPTURE_INFO_ANNEX", iUnhappinessForAnnexing);
-		AddButton(buttonText, OnCaptureClicked, strToolTip);
+	-- Initialize 'Sack' button.
+	local OnSackClicked = function()
+		--Network.SendDoTask(cityID, TaskTypes.TASK_ANNEX_PUPPET, -1, -1, false, false, false, false);
+		--newCity:ChooseProduction();
+		Network.SendDoTask(cityID, TaskTypes.TASK_CREATE_PUPPET, -1, -1, false, false, false, false);
+		Events.CityCaptured(newCity, activePlayer, "SACK")
 	end
 		
 	-- Initialize 'Puppet' button.
 	local OnPuppetClicked = function()
 		Network.SendDoTask(cityID, TaskTypes.TASK_CREATE_PUPPET, -1, -1, false, false, false, false);
+		Events.CityCaptured(newCity, activePlayer, "PUPPET")
 	end
 	
 	buttonText = Locale.ConvertTextKey("TXT_KEY_POPUP_PUPPET_CAPTURED_CITY");
@@ -89,11 +86,16 @@ PopupLayouts[ButtonPopupTypes.BUTTONPOPUP_CITY_CAPTURED] = function(popupInfo)
 	if (bRaze) then
 		local OnRazeClicked = function()
 			Network.SendDoTask(cityID, TaskTypes.TASK_RAZE, -1, -1, false, false, false, false);
+			Events.CityCaptured(newCity, activePlayer, "RAZE")
 		end
 		
 		buttonText = Locale.ConvertTextKey("TXT_KEY_POPUP_RAZE_CAPTURED_CITY");
-		strToolTip = Locale.ConvertTextKey("TXT_KEY_POPUP_CITY_CAPTURE_INFO_RAZE", iUnhappinessForAnnexing);
+		strToolTip = Locale.ConvertTextKey("TXT_KEY_POPUP_CITY_CAPTURE_INFO_RAZE", iUnhappinessForSacking);
 		AddButton(buttonText, OnRazeClicked, strToolTip);
+	else
+		local buttonText = Locale.ConvertTextKey("TXT_KEY_POPUP_SACK_CITY");
+		local strToolTip = Locale.ConvertTextKey("TXT_KEY_POPUP_CITY_CAPTURE_INFO_SACK", iUnhappinessForSacking);
+		AddButton(buttonText, OnSackClicked, strToolTip);
 	end
 
 	-- CITY SCREEN CLOSED - Don't look, Marc
