@@ -403,6 +403,7 @@ ALTER TABLE Traits			ADD NaturalWonderMultiplier				integer default 0;
 ALTER TABLE Traits			ADD NaturalWonderExponent				variant default 1;
 ALTER TABLE Traits			ADD SeaBarbarianCapturePercent			integer default 0;
 ALTER TABLE Traits			ADD OpenBordersGoldModifier				integer default 0;
+ALTER TABLE Traits			ADD Tribute								text;
 
 ALTER TABLE Specialists		ADD IconString							text;
 

@@ -16,11 +16,6 @@ FROM					Buildings
 WHERE					BuildingClass = 'BUILDINGCLASS_AQUEDUCT';
 */
 
-UPDATE Buildings SET Cost = -1 WHERE BuildingClass IN (
-	'BUILDINGCLASS_HYDRO_PLANT'		,
-	'BUILDINGCLASS_BOMB_SHELTER'				
-);
-
 
 --
 -- Resources
@@ -28,10 +23,11 @@ UPDATE Buildings SET Cost = -1 WHERE BuildingClass IN (
 
 DELETE FROM Building_ResourceYieldChanges
 WHERE BuildingType IN (
-	'BUILDING_GRANARY',
-	'BUILDING_STABLE',
-	'BUILDING_DUCAL_STABLE',
-	'BUILDING_FORGE'
+	'BUILDING_GRANARY'		,
+	'BUILDING_STABLE'		,
+	'BUILDING_DUCAL_STABLE'	,
+	'BUILDING_FORGE'		,
+	'BUILDING_MINT'
 );
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges
@@ -106,31 +102,89 @@ WHERE					res.Type IN (
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges
 						(BuildingType, ResourceType, YieldType, Yield) 
-SELECT					building.Type, res.Type, 'YIELD_PRODUCTION', 1
+SELECT					building.Type, res.Type, 'YIELD_GOLD', 1
 FROM					Buildings building, Resources res
-WHERE					building.BuildingClass = 'BUILDINGCLASS_FORGE'
+WHERE					building.BuildingClass = 'BUILDINGCLASS_MINT'
 						AND res.Type IN (
-							'RESOURCE_IRON'		,
-							'RESOURCE_COAL'		,
-							'RESOURCE_COPPER'	
+							'RESOURCE_COPPER'	,
+							'RESOURCE_SILVER'	,
+							'RESOURCE_GOLD'		,
+							'RESOURCE_GEMS'		
 						);
 
+INSERT OR REPLACE INTO	Building_ResourceYieldChanges
+						(BuildingType, ResourceType, YieldType, Yield) 
+SELECT					building.Type, res.Type, 'YIELD_PRODUCTION', 1
+FROM					Buildings building, Resources res
+WHERE					building.BuildingClass = 'BUILDINGCLASS_BARRACKS'
+						AND res.ResourceClassType IN (
+							'RESOURCECLASS_RUSH',
+							'RESOURCECLASS_MODERN'
+						);
+
+						/*
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges
 						(BuildingType, ResourceType, YieldType, Yield) 
 SELECT					building.Type, res.Type, 'YIELD_PRODUCTION', 2
 FROM					Buildings building, Resources res
 WHERE					building.BuildingClass = 'BUILDINGCLASS_FACTORY'
 						AND res.Type IN (
+							'RESOURCE_COAL'		,
 							'RESOURCE_ALUMINUM'	,
 							'RESOURCE_OIL'		,
 							'RESOURCE_URANIUM'
 						);
+						*/
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges(BuildingType, ResourceType, YieldType, Yield) 
 SELECT					building.Type, res.Type, 'YIELD_GOLD', 1
 FROM					Buildings building, Resources res
 WHERE					building.BuildingClass = 'BUILDINGCLASS_CARAVANSARY'
 AND						res.Happiness > 0;
+
+
+
+--
+-- Yields
+--
+
+INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
+SELECT					building.Type, 'YIELD_FOOD', 1
+FROM					Buildings building
+WHERE					building.BuildingClass IN (
+						'BUILDINGCLASS_LIGHTHOUSE'
+						);
+
+INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
+SELECT					building.Type, 'YIELD_PRODUCTION', 1
+FROM					Buildings building
+WHERE					building.BuildingClass IN (
+						'BUILDINGCLASS_STABLE'		,
+						--'BUILDINGCLASS_BARRACKS'	,
+						'BUILDINGCLASS_FORGE'
+						);
+
+						/*
+INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
+SELECT					building.Type, 'YIELD_PRODUCTION', 2
+FROM					Buildings building
+WHERE					building.BuildingClass IN (
+						--'BUILDINGCLASS_ARMORY'			,
+						--'BUILDINGCLASS_MILITARY_ACADEMY'	,
+						'BUILDINGCLASS_SEAPORT'				
+						);
+						*/
+
+UPDATE					Building_YieldChanges
+SET						Yield = 2
+WHERE					(YieldType = 'YIELD_CULTURE'
+AND						BuildingType IN (SELECT Type FROM Buildings WHERE BuildingClass IN (
+						'BUILDINGCLASS_MONUMENT'		,
+						'BUILDINGCLASS_AMPHITHEATER'	,
+						--'BUILDINGCLASS_OPERA_HOUSE'		,
+						--'BUILDINGCLASS_MUSEUM'			,
+						'BUILDINGCLASS_BROADCAST_TOWER'	
+						)));
 
 
 --
@@ -147,42 +201,19 @@ WHERE					building.BuildingClass IN (
 						'BUILDINGCLASS_LABORATORY'	
 						);
 
+
+
+
+
 --
--- Yields
+-- Remove Buildings
 --
 
-INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
-SELECT					building.Type, 'YIELD_PRODUCTION', 1
-FROM					Buildings building
-WHERE					building.BuildingClass IN (
-						'BUILDINGCLASS_STABLE'		,
-						'BUILDINGCLASS_BARRACKS'	,
-						'BUILDINGCLASS_FORGE'
-						);
-
-INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
-SELECT					building.Type, 'YIELD_PRODUCTION', 2
-FROM					Buildings building
-WHERE					building.BuildingClass IN (
-						--'BUILDINGCLASS_ARMORY'			,
-						--'BUILDINGCLASS_MILITARY_ACADEMY'	,
-						'BUILDINGCLASS_SEAPORT'				
-						);
-
-UPDATE					Building_YieldChanges
-SET						Yield = 2
-WHERE					(YieldType = 'YIELD_CULTURE'
-AND						BuildingType IN (SELECT Type FROM Buildings WHERE BuildingClass IN (
-						'BUILDINGCLASS_MONUMENT'		,
-						'BUILDINGCLASS_AMPHITHEATER'	,
-						--'BUILDINGCLASS_OPERA_HOUSE'		,
-						--'BUILDINGCLASS_MUSEUM'			,
-						'BUILDINGCLASS_BROADCAST_TOWER'	
-						)));
-
-
-
-
+UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL' WHERE BuildingClass IN (
+	'BUILDINGCLASS_RECYCLING_CENTER'	,
+	'BUILDINGCLASS_BOMB_SHELTER'		,
+	'BUILDINGCLASS_FORGE'				
+);
 
 --
 -- Rename Buildings

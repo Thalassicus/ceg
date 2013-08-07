@@ -55,37 +55,57 @@
 		</Update>
 	</Buildings>
 	<Language_EN_US>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_BARRACKS_HELP"/>
+			<Set Text="[ICON_WAR] Experience: 10[NEWLINE][ICON_PRODUCTION] Production: +1 on Strategic Resources"/>
+		</Update>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_ARMORY_HELP"/>
+			<Set Text="[ICON_WAR] Experience: 20[NEWLINE][ICON_PRODUCTION] Production: +10% for Land Units"/>
+		</Update>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_MILITARY_ACADEMY_HELP"/>
+			<Set Text="[ICON_WAR] Experience: 30[NEWLINE][ICON_PRODUCTION] Production: +20% for Land Units"/>
+		</Update>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_MILITARY_BASE_HELP"/>
+			<Set Text="[ICON_AIR] Air Damage: -25%[NEWLINE][ICON_URANIUM] Nuclear Damage: -50%[NEWLINE][ICON_LOCKED]Requires: Arsenal"/>
+		</Update>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_SUPERMAX_PRISON_HELP"/>
+			<Set Text="[ICON_SPY] Spy Steal Rate: -25% in all cities"/>
+		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_TEMPLE_HELP</Tag>
-			<Text>[ICON_PEACE] Faith: +2 [ICON_RES_WINE][ICON_RES_INCENSE][NEWLINE][NEWLINE]Benefits from religious resources.</Text>
+			<Text>[ICON_PEACE] Faith: +2 [ICON_RES_WINE][ICON_RES_INCENSE][NEWLINE][NEWLINE]Enhances religious resources.</Text>
 		</Row>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_AQUEDUCT_HELP"/>
-			<Set Text="[ICON_FOOD] Food Storage: 40%[NEWLINE][ICON_FOOD] Food: +1 [ICON_RES_CITRUS][ICON_RES_TRUFFLES][ICON_RES_SALT][ICON_RES_BANANA][NEWLINE][NEWLINE]Improves exotic foods."/>
+			<Set Text="[ICON_FOOD] Food Storage: 40%[NEWLINE][ICON_FOOD] Food: +1 [ICON_RES_CITRUS][ICON_RES_TRUFFLES][ICON_RES_SALT][ICON_RES_BANANA][NEWLINE][NEWLINE]Enhances exotic foods."/>
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_GRANARY_HELP"/>
-			<Set Text="[ICON_FOOD] City can trade Food[NEWLINE][ICON_FOOD] Food: +1 [ICON_RES_WHEAT][ICON_RES_SPICES][ICON_RES_SUGAR][NEWLINE][NEWLINE]Improves grains."/>
+			<Set Text="[ICON_FOOD] City can trade Food[NEWLINE][ICON_FOOD] Food: +1 [ICON_RES_WHEAT][ICON_RES_SPICES][ICON_RES_SUGAR][NEWLINE][NEWLINE]Enhances grain resources."/>
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_CARAVANSARY_HELP"/>
-			<Set Text="[ICON_TRADE] Caravan Range: +50%[NEWLINE][ICON_GOLD] Gold: +2 per Caravan from here[NEWLINE][ICON_GOLD] Gold: +1 on Luxury Resources[NEWLINE][NEWLINE]Improves luxury resources."/>
+			<Set Text="[ICON_TRADE] Caravan Range: +50%[NEWLINE][ICON_GOLD] Gold: +2 per Caravan from here[NEWLINE][ICON_GOLD] Gold: +1 on Luxury Resources[NEWLINE][NEWLINE]Enhances luxury resources."/>
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_AMPHITHEATER_HELP</Tag>
-			<Text>[ICON_CULTURE] Culture: +1 [ICON_RES_SILK][ICON_RES_COTTON][ICON_RES_FUR][ICON_RES_DYE][NEWLINE][NEWLINE]Benefits from costume resources.</Text>
+			<Text>[ICON_CULTURE] Culture: +1 [ICON_RES_SILK][ICON_RES_COTTON][ICON_RES_FUR][ICON_RES_DYE][NEWLINE][NEWLINE]Enhances costume resources.</Text>
 		</Row>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_STABLE_HELP"/>
-			<Set Text="[ICON_PRODUCTION] Production: +15% for Mounted Units[NEWLINE][ICON_PRODUCTION] Production: +1 [ICON_RES_HORSE][ICON_RES_SHEEP][ICON_RES_COW][ICON_RES_DEER][ICON_RES_IVORY][NEWLINE][NEWLINE]Improves livestock."/>
+			<Set Text="[ICON_PRODUCTION] Production: +15% for Mounted Units[NEWLINE][ICON_PRODUCTION] Production: +1 [ICON_RES_HORSE][ICON_RES_SHEEP][ICON_RES_COW][ICON_RES_DEER][ICON_RES_IVORY][NEWLINE][NEWLINE]Enhances livestock resources."/>
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_FORGE_HELP"/>
-			<Set Text="[ICON_PRODUCTION] Production: +15% for Land Units[NEWLINE][ICON_PRODUCTION] Production: +1 [ICON_RES_IRON][ICON_RES_COAL][ICON_RES_COPPER][NEWLINE][NEWLINE]Improves ores."/>
+			<Set Text="[ICON_PRODUCTION] Production: +15% for Land Units[NEWLINE][ICON_PRODUCTION] Production: +1 [ICON_RES_IRON][ICON_RES_COAL][ICON_RES_COPPER][NEWLINE][NEWLINE]Enhances ore resources."/>
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_FACTORY_HELP"/>
-			<Set Text="[ICON_CULTURE] Building 3 unlocks Ideology[NEWLINE][ICON_PRODUCTION] Production: +2 [ICON_RES_ALUMINUM][ICON_RES_OIL][ICON_RES_URANIUM][NEWLINE][ICON_LOCKED] Requires: 1 [ICON_RES_COAL] Coal[NEWLINE][NEWLINE]Improves modern resources."/>
+			<Set Text="[ICON_CULTURE] Building 3 unlocks Ideologies[NEWLINE][ICON_LOCKED] Requires: 1 [ICON_RES_COAL] Coal"/>
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_MARKET_HELP</Tag>
@@ -97,7 +117,7 @@
 		</Update>
 		<Update>
 			<Where Tag="TXT_KEY_BUILDING_MINT_HELP"/>
-			<Set Text="[ICON_GOLD] Gold: +1 on [ICON_RES_COPPER][ICON_RES_SILVER][ICON_RES_GOLD][ICON_RES_GEMS][NEWLINE][NEWLINE]Improves precious metals and gems."/>
+			<Set Text="[ICON_GOLD] Gold: +1 on [ICON_RES_COPPER][ICON_RES_SILVER][ICON_RES_GOLD][ICON_RES_GEMS][NEWLINE][NEWLINE]Enhances currency resources."/>
 		</Update>
 		<Row>
 			<Tag>TXT_KEY_BUILDING_COLOSSUS_HELP</Tag>
@@ -110,6 +130,10 @@
 		<Update>
 			<Where Tag="BUILDING_LABORATORY"/>
 			<Set Text="[ICON_RESEARCH] Science: +1 from Jungle[NEWLINE][ICON_LOCKED]Requires: Public School"/>
+		</Update>
+		<Update>
+			<Where Tag="TXT_KEY_BUILDING_SEAPORT_HELP"/>
+			<Set Text="[ICON_PRODUCTION] Production: +50% for Naval Units[NEWLINE][ICON_PRODUCTION] Production: +1 on Sea Resources.[NEWLINE][ICON_GOLD] Gold: +1 on Sea Resources."/>
 		</Update>
 	</Language_EN_US>
 </GameData>

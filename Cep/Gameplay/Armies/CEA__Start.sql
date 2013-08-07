@@ -154,7 +154,7 @@ UPDATE Units SET         Cost = ROUND((Cost * 1.8) / 10, 0) * 10  WHERE         
 );
 
 UPDATE Units
-SET CombatClass = 'UNITCOMBAT_GUNPOWDER'
+SET CombatClass = 'UNITCOMBAT_GUN'
 WHERE Class IN (
 	'UNITCLASS_GATLINGGUN'	,
 	'UNITCLASS_MACHINE_GUN'	,

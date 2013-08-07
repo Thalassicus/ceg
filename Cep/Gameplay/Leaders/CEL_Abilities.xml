@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Trait_MaintenanceModifierUnitCombats>
+		<Row>
+			<TraitType>TRAIT_BUFFALO_HORNS</TraitType>
+			<UnitCombatType>UNITCOMBAT_VANGUARD</UnitCombatType>
+			<MaintenanceModifier> -50 </MaintenanceModifier>
+		</Row>
+	</Trait_MaintenanceModifierUnitCombats>
+	<Traits>
+		<Row>
+			<Type>TRAIT_TRIBUTE</Type>
+			<Description>TXT_KEY_TRAIT_TRIBUTE</Description>
+			<ShortDescription>TXT_KEY_TRAIT_TRIBUTE_SHORT</ShortDescription>
+			<Tribute>BUILDING_TRIBUTE</Tribute>
+		</Row>
+	</Traits>
+</GameData>
