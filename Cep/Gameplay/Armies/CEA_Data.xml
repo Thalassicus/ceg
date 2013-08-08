@@ -17,6 +17,12 @@
 		<Row Type="RESISTANCE_MAX_TURNS">
 			<Value>10</Value>
 		</Row>
+		<Row Type="SACKED_CITY_POPULATION_CHANGE">
+			<Value>-50</Value>
+		</Row>
+		<Row Type="SACKED_CITY_RESISTANCE_CHANGE">
+			<Value>-50</Value>
+		</Row>
 	</Cep>
 	<!--
 	<UnitCombatInfosEx>

@@ -2,16 +2,8 @@
 <GameData>
 	<Buildings>
 		<Update>
-			<Where BuildingClass="BUILDINGCLASS_AMPHITHEATER"/>
-			<Set GoldMaintenance="1"/>
-		</Update>
-		<Update>
 			<Where BuildingClass="BUILDINGCLASS_OPERA_HOUSE"/>
 			<Set GoldMaintenance="0"/>
-		</Update>
-		<Update>
-			<Where BuildingClass="BUILDINGCLASS_MUSEUM"/>
-			<Set GoldMaintenance="1"/>
 		</Update>
 	</Buildings>
 	<Building_YieldChanges>

@@ -8,7 +8,8 @@
 				 />
 		</Update>
 	</Buildings>
-	<Building_ResourceYieldChanges>	
+	<Building_ResourceYieldChanges>
+		<!--
 		<Row>
 			<BuildingType>BUILDING_CIRCUS</BuildingType>
 			<ResourceType>RESOURCE_HORSE</ResourceType>
@@ -21,5 +22,6 @@
 			<YieldType>YIELD_GOLD</YieldType>
 			<Yield>1</Yield>
 		</Row>
+		-->
 	</Building_ResourceYieldChanges>
 </GameData>

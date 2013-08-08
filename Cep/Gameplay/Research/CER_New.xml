@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
 	<Technologies>
+		<!--
 		<Row>
 			<Type>TECH_CARVEL_HULLS</Type>
 			<Description>TXT_KEY_TECH_CARVEL_HULLS</Description>
@@ -23,5 +24,6 @@
 			<AudioIntro>AS2D_TECH_COMPASS</AudioIntro>
 			<AudioIntroHeader>TXT_KEY_TECH_TRAINING_QUOTE</AudioIntroHeader>
 		</Row>
+		-->
 	</Technologies>
 </GameData>

@@ -17,7 +17,13 @@ TechUnlocks tab of CEP_PoliciesTechsBeliefs.xls (in mod folder).
 		<Update><Where Type="BUILD_WELL"/>                <Set PrereqTech="TECH_DYNAMITE"/></Update>
 		<Update><Where Type="BUILD_OFFSHORE_PLATFORM"/>   <Set PrereqTech="TECH_DYNAMITE"/></Update>
 		<Update><Where Type="BUILD_FORT"/>                <Set PrereqTech="TECH_MASONRY"/></Update>
-	</Builds>		
+	</Builds>
+	<Buildings>
+		<Update>
+			<Where BuildingClass="BUILDINGCLASS_CARAVANSARY" />
+			<Set PrereqTech="TECH_TRAPPING" />
+		</Update>
+	</Buildings>		
 	<!--
 	<Buildings>		
 		<Update><Where BuildingClass="BUILDINGCLASS_AQUEDUCT"/>                 <Set PrereqTech="TECH_ENGINEERING"/></Update>

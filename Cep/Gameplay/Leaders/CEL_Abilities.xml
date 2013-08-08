@@ -95,7 +95,7 @@
 		<!-- The 'TradeRouteChange' & 'CityGoldLuxuryPercent' no longer supported
 		<Update>
 			<Where Type="TRAIT_LAND_TRADE_GOLD" />
-			<Set TradeRouteChange="0"
+			<Set CityConnectionTradeRouteChange="0"
 				 CityGoldPerLuxuryPercent="0"
 				 />
 		</Update>
@@ -211,6 +211,13 @@
 			<!-- 25 -->
 		</Update>
 	</Defines>
+	<Trait_MaintenanceModifierUnitCombats>
+		<Row>
+			<TraitType>TRAIT_BUFFALO_HORNS</TraitType>
+			<UnitCombatType>UNITCOMBAT_VANGUARD</UnitCombatType>
+			<MaintenanceModifier> -50 </MaintenanceModifier>
+		</Row>
+	</Trait_MaintenanceModifierUnitCombats>
 	<Civilization_FreeTechs>
 		<Delete CivilizationType="CIVILIZATION_HUNS" TechType="TECH_ANIMAL_HUSBANDRY" />
 	</Civilization_FreeTechs>

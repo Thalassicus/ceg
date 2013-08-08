@@ -3,6 +3,11 @@
 -- DateCreated: 2/6/2011 5:17:42 AM
 --------------------------------------------------------------
 
+if Game == nil then
+	print("WARN  Game is nil")
+	return
+end
+
 --include("SaveUtils.lua")
 MY_MOD_NAME = "Communitas"
 
@@ -34,6 +39,9 @@ include("MT_Plot.lua")
 include("MT_Unit.lua")
 include("MT_Misc.lua")
 
+local log = Events.LuaLogger:New()
+log:SetLevel("WARN")
+
 
 MapModData.CepEverAtWarWithHuman = {}
 startClockTime = os.clock()
@@ -43,5 +51,5 @@ if UI:IsLoadedGame() then
 	end
 end
 if UI:IsLoadedGame() then
-	log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
+	--log:Warn("%-10s seconds loading EverAtWarWithHuman", Game.Round(os.clock() - startClockTime, 8))
 end

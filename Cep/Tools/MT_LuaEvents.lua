@@ -5,7 +5,7 @@
 
 include("ModTools.lua")
 
-print("Init MT_LuaEvents.lua")
+--print("Init MT_LuaEvents.lua")
 
 local log = Events.LuaLogger:New()
 log:SetLevel("WARN")
@@ -18,26 +18,26 @@ if not LuaEvents.MT_Initialize then
 	LuaEvents.MT_Initialize					= function()							end
 	LuaEvents.PrintDebug					= function()							end
 	LuaEvents.ActivePlayerTurnStart_Turn	= function()							end
-	LuaEvents.ActivePlayerTurnStart_Player	= function(player)					end
+	LuaEvents.ActivePlayerTurnStart_Player	= function(player)						end
 	LuaEvents.ActivePlayerTurnStart_Unit	= function(unit)						end
-	LuaEvents.ActivePlayerTurnStart_City	= function(city, owner)				end
+	LuaEvents.ActivePlayerTurnStart_City	= function(city, owner)					end
 	LuaEvents.ActivePlayerTurnStart_Plot	= function(plot)						end
 	LuaEvents.ActivePlayerTurnEnd_Turn		= function()							end
-	LuaEvents.ActivePlayerTurnEnd_Player	= function(player)					end
+	LuaEvents.ActivePlayerTurnEnd_Player	= function(player)						end
 	LuaEvents.ActivePlayerTurnEnd_Unit		= function(unit)						end
-	LuaEvents.ActivePlayerTurnEnd_City		= function(city, owner)				end
+	LuaEvents.ActivePlayerTurnEnd_City		= function(city, owner)					end
 	LuaEvents.ActivePlayerTurnEnd_Plot		= function(plot)						end
 	LuaEvents.NewCity						= function(hexPos, playerID, cityID, cultureType, eraType, continent, populationSize, size, fowState) end
 	LuaEvents.NewUnit						= function(playerID, unitID, hexVec, unitType, cultureType, civID, primaryColor, secondaryColor, unitFlagIndex, fogState, selected, military, notInvisible) end
 	LuaEvents.NewImprovement				= function(hexX, hexY, cultureArtID, continentArtID, playerID, engineImprovementTypeDoNotUse, improvementID, engineResourceTypeDoNotUse, resourceID, eraID, improvementState) end
 	LuaEvents.NewTech						= function(player, techID, changeID)	end
-	LuaEvents.PlotChanged					= function(hexX, hexY)				end
+	LuaEvents.PlotChanged					= function(hexX, hexY)					end
 	LuaEvents.PlotAcquired					= function(plot, newOwnerID)			end
-	LuaEvents.NewPolicy						= function(policyID, isPolicy)		end
-	LuaEvents.CityOccupied					= function(city, player, isForced)	end
-	LuaEvents.CityPuppeted					= function(city, player, isForced)	end
-	LuaEvents.CityLiberated					= function(city, player, isForced)	end
-	LuaEvents.PromotionEarned				= function(unit, promotionType)		end
+	LuaEvents.NewPolicy						= function(policyID, isPolicy)			end
+	LuaEvents.CityOccupied					= function(city, player, isForced)		end
+	LuaEvents.CityPuppeted					= function(city, player, isForced)		end
+	LuaEvents.CityLiberated					= function(city, player, isForced)		end
+	LuaEvents.PromotionEarned				= function(unit, promotionType)			end
 	LuaEvents.UnitUpgraded					= function(unit)						end
 	LuaEvents.BuildingConstructed			= function(player, city, buildingID)	end
 	LuaEvents.BuildingDestroyed				= function(player, city, buildingID)	end

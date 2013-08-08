@@ -274,7 +274,25 @@ end
 
 
 function CheckTradeBonuses(player)
+	local trait = player:GetTraitInfo()
+	if not trait.Tribute then
+		return
+	end
 	print("CheckTradeBonuses " .. player:GetName())
+
+	local tributeCities = {}
+	for routeID, route in ipairs(player:GetTradeRoutes()) do
+		if route.FromID == route.ToID then
+			-- domestic route
+			tributeCities[route.FromCity] = (tributeCities[route.FromCity] or 0) + 1
+		end
+	end
+
+	local tributeBuildingID = trait.Tribute
+	for city in player:Cities() do
+		city:SetNumRealBuilding(tributeBuildingID, tributeCities[city] or 0)
+	end
 end
-LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
-LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
+--LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
+--LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
+

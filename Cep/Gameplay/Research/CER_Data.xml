@@ -10,10 +10,94 @@
 			<Set TechPrereq="NULL" />
 		</Update>
 	</Processes>
-	<Buildings>
+	<Technologies>
+		<!--
 		<Update>
-			<Where BuildingClass="BUILDINGCLASS_CARAVANSARY" />
-			<Set PrereqTech="TECH_TRAPPING" />
+			<Where Type="TECH_THEOLOGY" />
+			<Set IconAtlas="BW_ATLAS_1"
+				 PortraitIndex="38"
+				 />
 		</Update>
-	</Buildings>
+		<Update>
+			<Where Type="TECH_ARCHAEOLOGY" />
+			<Set Era="ERA_INDUSTRIAL" />
+		</Update>
+		-->
+		<Update>
+			<Where Type="TECH_WRITING" />
+			<Set AllowEmbassyTradingAllowed="0"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_TRAPPING" />
+			<Set AllowEmbassyTradingAllowed="true"
+				 Description="TXT_KEY_TECH_TRADE_TITLE"
+				 Civilopedia="TXT_KEY_TECH_TRADE_DESC"
+				 Quote="TXT_KEY_TECH_TRADE_QUOTE"
+				 IconAtlas="BW_ATLAS_1"
+				 PortraitIndex="17"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_CURRENCY" />
+			<Set OpenBordersTradingAllowed="1"
+				 ResearchAgreementTradingAllowed="1"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_CIVIL_SERVICE" />
+			<Set OpenBordersTradingAllowed="0"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_PHILOSOPHY" />
+			<Set ResearchAgreementTradingAllowed="0"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_EDUCATION" />
+			<Set ResearchAgreementTradingAllowed="0"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_ENGINEERING" />
+			<Set BridgeBuilding="0"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_GUILDS" />
+			<Set DefensivePactTradingAllowed="1"
+				 BridgeBuilding="1"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_CHIVALRY" />
+			<Set DefensivePactTradingAllowed="0"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_METAL_CASTING" />
+			<Set IconAtlas="CEP_TECH_ATLAS"
+				 PortraitIndex="0"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_REPLACEABLE_PARTS" />
+			<Set Description="TXT_KEY_TECH_MASS_MEDIA_TITLE"
+				 Civilopedia="TXT_KEY_TECH_MASS_MEDIA_DESC"
+				 Quote="TXT_KEY_TECH_MASS_MEDIA_QUOTE"
+				 PortraitIndex="59"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_ADVANCED_BALLISTICS" />
+			<Set Description="TXT_KEY_TECH_ION_PROPULSION_TITLE"
+				 Civilopedia="TXT_KEY_TECH_ION_PROPULSION_DESC"
+				 Quote="TXT_KEY_TECH_ION_PROPULSION_QUOTE"
+				 IconAtlas="EXPANSION_BW_ATLAS_2"
+				 PortraitIndex="3"
+				 />
+		</Update>
+	</Technologies>
+	<Route_TechMovementChanges>
+		<Update>
+			<Where RouteType="ROUTE_ROAD" />
+			<Set TechType="TECH_GUILDS" />
+		</Update>
+	</Route_TechMovementChanges>
 </GameData>

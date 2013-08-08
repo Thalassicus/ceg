@@ -60,7 +60,7 @@
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_GARDEN" />
 			<Set GreatPeopleRateModifier="50"
-				 FreshWater="false"
+				 FreshWater="0"
 				 />
 		</Update>
 	</Buildings>

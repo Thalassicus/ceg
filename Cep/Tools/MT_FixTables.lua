@@ -19,6 +19,9 @@ GameInfoCep.HandicapInfos	= {}
 -- This MT_FixTables.lua data automatically created by:
 -- Worlds tab of CEP_LeadersAI.xls
 
+-- This MT_FixTables.lua data automatically created by:
+-- Worlds tab of CEP_LeadersAI.xls
+
 GameInfoCep.Worlds[0] = {
 ID                             = 0,
 Type                           = "WORLDSIZE_DUEL",
@@ -45,6 +48,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 80,
 EstimatedNumCities             = 13,
 PortraitIndex                  = 0,
+AIRevealRadius                 = 5,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[1] = {
@@ -73,6 +77,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 85,
 EstimatedNumCities             = 26,
 PortraitIndex                  = 1,
+AIRevealRadius                 = 6,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[2] = {
@@ -101,6 +106,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 90,
 EstimatedNumCities             = 39,
 PortraitIndex                  = 2,
+AIRevealRadius                 = 7,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[3] = {
@@ -129,6 +135,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 100,
 EstimatedNumCities             = 52,
 PortraitIndex                  = 3,
+AIRevealRadius                 = 8,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[4] = {
@@ -157,6 +164,7 @@ NumCitiesTechCostMod           = 3.75,
 AdvancedStartPointsMod         = 110,
 EstimatedNumCities             = 80,
 PortraitIndex                  = 4,
+AIRevealRadius                 = 9,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[5] = {
@@ -185,6 +193,7 @@ NumCitiesTechCostMod           = 2.5,
 AdvancedStartPointsMod         = 120,
 EstimatedNumCities             = 132,
 PortraitIndex                  = 5,
+AIRevealRadius                 = 10,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 
@@ -228,7 +237,7 @@ AIStartingWorkerUnits          = 0,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 0,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 0,
 AICapitalYieldMilitaristic     = 0,
 
@@ -307,7 +316,7 @@ AIStartingWorkerUnits          = 0,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 0,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 0,
 AICapitalYieldMilitaristic     = 0,
 
@@ -386,7 +395,7 @@ AIStartingWorkerUnits          = 0,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 0,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 0,
 AICapitalYieldMilitaristic     = 2,
 
@@ -465,7 +474,7 @@ AIStartingWorkerUnits          = 0,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 0,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 2,
 AICapitalYieldMilitaristic     = 4,
 
@@ -544,7 +553,7 @@ AIStartingWorkerUnits          = 1,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 0,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 2,
 AICapitalYieldMilitaristic     = 5,
 
@@ -623,7 +632,7 @@ AIStartingWorkerUnits          = 1,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 0,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 3,
 AICapitalYieldMilitaristic     = 6,
 
@@ -702,7 +711,7 @@ AIStartingWorkerUnits          = 1,
 AIStartingExploreUnits         = 0,
 AIGold                         = 0,
 AIStartingUnitMultiplier       = 1,
-AICapitalRevealRadius          = 0,
+
 AICapitalYieldPeaceful         = 4,
 AICapitalYieldMilitaristic     = 7,
 

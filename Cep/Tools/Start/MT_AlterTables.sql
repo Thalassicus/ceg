@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Language_ZH_CN (ID integer PRIMARY KEY, Tag text, Tex
 
 CREATE TABLE IF NOT EXISTS
 	Personalities (
-	Type			text
+	Type			text NOT NULL UNIQUE
 );
 	
 CREATE TABLE IF NOT EXISTS
@@ -46,6 +46,11 @@ CREATE TABLE IF NOT EXISTS
 );
 	
 CREATE TABLE IF NOT EXISTS
+	Captures (
+	Type			text NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS
 	BuildingFields (
 	ID				integer PRIMARY KEY,
 	Type			text NOT NULL UNIQUE,
@@ -61,6 +66,13 @@ CREATE TABLE IF NOT EXISTS
 	ParentBuildingClass	text REFERENCES BuildingClasses(Type)
 );
 	
+CREATE TABLE IF NOT EXISTS
+	Building_CaptureChance (
+	BuildingType		text REFERENCES Buildings(Type),
+	CaptureType			text REFERENCES Captures(Type),
+	Chance				integer
+);
+
 CREATE TABLE IF NOT EXISTS
 	Building_BuildingClassYieldModifiers (
 	BuildingType		text REFERENCES Buildings(Type),
@@ -353,7 +365,7 @@ ALTER TABLE HandicapInfos	ADD AIResearchPercent					variant default 0;
 ALTER TABLE HandicapInfos	ADD AIResearchPercentPerEra				variant default 0;
 ALTER TABLE HandicapInfos	ADD AIProductionPercentPerEra			variant default 0;
 ALTER TABLE HandicapInfos	ADD AIGold								integer default 0;
-ALTER TABLE HandicapInfos	ADD AICapitalRevealRadius				integer default 0;
+ALTER TABLE HandicapInfos	ADD AIRevealRadius				integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalYieldPeaceful				integer default 0;
 ALTER TABLE HandicapInfos	ADD AICapitalYieldMilitaristic			integer default 0;
 UPDATE HandicapInfos		SET AIFreeXPPerEra						= 0;
@@ -362,7 +374,7 @@ UPDATE HandicapInfos		SET AIResearchPercent					= 0;
 UPDATE HandicapInfos		SET AIResearchPercentPerEra				= 0;
 UPDATE HandicapInfos		SET AIProductionPercentPerEra			= 0;
 UPDATE HandicapInfos		SET AIGold								= 0;
-UPDATE HandicapInfos		SET AICapitalRevealRadius				= 0;
+UPDATE HandicapInfos		SET AIRevealRadius				= 0;
 UPDATE HandicapInfos		SET AICapitalYieldPeaceful				= 0;
 UPDATE HandicapInfos		SET AICapitalYieldMilitaristic			= 0;
 
@@ -421,7 +433,7 @@ ALTER TABLE UnitPromotions	ADD FullMovesAfterAttack				boolean;
 ALTER TABLE UnitPromotions	ADD GoldenPoints						integer default 0;
 ALTER TABLE UnitPromotions	ADD Class								text default 'PROMOTION_CLASS_PERSISTANT';
 
-ALTER TABLE Worlds			ADD AICapitalRevealRadius				integer default 0;
+ALTER TABLE Worlds			ADD AIRevealRadius				integer default 0;
 ALTER TABLE Worlds			ADD ResourceMod							integer default 100;
 UPDATE Worlds SET ResourceMod = 100;
 

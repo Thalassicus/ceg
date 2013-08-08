@@ -7,7 +7,7 @@
 		</Update>
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_BARRACKS" />
-			<Set Experience="10" GoldMaintenance="0" />
+			<Set Experience="10" />
 		</Update>
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_ARMORY" />
@@ -39,18 +39,6 @@
 	</Building_YieldChanges>
 	<Building_LocalResourceOrs>
 		<Delete BuildingType="BUILDING_SEAPORT" />
-		<Row>
-			<BuildingType>BUILDING_FORGE</BuildingType>
-			<ResourceType>RESOURCE_COPPER</ResourceType>
-		</Row>
-		<Row>
-			<BuildingType>BUILDING_FORGE</BuildingType>
-			<ResourceType>RESOURCE_IRON</ResourceType>
-		</Row>
-		<Row>
-			<BuildingType>BUILDING_FORGE</BuildingType>
-			<ResourceType>RESOURCE_COAL</ResourceType>
-		</Row>
 		<Row>
 			<BuildingType>BUILDING_STABLE</BuildingType>
 			<ResourceType>RESOURCE_IVORY</ResourceType>
