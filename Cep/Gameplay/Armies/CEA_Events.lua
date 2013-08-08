@@ -157,7 +157,7 @@ Events.EndCombatSim.Add( DoEndCombatBlitzCheck )
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 
---[=[
+--[[
 include("CustomNotification.lua")
 LuaEvents.NotificationAddin( { name = "Refugees", type = "CNOTIFICATION_REFUGEES" } )
 LuaEvents.NotificationAddin( { name = "CapturedMaritime", type = "CNOTIFICATION_CAPTURED_MARITIME" } )
@@ -166,6 +166,11 @@ LuaEvents.NotificationAddin( { name = "CapturedMilitaristic", type = "CNOTIFICAT
 LuaEvents.NotificationAddin( { name = "CapturedReligious", type = "CNOTIFICATION_CAPTURED_RELIGIOUS" } )
 LuaEvents.NotificationAddin( { name = "CapturedMercantile", type = "CNOTIFICATION_CAPTURED_MERCANTILE" } )
 LuaEvents.NotificationAddin( { name = "CapturedOther", type = "CNOTIFICATION_CAPTURED_OTHER" } )
+--]]
+
+function CustomNotification(name, tip, text)
+	Events.GameplayAlertMessage(text)
+end
 
 LuaEvents.CityCaptureBonuses = LuaEvents.CityCaptureBonuses or function(city) end
 
@@ -177,12 +182,11 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	local popLost		= 0
 	local popDead		= 0
 	local popFlee		= 0
-	local resistMod		= 1.0
 	
-	for policyInfo in GameInfo.Policies("CityResistTimeMod <> 0") do
-		if wonPlayer:HasPolicy(policyInfo.ID) then
-			resistMod = resistMod + policyInfo.CityResistTimeMod / 100
-		end
+	if lostCity:GetResistanceTurns() > 0 then
+		-- work around occupation bug
+		lostCity:SetOccupied(false)
+		lostCity:SetPuppet(true)
 	end
 	
 	if lostCityPop >= 2 then
@@ -196,10 +200,8 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 
 	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
 	local heldMinTime	= Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * Game.GetSpeedInfo().TrainPercent / 100
-	local resistMaxTime	= math.max(1, math.min(heldTime, lostCityPop))
-	local resistTime	= (lostCityPop - 0.1*lostCityPop^1.5) * resistMod
-		  resistTime	= Game.Constrain(1, Game.Round(resistTime), resistMaxTime)
 
+	local resistTime	= City_CalculateResistanceTurns(lostPlayer, lostCity)
 	City_SetResistanceTurns(lostCity, resistTime)
 	
 	if not capitalCity then
@@ -209,17 +211,18 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	if popFlee > 0 then
 		capitalCity:ChangePopulation(popFlee, true)
 	end
-	--[[
-	log:Info("%s captured: heldMinTime=%s MinTurns=%s TrainPercent=%s turn=%s acquired=%s resistMaxTime=%s resistTime=%s",
+	--
+	log:Info("%s captured: heldMinTime=%s MinTurns=%s TrainPercent=%s turn=%s acquired=%s resistTime=%s",
+		lostCity:GetName(),
 		heldMinTime,
 		Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
 		Game.GetSpeedInfo().TrainPercent / 100,
 		Game.GetGameTurn(),
 		lostPlayer:GetTurnAcquired(lostCity),
-		resistMaxTime,
 		resistTime
 	)
 	--]]
+	
 	if not wonPlayer:IsHuman() and not lostPlayer:IsHuman() then
 		return
 	end
@@ -243,28 +246,30 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 		end
 	end
 	
-	if lostCityPlot:IsRevealed(Game.GetActiveTeam()) then
-		if refugees then
-			CustomNotification(
-				"Refugees",
-				"War refugees flee "..lostCityName,
-				string.format("Refugees from %s flee to %s and rally as partisan fighters!", lostCityName, capitalCity:GetName()),
-				lostCityPlot,
-				0,
-				"Red",
-				0
-			)
-		else
-			CustomNotification(
-				"Refugees",
-				"Partisans rally at "..capitalCity:GetName(),
-				string.format("Partisans from %s rally at %s!", lostCityName, capitalCity:GetName()),
-				lostCityPlot,
-				0,
-				"Red",
-				0
-			)
-		end
+	if not lostCityPlot:IsRevealed(Game.GetActiveTeam()) then
+		return
+	end
+	
+	if refugees then
+		CustomNotification(
+			"Refugees",
+			"War refugees flee "..lostCityName,
+			string.format("Refugees from %s flee to %s and rally as partisan fighters!", lostCityName, capitalCity:GetName()),
+			lostCityPlot,
+			0,
+			"Red",
+			0
+		)
+	else
+		CustomNotification(
+			"Refugees",
+			"Partisans rally at "..capitalCity:GetName(),
+			string.format("Partisans from %s rally at %s!", lostCityName, capitalCity:GetName()),
+			lostCityPlot,
+			0,
+			"Red",
+			0
+		)
 	end
 end
 
@@ -435,10 +440,12 @@ function CityCaptured (plot, lostPlayerID, cityID, wonPlayerID)
 	log:Info("%s captured %s from %s: %s capital city", wonPlayer:GetName(), lostCityName, lostPlayer:GetName(), capitalCity and capitalCity:GetName() or "no")
 	
 	City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPlayer)
-
+	
+	--[[
 	if not capitalCity and lostPlayer:IsMinorCiv() and lostPlayer:GetNumCities() <= 0 then
 		City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlayerID, wonPlayerID, capturingUnit)
 	end
+	--]]
 
 	LuaEvents.CityCaptureBonuses(lostCity, wonPlayer)
 end

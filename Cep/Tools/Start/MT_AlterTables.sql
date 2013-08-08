@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Language_ZH_CN (ID integer PRIMARY KEY, Tag text, Tex
 
 CREATE TABLE IF NOT EXISTS
 	Personalities (
-	Type			text
+	Type			text NOT NULL UNIQUE
 );
 	
 CREATE TABLE IF NOT EXISTS
@@ -46,6 +46,11 @@ CREATE TABLE IF NOT EXISTS
 );
 	
 CREATE TABLE IF NOT EXISTS
+	Captures (
+	Type			text NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS
 	BuildingFields (
 	ID				integer PRIMARY KEY,
 	Type			text NOT NULL UNIQUE,
@@ -61,6 +66,13 @@ CREATE TABLE IF NOT EXISTS
 	ParentBuildingClass	text REFERENCES BuildingClasses(Type)
 );
 	
+CREATE TABLE IF NOT EXISTS
+	Building_CaptureChance (
+	BuildingType		text REFERENCES Buildings(Type),
+	CaptureType			text REFERENCES Captures(Type),
+	Chance				integer
+);
+
 CREATE TABLE IF NOT EXISTS
 	Building_BuildingClassYieldModifiers (
 	BuildingType		text REFERENCES Buildings(Type),

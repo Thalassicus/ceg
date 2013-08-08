@@ -8,6 +8,45 @@ local log = Events.LuaLogger:New()
 log:SetLevel("WARN")
 
 
+---------------------------------------------------------------------
+-- City_Capture(city, player, captureType)
+--
+function City_GetYieldChangeForAction(city, player, captureType, yieldID)
+	if captureType == "CAPTURE_PUPPET" then
+		return player:GetUnhappinessForecast(nil, city) - player:GetUnhappiness()
+	end
+	return GameDefines.UNHAPPINESS_PER_CITY + math.ceil(city:GetPopulation() * Cep.SACKED_CITY_POPULATION_CHANGE / 100) * GameDefines.UNHAPPINESS_PER_POPULATION
+end
+function City_CalculateResistanceTurns(lostPlayer, lostCity)
+	local resistMod		= 1.0	
+	for policyInfo in GameInfo.Policies("CityResistTimeMod <> 0") do
+		if wonPlayer:HasPolicy(policyInfo.ID) then
+			resistMod = resistMod + policyInfo.CityResistTimeMod / 100
+		end
+	end
+	local lostCityPop	= lostCity:GetPopulation()
+	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
+	local resistMaxTime	= math.max(1, math.min(heldTime, lostCityPop))
+	local resistTime	= (lostCityPop - 0.1*lostCityPop^1.5) * resistMod
+		  resistTime	= Game.Constrain(1, Game.Round(resistTime), resistMaxTime)
+	
+	return resistTime
+end
+function City_Capture(city, player, captureType)
+	if captureType == "CAPTURE_SACK" or captureType == "CAPTURE_RAZE" then
+		city:ChangePopulation(math.ceil(city:GetPopulation() * Cep.SACKED_CITY_POPULATION_CHANGE / 100), true)
+		City_SetResistanceTurns(city, math.ceil( city:GetResistanceTurns() * (1 + Cep.SACKED_CITY_RESISTANCE_CHANGE / 100) ))
+	end
+	--[[
+	return
+	for buildingInfo in GameInfo.Buildings() do
+		for captureInfo in GameInfo.Building_CaptureChance(string.format("BuildingType = '%s' AND CaptureType = '%s'", buildingInfo.Type, captureType)) do
+			
+		end
+	end
+	--]]
+end
+
 
 ---------------------------------------------------------------------
 -- City_CanPurchasePlot(city, plot, budget)
