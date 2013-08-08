@@ -1672,13 +1672,10 @@
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Leaders\CEL_Abilities.xml">
-<<<<<<< HEAD
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Gameplay\Leaders\CEL_End.sql">
-=======
->>>>>>> origin/ThalsWork
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
