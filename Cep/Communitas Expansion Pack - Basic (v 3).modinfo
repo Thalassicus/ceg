@@ -244,9 +244,9 @@
       <UpdateDatabase>Gameplay\Diplomacy\CED_Data.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\Faith\CEF_Data.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\GreatWorks\GreatWorks.xml</UpdateDatabase>
+      <UpdateDatabase>Gameplay\Leaders\CEL_Abilities.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\Leaders\CEL_Buildings.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\Leaders\CEL_Units.xml</UpdateDatabase>
-      <UpdateDatabase>Gameplay\Leaders\CEL_Abilities.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\Leaders\CEL_LandmarkArtTypes.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\Leaders\CEL_LandmarkArt.xml</UpdateDatabase>
       <UpdateDatabase>Gameplay\Opportunities\CEO_Opportunities.xml</UpdateDatabase>

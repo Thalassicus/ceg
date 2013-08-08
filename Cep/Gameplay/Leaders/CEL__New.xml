@@ -10,6 +10,7 @@
 			<Combat>60</Combat>
 			<Cost>320</Cost>
 			<FaithCost>640</FaithCost>
+			<RequiresFaithPurchaseEnabled>true</RequiresFaithPurchaseEnabled>
 			<Moves>2</Moves>
 			<CombatClass>UNITCOMBAT_GUN</CombatClass>
 			<Domain>DOMAIN_LAND</Domain>
@@ -24,6 +25,7 @@
 			<IgnoreBuildingDefense>true</IgnoreBuildingDefense>
 			<ObsoleteTech>TECH_PLASTIC</ObsoleteTech>
 			<GoodyHutUpgradeUnitClass>UNITCLASS_INFANTRY</GoodyHutUpgradeUnitClass>
+
 			<AdvancedStartCost>35</AdvancedStartCost>
 			<XPValueAttack>3</XPValueAttack>
 			<XPValueDefense>3</XPValueDefense>
@@ -112,12 +114,31 @@
 	
 	<!--	Ottoman Building for Tribute
 	-->
+	<BuildingClasses>
+		<Row>
+			<Type>BUILDINGCLASS_TRIBUTE</Type>
+			<DefaultBuilding>BUILDING_TRIBUTE</DefaultBuilding>
+			<Description>TXT_KEY_BUILDING_TRIBUTE</Description>
+			<MaxPlayerInstances>0</MaxPlayerInstances>
+			<NoLimit>true</NoLimit>
+		</Row>
+	</BuildingClasses>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_TRIBUTE</Type>
-			<BuildingClass>BUILDINGCLASS_MARKET</BuildingClass>
-			<Cost>-1</Cost>
-			<PrereqTech></PrereqTech>
+			<BuildingClass>BUILDINGCLASS_TRIBUTE</BuildingClass>
+			<Cost>0</Cost>
+			<Description>TXT_KEY_BUILDING_TRIBUTE</Description>
+			<AlwaysShowHelp>true</AlwaysShowHelp>
+			<ArtDefineTag>PALACE</ArtDefineTag>
+			<NukeImmune>true</NukeImmune>
+			<MinAreaSize>-1</MinAreaSize>
+			<DisplayPosition>32</DisplayPosition>
+			<NeverCapture>true</NeverCapture>
+			<PortraitIndex>17</PortraitIndex>
+			<IconAtlas>TECH_ATLAS_1</IconAtlas>
+			<IsVisible>0</IsVisible>
+			<ShowInPedia>0</ShowInPedia>
 		</Row>
 	</Buildings>
 	<Building_YieldChanges>
