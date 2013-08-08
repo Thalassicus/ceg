@@ -3,7 +3,7 @@
 	<!-- Austrian UU - Imperial-Royal Mountain Troops
 	-->
 	<Units>
-	<Row>
+		<Row>
 			<Class>UNITCLASS_GREAT_WAR_INFANTRY</Class>
 			<Type>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</Type>
 			<PrereqTech>TECH_REPLACEABLE_PARTS</PrereqTech>
@@ -51,6 +51,67 @@
 		</Row>
 	</Unit_ClassUpgrades>
 	
+	
+	<!--	Roman Liburna
+	-->
+	
+	<Units>
+		<Row>
+			<Class>UNITCLASS_TRIREME</Class>
+			<Type>UNIT_ROMAN_LIBURNA</Type>
+			<PrereqTech>TECH_OPTICS</PrereqTech>
+			<Combat>13</Combat>
+			<Cost>45</Cost>
+			<Moves>4</Moves>
+			<CombatClass>UNITCOMBAT_NAVALMELEE</CombatClass>
+			<Domain>DOMAIN_SEA</Domain>
+			<DefaultUnitAI>UNITAI_ATTACK_SEA</DefaultUnitAI>
+			<Description>TXT_KEY_ROMAN_LIBURNA</Description>
+			<Civilopedia>TXT_KEY_ROMAN_LIBURNA_TEXT</Civilopedia>
+			<Strategy>TXT_KEY_UNIT_ROMAN_LIBURNA_STRATEGY</Strategy>
+			<Help>TXT_KEY_UNIT_HELP_ROMAN_LIBURNA</Help>
+			<MilitarySupport>true</MilitarySupport>
+			<MilitaryProduction>true</MilitaryProduction>
+			<Pillage>true</Pillage>
+			<Mechanized>true</Mechanized>
+			<ObsoleteTech>TECH_ASTRONOMY</ObsoleteTech>
+			<AdvancedStartCost>30</AdvancedStartCost>
+			<MinAreaSize>10</MinAreaSize>
+			<XPValueAttack>3</XPValueAttack>
+			<XPValueDefense>3</XPValueDefense>
+			<UnitArtInfo>ART_DEF_UNIT_TRIREME</UnitArtInfo>
+			<UnitFlagIconOffset>24</UnitFlagIconOffset>
+			<IconAtlas>UNIT_ATLAS_1</IconAtlas>
+			<PortraitIndex>23</PortraitIndex>
+			<MoveRate>WOODEN_BOAT</MoveRate>
+		</Row>
+	</Units>
+	<Civilization_UnitClassOverrides>
+		<Delete UnitType="UNIT_ROMAN_BALLISTA" />
+	</Civilization_UnitClassOverrides>
+	<Unit_FreePromotions>
+		<Row>
+			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
+			<PromotionType>PROMOTION_CAN_MOVE_AFTER_ATTACKING</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
+			<PromotionType>PROMOTION_COASTAL_RAIDER_1</PromotionType>
+		</Row>
+		</Unit_FreePromotions>
+	<Units>
+		<Update>
+			<Where Type="UNIT_ROMAN_BALLISTA" />
+			<Set ShowInPedia="0" />
+		</Update>
+	</Units>
+	<Civilization_UnitClassOverrides>
+		<Row>
+			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
+			<UnitClassType>UNITCLASS_TRIREME</UnitClassType>
+			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
+		</Row>
+	</Civilization_UnitClassOverrides>
 	
 	<!--	American Pioneer
 
