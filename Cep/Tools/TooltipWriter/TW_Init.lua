@@ -496,25 +496,25 @@ function GetYieldInfo(info)
 	for row in GameInfo[info.table]{BuildingType = buildingInfo.Type} do
 		-- Error checking	
 		if info.cell and not row[info.cell or "Yield"] then
-			log:Error("GetDefaultBuildingFieldText lineType=%s : column %s does not exist in GameInfo.%s", lineType, info.cell, info.table)
+			log:Fatal("GetDefaultBuildingFieldText lineType=%s : column %s does not exist in GameInfo.%s", lineType, info.cell, info.table)
 			return errorMsg
 		end
 		if not (info.yieldType or row[info.cellYieldType or "YieldType"]) then
-			log:Error("GetDefaultBuildingFieldText lineType=%s : column %s does not exist in GameInfo.%s", lineType, "YieldType", info.table)
+			log:Fatal("GetDefaultBuildingFieldText lineType=%s : column %s does not exist in GameInfo.%s", lineType, "YieldType", info.table)
 			return errorMsg
 		end
 		if info.cellExtra then
 			if not row[info.cellExtra] then
-				log:Error("GetDefaultBuildingFieldText lineType=%s : column %s does not exist in GameInfo.%s", lineType, info.cellExtra, info.table)
+				log:Fatal("GetDefaultBuildingFieldText lineType=%s : column %s does not exist in GameInfo.%s", lineType, info.cellExtra, info.table)
 				return errorMsg
 			end
 			info.typeExtra = row[info.cellExtra]
 		end				
 		if info.cellExtra and not GameInfo[info.tableExtra][info.typeExtra] then
-			log:Error("GetDefaultBuildingFieldText lineType=%s : GameInfo.%s.%s does not exist", lineType, info.table, info.typeExtra)
+			log:Fatal("GetDefaultBuildingFieldText lineType=%s : GameInfo.%s.%s does not exist", lineType, info.table, info.typeExtra)
 			return errorMsg
 		elseif info.cellExtra and not GameInfo[info.tableExtra][info.typeExtra].Description then
-			log:Error("GetDefaultBuildingFieldText lineType=%s : GameInfo.%s.%s.Description is null", lineType, info.table, info.typeExtra)
+			log:Fatal("GetDefaultBuildingFieldText lineType=%s : GameInfo.%s.%s.Description is null", lineType, info.table, info.typeExtra)
 			return errorMsg
 		end
 		

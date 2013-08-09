@@ -1,5 +1,6 @@
 -- Alter tables
 
+/*
 CREATE TABLE IF NOT EXISTS
 	BuildingFields (
 	ID				integer PRIMARY KEY,
@@ -93,7 +94,7 @@ UPDATE Building_TechEnhancedYieldChanges SET EnhancedYieldTech = (
 	SELECT EnhancedYieldTech FROM Buildings b WHERE b.Type = Building_TechEnhancedYieldChanges.BuildingType
 );
 
-
+*/
 
 
 -- This TW_BuildingStats.sql data created by:

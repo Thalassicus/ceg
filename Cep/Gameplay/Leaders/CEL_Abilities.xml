@@ -5,7 +5,6 @@
 			<Where Type="TRAIT_ART_OF_WAR" />
 			<Set GreatGeneralExtraBonus="10"
 				 GreatGeneralRateModifier="0"
-				 FreeUnit="UNITCLASS_GREAT_GENERAL"
 				 ExtraSpies="1"
 				 />
 			<!-- 20 -->
@@ -48,8 +47,6 @@
 			<Where Type="TRAIT_CONVERTS_LAND_BARBARIANS" />
 			<Set LandBarbarianConversionPercent="100"
 				 LandUnitMaintenanceModifier="0"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_CHARIOT_ARCHER"
 				 />
 		</Update>
 		<Row>
@@ -60,8 +57,6 @@
 		<Update>
 			<Where Type="TRAIT_FAITH_FROM_NATURE" />
 			<Set FaithFromUnimprovedForest="0"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_SPEARMAN"
 				 />
 		</Update>
 		<Row>
@@ -69,27 +64,21 @@
 			<Description>TXT_KEY_TRAIT_FASTER_RANGED</Description>
 			<ShortDescription>TXT_KEY_TRAIT_FASTER_RANGED_SHORT</ShortDescription>
 			<NoWarrior>1</NoWarrior>
-			<FreeUnit>UNITCLASS_ARCHER</FreeUnit>
 		</Row>
 		<Row>
 			<Type>TRAIT_HARAPPAN_ENGINEERING</Type>
 			<Description>TXT_KEY_TRAIT_HARAPPAN_ENGINEERING</Description>
 			<ShortDescription>TXT_KEY_TRAIT_HARAPPAN_ENGINEERING_SHORT</ShortDescription>
 			<NoWarrior>true</NoWarrior>
-			<FreeUnit>UNITCLASS_WORKER</FreeUnit>
 		</Row>
 		<Update>
 			<Where Type="TRAIT_IGNORE_TERRAIN_IN_FOREST" />
 			<Set NoWarrior="true"
-				 FreeUnit="UNITCLASS_SWORDSMAN"
 				 />
 		</Update>
 		<Update>
 			<Where Type="TRAIT_INGENIOUS" />
-			<Set NoWarrior="true"
-				 FreeUnit="UNITCLASS_ARCHER"
-				 FreeUnitPrereqTech="NULL"
-				 GreatScientistRateModifier="25"
+			<Set GreatScientistRateModifier="25"
 				 />
 		</Update>
 		<!-- The 'TradeRouteChange' & 'CityGoldLuxuryPercent' no longer supported
@@ -100,13 +89,6 @@
 				 />
 		</Update>
 		-->
-		<Update>
-			<Where Type="TRAIT_LONG_COUNT" />
-			<Set NoWarrior="true"
-				 FreeUnit="UNITCLASS_ARCHER"
-				 FreeUnitPrereqTech="NULL"
-				 />
-		</Update>
 		<Update>
 			<Where Type="TRAIT_OCEAN_MOVEMENT" />
 			<Set ExtraEmbarkMoves="0"
@@ -124,8 +106,6 @@
 			<Where Type="TRAIT_POPULATION_GROWTH" />
 			<Set CityUnhappinessModifier="0"
 				 PopulationUnhappinessModifier="0"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_WORKER"
 				 />
 			<!-- 100, -50 -->
 		</Update>
@@ -133,24 +113,18 @@
 			<Where Type="TRAIT_RAZE_AND_HORSES" />
 			<Set RazeSpeedModifier="0"
 				 LandBarbarianConversionPercent="100"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_CHARIOT_ARCHER"
 				 />
 		</Update>
 		<Update>
 			<Where Type="TRAIT_RIVER_EXPANSION" />
 			<Set CityUnhappinessModifier="-25"
 				 PlotBuyCostModifier="0"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_SCOUT"
 				 />
 			<!-- -25 -->
 		</Update>
 		<Update>
 			<Where Type="TRAIT_SCHOLARS_JADE_HALL" />
-			<Set NoWarrior="true"
-				 FreeUnit="UNITCLASS_WORKER"
-				 TechBoostFromCapitalScienceBuildings="false"
+			<Set TechBoostFromCapitalScienceBuildings="false"
 				 />
 		</Update>
 		<Update>
@@ -160,16 +134,12 @@
 				 NaturalWonderSubsequentFinderGold="100"
 				 NaturalWonderMultiplier="0"
 				 NaturalWonderExponent="1"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_SCOUT"
 				 />
 		</Update>
 		<Update>
 			<Where Type="TRAIT_TERROR" />
 			<Set MinorCivCaptureBonus="25"
 				 CityStateCombatModifier="0"
-				 NoWarrior="true"
-				 FreeUnit="UNITCLASS_SCOUT"
 				 />
 		</Update>
 		<Update>

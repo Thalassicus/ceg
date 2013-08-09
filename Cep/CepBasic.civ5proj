@@ -1416,6 +1416,12 @@
         <Description>CEL_Events</Description>
         <FileName>Gameplay/Leaders/CEL_Events.lua</FileName>
       </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
+        <Name>YL_EventRegistration</Name>
+        <Description>YL_EventRegistration</Description>
+        <FileName>Tools/YieldLibrary/YL_EventRegistration.lua</FileName>
+      </Content>
     </ModContent>
     <ModReferences />
     <SupportsHotSeat>false</SupportsHotSeat>
@@ -2079,7 +2085,35 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
+    <Content Include="Tools\TooltipWriter\TW_BuildingStats.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\TooltipWriter\TW_General.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\TooltipWriter\TW_Init.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\YieldLibrary\YieldIconManager.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\YieldLibrary\YieldLibrary.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\YieldLibrary\YL_Data.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
     <Content Include="Tools\YieldLibrary\YL_Data.xml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Tools\YieldLibrary\YL_EventRegistration.lua">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

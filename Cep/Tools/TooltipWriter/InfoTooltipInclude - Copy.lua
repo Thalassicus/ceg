@@ -50,7 +50,7 @@ function GetHelpTextForUnit(unitID, bIncludeRequirementsInfo)
 	
 	-- Value
 	textBody = textBody .. "[NEWLINE]----------------"		
-	if Civup.SHOW_GOOD_FOR_UNITS == 1 then
+	if Cep.SHOW_GOOD_FOR_UNITS == 1 then
 		textBody = textBody .. Game.GetFlavors("Unit_Flavors", "UnitType", unitInfo.Type)
 	end
 	
@@ -149,7 +149,7 @@ function GetHelpTextForUnit(unitID, bIncludeRequirementsInfo)
 	-- Cost
 	local cost = activePlayer:GetUnitProductionNeeded(unitID)
 	if unitID == GameInfo.Units.UNIT_SETTLER.ID then
-		cost = Game.Round(cost * Civup.UNIT_SETTLER_BASE_COST / 105, -1)
+		cost = Game.Round(cost * Cep.UNIT_SETTLER_BASE_COST / 105, -1)
 	end
 	textBody = textBody .. "[NEWLINE]" .. Locale.ConvertTextKey("TXT_KEY_PRODUCTION_COST", cost)
 	
@@ -282,7 +282,7 @@ function GetBuildingTip(param)
 		[5] = showCost
 	}
 	
-	if Civup.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood and not showName and not showAbil and not showCost then
+	if Cep.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood and not showName and not showAbil and not showCost then
 		return string.gsub(Game.GetFlavors("Building_Flavors", "BuildingType", buildingInfo.Type, 1, true), "^%[NEWLINE%]", "")
 	end
 
@@ -337,7 +337,7 @@ function GetBuildingTip(param)
 			if showName then
 				textBody = textBody .. "[NEWLINE]----------------"
 			end
-			if Civup.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood then
+			if Cep.SHOW_GOOD_FOR_BUILDINGS == 1 and showGood then
 				local textFlavors = Game.GetFlavors("Building_Flavors", "BuildingType", buildingInfo.Type)
 				if textFlavors ~= "" then
 					textBody = textBody .. textFlavors .. "[NEWLINE]"
@@ -650,7 +650,7 @@ function GetYieldTooltip(city, yieldID)
 	--print(string.format("%3s ms for %s GetYieldTooltip BASE_YIELDS", math.floor((os.clock() - timeStart) * 1000), yieldInfo.Type))
 	--timeStart = os.clock()
 	
-	if Civup.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
+	if Cep.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
 		local playerMinorCivYield	= player:GetYieldsFromCitystates()[yieldID]
 		if playerMinorCivYield > 0 then
 			local cityWeight		= City_GetWeight(city, yieldID)
@@ -682,7 +682,7 @@ function GetYieldTooltip(city, yieldID)
 				weight = Game.Round(player:GetAvoidModifier() * 100)
 				strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID", weight) .. "[NEWLINE]"
 				if weight > 0 then
-					strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID_MANY", Civup.AVOID_GROWTH_FULL_EFFECT_CUTOFF) .. "[NEWLINE]"
+					strTooltip = strTooltip .. "     " .. Locale.ConvertTextKey("TXT_KEY_CITYSTATE_MODIFIER_IS_AVOID_MANY", Cep.AVOID_GROWTH_FULL_EFFECT_CUTOFF) .. "[NEWLINE]"
 				end
 			end
 		

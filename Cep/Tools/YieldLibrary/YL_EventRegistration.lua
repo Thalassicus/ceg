@@ -3,7 +3,7 @@
 -- DateCreated: 2/12/2011 9:42:55 AM
 --------------------------------------------------------------
 
-include("CustomNotification.lua")
+--include("CustomNotification.lua")
 include("YieldLibrary.lua")
 
 local log = Events.LuaLogger:New()
@@ -18,10 +18,10 @@ LuaEvents.NewPolicy						.Add(ResetYieldCacheAll)
 LuaEvents.NewTech						.Add(ResetYieldCacheAll)
 LuaEvents.PlotChanged					.Add(ResetYieldCacheAll)
 LuaEvents.ActivePlayerTurnEnd_Player	.Add(ResetYieldCacheAll)
-LuaEvents.ActivePlayerTurnEnd_City		.Add(City_UpdateModdedYields)
-LuaEvents.ActivePlayerTurnStart_Player	.Add(PlayerClass.UpdateModdedHappiness)
-LuaEvents.ActivePlayerTurnEnd_Player	.Add(PlayerClass.UpdateModdedYieldsEnd)
-LuaEvents.ActivePlayerTurnStart_Player	.Add(PlayerClass.UpdateModdedYieldsStart)
+--LuaEvents.ActivePlayerTurnEnd_City		.Add(City_UpdateModdedYields)
+--LuaEvents.ActivePlayerTurnStart_Player	.Add(PlayerClass.UpdateModdedHappiness)
+--LuaEvents.ActivePlayerTurnEnd_Player	.Add(PlayerClass.UpdateModdedYieldsEnd)
+--LuaEvents.ActivePlayerTurnStart_Player	.Add(PlayerClass.UpdateModdedYieldsStart)
 
 --[[
 Events.SerialEventGameDataDirty.Add(function()
