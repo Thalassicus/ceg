@@ -143,7 +143,6 @@
 				 TileTexture="YieldAtlas_128_Faith.dds"
 				 />
 		</Update>
-		<!--
 		<Row>
 			<Type>YIELD_HAPPINESS_CITY</Type>
 			<Description>TXT_KEY_HAPPINESS_CITY</Description>
@@ -207,7 +206,6 @@
 			<MinCity>0</MinCity>
 			<AIWeightPercent>300</AIWeightPercent>
 		</Row>
-		-->
 	</Yields>
 	<!--
 	<Specialists>

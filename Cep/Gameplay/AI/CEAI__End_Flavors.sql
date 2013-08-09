@@ -276,7 +276,7 @@ WHERE UnitType IN (SELECT unit.Type FROM Units unit, UnitClasses class WHERE (
 
 -- Vanguard
 UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
-WHERE FlavorType IN ('FLAVOR_HEALING', 'FLAVOR_PILLAGE', 'FLAVOR_RECON')
+WHERE FlavorType IN ('FLAVOR_HEALING', 'FLAVOR_RECON')
 AND UnitType IN (SELECT Type FROM Units WHERE CombatClass IN (
 	'UNITCOMBAT_RECON'
 ));

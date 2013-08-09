@@ -117,6 +117,7 @@ INSERT OR REPLACE INTO	Building_ResourceYieldChanges
 SELECT					building.Type, res.Type, 'YIELD_PRODUCTION', 1
 FROM					Buildings building, Resources res
 WHERE					building.BuildingClass = 'BUILDINGCLASS_BARRACKS'
+						AND res.TechReveal <> 'TECH_ARCHAEOLOGY'
 						AND res.ResourceClassType IN (
 							'RESOURCECLASS_RUSH',
 							'RESOURCECLASS_MODERN'
@@ -236,6 +237,7 @@ UPDATE Buildings SET Description='TXT_KEY_BUILDING_CINEMA',              Civilop
 UPDATE Buildings SET Description='TXT_KEY_BUILDING_VACCINATIONS',        Civilopedia='TXT_KEY_BUILDING_VACCINATIONS_PEDIA'         WHERE Type = 'BUILDING_MEDICAL_LAB';
 UPDATE Buildings SET Description='TXT_KEY_BUILDING_SUPERMAX_PRISON',     Civilopedia='TXT_KEY_BUILDING_SUPERMAX_PRISON_PEDIA'      WHERE Type = 'BUILDING_POLICE_STATION';
 UPDATE Buildings SET Description='TXT_KEY_BUILDING_CAPITAL_BUILDING',    Civilopedia='TXT_KEY_BUILDING_CAPITAL_BUILDING_PEDIA'     WHERE Type = 'BUILDING_PALACE';
+UPDATE Buildings SET Description='TXT_KEY_BUILDING_WORKSHOP',            Civilopedia='TXT_KEY_BUILDING_WORKSHOP_PEDIA'             WHERE Type = 'BUILDING_WINDMILL';
 UPDATE Buildings SET Description='TXT_KEY_BUILDING_SMITH',               Civilopedia='TXT_KEY_BUILDING_SMITH_PEDIA'                WHERE Type = 'BUILDING_WORKSHOP';
 
 UPDATE BuildingClasses SET Description = (SELECT Description FROM Buildings b WHERE BuildingClasses.DefaultBuilding = b.Type);

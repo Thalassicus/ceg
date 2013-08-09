@@ -31,6 +31,18 @@
 			<Set GoldMaintenance="1" />
 		</Update>
 	</Buildings>
+	<Building_DomainProductionModifiers>
+		<Row>
+			<BuildingType>BUILDINGCLASS_ARMORY</BuildingType>
+			<DomainType>DOMAIN_LAND</DomainType>
+			<Modifier>10</Modifier>
+		</Row>
+		<Row>
+			<BuildingType>BUILDINGCLASS_MILITARY_ACADEMY</BuildingType>
+			<DomainType>DOMAIN_LAND</DomainType>
+			<Modifier>20</Modifier>
+		</Row>
+	</Building_DomainProductionModifiers>
 	<Building_ResourceQuantityRequirements>
 		<Delete BuildingType="BUILDING_HYDRO_PLANT" />
 	</Building_ResourceQuantityRequirements>

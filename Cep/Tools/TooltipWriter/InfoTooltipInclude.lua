@@ -7,12 +7,14 @@
 include( "YieldLibrary.lua" )
 
 if Game == nil then
-	print("InfoTooltipInclude.lua: Game == nil")
-	--return
+	--print("Game is nil")
+	return
 end
 
+--print("Initializing InfoTooltipInclude.lua")
+
 local log = Events.LuaLogger:New()
-log:SetLevel("WARN")
+log:SetLevel("DEBUG")
 
 local timeStart = os.clock()
 

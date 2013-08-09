@@ -41,5 +41,9 @@
 			<BuildingType>BUILDING_MINT</BuildingType>
 			<ResourceType>RESOURCE_COPPER</ResourceType>
 		</Row>
+		<Row>
+			<BuildingType>BUILDING_MINT</BuildingType>
+			<ResourceType>RESOURCE_GEMS</ResourceType>
+		</Row>
 	</Building_LocalResourceOrs>
 </GameData>

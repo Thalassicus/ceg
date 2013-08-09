@@ -153,6 +153,8 @@
 		<Update><Where Type="SPECIALIST_MERCHANT"/>		<Set IconString="[ICON_MERCHANT]"/></Update>
 		<Update><Where Type="SPECIALIST_SCIENTIST"/>	<Set IconString="[ICON_SCIENTIST]"/></Update>
 		<Update><Where Type="SPECIALIST_ARTIST"/>		<Set IconString="[ICON_ARTIST]"/></Update>
+		<Update><Where Type="SPECIALIST_WRITER"/>		<Set IconString="[ICON_ARTIST]"/></Update>
+		<Update><Where Type="SPECIALIST_MUSICIAN"/>		<Set IconString="[ICON_ARTIST]"/></Update>
 	</Specialists>
 	<Flavors>
 		<Update><Where Type="FLAVOR_MILITARY_TRAINING"/>		<Set Description="TXT_KEY_FLAVOR_MILITARY_TRAINING"			 IconString="[ICON_WAR]"			 PurchasePriority="0"/></Update>
@@ -172,6 +174,7 @@
 		<Update><Where Type="FLAVOR_NAVAL_RECON"/>				<Set Description="TXT_KEY_FLAVOR_NAVAL_RECON"				 IconString="[ICON_DETECT_SEA]"		 PurchasePriority="0"/></Update>
 		<Update><Where Type="FLAVOR_NAVAL_GROWTH"/>				<Set Description="TXT_KEY_FLAVOR_NAVAL_GROWTH"				 IconString="[ICON_NAVAL]"			 PurchasePriority="40"/></Update>
 		<Update><Where Type="FLAVOR_NAVAL_TILE_IMPROVEMENT"/>	<Set Description="TXT_KEY_FLAVOR_NAVAL_TILE_IMPROVEMENT"	 IconString="[ICON_NAVAL]"			 PurchasePriority="0"/></Update>
+		<Update><Where Type="FLAVOR_AIRLIFT"/>					<Set Description="TXT_KEY_FLAVOR_AIRLIFT"					 IconString="[ICON_AIR]"			 PurchasePriority="100"/></Update>
 		<Update><Where Type="FLAVOR_AIR"/>						<Set Description="TXT_KEY_FLAVOR_AIR"						 IconString="[ICON_AIR]"			 PurchasePriority="100"/></Update>
 		<Update><Where Type="FLAVOR_AIR_CARRIER"/>				<Set Description="TXT_KEY_FLAVOR_AIR_CARRIER"				 IconString="[ICON_AIR]"			 PurchasePriority="0"/></Update>
 		<Update><Where Type="FLAVOR_ANTIAIR"/>					<Set Description="TXT_KEY_FLAVOR_ANTIAIR"					 IconString="[ICON_AIR]"			 PurchasePriority="0"/></Update>
@@ -193,9 +196,22 @@
 		<Update><Where Type="FLAVOR_SPACESHIP"/>				<Set Description="TXT_KEY_FLAVOR_SPACESHIP"					 IconString="[ICON_RESEARCH]"		 PurchasePriority="10"/></Update>
 		<Update><Where Type="FLAVOR_ESPIONAGE"/>				<Set Description="TXT_KEY_FLAVOR_ESPIONAGE"					 IconString="[ICON_SPY]"			 PurchasePriority="10"/></Update>
 		<Update><Where Type="FLAVOR_RELIGION"/>					<Set Description="TXT_KEY_FLAVOR_RELIGION"					 IconString="[ICON_PEACE]"			 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_TOURISM"/>					<Set Description="TXT_KEY_FLAVOR_TOURISM"					 IconString="[ICON_TOURISM]"		 PurchasePriority="10"/></Update>
 		
 		<Update><Where Type="FLAVOR_I_LAND_TRADE_ROUTE"/>		<Set Description="TXT_KEY_FLAVOR_I_LAND_TRADE_ROUTE"		 IconString="[ICON_INTERNATIONAL_TRADE]" PurchasePriority="10"/></Update>
 		<Update><Where Type="FLAVOR_I_SEA_TRADE_ROUTE"/>		<Set Description="TXT_KEY_FLAVOR_I_SEA_TRADE_ROUTE"			 IconString="[ICON_INTERNATIONAL_TRADE]" PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_I_TRADE_ORIGIN"/>			<Set Description="TXT_KEY_FLAVOR_I_TRADE_ORIGIN"			 IconString="[ICON_INTERNATIONAL_TRADE]" PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_I_TRADE_DESTINATION"/>		<Set Description="TXT_KEY_FLAVOR_I_TRADE_DESTINATION"		 IconString="[ICON_INTERNATIONAL_TRADE]" PurchasePriority="10"/></Update>
 		<Update><Where Type="FLAVOR_ARCHAEOLOGY"/>				<Set Description="TXT_KEY_FLAVOR_ARCHAEOLOGY"				 IconString="[ICON_RES_ARTIFACTS]"		 PurchasePriority="10"/></Update>
+
+		<Update><Where Type="FLAVOR_RES_STRATEGIC"/>			<Set Description="TXT_KEY_FLAVOR_RES_STRATEGIC"				 IconString="[ICON_WAR]"			 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_LUXURY"/>				<Set Description="TXT_KEY_FLAVOR_RES_LUXURY"				 IconString="[ICON_HAPPINESS_1]"	 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_SEA"/>					<Set Description="TXT_KEY_FLAVOR_RES_SEA"					 IconString="[ICON_NAVAL]"			 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_GRAINS"/>				<Set Description="TXT_KEY_FLAVOR_RES_GRAINS"				 IconString="[ICON_FOOD]"			 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_RELIGIOUS"/>			<Set Description="TXT_KEY_FLAVOR_RES_RELIGIOUS"				 IconString="[ICON_PEACE]"			 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_EXOTIC"/>				<Set Description="TXT_KEY_FLAVOR_RES_EXOTIC"				 IconString="[ICON_FOOD]"			 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_COSTUME"/>				<Set Description="TXT_KEY_FLAVOR_RES_COSTUME"				 IconString="[ICON_CULTURE]"		 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_ORE"/>					<Set Description="TXT_KEY_FLAVOR_RES_ORE"					 IconString="[ICON_PRODUCTION]"		 PurchasePriority="10"/></Update>
+		<Update><Where Type="FLAVOR_RES_CURRENCY"/>				<Set Description="TXT_KEY_FLAVOR_RES_CURRENCY"				 IconString="[ICON_GOLD]"			 PurchasePriority="10"/></Update>
 	</Flavors>
 </GameData>

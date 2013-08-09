@@ -1,4 +1,4 @@
--- CEP - Event Registration
+-- YieldLibrary - Event Registration
 -- Author: Thalassicus
 -- DateCreated: 2/12/2011 9:42:55 AM
 --------------------------------------------------------------
@@ -34,12 +34,14 @@ end)
 
 --LuaEvents.ActivePlayerTurnStart_Player.Add(UpdatePlayerRewardsFromMinorCivs)
 
+--[[
 LuaEvents.NotificationOverrideAddin({
 	type="NOTIFICATION_STARVING",
 	override=function(tooltip,summary,value1,value2)
 		--LuaEvents.CustomStarving();
 	end
 })
+--]]
 
 function FinishAgriculture()
 	for playerID, player in pairs(Players) do

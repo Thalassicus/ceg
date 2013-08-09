@@ -902,18 +902,26 @@ function GetReligionTooltip(city)
 			religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_HOLY_CITY_TOOLTIP_LINE", strIcon, strReligion)			
 		end
 
-		local iPressure = city:GetPressurePerTurn(eReligion)
+		local iPressure
+		local iNumTradeRoutesAddingPressure
+		iPressure, iNumTradeRoutesAddingPressure = city:GetPressurePerTurn(eReligion)
 		if (iPressure > 0) then
-			strPressure = Locale.ConvertTextKey("TXT_KEY_RELIGIOUS_PRESSURE_STRING", iPressure)
+			strPressure = Locale.ConvertTextKey("TXT_KEY_RELIGIOUS_PRESSURE_STRING", math.floor(iPressure/GameDefines["RELIGION_MISSIONARY_PRESSURE_MULTIPLIER"]))
 		end
-			
-		local iFollowers = city:GetNumFollowers(eReligion)
+		
+		local iFollowers = city:GetNumFollowers(eReligion)			
 		if (not bFirst) then
 			religionToolTip = religionToolTip .. "[NEWLINE]"
 		else
 			bFirst = false
 		end
-		religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_RELIGION_TOOLTIP_LINE", strIcon, iFollowers, strPressure)
+		
+		--local iNumTradeRoutesAddingPressure = city:GetNumTradeRoutesAddingPressure(eReligion)
+		if (iNumTradeRoutesAddingPressure > 0) then
+			religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_RELIGION_TOOLTIP_LINE_WITH_TRADE", strIcon, iFollowers, strPressure, iNumTradeRoutesAddingPressure)
+		else
+			religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_RELIGION_TOOLTIP_LINE", strIcon, iFollowers, strPressure)
+		end
 	end	
 		
 	local iReligionID
@@ -938,16 +946,22 @@ function GetReligionTooltip(city)
 				
 			local iPressure = city:GetPressurePerTurn(iReligionID)
 			if (iPressure > 0) then
-				strPressure = Locale.ConvertTextKey("TXT_KEY_RELIGIOUS_PRESSURE_STRING", iPressure)
+				strPressure = Locale.ConvertTextKey("TXT_KEY_RELIGIOUS_PRESSURE_STRING", math.floor(iPressure/GameDefines["RELIGION_MISSIONARY_PRESSURE_MULTIPLIER"]))
 			end
 			
-			local iFollowers = city:GetNumFollowers(iReligionID)
+			local iFollowers = city:GetNumFollowers(iReligionID)			
 			if (not bFirst) then
 				religionToolTip = religionToolTip .. "[NEWLINE]"
 			else
 				bFirst = false
 			end
-			religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_RELIGION_TOOLTIP_LINE", strIcon, iFollowers, strPressure)
+			
+			local iNumTradeRoutesAddingPressure = city:GetNumTradeRoutesAddingPressure(iReligionID)
+			if (iNumTradeRoutesAddingPressure > 0) then
+				religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_RELIGION_TOOLTIP_LINE_WITH_TRADE", strIcon, iFollowers, strPressure, iNumTradeRoutesAddingPressure)
+			else
+				religionToolTip = religionToolTip .. Locale.ConvertTextKey("TXT_KEY_RELIGION_TOOLTIP_LINE", strIcon, iFollowers, strPressure)
+			end
 		end
 	end
 	

@@ -1,4 +1,4 @@
--- AT_Init
+-- TW_Init
 -- Author: Thalassicus
 -- DateCreated: 12/19/2012 9:35:05 PM
 --------------------------------------------------------------
@@ -11,13 +11,15 @@ if Game == nil then
 	--return
 end
 
+print("Initializing TW_Init.lua")
+
 --
 -- Globals
 --
 
 do
 	log = Events.LuaLogger:New()
-	log:SetLevel("WARN")
+	log:SetLevel("DEBUG")
 
 	timeStart = os.clock()
 
@@ -104,7 +106,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 	
 	if lineType == "Name" then
 		table.insert(subFields, {Type=lineType, Section=fieldSection, Priority=fieldPriority,
-			TextBody = Locale.ToUpper(Locale.ConvertTextKey(buildingInfo.Description))
+			TextBody = Locale.ToUpper(Locale.ConvertTextKey(buildingInfo.Description or buildingInfo.Type))
 		})
 		
 	elseif lineType == "Cost" then
@@ -148,7 +150,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 	elseif lineType == "Replaces" then
 		local defaultObjectType = buildingClassInfo.DefaultBuilding
 		if buildingInfo.Type ~= defaultObjectType then		
-			lineValue = Locale.ConvertTextKey(GameInfo.Buildings[defaultObjectType].Description)
+			lineValue = Locale.ConvertTextKey(GameInfo.Buildings[defaultObjectType].Description or GameInfo.Buildings[defaultObjectType].Type)
 			InsertSubField()
 		end
 
@@ -161,7 +163,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 			end
 			--]]
 			if lineValue ~= 0 then
-				linePrefix = string.format("%s {%s}", yieldInfo.IconString, yieldInfo.Description)
+				linePrefix = string.format("%s {%s}", yieldInfo.IconString or ("ICON:"..yieldInfo.Type), yieldInfo.Description or yieldInfo.Type)
 				linePriority = fieldPriority + (100 * yieldInfo.ListPriority)
 				InsertSubField()
 			end
@@ -171,7 +173,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 		for yieldInfo in GameInfo.Yields() do
 			lineValue = activePlayer:GetBuildingYieldMod(buildingID, yieldInfo.ID, city)
 			if lineValue ~= 0 then
-				linePrefix = string.format("%s {%s}", yieldInfo.IconString, yieldInfo.Description)
+				linePrefix = string.format("%s {%s}", yieldInfo.IconString or ("ICON:"..yieldInfo.Type), yieldInfo.Description or yieldInfo.Type)
 				linePriority = fieldPriority + (100 * yieldInfo.ListPriority)
 				InsertSubField()
 			end
@@ -206,7 +208,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 		for row in GameInfo.Building_FeatureYieldChanges{BuildingType = buildingInfo.Type} do
 			if row.FeatureType ~= buildingInfo.NotFeature then
 				if not yieldList[row.YieldType] then yieldList[row.YieldType] = {} end
-				yieldList[row.YieldType][row.Yield] = (yieldList[row.YieldType][row.Yield] or "") .. Locale.ConvertTextKey(GameInfo.Features[row.FeatureType].Description) .. ", "
+				yieldList[row.YieldType][row.Yield] = (yieldList[row.YieldType][row.Yield] or "") .. Locale.ConvertTextKey(GameInfo.Features[row.FeatureType].Description or GameInfo.Features[row.FeatureType].Type) .. ", "
 			end
 		end
 		return ConvertYieldList(lineType, fieldSection, fieldPriority, lineTextKey, yieldList)
@@ -265,7 +267,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 			if not yieldRes[row.YieldType] then yieldRes[row.YieldType] = {} end
 			if not yieldRes[row.YieldType][row.Yield] then yieldRes[row.YieldType][row.Yield] = {} end
 			if not yieldRes[row.YieldType][row.Yield][resUsageType] then yieldRes[row.YieldType][row.Yield][resUsageType] = {} end
-			yieldRes[row.YieldType][row.Yield][resUsageType].string = (yieldRes[row.YieldType][row.Yield][resUsageType].string or "") .. resourceInfo.IconString
+			yieldRes[row.YieldType][row.Yield][resUsageType].string = (yieldRes[row.YieldType][row.Yield][resUsageType].string or "") .. (resourceInfo.IconString or ("ICON:"..resourceInfo.Type))
 			yieldRes[row.YieldType][row.Yield][resUsageType].quantity = (yieldRes[row.YieldType][row.Yield][resUsageType].quantity or 0) + 1
 		end
 		
@@ -298,7 +300,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 		for row in GameInfo.Building_SpecialistYieldChanges{BuildingType = buildingInfo.Type} do
 			if not yieldList[row.YieldType] then yieldList[row.YieldType] = {} end
 			if not  yieldNum[row.YieldType] then  yieldNum[row.YieldType] = {} end
-			yieldList[row.YieldType][row.Yield] = (yieldList[row.YieldType][row.Yield] or "") .. Locale.ConvertTextKey(GameInfo.Specialists[row.SpecialistType].Description) .. ", "
+			yieldList[row.YieldType][row.Yield] = (yieldList[row.YieldType][row.Yield] or "") .. Locale.ConvertTextKey(GameInfo.Specialists[row.SpecialistType].Description or GameInfo.Specialists[row.SpecialistType].Type) .. ", "
 			 yieldNum[row.YieldType][row.Yield] = ( yieldNum[row.YieldType][row.Yield] or 0) + 1
 			if   yieldNum[row.YieldType][row.Yield] == MAX_SPECIALISTS then
 				yieldList[row.YieldType][row.Yield] = Locale.ConvertTextKey("TXT_KEY_PEOPLE_SECTION_1")
@@ -311,47 +313,60 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 		local fieldPriority = fieldPriority * specInfo.ListPriority
 		if buildingInfo.SpecialistCount ~= 0 then
 			lineTextKey = "TXT_KEY_BUILDING_EFFECT_SPECIALIST_POINTS"
-			linePrefix = string.format("%s {%s}", specInfo.IconString, specInfo.Description)
+			linePrefix = string.format("%s {%s}", specInfo.IconString or ("ICON:"..specInfo.Type), specInfo.Description or specInfo.Type)
 			lineValue = buildingInfo.SpecialistCount
 			InsertSubField()
 		end
 		if buildingInfo.GreatPeopleRateChange ~= 0 then
 			lineTextKey = "TXT_KEY_BUILDING_EFFECT_GREAT_PERSON_POINTS"
-			linePrefix = specInfo.IconString
+			linePrefix = specInfo.IconString or ("ICON:"..specInfo.Type)
 			lineValue = buildingInfo.GreatPeopleRateChange
-			lineExtra = string.format("{%s}", specInfo.Description)
+			lineExtra = string.format("{%s}", specInfo.Description or specInfo.Type)
 			InsertSubField()
 		end
 
+	elseif lineType == "GreatWorkSlotType" then
+		local gwInfo = GameInfo.GreatWorkSlots[buildingInfo.GreatWorkSlotType]
+		local fieldPriority = fieldPriority * gwInfo.ListPriority
+		if buildingInfo.GreatWorkCount ~= 0 then
+			lineTextKey = gwInfo.SlotsToolTipText or gwInfo.Type
+			linePrefix = buildingInfo.GreatWorkCount
+			InsertSubField()
+		end
+		
 	elseif lineType == "ExperienceDomain" then
 		for row in GameInfo.Building_DomainFreeExperiences{BuildingType = buildingInfo.Type} do
 			lineValue = row.Experience
-			lineExtra = Locale.ConvertTextKey(GameInfo.Domains[row.DomainType].Description)
+			lineExtra = Locale.ConvertTextKey(GameInfo.Domains[row.DomainType].Description or GameInfo.Domains[row.DomainType].Type)
 			InsertSubField()
 		end
 
 	elseif lineType == "ExperienceCombat" then
 		for row in GameInfo.Building_UnitCombatFreeExperiences{BuildingType = buildingInfo.Type} do
 			lineValue = row.Experience
-			lineExtra = Locale.ConvertTextKey(GameInfo.UnitCombatInfos[row.UnitCombatType].Description)
+			lineExtra = Locale.ConvertTextKey(GameInfo.UnitCombatInfos[row.UnitCombatType].Description or GameInfo.UnitCombatInfos[row.UnitCombatType].Type)
 			InsertSubField()
 		end
 
+	elseif lineType == "FreeGreatWork" then
+		lineValue = string.format("{%s}", GameInfo.GreatWorks[buildingInfo.FreeGreatWork].Description or GameInfo.GreatWorks[buildingInfo.FreeGreatWork].Type)
+		InsertSubField()
+
 	elseif lineType == "FreeBuildingThisCity" then
 		local uniqueID = activePlayer:GetUniqueBuildingID(buildingInfo[lineType])
-		lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description)
+		lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description or GameInfo.Buildings[uniqueID].Type)
 		InsertSubField()
 
 	elseif lineType == "FreeBuilding" then
 		local uniqueID = activePlayer:GetUniqueBuildingID(buildingInfo[lineType])
-		lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description)
+		lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description or GameInfo.Buildings[uniqueID].Type)
 		InsertSubField()
 
 	elseif lineType == "FreeUnits" then
 		for row in GameInfo.Building_FreeUnits{BuildingType = buildingInfo.Type} do
 			local unitInfo = GameInfo.Units[row.UnitType]
 			lineValue = row.NumUnits
-			lineExtra = Locale.ConvertTextKey(unitInfo.Description)
+			lineExtra = Locale.ConvertTextKey(unitInfo.Description or unitInfo.Type)
 			if unitInfo.MoveRate == "GREAT_PERSON" then
 				lineTextKey = "TXT_KEY_BUILDING_EFFECT_FREE_GREAT_PERSON"
 			end
@@ -361,58 +376,58 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 	elseif lineType == "FreeResources" then
 		for row in GameInfo.Building_ResourceQuantity{BuildingType = buildingInfo.Type} do
 			local resInfo = GameInfo.Resources[row.ResourceType]
-			linePrefix = resInfo.IconString
+			linePrefix = resInfo.IconString or ("ICON:"..resInfo.Type)
 			lineValue = row.Quantity
-			lineExtra = Locale.ConvertTextKey(resInfo.Description)
+			lineExtra = Locale.ConvertTextKey(resInfo.Description or resInfo.Type)
 			InsertSubField()
 		end
 
 	elseif lineType == "NotFeature" then
-		lineValue = string.format("{%s}", GameInfo.Features[lineValue].Description)
+		lineValue = string.format("{%s}", GameInfo.Features[lineValue].Description or GameInfo.Features[lineValue].Type)
 		InsertSubField()
 
 	elseif lineType == "RequiresNearAll" then
 		lineValue = ""
 		for row in GameInfo.Building_LocalResourceAnds{BuildingType = buildingInfo.Type} do
-			lineValue = lineValue .. GameInfo.Resources[row.ResourceType].IconString
+			lineValue = lineValue .. (GameInfo.Resources[row.ResourceType].IconString or ("ICON:"..GameInfo.Resources[row.ResourceType].Type))
 		end
 		InsertSubField()
 
 	elseif lineType == "RequiresNearAny" then
 		lineValue = ""
 		for row in GameInfo.Building_LocalResourceOrs{BuildingType = buildingInfo.Type} do
-			lineValue = lineValue .. GameInfo.Resources[row.ResourceType].IconString
+			lineValue = lineValue .. (GameInfo.Resources[row.ResourceType].IconString or ("ICON:"..GameInfo.Resources[row.ResourceType].Type))
 		end
 		InsertSubField()
 
 	elseif lineType == "RequiresResourceConsumption" then
 		lineValue = ""
 		for row in GameInfo.Building_ResourceQuantityRequirements{BuildingType = buildingInfo.Type} do
-			lineValue = string.format("%s%s%s ", lineValue, row.Cost, GameInfo.Resources[row.ResourceType].IconString)
+			lineValue = string.format("%s%s%s ", lineValue, row.Cost, GameInfo.Resources[row.ResourceType].IconString or ("ICON:"..GameInfo.Resources[row.ResourceType].Type))
 		end
 		InsertSubField()
 
 	elseif lineType == "NearbyTerrainRequired" then
-		lineValue = string.format("{%s}", GameInfo.Terrains[lineValue].Description)
+		lineValue = string.format("{%s}", GameInfo.Terrains[lineValue].Description or GameInfo.Terrains[lineValue].Type)
 		InsertSubField()
 
 	elseif lineType == "RequiresTech" then
 		for row in GameInfo.Building_TechAndPrereqs{BuildingType = buildingInfo.Type} do
-			lineValue = string.format("{%s}", GameInfo.Technologies[row.TechType].Description)
+			lineValue = string.format("{%s}", GameInfo.Technologies[row.TechType].Description or GameInfo.Technologies[row.TechType].Type)
 			InsertSubField()
 		end
 
 	elseif lineType == "RequiresBuilding" then
 		for row in GameInfo.Building_ClassesNeededInCity{BuildingType = buildingInfo.Type} do
 			local uniqueID = activePlayer:GetUniqueBuildingID(row.BuildingClassType)
-			lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description)
+			lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description or GameInfo.Buildings[uniqueID].Type)
 			InsertSubField()
 		end
 
 	elseif lineType == "RequiresBuildingInCities" then
 		for row in GameInfo.Building_PrereqBuildingClasses{BuildingType = buildingInfo.Type} do
 			local uniqueID = activePlayer:GetUniqueBuildingID(row.BuildingClassType)
-			lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description)
+			lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description or GameInfo.Buildings[uniqueID].Type)
 			if row.NumBuildingNeeded == -1 then
 				lineExtra = Locale.ConvertTextKey("TXT_KEY_SV_ICONS_ALL")
 			else
@@ -424,7 +439,7 @@ Game.GetDefaultBuildingFieldText = Game.GetDefaultBuildingFieldText or function(
 	elseif lineType == "RequiresBuildingInPercentCities" then
 		for row in GameInfo.Building_PrereqBuildingClasses{BuildingType = buildingInfo.Type} do
 			local uniqueID = activePlayer:GetUniqueBuildingID(row.BuildingClassType)
-			lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description)
+			lineValue = string.format("{%s}", GameInfo.Buildings[uniqueID].Description or GameInfo.Buildings[uniqueID].Type)
 			if row.PercentBuildingNeeded == -1 then
 				lineExtra = Locale.ConvertTextKey("TXT_KEY_SV_ICONS_ALL")
 			else
@@ -462,7 +477,7 @@ function ConvertYieldList(fieldType, fieldSection, fieldPriority, lineTextKey, y
 			log:Error("ConvertYieldList fieldType=%s : %s is not a valid yieldType", fieldType, yieldType)
 			return errorMsg
 		end
-		local linePrefix = string.format("%s {%s}", yieldInfo.IconString, yieldInfo.Description)
+		local linePrefix = string.format("%s {%s}", yieldInfo.IconString or ("ICON:"..yieldInfo.Type), yieldInfo.Description or yieldInfo.Type)
 		local linePriority = fieldPriority + (100 * yieldInfo.ListPriority)
 		if type(yieldData) == "table" then
 			for yieldValue, objectString in pairs(yieldData) do
@@ -513,9 +528,11 @@ function GetYieldInfo(info)
 		if info.cellExtra and not GameInfo[info.tableExtra][info.typeExtra] then
 			log:Fatal("GetDefaultBuildingFieldText lineType=%s : GameInfo.%s.%s does not exist", lineType, info.table, info.typeExtra)
 			return errorMsg
+			--[[
 		elseif info.cellExtra and not GameInfo[info.tableExtra][info.typeExtra].Description then
 			log:Fatal("GetDefaultBuildingFieldText lineType=%s : GameInfo.%s.%s.Description is null", lineType, info.table, info.typeExtra)
 			return errorMsg
+			--]]
 		end
 		
 		-- Algorithm
@@ -524,7 +541,7 @@ function GetYieldInfo(info)
 		if not yieldList[yieldType] then yieldList[yieldType] = {} end		
 		
 		if info.tableExtra then
-			yieldList[yieldType][yield] = (yieldList[yieldType][yield] or "") .. Locale.ConvertTextKey(GameInfo[info.tableExtra][info.typeExtra].Description) .. ", "
+			yieldList[yieldType][yield] = (yieldList[yieldType][yield] or "") .. Locale.ConvertTextKey(GameInfo[info.tableExtra][info.typeExtra].Description or GameInfo[info.tableExtra][info.typeExtra].Type) .. ", "
 		else
 			yieldList[yieldType] = info.div100 and yield/100 or yield
 		end
@@ -534,7 +551,7 @@ end
 		
 function InsertSubField(yieldInfo)
 	if yieldInfo then
-		linePrefix		= string.format("%s {%s}", yieldInfo.IconString, yieldInfo.Description)
+		linePrefix		= string.format("%s {%s}", yieldInfo.IconString or ("ICON:"..yieldInfo.Type), yieldInfo.Description or yieldInfo.Type)
 		linePriority	= fieldPriority + (100 * yieldInfo.ListPriority)
 		lineValue		= buildingInfo[lineType]
 	end
@@ -551,15 +568,15 @@ end
 --print(string.format("%3s ms loading InfoTooltipInclude.lua building field functions", Game.Round(os.clock() - buildingFieldStartTime, 8)))
 local buildingFieldStartTime = os.clock()
 
-CEP_BuildingInfo = nil
-CEP_BuildingClassInfo = nil
+Cep_BuildingInfo = nil
+Cep_BuildingClassInfo = nil
 if not Game.InitializedFields then
 	Game.InitializedFields = true
 	Game.Fields.Buildings = {}
 	for buildingInfo in GameInfo.Buildings() do
 		local buildingID = buildingInfo.ID
-		CEP_BuildingInfo = buildingInfo
-		CEP_BuildingClassInfo = GameInfo.BuildingClasses[buildingInfo.BuildingClass]
+		Cep_BuildingInfo = buildingInfo
+		Cep_BuildingClassInfo = GameInfo.BuildingClasses[buildingInfo.BuildingClass]
 		Game.Fields.Buildings[buildingID] = {}
 		for row in GameInfo.BuildingFields() do
 			if row.Value then
@@ -578,7 +595,7 @@ if not Game.InitializedFields then
 					end
 				end
 			else
-				log:Error("CEP_BuildingInfo %s value is nil!", row.Type)
+				log:Error("Cep_BuildingInfo %s value is nil!", row.Type)
 			end
 		end
 	end

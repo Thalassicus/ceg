@@ -202,8 +202,8 @@ function Game.GetFlavors(itemTable, itemColumn, itemType, minVal, skipHeader)
 			if description then
 				description = Locale.ConvertTextKey(description)
 			else
-				log:Warn("Game.GetFlavors: %s has no description!", flavorInfo.FlavorType)
-				description = "NO DESCRIPTION"
+				log:Warn("Game.GetFlavors: no description for %s", flavorInfo.FlavorType)
+				description = flavorInfo.FlavorType
 			end		
 			if flavorInfo.Flavor >= minVal then
 				table.insert(flavors, {

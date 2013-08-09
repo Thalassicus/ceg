@@ -38,9 +38,21 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_FLAVOR_SPACESHIP', 'Spaceship', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_FLAVOR_ESPIONAGE', 'Espionage', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_FLAVOR_RELIGION', 'Religion', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_FLAVOR_I_LAND_TRADE_ROUTE', 'Land Trade', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_FLAVOR_I_SEA_TRADE_ROUTE', 'Sea Trade', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_FLAVOR_ARCHAEOLOGY', 'Archaeology', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_I_LAND_TRADE_ROUTE', 'Land Trade', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_I_SEA_TRADE_ROUTE', 'Sea Trade', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_I_TRADE_DESTINATION', 'Trade Destination', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_I_TRADE_ORIGIN', 'Trade Origin', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_ARCHAEOLOGY', 'Archaeology', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_AIRLIFT', 'Airlift', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_STRATEGIC', 'Strategic Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_LUXURY', 'Luxury Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_SEA', 'Sea Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_GRAINS', 'Grain Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_RELIGIOUS', 'Religious Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_EXOTIC', 'Exotic Food Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_COSTUME', 'Costume Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_ORE', 'Ore Resources', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_FLAVOR_RES_CURRENCY', 'Currency Resources', '', '');
 /*   Desert Caravans */
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BUILDING_DESERT_CARAVANS', 'Desert Caravans', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BUILDING_DESERT_CARAVANS_HELP', '[ICON_GOLD] Gold: +5% in all cities for each luxury resource.', '', '');

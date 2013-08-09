@@ -13,6 +13,8 @@ INSERT INTO LoadedFile(Type, Value) VALUES ('MT_Promotions.sql'		, 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('Cep_Options.sql'		, 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('MT_AlterTables.sql'	, 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('YL_General.xml'		, 0);
+INSERT INTO LoadedFile(Type, Value) VALUES ('TW_BuildingStats.sql'	, 0);
+INSERT INTO LoadedFile(Type, Value) VALUES ('Cep_TooltipWriter_Tips.sql', 0);
 
 CREATE TABLE IF NOT EXISTS Cep_Language_EN_US (DateModified integer, Tag text, Text text, Gender text, Plurality text);
 CREATE TABLE IF NOT EXISTS Cep_Language_DE_DE (DateModified integer, Tag text, Text text, Gender text, Plurality text);
@@ -462,6 +464,7 @@ ALTER TABLE Processes		ADD ListPriority integer default -1;
 ALTER TABLE Flavors			ADD ListPriority integer default -1;
 ALTER TABLE Yields			ADD ListPriority integer default -1;
 ALTER TABLE Specialists		ADD ListPriority integer default -1;
+ALTER TABLE GreatWorkSlots	ADD ListPriority integer default -1;
 
 
 

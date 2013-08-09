@@ -154,12 +154,41 @@ INSERT INTO Flavors (Type) VALUES ('FLAVOR_HEALING');
 INSERT INTO Flavors (Type) VALUES ('FLAVOR_PILLAGE');
 INSERT INTO Flavors (Type) VALUES ('FLAVOR_VANGUARD');
 
+-- Local terrain flavors
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_STRATEGIC');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_LUXURY');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_SEA');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_GRAINS');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_RELIGIOUS');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_EXOTIC');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_COSTUME');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_ORE');
+INSERT INTO Flavors (Type) VALUES ('FLAVOR_RES_CURRENCY');
+
+INSERT INTO Leader_Flavors (LeaderType, FlavorType, Flavor)
+SELECT leader.Type, flavor.Type, 4
+FROM Leaders leader, Flavors flavor
+WHERE flavor.Type IN (
+	'FLAVOR_RES_STRATEGIC'	,
+	'FLAVOR_RES_LUXURY'		,
+	'FLAVOR_RES_SEA'		,
+	'FLAVOR_RES_GRAINS'		,
+	'FLAVOR_RES_RELIGIOUS'	,
+	'FLAVOR_RES_EXOTIC'		,
+	'FLAVOR_RES_COSTUME'	,
+	'FLAVOR_RES_ORE'		,
+	'FLAVOR_RES_CURRENCY'		
+);
+
 INSERT INTO Leader_Flavors (LeaderType, FlavorType, Flavor)
 SELECT offense.LeaderType, flavor.Type, offense.Flavor
 FROM Leader_Flavors offense, Flavors flavor
 WHERE offense.FlavorType = 'FLAVOR_OFFENSE' AND flavor.Type IN (
 	'FLAVOR_SOLDIER'		,
-	'FLAVOR_SIEGE'			
+	'FLAVOR_SIEGE'			,
+	'FLAVOR_HEALING'		,
+	'FLAVOR_PILLAGE'		,
+	'FLAVOR_VANGUARD'		
 );
 
 INSERT INTO Leader_Flavors (LeaderType, FlavorType, Flavor)

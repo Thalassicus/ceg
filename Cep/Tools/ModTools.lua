@@ -4,7 +4,7 @@
 --------------------------------------------------------------
 
 if Game == nil then
-	print("WARN  Game is nil")
+	--print("WARN  Game is nil")
 	return
 end
 

@@ -301,6 +301,10 @@ DELETE FROM Technology_Flavors_Human;
 	DROP TABLE CEP_Collisions;
 	/**/
 
+	
+	UPDATE Technology_Flavors SET Flavor = 0.66 * Flavor;
+	UPDATE Technology_Flavors_Human SET Flavor = 0.66 * Flavor;
+
 -- Round to nearest power of 2
 
 	DELETE FROM Technology_Flavors WHERE Flavor < 3;

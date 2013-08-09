@@ -6,29 +6,31 @@
 include("ModTools.lua")
 
 if Game == nil or IncludedYieldLibrary then
+	--print("Game is nil")
 	return
 end
 
-IncludedYieldLibrary = true
+--print("Initializing YieldLibrary.lua")
 
-local showTimers = CEP.DEBUG_TIMER_LEVEL
+--IncludedYieldLibrary = true
+
+local showTimers = Cep.DEBUG_TIMER_LEVEL
 local timeStart = os.clock()
 
 local log = Events.LuaLogger:New()
-log:SetLevel("INFO")
+log:SetLevel("DEBUG")
 
 PlayerClass	= getmetatable(Players[0]).__index
 --PlotClass	= getmetatable(Map.GetPlotByIndex(0)).__index
 
 do -- globals
-	MapModData.CEP					= MapModData.CEP						or {}
-	MapModData.CEP.AvoidModifier		= MapModData.CEP.AvoidModifier		or {}
-	MapModData.CEP.CityWeights		= MapModData.CEP.CityWeights			or {}
-	MapModData.CEP.MinorCivRewards	= MapModData.CEP.MinorCivRewards		or {}
-	MapModData.CEP.PlayerCityIDs		= MapModData.CEP.PlayerCityIDs		or {}
-	MapModData.CEP.PlayerCityWeights	= MapModData.CEP.PlayerCityWeights	or {}
-	MapModData.CEP.UnitSupplyCurrent	= MapModData.CEP.UnitSupplyCurrent	or {}
-	MapModData.CEP.UnitSupplyMax		= MapModData.CEP.UnitSupplyMax		or {}
+	MapModData.CepAvoidModifier			= MapModData.CepAvoidModifier		or {}
+	MapModData.CepCityWeights			= MapModData.CepCityWeights			or {}
+	MapModData.CepMinorCivRewards		= MapModData.CepMinorCivRewards		or {}
+	MapModData.CepPlayerCityIDs			= MapModData.CepPlayerCityIDs		or {}
+	MapModData.CepPlayerCityWeights		= MapModData.CepPlayerCityWeights	or {}
+	MapModData.CepUnitSupplyCurrent		= MapModData.CepUnitSupplyCurrent	or {}
+	MapModData.CepUnitSupplyMax			= MapModData.CepUnitSupplyMax		or {}
 
 	YieldTypes.YIELD_FOOD				= YieldTypes.YIELD_FOOD
 	YieldTypes.YIELD_PRODUCTION			= YieldTypes.YIELD_PRODUCTION
@@ -197,11 +199,11 @@ function City_UpdateCityYieldCache(city)
 		log:Fatal("City_UpdateCityYieldCache cityID=nil for %s", city:GetName())
 	end
 	
-	MapModData.CEP.UpdateCityYieldCache = true	
+	MapModData.CepUpdateCityYieldCache = true	
 	for yieldInfo in GameInfo.Yields() do
 		City_GetYieldRate(city, yieldInfo.ID)
 	end
-	MapModData.CEP.UpdateCityYieldCache = false
+	MapModData.CepUpdateCityYieldCache = false
 	Events.SerialEventCityInfoDirty()
 	
 	if showTimers == 3 then print(string.format("%3s ms for City_UpdateCityYieldCache", math.floor((os.clock() - timeStart) * 1000))) end
@@ -223,7 +225,7 @@ function PlayerClass.UpdateCityYieldCache(player)
 	
 	if showTimers == 3 then timeStart = os.clock() end
 	
-	MapModData.CEP.UpdateCityYieldCache = true
+	MapModData.CepUpdateCityYieldCache = true
 	player:GetYieldsFromCitystates(true)
 	player:UpdateModdedHappiness()
 	for yieldInfo in GameInfo.Yields() do
@@ -235,7 +237,7 @@ function PlayerClass.UpdateCityYieldCache(player)
 	for city in player:Cities() do
 		City_UpdateCityYieldCache(city)
 	end	
-	MapModData.CEP.UpdateCityYieldCache = false
+	MapModData.CepUpdateCityYieldCache = false
 	
 	if showTimers == 3 then print(string.format("%3s ms for PlayerClass.UpdateCityYieldCache", math.floor((os.clock() - timeStart) * 1000))) end
 end
@@ -621,7 +623,7 @@ function City_GetBaseYieldFromMinorCivs(city, yieldID)
 	if player:IsMinorCiv() or yieldID == YieldTypes.YIELD_FAITH then
 		return 0
 	end
-	if CEP.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
+	if Cep.ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS then
 		yield = player:GetYieldsFromCitystates()[yieldID]
 		if not yield then
 			log:Fatal("player:GetYieldsFromCitystates %s %s is nil", player:GetName(), GameInfo.Yields[yieldID].Type)
@@ -983,7 +985,7 @@ function PlayerClass.GetSupplyModifier(player, yieldID, doUpdate)
 	local yieldMod = 0
 	local netSupply = GetMaxUnitSupply(player, doUpdate) - GetCurrentUnitSupply(player, doUpdate)
 	if netSupply < 0 then
-		yieldMod = math.max(CEP.SUPPLY_PENALTY_MAX, netSupply * CEP.SUPPLY_PENALTY_PER_UNIT_PERCENT)
+		yieldMod = math.max(Cep.SUPPLY_PENALTY_MAX, netSupply * Cep.SUPPLY_PENALTY_PER_UNIT_PERCENT)
 	end
 	return yieldMod
 end
@@ -994,7 +996,7 @@ function GetSupplyFromPopulation(player)
 	end
 	local supply = 0
 	for city in player:Cities() do
-		supply = supply + CEP.SUPPLY_PER_POP * city:GetPopulation()
+		supply = supply + Cep.SUPPLY_PER_POP * city:GetPopulation()
 	end
 	return Game.Round(supply)
 end
@@ -1005,33 +1007,33 @@ function GetMaxUnitSupply(player, doUpdate)
 	if player:GetNumCities() == 0 then
 		return 0
 	end
-	if doUpdate or MapModData.CEP.UnitSupplyMax[playerID] == nil then
-		MapModData.CEP.UnitSupplyMax[playerID] = CEP.SUPPLY_BASE
+	if doUpdate or MapModData.CepUnitSupplyMax[playerID] == nil then
+		MapModData.CepUnitSupplyMax[playerID] = Cep.SUPPLY_BASE
 		for city in player:Cities() do
-			MapModData.CEP.UnitSupplyMax[playerID] = MapModData.CEP.UnitSupplyMax[playerID] + CEP.SUPPLY_PER_CITY + CEP.SUPPLY_PER_POP * city:GetPopulation()
+			MapModData.CepUnitSupplyMax[playerID] = MapModData.CepUnitSupplyMax[playerID] + Cep.SUPPLY_PER_CITY + Cep.SUPPLY_PER_POP * city:GetPopulation()
 		end
 		if not player:IsHuman() then
 			local handicapMod = 1 + GameInfo.HandicapInfos[activePlayer:GetHandicapType()].AIUnitSupplyPercent / 100
-			MapModData.CEP.UnitSupplyMax[playerID] = handicapMod * MapModData.CEP.UnitSupplyMax[playerID]
+			MapModData.CepUnitSupplyMax[playerID] = handicapMod * MapModData.CepUnitSupplyMax[playerID]
 		end
-		MapModData.CEP.UnitSupplyMax[playerID] = Game.Round(MapModData.CEP.UnitSupplyMax[playerID])
-		--log:Warn("%20s UnitSupplyMax     = %-3s", player:GetName(), MapModData.CEP.UnitSupplyMax[playerID])
+		MapModData.CepUnitSupplyMax[playerID] = Game.Round(MapModData.CepUnitSupplyMax[playerID])
+		--log:Warn("%20s UnitSupplyMax     = %-3s", player:GetName(), MapModData.CepUnitSupplyMax[playerID])
 	end
-	return MapModData.CEP.UnitSupplyMax[playerID]
+	return MapModData.CepUnitSupplyMax[playerID]
 end
 
 function GetCurrentUnitSupply(player, doUpdate)
 	local playerID = player:GetID()
-	if doUpdate or MapModData.CEP.UnitSupplyCurrent[playerID] == nil then
-		MapModData.CEP.UnitSupplyCurrent[playerID] = 0
+	if doUpdate or MapModData.CepUnitSupplyCurrent[playerID] == nil then
+		MapModData.CepUnitSupplyCurrent[playerID] = 0
 		for unit in player:Units() do
 			if Unit_IsCombatDomain(unit, "DOMAIN_LAND") then
-				MapModData.CEP.UnitSupplyCurrent[playerID] = MapModData.CEP.UnitSupplyCurrent[playerID] + 1
+				MapModData.CepUnitSupplyCurrent[playerID] = MapModData.CepUnitSupplyCurrent[playerID] + 1
 			end
 		end
-		--log:Warn("%20s UnitSupplyCurrent = %-3s", player:GetName(), MapModData.CEP.UnitSupplyCurrent[playerID])
+		--log:Warn("%20s UnitSupplyCurrent = %-3s", player:GetName(), MapModData.CepUnitSupplyCurrent[playerID])
 	end
-	return MapModData.CEP.UnitSupplyCurrent[playerID]
+	return MapModData.CepUnitSupplyCurrent[playerID]
 end
 
 function City_GetCapitalSettlerModifier(city, yieldID, itemTable, itemID, queueNum)
@@ -1337,7 +1339,7 @@ function City_GetYieldRate(city, yieldID, itemTable, itemID, queueNum)
 					yield = yield + math.max(0, City_GetYieldRate(city, YieldTypes.YIELD_FOOD, itemTable, itemID))
 				end
 				if itemID == GameInfo.Units.UNIT_SETTLER.ID then
-					yield = yield * 105 / CEP.UNIT_SETTLER_BASE_COST
+					yield = yield * 105 / Cep.UNIT_SETTLER_BASE_COST
 				end
 			end
 		end
@@ -1506,26 +1508,26 @@ end
 -- Total Player Yields
 ---------------------------------------------------------------------
 
-if not MapModData.CEP.Yields then
-	MapModData.CEP.Yields = {}
-	MapModData.CEP.Yields[YieldTypes.YIELD_CS_MILITARY]		= {}
-	MapModData.CEP.Yields[YieldTypes.YIELD_CS_GREAT_PEOPLE]	= {}
-	local milBaseThreshold = CEP.MINOR_CIV_MILITARISTIC_REWARD_NEEDED * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
+if not MapModData.CepYields then
+	MapModData.CepYields = {}
+	MapModData.CepYields[YieldTypes.YIELD_CS_MILITARY]		= {}
+	MapModData.CepYields[YieldTypes.YIELD_CS_GREAT_PEOPLE]	= {}
+	local milBaseThreshold = Cep.MINOR_CIV_MILITARISTIC_REWARD_NEEDED * GameInfo.GameSpeeds[Game.GetGameSpeedType()].TrainPercent / 100
 	local gpBaseThreshold = GameDefines.GREAT_PERSON_THRESHOLD_BASE	* GameInfo.GameSpeeds[Game.GetGameSpeedType()].GreatPeoplePercent / 100
 	startClockTime = os.clock()
 	for playerID,player in pairs(Players) do
 		if player:IsAliveCiv() and not player:IsMinorCiv() then
-			MapModData.CEP.Yields[YieldTypes.YIELD_CS_MILITARY][playerID]					= {}
-			MapModData.CEP.Yields[YieldTypes.YIELD_CS_MILITARY][playerID].Needed			= milBaseThreshold
-			MapModData.CEP.Yields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID]				= {}
+			MapModData.CepYields[YieldTypes.YIELD_CS_MILITARY][playerID]					= {}
+			MapModData.CepYields[YieldTypes.YIELD_CS_MILITARY][playerID].Needed			= milBaseThreshold
+			MapModData.CepYields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID]				= {}
 			if UI:IsLoadedGame() then
-				MapModData.CEP.Yields[YieldTypes.YIELD_CS_MILITARY][playerID].Stored		= LoadValue("MapModData.CEP.Yields[%s][%s].Stored", YieldTypes.YIELD_CS_MILITARY, playerID) or 0
-				MapModData.CEP.Yields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Stored	= LoadValue("MapModData.CEP.Yields[%s][%s].Stored", YieldTypes.YIELD_CS_GREAT_PEOPLE, playerID) or 0
-				MapModData.CEP.Yields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Needed	= LoadValue("MapModData.CEP.Yields[%s][%s].Needed", YieldTypes.YIELD_CS_GREAT_PEOPLE, playerID) or gpBaseThreshold
+				MapModData.CepYields[YieldTypes.YIELD_CS_MILITARY][playerID].Stored		= LoadValue("MapModData.CepYields[%s][%s].Stored", YieldTypes.YIELD_CS_MILITARY, playerID) or 0
+				MapModData.CepYields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Stored	= LoadValue("MapModData.CepYields[%s][%s].Stored", YieldTypes.YIELD_CS_GREAT_PEOPLE, playerID) or 0
+				MapModData.CepYields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Needed	= LoadValue("MapModData.CepYields[%s][%s].Needed", YieldTypes.YIELD_CS_GREAT_PEOPLE, playerID) or gpBaseThreshold
 			else
-				MapModData.CEP.Yields[YieldTypes.YIELD_CS_MILITARY][playerID].Stored		= 0
-				MapModData.CEP.Yields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Stored	= 0
-				MapModData.CEP.Yields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Needed	= gpBaseThreshold
+				MapModData.CepYields[YieldTypes.YIELD_CS_MILITARY][playerID].Stored		= 0
+				MapModData.CepYields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Stored	= 0
+				MapModData.CepYields[YieldTypes.YIELD_CS_GREAT_PEOPLE][playerID].Needed	= gpBaseThreshold
 			end
 		end
 	end
@@ -1549,7 +1551,7 @@ function PlayerClass.GetYieldStored(player, yieldID, itemID)
 	elseif yieldID == YieldTypes.YIELD_FAITH then
 		return player:GetFaith()
 	elseif yieldID == YieldTypes.YIELD_CS_MILITARY or yieldID == YieldTypes.YIELD_CS_GREAT_PEOPLE then
-		return MapModData.CEP.Yields[yieldID][player:GetID()].Stored
+		return MapModData.CepYields[yieldID][player:GetID()].Stored
 	end
 	
 	return 0
@@ -1596,8 +1598,8 @@ function PlayerClass.SetYieldStored(player, yieldID, yield, itemID)
 	elseif yieldID == YieldTypes.YIELD_HAPPINESS_CITY or yieldID == YieldTypes.YIELD_HAPPINESS_NATIONAL then
 		player:SetGoldenAgeProgressMeter(yield)
 	elseif yieldID == YieldTypes.YIELD_CS_MILITARY or yieldID == YieldTypes.YIELD_CS_GREAT_PEOPLE then
-		MapModData.CEP.Yields[yieldID][player:GetID()].Stored = yield
-		SaveValue(yield, "MapModData.CEP.Yields[%s][%s].Stored", yieldID, player:GetID())
+		MapModData.CepYields[yieldID][player:GetID()].Stored = yield
+		SaveValue(yield, "MapModData.CepYields[%s][%s].Stored", yieldID, player:GetID())
 	end
 	if showTimers == 3 then print(string.format("%3s ms for PlayerClass.SetYieldStored", math.floor((os.clock() - timeStart)*1000))) end
 end
@@ -1684,7 +1686,7 @@ function PlayerClass.GetYieldNeeded(player, yieldID, itemID)
 	elseif yieldID == YieldTypes.YIELD_HAPPINESS_CITY or yieldID == YieldTypes.YIELD_HAPPINESS_NATIONAL then
 		return player:GetGoldenAgeProgressThreshold()
 	elseif yieldID == YieldTypes.YIELD_CS_MILITARY or yieldID == YieldTypes.YIELD_CS_GREAT_PEOPLE then
-		return MapModData.CEP.Yields[yieldID][player:GetID()].Needed
+		return MapModData.CepYields[yieldID][player:GetID()].Needed
 	end
 	return 0
 end
@@ -1695,8 +1697,8 @@ function PlayerClass.SetYieldNeeded(player, yieldID, value)
 	end
 	if showTimers == 3 then timeStart = os.clock() end
 	if yieldID == YieldTypes.YIELD_CS_GREAT_PEOPLE then
-		MapModData.CEP.Yields[yieldID][player:GetID()].Needed = value
-		SaveValue(value, "MapModData.CEP.Yields[%s][%s].Needed", yieldID, player:GetID())
+		MapModData.CepYields[yieldID][player:GetID()].Needed = value
+		SaveValue(value, "MapModData.CepYields[%s][%s].Needed", yieldID, player:GetID())
 	end
 	if showTimers == 3 then print(string.format("%3s ms for PlayerClass.SetYieldNeeded", math.floor((os.clock() - timeStart)*1000))) end
 	return 0
@@ -1979,7 +1981,7 @@ function PlayerClass.GetYieldFromTerrain(player, yieldID)
 		end
 	end
 	--[[
-	for plotID, plotYield in pairs(MapModData.CEP.PlotYields[yieldID]) do
+	for plotID, plotYield in pairs(MapModData.CepPlotYields[yieldID]) do
 		local plotOwner = Players[Map.GetPlotByIndex(plotID):GetOwner()]
 		if plotOwner == player then
 			yield = yield + plotYield
@@ -1995,7 +1997,7 @@ function PlayerClass.GetYieldFromBuildings(player, yieldID)
 		yield = yield + City_GetBaseYieldFromBuildings(city, yieldID)
 	end
 	--[[
-	for plotID, plotYield in pairs(MapModData.CEP.PlotYields[yieldID]) do
+	for plotID, plotYield in pairs(MapModData.CepPlotYields[yieldID]) do
 		local plotOwner = Players[Map.GetPlotByIndex(plotID):GetOwner()]
 		if plotOwner == player then
 			yield = yield + plotYield
@@ -2055,7 +2057,7 @@ function Plot_GetYield(plot, yieldID)
 	local yield = 0
 	local plotID = Plot_GetID(plot)
 	if yieldID == YieldTypes.YIELD_HAPPINESS_CITY then
-		yield = (MapModData.CEP.PlotYields[yieldID][plotID] or 0)
+		yield = (MapModData.CepPlotYields[yieldID][plotID] or 0)
 		local featureID = plot:GetFeatureType()
 		if featureID ~= -1 then
 			local featureInfo = GameInfo.Features[featureID]
@@ -2078,9 +2080,9 @@ function Plot_GetYield(plot, yieldID)
 		) then
 		yield = plot:CalculateYield(yieldID, true)
 	elseif yieldID == YieldTypes.YIELD_CULTURE then
-		yield = (MapModData.CEP.PlotYields[yieldID][plotID] or 0)
+		yield = (MapModData.CepPlotYields[yieldID][plotID] or 0)
 	elseif yieldID == YieldTypes.YIELD_HAPPINESS_CITY then
-		yield = (MapModData.CEP.PlotYields[yieldID][plotID] or 0)
+		yield = (MapModData.CepPlotYields[yieldID][plotID] or 0)
 	end
 	--]]
 	return yield
@@ -2098,7 +2100,7 @@ function Plot_ChangeYield(plot, yieldID, yield)
 		or yieldID == YieldTypes.YIELD_CULTURE
 		or yieldID == YieldTypes.YIELD_FAITH
 		) then
-		newYield = (MapModData.CEP.PlotYields[yieldID][plotID] or 0) + yield
+		newYield = (MapModData.CepPlotYields[yieldID][plotID] or 0) + yield
 		Game.SetPlotExtraYield( plot:GetX(), plot:GetY(), yieldID, newYield)
 	elseif yieldID == YieldTypes.YIELD_HAPPINESS_CITY then
 		newYield = currentYield + yield
@@ -2111,8 +2113,8 @@ function Plot_ChangeYield(plot, yieldID, yield)
 		return
 	end
 	LuaEvents.DirtyYieldCachePlayer(player)
-	MapModData.CEP.PlotYields[yieldID][plotID] = newYield
-	SaveValue(newYield, "MapModData.CEP.PlotYields[%s][%s]", yieldID, plotID)
+	MapModData.CepPlotYields[yieldID][plotID] = newYield
+	SaveValue(newYield, "MapModData.CepPlotYields[%s][%s]", yieldID, plotID)
 	Events.HexYieldMightHaveChanged(plot:GetX(), plot:GetY())
 	if plot:GetOwner() ~= -1 and (yieldID == YieldTypes.YIELD_HAPPINESS_CITY or yieldID == YieldTypes.YIELD_HAPPINESS_NATIONAL) then
 		player:UpdateModdedHappiness()
@@ -2137,8 +2139,8 @@ function Plot_SetYield(plot, yieldID, yield)
 		-- todo
 	end
 	LuaEvents.DirtyYieldCachePlayer(player)
-	MapModData.CEP.PlotYields[yieldID][Plot_GetID(plot)] = newYield
-	SaveValue(newYield, "MapModData.CEP.PlotYields[%s][%s]", yieldID, Plot_GetID(plot))
+	MapModData.CepPlotYields[yieldID][Plot_GetID(plot)] = newYield
+	SaveValue(newYield, "MapModData.CepPlotYields[%s][%s]", yieldID, Plot_GetID(plot))
 	Events.HexYieldMightHaveChanged(plot:GetX(), plot:GetY())
 	if player and (yieldID == YieldTypes.YIELD_HAPPINESS_CITY or yieldID == YieldTypes.YIELD_HAPPINESS_NATIONAL) then
 		player:UpdateModdedHappiness()
@@ -2147,7 +2149,7 @@ end
 
 --[[
 function CheckPlotCultureYields()
-	for plotID, yield in pairs(MapModData.CEP.PlotYields[YieldTypes.YIELD_CULTURE]) do
+	for plotID, yield in pairs(MapModData.CepPlotYields[YieldTypes.YIELD_CULTURE]) do
 		local plot = Map.GetPlotByIndex(plotID)
 		local culture = plot:CalculateYield( 4, true )
 		if culture < yield then
@@ -2157,17 +2159,17 @@ function CheckPlotCultureYields()
 end
 --]]
 
-if not MapModData.CEP.PlotYields then
-	MapModData.CEP.PlotYields = {}
+if not MapModData.CepPlotYields then
+	MapModData.CepPlotYields = {}
 	startClockTime = os.clock()
 	for yieldInfo in GameInfo.Yields() do
 		--yieldInfo = GameInfo.Yields[YieldTypes.YIELD_HAPPINESS_CITY]
-		MapModData.CEP.PlotYields[yieldInfo.ID] = {}
+		MapModData.CepPlotYields[yieldInfo.ID] = {}
 		for plotID, plot in Plots() do
 			if UI:IsLoadedGame() then
-				MapModData.CEP.PlotYields[yieldInfo.ID][plotID] = LoadValue("MapModData.CEP.PlotYields[%s][%s]", yieldInfo.ID, plotID) --or 0
+				MapModData.CepPlotYields[yieldInfo.ID][plotID] = LoadValue("MapModData.CepPlotYields[%s][%s]", yieldInfo.ID, plotID) --or 0
 			else
-				--MapModData.CEP.PlotYields[yieldInfo.ID][plotID] = 0
+				--MapModData.CepPlotYields[yieldInfo.ID][plotID] = 0
 			end
 		end
 	end
@@ -2346,7 +2348,7 @@ function PlayerClass.UpdateModdedHappiness(player)
 	end
 	City_SetNumBuildingClass(capital, "BUILDINGCLASS_HAPPINESS_NATIONAL", yield)
 	
-	--yield = Game.Round(player:GetYieldRate(yieldID) * CEP.PERCENT_SCIENCE_FOR_1_SURPLUS_HAPPINESS)
+	--yield = Game.Round(player:GetYieldRate(yieldID) * Cep.PERCENT_SCIENCE_FOR_1_SURPLUS_HAPPINESS)
 
 	--capital:SetNumRealBuilding(GameInfo.Buildings.BUILDING_SCIENCE_BONUS.ID, Game.Constrain(0, yield, 200))
 	--capital:SetNumRealBuilding(GameInfo.Buildings.BUILDING_SCIENCE_PENALTY.ID, Game.Constrain(0, -yield, 90))
@@ -2374,7 +2376,7 @@ end
 function PlayerClass.GetYieldHappinessMod(player, yieldID)
 	local yieldMod = 0
 	if yieldID == YieldTypes.YIELD_SCIENCE then
-		yieldMod = player:GetYieldRate(YieldTypes.YIELD_HAPPINESS_NATIONAL) * CEP.PERCENT_SCIENCE_FOR_1_SURPLUS_HAPPINESS
+		yieldMod = player:GetYieldRate(YieldTypes.YIELD_HAPPINESS_NATIONAL) * Cep.PERCENT_SCIENCE_FOR_1_SURPLUS_HAPPINESS
 	end
 	return yieldMod
 end
@@ -2388,9 +2390,9 @@ function PlayerClass.GetYieldFromTradeDeals(playerUs, yieldID, doUpdate)
 	local playerUsID		= playerUs:GetID()
 	local teamUsID			= playerUs:GetTeam()
 	local teamUs			= Teams[teamUsID]
-	local playerUsScience	= CEP.RESEARCH_AGREEMENT_SCIENCE_RATE_PERCENT
-	local playerUsGold		= CEP.OPEN_BORDERS_GOLD_RATE_PERCENT
-	local goldMod			= CEP.OPEN_BORDERS_GOLD_RATE_PERCENT / 100
+	local playerUsScience	= Cep.RESEARCH_AGREEMENT_SCIENCE_RATE_PERCENT
+	local playerUsGold		= Cep.OPEN_BORDERS_GOLD_RATE_PERCENT
+	local goldMod			= Cep.OPEN_BORDERS_GOLD_RATE_PERCENT / 100
 	
 	goldMod = goldMod * (1 + playerUs:GetTraitInfo().OpenBordersGoldModifier / 100)
 	for policyInfo in GameInfo.Policies("OpenBordersGoldModifier <> 0") do
@@ -2429,7 +2431,7 @@ function PlayerClass.GetYieldFromTradeDeals(playerUs, yieldID, doUpdate)
 				local yieldChange = 0
 				if yieldID == YieldTypes.YIELD_SCIENCE then
 					if teamUs:IsHasResearchAgreement(teamThemID) then
-						yieldChange = yieldChange + (playerUsScience + playerThem:GetYieldRate(yieldID, true)) * CEP.RESEARCH_AGREEMENT_SCIENCE_RATE_PERCENT / 100
+						yieldChange = yieldChange + (playerUsScience + playerThem:GetYieldRate(yieldID, true)) * Cep.RESEARCH_AGREEMENT_SCIENCE_RATE_PERCENT / 100
 						----log:Debug("%s has RA with %s", playerUs:GetName(), playerThem:GetName())
 					end
 				elseif yieldID == YieldTypes.YIELD_GOLD then
@@ -2439,7 +2441,7 @@ function PlayerClass.GetYieldFromTradeDeals(playerUs, yieldID, doUpdate)
 					end
 				end
 				if playerUs:IsDoF(playerThemID) then
-					yieldChange = yieldChange * (1 + CEP.FRIENDSHIP_TRADE_BONUS_PERCENT / 100)
+					yieldChange = yieldChange * (1 + Cep.FRIENDSHIP_TRADE_BONUS_PERCENT / 100)
 				end
 				----log:Debug("%s %s from %s = %s", playerUs:GetName(), GameInfo.Yields[yieldID].Type, playerThem:GetName(), yieldChange)
 				yieldSum = yieldSum + math.ceil(yieldChange)
@@ -2490,12 +2492,12 @@ function PlayerClass.GetYieldsFromCitystates(player, doUpdate)
 		return nil
 	end
 	local playerID = player:GetID()
-	MapModData.CEP.MinorCivRewards[playerID] = MapModData.CEP.MinorCivRewards[playerID] or {}
-	if doUpdate or MapModData.CEP.MinorCivRewards[playerID].Total == nil then
+	MapModData.CepMinorCivRewards[playerID] = MapModData.CepMinorCivRewards[playerID] or {}
+	if doUpdate or MapModData.CepMinorCivRewards[playerID].Total == nil then
 		--log:Debug("Recalculate Player Rewards from Minor Civs %s", player:GetName())
-		MapModData.CEP.MinorCivRewards[playerID].Total = {}
+		MapModData.CepMinorCivRewards[playerID].Total = {}
 		for yieldInfo in GameInfo.Yields() do
-			MapModData.CEP.MinorCivRewards[playerID].Total[yieldInfo.ID] = 0
+			MapModData.CepMinorCivRewards[playerID].Total[yieldInfo.ID] = 0
 		end
 		if not (player:GetNumCities() == 0 or player:IsMinorCiv() or player:IsBarbarian()) then
 			for minorCivID,minorCiv in pairs(Players) do
@@ -2503,15 +2505,15 @@ function PlayerClass.GetYieldsFromCitystates(player, doUpdate)
 					local traitID = minorCiv:GetMinorCivTrait()
 					local friendLevel = minorCiv:GetMinorCivFriendshipLevelWithMajor(player:GetID())
 					for yieldID,yield in pairs(player:GetCitystateYields(traitID, friendLevel)) do
-						MapModData.CEP.MinorCivRewards[playerID].Total[yieldID] = MapModData.CEP.MinorCivRewards[playerID].Total[yieldID] + yield
+						MapModData.CepMinorCivRewards[playerID].Total[yieldID] = MapModData.CepMinorCivRewards[playerID].Total[yieldID] + yield
 					end
 					--log:Debug("friendLevel with %s = %i", minorCiv:GetName(), friendLevel)
 				end
 			end
 		end
-		--log:Debug("player:GetYieldsFromCitystates %s yield=%s", GameInfo.Yields[YieldTypes.YIELD_CS_MILITARY].Type, MapModData.CEP.MinorCivRewards[playerID].Total[YieldTypes.YIELD_CS_MILITARY])
+		--log:Debug("player:GetYieldsFromCitystates %s yield=%s", GameInfo.Yields[YieldTypes.YIELD_CS_MILITARY].Type, MapModData.CepMinorCivRewards[playerID].Total[YieldTypes.YIELD_CS_MILITARY])
 	end
-	return MapModData.CEP.MinorCivRewards[playerID].Total
+	return MapModData.CepMinorCivRewards[playerID].Total
 end
 
 function PlayerClass.GetFinalCitystateYield(player, yieldID)
@@ -2591,9 +2593,6 @@ end
 function PlayerClass.GetAvoidModifier(player, doUpdate)
 	if type(player) ~= "table" then
 		log:Fatal("player:GetAvoidModifier player=%s", player)
-	elseif MapModData.CEP == nil then
-		log:Warn("player:GetAvoidModifier: VEM Not Initialized Yet")
-		return 0
 	end
 	
 	local playerID = player:GetID()
@@ -2606,24 +2605,20 @@ function PlayerClass.GetAvoidModifier(player, doUpdate)
 			numAvoid = numAvoid + (city:IsForcedAvoidGrowth() and 1 or 0)
 			numCities = numCities + (not city:IsPuppet() and 1 or 0)
 		end
-		MapModData.CEP.AvoidModifier[playerID] = math.max(0, 1 + (numAvoid / numCities - 1) / (1 - CEP.AVOID_GROWTH_FULL_EFFECT_CUTOFF / 100))
+		MapModData.CepAvoidModifier[playerID] = math.max(0, 1 + (numAvoid / numCities - 1) / (1 - Cep.AVOID_GROWTH_FULL_EFFECT_CUTOFF / 100))
 	end
-	return MapModData.CEP.AvoidModifier[playerID] or 0
+	return MapModData.CepAvoidModifier[playerID] or 0
 end
 
 function PlayerClass.GetTotalWeight(player, yieldID, doUpdate)
-	if MapModData.CEP == nil then
-		log:Warn("player:GetTotalWeight: TBM Not Yet Initialized")
-		return 1
-	end
 	if player == nil then
 		log:Fatal("player:GetTotalWeight: Invalid player")
 	end
 
 	local playerID = player:GetID()
 	local totalWeight = 0
-	if MapModData.CEP.CityWeights[playerID] and MapModData.CEP.CityWeights[playerID][yieldID] then
-		for k,v in pairs(MapModData.CEP.CityWeights[playerID][yieldID]) do
+	if MapModData.CepCityWeights[playerID] and MapModData.CepCityWeights[playerID][yieldID] then
+		for k,v in pairs(MapModData.CepCityWeights[playerID][yieldID]) do
 			if player:GetCityByID(k) ~= nil and player:GetCityByID(k):GetOwner() == playerID then
 				totalWeight = totalWeight + v
 			else
@@ -2639,10 +2634,7 @@ function PlayerClass.GetTotalWeight(player, yieldID, doUpdate)
 end
 
 function City_GetWeight(city, yieldID, doUpdate)
-	if MapModData.CEP == nil then
-		log:Warn("City_GetWeight: VEM Not Initialized Yet")
-		return 0
-	elseif city == nil then
+	if city == nil then
 		log:Fatal("City_GetWeight city=nil")
 	elseif yieldID == nil then
 		log:Fatal("City_GetWeight yieldID=nil")
@@ -2650,9 +2642,9 @@ function City_GetWeight(city, yieldID, doUpdate)
 	--log:Error(string.format("City_GetWeight %s %s %s", city:GetName(), GameInfo.Yields[yieldID].Description, tostring(doUpdate)))
 	local ownerID = city:GetOwner()
 	local owner = Players[ownerID]
-	if doUpdate or not (MapModData.CEP.CityWeights[ownerID] and MapModData.CEP.CityWeights[ownerID][yieldID] and MapModData.CEP.CityWeights[ownerID][yieldID][city:GetID()]) then
-		MapModData.CEP.CityWeights[ownerID] = MapModData.CEP.CityWeights[ownerID] or {}
-		MapModData.CEP.CityWeights[ownerID][yieldID] = MapModData.CEP.CityWeights[ownerID][yieldID] or {}
+	if doUpdate or not (MapModData.CepCityWeights[ownerID] and MapModData.CepCityWeights[ownerID][yieldID] and MapModData.CepCityWeights[ownerID][yieldID][city:GetID()]) then
+		MapModData.CepCityWeights[ownerID] = MapModData.CepCityWeights[ownerID] or {}
+		MapModData.CepCityWeights[ownerID][yieldID] = MapModData.CepCityWeights[ownerID][yieldID] or {}
 
 		local weight = 1
 		for v in GameInfo.CityWeights() do
@@ -2670,10 +2662,10 @@ function City_GetWeight(city, yieldID, doUpdate)
 		if yieldID == YieldTypes.YIELD_FOOD and city:IsForcedAvoidGrowth() then
 			weight = weight * owner:GetAvoidModifier(doUpdate)
 		end	
-		MapModData.CEP.CityWeights[ownerID][yieldID][city:GetID()] = math.max(0, weight)
+		MapModData.CepCityWeights[ownerID][yieldID][city:GetID()] = math.max(0, weight)
 	end
-	--log:Error("Weight = "..MapModData.CEP.CityWeights[ownerID][yieldID][city:GetID()])
-	return MapModData.CEP.CityWeights[ownerID][yieldID][city:GetID()]
+	--log:Error("Weight = "..MapModData.CepCityWeights[ownerID][yieldID][city:GetID()])
+	return MapModData.CepCityWeights[ownerID][yieldID][city:GetID()]
 end
 
 ---------------------------------------------------------------------
