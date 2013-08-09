@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
-	<!-- Austrian UU - Imperial-Royal Mountain Troops
+	<!--	Austrian UU - Imperial-Royal Mountain Troops
 	-->
 	<Units>
 		<Row>
@@ -50,11 +50,9 @@
 			<UnitClassType>UNITCLASS_INFANTRY</UnitClassType>
 		</Row>
 	</Unit_ClassUpgrades>
-	
-	
+
 	<!--	Roman Liburna
 	-->
-	
 	<Units>
 		<Row>
 			<Class>UNITCLASS_TRIREME</Class>
@@ -112,7 +110,7 @@
 			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
 		</Row>
 	</Civilization_UnitClassOverrides>
-	
+
 	<!--	American Pioneer
 
 
@@ -171,8 +169,7 @@
 		</Update>
 	</Units>
 -->	
-	
-	
+
 	<!--	Ottoman Building for Tribute
 	-->
 	<BuildingClasses>
@@ -190,7 +187,7 @@
 			<BuildingClass>BUILDINGCLASS_TRIBUTE</BuildingClass>
 			<Cost>0</Cost>
 			<Description>TXT_KEY_BUILDING_TRIBUTE</Description>
-			<AlwaysShowHelp>true</AlwaysShowHelp>
+			<AlwaysShowHelp>false</AlwaysShowHelp>
 			<ArtDefineTag>PALACE</ArtDefineTag>
 			<NukeImmune>true</NukeImmune>
 			<MinAreaSize>-1</MinAreaSize>
@@ -199,7 +196,7 @@
 			<PortraitIndex>17</PortraitIndex>
 			<IconAtlas>TECH_ATLAS_1</IconAtlas>
 			<IsVisible>0</IsVisible>
-			<ShowInPedia>0</ShowInPedia>
+			<ShowInPedia>false</ShowInPedia>
 		</Row>
 	</Buildings>
 	<Building_YieldChanges>
@@ -209,8 +206,7 @@
 			<Yield>5</Yield>
 		</Row>
 	</Building_YieldChanges>
-	
-	
+
 	<!--	American Pioneer Fort
 
 	<Buildings>
@@ -256,8 +252,6 @@
 	</Civilization_BuildingClassOverrides>
 	-->
 
-
-
 	<!--	Byzantine Basilica
 	-->
 	<Buildings>
@@ -291,7 +285,6 @@
 			<Yield>2</Yield>
 		</Row>
 	</Building_YieldChanges>
-	<!--
 	<Building_YieldInstant>
 		<Row>
 			<BuildingType>BUILDING_BASILICA</BuildingType>
@@ -299,7 +292,7 @@
 			<Yield>25</Yield>
 		</Row>
 	</Building_YieldInstant>
-	-->
+	<!-- Duplicate entry
 	<Building_YieldChanges>
 		<Row>
 			<BuildingType>BUILDING_BASILICA</BuildingType>
@@ -307,6 +300,7 @@
 			<Yield>2</Yield>
 		</Row>
 	</Building_YieldChanges>
+	-->
 	<Civilization_UnitClassOverrides>
 		<Delete UnitType="UNIT_BYZANTINE_CATAPHRACT" />
 	</Civilization_UnitClassOverrides>
@@ -324,11 +318,8 @@
 		</Row>
 	</Civilization_BuildingClassOverrides>
 
-
-
 	<!--	Carthaginian Cothon
 	-->
-
 	<Buildings>
 		<Row>
 			<Type>BUILDING_COTHON</Type>
@@ -381,7 +372,63 @@
 		</Row>
 	</Civilization_BuildingClassOverrides>
 
-
+	<!--	Celtic Abbey
+	-->
+	<Buildings>
+		<Row>
+			<Type>BUILDING_ABBEY</Type>
+			<BuildingClass>BUILDINGCLASS_TEMPLE</BuildingClass>
+			<MaxStartEra>ERA_RENAISSANCE</MaxStartEra>
+			<Cost>100</Cost>
+			<FaithCost>200</FaithCost>
+			<GoldMaintenance>2</GoldMaintenance>
+			<PrereqTech>TECH_PHILOSOPHY</PrereqTech>
+			<Description>TXT_KEY_BUILDING_ABBEY_DESC</Description>
+			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_ABBEY_TEXT</Civilopedia>
+			<Strategy>TXT_KEY_BUILDING_ABBEY_STRATEGY</Strategy>
+			<ArtDefineTag>TEMPLE</ArtDefineTag>
+			<MinAreaSize>-1</MinAreaSize>
+			<HurryCostModifier>25</HurryCostModifier>
+			<IconAtlas>BW_ATLAS_1</IconAtlas>
+			<NeverCapture>true</NeverCapture>
+			<PortraitIndex>37</PortraitIndex>
+		</Row>
+	</Buildings>
+	<Building_YieldChanges>
+		<Row>
+			<BuildingType>BUILDING_ABBEY</BuildingType>
+			<YieldType>YIELD_FOOD</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_ABBEY</BuildingType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_ABBEY</BuildingType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_ABBEY</BuildingType>
+			<YieldType>YIELD_SCIENCE</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_ABBEY</BuildingType>
+			<YieldType>YIELD_CULTURE</YieldType>
+			<Yield>1</Yield>
+		</Row>
+	</Building_YieldChanges>
+	<Civilization_BuildingClassOverrides>
+		<Delete BuildingType="BUILDING_CEILIDH_HALL" />
+		<Row>
+			<CivilizationType>CIVILIZATION_CELTS</CivilizationType>
+			<BuildingClassType>BUILDINGCLASS_TEMPLE</BuildingClassType>
+			<BuildingType>BUILDING_ABBEY</BuildingType>
+		</Row>
+	</Civilization_BuildingClassOverrides>
 
 	<!--	Danish Jelling Stones
 	-->
@@ -403,6 +450,8 @@
 			<CityCaptureCulture>100</CityCaptureCulture>
 			<CityCaptureCulturePerPop>10</CityCaptureCulturePerPop>
 			<CityCaptureCulturePerEra>50</CityCaptureCulturePerEra>
+			<GreatWorkSlotType>GREAT_WORK_SLOT_LITERATURE</GreatWorkSlotType>
+			<GreatWorkCount>1</GreatWorkCount>
 			<NeverCapture>true</NeverCapture>
 			<IconAtlas>CEP_BUILDING_ATLAS</IconAtlas>
 			<PortraitIndex>5</PortraitIndex>
@@ -424,8 +473,6 @@
 			<BuildingType>BUILDING_JELLING_STONES</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
-	
-	
 
 	<!--	English Steam Mill
 	-->
@@ -472,11 +519,8 @@
 		</Row>
 	</Building_YieldChanges>
 
-
-
 	<!--	Indian Indus Sanitation
 	-->
-
 	<Buildings>
 		<Row>
 			<Type>BUILDING_INDUS_SANITATION</Type>
@@ -485,6 +529,7 @@
 			<GoldMaintenance>1</GoldMaintenance>
 			<PrereqTech>TECH_CONSTRUCTION</PrereqTech>
 			<Description>TXT_KEY_BUILDING_INDUS_SANITATION</Description>
+			<Strategy>TXT_KEY_BUILDING_INDUS_SANITATION_STRATEGY</Strategy>
 			<Civilopedia>TXT_KEY_BUILDING_INDUS_SANITATION_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
 			<FoodKept>80</FoodKept>
@@ -494,7 +539,13 @@
 			<PortraitIndex>2</PortraitIndex>
 		</Row>
 	</Buildings>
-<!--
+	<Building_BuildingClassHappiness>
+		<Row>
+			<BuildingClassType>BUILDINGCLASS_AQUEDUCT</BuildingClassType>
+			<Happiness>1</Happiness>
+		</Row>
+	</Building_BuildingClassHappiness>
+	<!--
 	<Building_RiverPlotYieldChanges>
 		<Row>
 			<BuildingType>BUILDING_INDUS_SANITATION</BuildingType>
@@ -502,7 +553,7 @@
 			<Yield>1</Yield>
 		</Row>
 	</Building_RiverPlotYieldChanges>
--->
+	-->
 	<Civilization_BuildingClassOverrides>
 		<Delete BuildingType="BUILDING_MUGHAL_FORT" />
 		<Row>
@@ -512,7 +563,51 @@
 		</Row>
 	</Civilization_BuildingClassOverrides>
 
-
+	<!--	Indian Vedi
+	-->
+	<Buildings>
+		<Row>
+			<Type>BUILDING_VEDI</Type>
+			<BuildingClass>BUILDINGCLASS_SHRINE</BuildingClass>
+			<FreeStartEra>ERA_MEDIEVAL</FreeStartEra>
+			<MaxStartEra>ERA_RENAISSANCE</MaxStartEra>
+			<Cost>40</Cost>
+			<GoldMaintenance>1</GoldMaintenance>
+			<PrereqTech>TECH_POTTERY</PrereqTech>
+			<Description>TXT_KEY_BUILDING_VEDI</Description>
+			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_VEDI_TEXT</Civilopedia>
+			<Strategy>TXT_KEY_BUILDING_VEDI_STRATEGY</Strategy>
+			<ArtDefineTag>TEMPLE</ArtDefineTag>
+			<MinAreaSize>-1</MinAreaSize>
+			<HurryCostModifier>25</HurryCostModifier>
+			<IconAtlas>EXPANSION_BW_ATLAS_1</IconAtlas>
+			<NeverCapture>true</NeverCapture>
+			<PortraitIndex>9</PortraitIndex>
+		</Row>
+	</Buildings>
+	<Building_YieldInstant>
+		<Row>
+			<BuildingType>BUILDING_VEDI</BuildingType>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>25</Yield>
+		</Row>
+	</Building_YieldInstant>
+	<Building_YieldChangesPerPop>
+		<Row>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>50</Yield>
+		</Row>
+	</Building_YieldChangesPerPop>
+	<Civilization_BuildingClassOverrides>
+		<Row>
+			<CivilizationType>CIVILIZATION_INDIA</CivilizationType>
+			<BuildingClassType>BUILDINGCLASS_SHRINE</BuildingClassType>
+			<BuildingType>BUILDING_VEDI</BuildingType>
+		</Row>
+	</Civilization_BuildingClassOverrides>
+	<Civilization_UnitClassOverrides>
+		<Delete UnitType="UNIT_INDIAN_WARELEPHANT" />
+	</Civilization_UnitClassOverrides>
 
 	<!--	Japanese Dōjō
 	-->
@@ -597,8 +692,6 @@
 			<BuildingType>BUILDING_JAPANESE_DOJO</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
-
-
 
 	<!--	Korean Jade Hall
 	-->
@@ -696,8 +789,6 @@
 			<BuildingType>BUILDING_JADE_HALL</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
-	
-	
 
 	<!--	Mumun Granary
 	<Buildings>
@@ -745,8 +836,6 @@
 	</Civilization_BuildingClassOverrides>
 	-->
 
-
-
 	<!--	Swedish Folkskola
 	-->
 	<Buildings>
@@ -790,7 +879,7 @@
 			<BuildingType>BUILDING_FOLKSKOLA</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
-	
+
 	<!--	NASA Space Centre		added 2013-2-28
 	-->
 	<Buildings>
@@ -836,15 +925,15 @@
 		</Row>
 	</Civilization_BuildingClassOverrides>
 	<Civilization_UnitClassOverrides>
-		<Delete UnitType="UNIT_AMERICAN_MINUTEMAN" />
+		<Delete UnitType="UNIT_AMERICAN_B17" />
 	</Civilization_UnitClassOverrides>
 	<Units>
 		<Update>
-			<Where Type="UNIT_AMERICAN_MINUTEMAN" />
+			<Where Type="UNIT_AMERICAN_B17" />
 			<Set ShowInPedia="0" />
 		</Update>
 	</Units>
-	
+
 	<!--	Egyptian Basin Irrigation
 	-->
 	<Buildings>
@@ -885,7 +974,7 @@
 			<Set ShowInPedia="0" />
 		</Update>
 	</Buildings>
-	
+
 	<!--	Greek Odeon
 	-->
 	<Buildings>
@@ -930,7 +1019,7 @@
 			<Set ShowInPedia="0" />
 		</Update>
 	</Units>
-	
+
 	<!--	Barbary Port
 	-->
 	<Buildings>
