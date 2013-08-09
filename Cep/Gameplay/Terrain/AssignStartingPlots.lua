@@ -9438,7 +9438,7 @@ function AssignStartingPlots:BuffIslands()
 	if biggestAreaSize < 10 then
 		return
 	end
-	for index, plot in Plots(Game.Shuffle) do
+	for index, plot in Plots(Shuffle) do
 		local plotType = plot:GetPlotType()
 		if ((plotType == PlotTypes.PLOT_HILLS or plotType == PlotTypes.PLOT_LAND ) and plot:GetResourceType(-1) == -1) then
 			local area			= plot:Area()

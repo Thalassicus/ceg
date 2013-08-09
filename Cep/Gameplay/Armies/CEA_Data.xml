@@ -23,6 +23,27 @@
 		<Row Type="SACKED_CITY_RESISTANCE_CHANGE">
 			<Value>-50</Value>
 		</Row>
+		<Row Type="AI_VALUE_POPULATION">
+			<Value>50</Value>
+		</Row>
+		<Row Type="AI_VALUE_FERTILITY">
+			<Value>25</Value>
+		</Row>
+		<Row Type="AI_VALUE_BUILDINGS">
+			<Value>1</Value>
+		</Row>
+		<Row Type="AI_CAPTURE_HAPPINESS_TARGET">
+			<Value>10</Value>
+		</Row>
+		<Row Type="AI_CAPTURE_VALUE_MULTIPLIER">
+			<Value>10</Value>
+		</Row>
+		<Row Type="AI_CAPTURE_VALUE_EXPONENT">
+			<Value>2</Value>
+		</Row>
+		<Row Type="AI_CAPTURE_VALUE_CONSTANT">
+			<Value>1000</Value>
+		</Row>
 	</Cep>
 	<!--
 	<UnitCombatInfosEx>

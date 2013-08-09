@@ -169,42 +169,47 @@ LuaEvents.NotificationAddin( { name = "CapturedOther", type = "CNOTIFICATION_CAP
 --]]
 
 function CustomNotification(name, tip, text)
+	log:Warn("CustomNotification name='%s' tip='%s' text='%s'", name, tip, text)
 	Events.GameplayAlertMessage(text)
 end
 
 LuaEvents.CityCaptureBonuses = LuaEvents.CityCaptureBonuses or function(city) end
 
-function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPlayer)
-	log:Info("City_DoRefugees %s", lostCity:GetName())
+function City_DoRefugees(cityPlot, city, cityName, lostPlayer, wonPlayer)
+	log:Info("City_DoRefugees %s", city:GetName())
 	local capitalCity	= lostPlayer:GetCapitalCity()
 	local refugees		= false	
-	local lostCityPop	= lostCity:GetPopulation()
+	local cityPop		= city:GetPopulation()
 	local popLost		= 0
 	local popDead		= 0
 	local popFlee		= 0
 	
-	if lostCity:GetResistanceTurns() > 0 then
+	if city:GetResistanceTurns() > 0 and wonPlayer:IsHuman() then
 		-- work around occupation bug
-		lostCity:SetOccupied(false)
-		lostCity:SetPuppet(true)
+		city:SetOccupied(false)
+		city:SetPuppet(true)
 	end
 	
-	if lostCityPop >= 2 then
-		popLost = Game.Round(0.1 * lostCityPop) + 1
-		lostCity:ChangePopulation(-popLost, true)
+	-- death
+	if cityPop >= 2 then
+		popLost = Game.Round(0.1 * cityPop) + 1
+		city:ChangePopulation(-popLost, true)
 	end
-	if lostCityPop >= 3 then
+	if cityPop >= 3 then
 		popFlee = math.max(0, popLost - 1)
 	end
-	lostCityPop = lostCity:GetPopulation()
+	cityPop = city:GetPopulation()
 
-	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
+	-- resistance
+	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(city))
 	local heldMinTime	= Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS * Game.GetSpeedInfo().TrainPercent / 100
-
-	local resistTime	= City_CalculateResistanceTurns(lostPlayer, lostCity)
-	City_SetResistanceTurns(lostCity, resistTime)
+	local resistTime	= City_CalculateResistanceTurns(city, lostPlayer)
+	City_SetResistanceTurns(city, resistTime)
+	
+	LuaEvents.AICaptureDecision(city, wonPlayer)
 	
 	if not capitalCity then
+		-- no capital for refugees to flee to
 		return
 	end
 
@@ -213,12 +218,12 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	end
 	--
 	log:Info("%s captured: heldMinTime=%s MinTurns=%s TrainPercent=%s turn=%s acquired=%s resistTime=%s",
-		lostCity:GetName(),
+		city:GetName(),
 		heldMinTime,
 		Cep.PARTISANS_MIN_CITY_OWNERSHIP_TURNS,
 		Game.GetSpeedInfo().TrainPercent / 100,
 		Game.GetGameTurn(),
-		lostPlayer:GetTurnAcquired(lostCity),
+		lostPlayer:GetTurnAcquired(city),
 		resistTime
 	)
 	--]]
@@ -246,16 +251,16 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 		end
 	end
 	
-	if not lostCityPlot:IsRevealed(Game.GetActiveTeam()) then
+	if not cityPlot:IsRevealed(Game.GetActiveTeam()) then
 		return
 	end
 	
 	if refugees then
 		CustomNotification(
 			"Refugees",
-			"War refugees flee "..lostCityName,
-			string.format("Refugees from %s flee to %s and rally as partisan fighters!", lostCityName, capitalCity:GetName()),
-			lostCityPlot,
+			"War refugees flee "..cityName,
+			string.format("Refugees from %s flee to %s and rally as partisan fighters!", cityName, capitalCity:GetName()),
+			cityPlot,
 			0,
 			"Red",
 			0
@@ -264,8 +269,8 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 		CustomNotification(
 			"Refugees",
 			"Partisans rally at "..capitalCity:GetName(),
-			string.format("Partisans from %s rally at %s!", lostCityName, capitalCity:GetName()),
-			lostCityPlot,
+			string.format("Partisans from %s rally at %s!", cityName, capitalCity:GetName()),
+			cityPlot,
 			0,
 			"Red",
 			0
@@ -273,7 +278,7 @@ function City_DoRefugees(lostCityPlot, lostCity, lostCityName, lostPlayer, wonPl
 	end
 end
 
-function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlayerID, wonPlayerID, capturingUnit)
+function City_DoCitystateCapture(cityPlot, city, cityName, lostPlayerID, wonPlayerID, capturingUnit)
 	local wonPlayer			= Players[wonPlayerID]
 	local lostPlayer		= Players[lostPlayerID]
 	local minorTrait		= lostPlayer:GetMinorCivTrait()
@@ -288,7 +293,7 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 		end
 	end
 
-	log:Info("City_DoCitystateCapture %s %s %s turns", lostCityName, wonPlayer:GetName(), captureBonusTurns)
+	log:Info("City_DoCitystateCapture %s %s %s turns", cityName, wonPlayer:GetName(), captureBonusTurns)
 	
 	if captureBonusTurns == 0 then
 		return
@@ -305,8 +310,8 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			CustomNotification(
 				"CapturedMaritime",
 				"Looted Food",
-				yieldLoot.." [ICON_FOOD] Food looted from the maritime [ICON_CITY_STATE] City-State of "..lostCityName.." distributed to your Cities.",
-				lostCityPlot,
+				yieldLoot.." [ICON_FOOD] Food looted from the maritime [ICON_CITY_STATE] City-State of "..cityName.." distributed to your Cities.",
+				cityPlot,
 				0,
 				0,
 				0
@@ -327,8 +332,8 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			CustomNotification(
 				"CapturedCultural",
 				"Looted Cultural Artifacts",
-				string.format("%i [ICON_CULTURE] Culture of valuable artifacts looted from the cultural [ICON_CITY_STATE] City-State of %s.", Game.Round(totalCulture, -1), lostCityName),
-				lostCityPlot,
+				string.format("%i [ICON_CULTURE] Culture of valuable artifacts looted from the cultural [ICON_CITY_STATE] City-State of %s.", Game.Round(totalCulture, -1), cityName),
+				cityPlot,
 				0,
 				0,
 				0
@@ -337,7 +342,7 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 	elseif (minorTrait == MinorCivTraitTypes.MINOR_CIV_TRAIT_MILITARISTIC) and capturingUnit then
 		log:Debug(" Militaristic")
 		local quantity		= 3
-		local availableIDs	= City_GetBuildableUnitIDs(lostCity)
+		local availableIDs	= City_GetBuildableUnitIDs(city)
 		local newUnitID		= availableIDs[1 + Map.Rand(#availableIDs, "Militaristic CS Capture")]
 		local xp			= wonPlayer:GetCitystateYields(minorTrait, 2)[YieldTypes.YIELD_EXPERIENCE]
 		if newUnitID == nil then
@@ -355,7 +360,7 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			end
 
 			--log:Debug("  Reward=%s  XP=%s", GameInfo.Units[newUnitID].Type, xp)
-			wonPlayer:InitUnitType(newUnitID, lostCityPlot, xp)
+			wonPlayer:InitUnitType(newUnitID, cityPlot, xp)
 			
 			if Game.GetActivePlayer() == wonPlayer:GetID() then
 				local newUnitIcon = {{"Unit1", newUnitID, 0, 0, 0}}
@@ -363,8 +368,8 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 				CustomNotification(
 					"CapturedMilitaristic",
 					"Conscripts",
-					string.format("Conscripted %s into your army from the militaristic [ICON_CITY_STATE] City-State of %s.", newUnitName, lostCityName),
-					lostCityPlot,
+					string.format("Conscripted %s into your army from the militaristic [ICON_CITY_STATE] City-State of %s.", newUnitName, cityName),
+					cityPlot,
 					0,
 					0,
 					newUnitIcon
@@ -380,8 +385,8 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			CustomNotification(
 				"CapturedReligious",
 				"Religious Zeal",
-				string.format("%s [ICON_PEACE] religious zeal gained by capturing the religious [ICON_CITY_STATE] City-State of %s.", yieldLoot, lostCityName),
-				lostCityPlot,
+				string.format("%s [ICON_PEACE] religious zeal gained by capturing the religious [ICON_CITY_STATE] City-State of %s.", yieldLoot, cityName),
+				cityPlot,
 				0,
 				0,
 				0
@@ -396,8 +401,8 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			CustomNotification(
 				"CapturedMercantile",
 				"Looted Gold",
-				yieldLoot.." [ICON_GOLD] Gold looted from the mercantile [ICON_CITY_STATE] City-State of "..lostCityName..".",
-				lostCityPlot,
+				yieldLoot.." [ICON_GOLD] Gold looted from the mercantile [ICON_CITY_STATE] City-State of "..cityName..".",
+				cityPlot,
 				0,
 				0,
 				0
@@ -412,8 +417,8 @@ function City_DoCitystateCapture(lostCityPlot, lostCity, lostCityName, lostPlaye
 			CustomNotification(
 				"CapturedOther",
 				"Looted Gold",
-				yieldLoot.." [ICON_GOLD] Gold looted from the [ICON_CITY_STATE] City-State of "..lostCityName..".",
-				lostCityPlot,
+				yieldLoot.." [ICON_GOLD] Gold looted from the [ICON_CITY_STATE] City-State of "..cityName..".",
+				cityPlot,
 				0,
 				0,
 				0

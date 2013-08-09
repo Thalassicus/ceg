@@ -48,7 +48,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 80,
 EstimatedNumCities             = 13,
 PortraitIndex                  = 0,
-AIRevealRadius                 = 5,
+AISearchRange                  = 4,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[1] = {
@@ -77,7 +77,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 85,
 EstimatedNumCities             = 26,
 PortraitIndex                  = 1,
-AIRevealRadius                 = 6,
+AISearchRange                  = 6,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[2] = {
@@ -106,7 +106,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 90,
 EstimatedNumCities             = 39,
 PortraitIndex                  = 2,
-AIRevealRadius                 = 7,
+AISearchRange                  = 7,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[3] = {
@@ -135,7 +135,7 @@ NumCitiesTechCostMod           = 5,
 AdvancedStartPointsMod         = 100,
 EstimatedNumCities             = 52,
 PortraitIndex                  = 3,
-AIRevealRadius                 = 8,
+AISearchRange                  = 8,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[4] = {
@@ -164,7 +164,7 @@ NumCitiesTechCostMod           = 3.75,
 AdvancedStartPointsMod         = 110,
 EstimatedNumCities             = 80,
 PortraitIndex                  = 4,
-AIRevealRadius                 = 9,
+AISearchRange                  = 9,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
 
 GameInfoCep.Worlds[5] = {
@@ -193,9 +193,8 @@ NumCitiesTechCostMod           = 2.5,
 AdvancedStartPointsMod         = 120,
 EstimatedNumCities             = 132,
 PortraitIndex                  = 5,
-AIRevealRadius                 = 10,
+AISearchRange                  = 10,
 IconAtlas                      = "WORLDSIZE_ATLAS"}
-
 
 
 -- This MT_FixTables.lua data automatically created by:
@@ -384,7 +383,7 @@ AIUnitSupplyPercent            = 0,
 
 AIBarbarianBonus               = 100,
 AIFreeXPPercent                = 0,
-AIFreeXP                       = 10,
+AIFreeXP                       = 15,
 AIFreeXPPerEra                 = 4,
 
 AIWorkRateModifier             = 0,
@@ -463,7 +462,7 @@ AIUnitSupplyPercent            = 10,
 AIFreePromotion                = "PROMOTION_HANDICAP",
 AIBarbarianBonus               = 100,
 AIFreeXPPercent                = 0,
-AIFreeXP                       = 20,
+AIFreeXP                       = 30,
 AIFreeXPPerEra                 = 8,
 
 AIWorkRateModifier             = 20,
@@ -542,7 +541,7 @@ AIUnitSupplyPercent            = 20,
 AIFreePromotion                = "PROMOTION_HANDICAP",
 AIBarbarianBonus               = 100,
 AIFreeXPPercent                = 0,
-AIFreeXP                       = 25,
+AIFreeXP                       = 35,
 AIFreeXPPerEra                 = 12,
 
 AIWorkRateModifier             = 50,
@@ -621,7 +620,7 @@ AIUnitSupplyPercent            = 30,
 AIFreePromotion                = "PROMOTION_HANDICAP",
 AIBarbarianBonus               = 100,
 AIFreeXPPercent                = 25,
-AIFreeXP                       = 30,
+AIFreeXP                       = 40,
 AIFreeXPPerEra                 = 16,
 
 AIWorkRateModifier             = 75,
@@ -700,7 +699,7 @@ AIUnitSupplyPercent            = 40,
 AIFreePromotion                = "PROMOTION_HANDICAP",
 AIBarbarianBonus               = 100,
 AIFreeXPPercent                = 50,
-AIFreeXP                       = 35,
+AIFreeXP                       = 50,
 AIFreeXPPerEra                 = 20,
 
 AIWorkRateModifier             = 100,

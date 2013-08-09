@@ -2,8 +2,6 @@
 -- This popup occurs when a city is capture and must be annexed or puppeted.
 include("ModTools.lua")
 
-function City_Capture(city, player, event) end
-
 PopupLayouts[ButtonPopupTypes.BUTTONPOPUP_CITY_CAPTURED] = function(popupInfo)
 	local cityID				= popupInfo.Data1;
 	local iCaptureGold			= popupInfo.Data2;
@@ -43,8 +41,8 @@ PopupLayouts[ButtonPopupTypes.BUTTONPOPUP_CITY_CAPTURED] = function(popupInfo)
 	SetPopupText(popupText);
 	
 	-- Calculate Happiness info	
-	local iUnhappinessForSacking = City_GetYieldChangeForAction(newCity, activePlayer, "CAPTURE_SACK")
-	local iUnhappinessForPuppeting = City_GetYieldChangeForAction(newCity, activePlayer, "CAPTURE_SACK");
+	local iUnhappinessForSacking = -1 * City_GetYieldChangeForAction(newCity, activePlayer, "CAPTURE_SACK")
+	local iUnhappinessForPuppeting = -1 * City_GetYieldChangeForAction(newCity, activePlayer, "CAPTURE_PUPPET");
 	
 	-- Initialize 'Liberate' button.
 	if (iLiberatedPlayer ~= -1) then

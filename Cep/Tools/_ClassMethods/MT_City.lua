@@ -13,19 +13,29 @@ log:SetLevel("WARN")
 --
 function City_GetYieldChangeForAction(city, player, captureType, yieldID)
 	if captureType == "CAPTURE_PUPPET" then
-		return player:GetUnhappinessForecast(nil, city) - player:GetUnhappiness()
+		local oldHappy = player:GetUnhappiness()
+		local newHappy = player:GetUnhappinessForecast(nil, city)
+		log:Debug("%s %s = %s - %s", captureType, newHappy - oldHappy, newHappy, oldHappy)
+		return -1 * (newHappy - oldHappy)
 	end
-	return GameDefines.UNHAPPINESS_PER_CITY + math.ceil(city:GetPopulation() * Cep.SACKED_CITY_POPULATION_CHANGE / 100) * GameDefines.UNHAPPINESS_PER_POPULATION
+	local perCity = GameDefines.UNHAPPINESS_PER_CITY
+	local pop = city:GetPopulation()
+	local popMod = 1 + Cep.SACKED_CITY_POPULATION_CHANGE / 100
+	local perPop = GameDefines.UNHAPPINESS_PER_POPULATION
+	
+	log:Debug("%s %s = %s + math.ceil(%s * %s) * %s", captureType, perCity + math.ceil(pop * popMod) * perPop, perCity, pop, popMod, perPop)
+	
+	return -1 * (perCity + math.ceil(pop * popMod) * perPop)
 end
-function City_CalculateResistanceTurns(lostPlayer, lostCity)
+function City_CalculateResistanceTurns(city, lostPlayer)
 	local resistMod		= 1.0	
 	for policyInfo in GameInfo.Policies("CityResistTimeMod <> 0") do
 		if wonPlayer:HasPolicy(policyInfo.ID) then
 			resistMod = resistMod + policyInfo.CityResistTimeMod / 100
 		end
 	end
-	local lostCityPop	= lostCity:GetPopulation()
-	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(lostCity))
+	local lostCityPop	= city:GetPopulation()
+	local heldTime		= (Game.GetGameTurn() - lostPlayer:GetTurnAcquired(city))
 	local resistMaxTime	= math.max(1, math.min(heldTime, lostCityPop))
 	local resistTime	= (lostCityPop - 0.1*lostCityPop^1.5) * resistMod
 		  resistTime	= Game.Constrain(1, Game.Round(resistTime), resistMaxTime)
@@ -33,18 +43,30 @@ function City_CalculateResistanceTurns(lostPlayer, lostCity)
 	return resistTime
 end
 function City_Capture(city, player, captureType)
-	if captureType == "CAPTURE_SACK" or captureType == "CAPTURE_RAZE" then
+	log:Info("%s %s %s", player:GetName(), city:GetName(), captureType)
+	if captureType == "CAPTURE_RAZE" then
+		city:ChangePopulation(math.ceil(city:GetPopulation() * Cep.SACKED_CITY_POPULATION_CHANGE / 100), true)
+		City_SetResistanceTurns(city, city:GetPopulation())
+		City_SetRazingTurns(city, city:GetPopulation())
+		city:SetPuppet(false)	
+		city:SetOccupied(true)
+	elseif captureType == "CAPTURE_SACK" then
 		city:ChangePopulation(math.ceil(city:GetPopulation() * Cep.SACKED_CITY_POPULATION_CHANGE / 100), true)
 		City_SetResistanceTurns(city, math.ceil( city:GetResistanceTurns() * (1 + Cep.SACKED_CITY_RESISTANCE_CHANGE / 100) ))
+		City_SetRazingTurns(city, 0)
+		city:SetOccupied(false)
+		city:SetPuppet(true)
+	elseif captureType == "CAPTURE_PUPPET" then
+		City_SetResistanceTurns(city, 0)
+		City_SetRazingTurns(city, 0)
+		city:SetOccupied(false)
+		city:SetPuppet(true)
+	else
+		City_SetResistanceTurns(city, 0)
+		City_SetRazingTurns(city, 0)
+		city:SetOccupied(false)
+		city:SetPuppet(false)
 	end
-	--[[
-	return
-	for buildingInfo in GameInfo.Buildings() do
-		for captureInfo in GameInfo.Building_CaptureChance(string.format("BuildingType = '%s' AND CaptureType = '%s'", buildingInfo.Type, captureType)) do
-			
-		end
-	end
-	--]]
 end
 
 
@@ -501,9 +523,13 @@ end
 
 
 ---------------------------------------------------------------------
---[[ City_SetResistanceTurns(city, turns) usage example:
+-- City_SetRazingTurns(city, turns)
+function City_SetRazingTurns(city, turns)
+	city:ChangeRazingTurns(turns - city:GetRazingTurns())
+end
 
-]]
+---------------------------------------------------------------------
+-- City_SetResistanceTurns(city, turns)
 function City_SetResistanceTurns(city, turns)
 	city:ChangeResistanceTurns(turns - city:GetResistanceTurns())
 end

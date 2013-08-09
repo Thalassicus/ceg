@@ -683,7 +683,7 @@ function PlayerStartBonuses(player)
 	local isCoastal		= false	
 	local settlerID		= player:GetUniqueUnitID("UNITCLASS_SETTLER")
 	local warriorID		= player:GetUniqueUnitID("UNITCLASS_WARRIOR")
-	local revealRadius	= worldInfo.AIRevealRadius
+	local searchRange	= worldInfo.AISearchRange
 	
 	if trait.NoWarrior then
 		for unit in player:Units() do
@@ -714,9 +714,9 @@ function PlayerStartBonuses(player)
 	
 	--log:Info("PlayerStartBonuses %s", player:GetName())
 
-	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, 1, revealRadius)
+	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, 1, searchRange)
 	if not oceanPlot then
-		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, revealRadius + 1, revealRadius * 2)
+		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, searchRange + 1, searchRange * 2)
 	end
 	if oceanPlot then
 		isCoastal	= (Plot_GetAreaWeights(startPlot, 1, 8).SEA >= 0.5)
@@ -777,7 +777,7 @@ function PlayerStartBonuses(player)
 		player:SetHasTech(GameInfo.Technologies.TECH_ANIMAL_HUSBANDRY.ID, true)
 	end
 	
-	for adjPlot in Plot_GetPlotsInCircle(startPlot, 2, revealRadius) do
+	for adjPlot in Plot_GetPlotsInCircle(startPlot, 2, searchRange) do
 		adjPlot:SetRevealed(teamID, true)
 		local improvementID = adjPlot:GetImprovementType()
 		if improvementID ~= -1 and not adjPlot:IsVisible(Game.GetActiveTeam()) then
@@ -820,7 +820,7 @@ function AIEarlyBonuses(player)
 	local startPlot		= capitalCity and capitalCity:Plot()
 	local isCoastal		= false	
 	local settlerID		= player:GetUniqueUnitID("UNITCLASS_SETTLER")
-	local revealRadius	= worldInfo.AIRevealRadius
+	local searchRange	= worldInfo.AISearchRange
 	local relFlavor		= Game.GetValue("Flavor", {LeaderType=leaderInfo.Type, FlavorType="FLAVOR_RELIGION"}, GameInfo.Leader_Flavors)
 	
 	if not startPlot then
@@ -836,9 +836,9 @@ function AIEarlyBonuses(player)
 		return
 	end
 
-	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, 1, revealRadius)
+	local oceanPlot	= Plot_GetNearestOceanPlot(startPlot, 1, searchRange)
 	if not oceanPlot then
-		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, revealRadius + 1, revealRadius * 2)
+		oceanPlot	= Plot_GetNearestOceanPlot(startPlot, searchRange + 1, searchRange * 2)
 	end
 	if oceanPlot then
 		isCoastal	= (Plot_GetAreaWeights(startPlot, 1, 8).SEA >= 0.5)
@@ -890,7 +890,7 @@ function AIEarlyBonuses(player)
 				log:Info("Gave %20s a Colosseum", player:GetName())
 			elseif leaderInfo.Personality == "PERSONALITY_COALITION" or leaderInfo.Personality == "PERSONALITY_DIPLOMAT" then
 				local bestCS = nil
-				local bestCSDistance = revealRadius * 2
+				local bestCSDistance = searchRange * 2
 				for csID, cs in pairs(Players) do
 					if cs:IsMinorCiv() and cs:GetAlly() == -1 then
 						local minorPlot = cs:GetCapitalCity():Plot()
@@ -1050,12 +1050,6 @@ LuaEvents.NewUnit.Add(function(playerID, unitID, hexVec, unitType, cultureType, 
 	end
 )
 
-
-
---
--- War Handicap
---
-
 function WarHandicap(humanPlayerID, aiPlayerID, isAtWar)
 	local humanPlayer = Players[humanPlayerID]
 	local aiPlayer = Players[aiPlayerID]
@@ -1083,34 +1077,98 @@ end
 Events.WarStateChanged.Add(WarHandicap)
 
 
---
+-- AI city capture decision: keep or raze
+function DoAICaptureDecision(city, player)
+	--
+	if player:IsHuman() then
+		return
+	end
+	--]]
+	if city:GetResistanceTurns() < 1 then
+		-- peaceful acquisition
+		return
+	end
+	
+	local valBuildings	= 0
+	for buildingInfo in GameInfo.Buildings() do
+		if city:IsHasBuilding(buildingInfo.ID) then
+			if Building_IsWonder(buildingInfo.Type) then
+				valBuildings = 99999
+				break
+			else
+				valBuildings = valBuildings + player:GetBuildingProductionNeeded(buildingInfo.ID)
+			end
+		end
+	end
+	valBuildings = Cep.AI_VALUE_BUILDINGS * valBuildings
+	
+	local happiness		= player:GetExcessHappiness() + City_GetYieldChangeForAction(city, player, "CAPTURE_PUPPET")
+	local happyTarget	= Cep.AI_CAPTURE_HAPPINESS_TARGET
+	local valPop		= Cep.AI_VALUE_POPULATION * city:GetPopulation()
+	local valPlots		= Cep.AI_VALUE_FERTILITY * Plot_GetFertilityInRange(city:Plot(), 3)
+	local valTotal		= valPop + valPlots + valBuildings
+	local valRequired	= Cep.AI_CAPTURE_VALUE_MULTIPLIER * (happyTarget - math.min(happyTarget, happiness)) ^ Cep.AI_CAPTURE_VALUE_EXPONENT + Cep.AI_CAPTURE_VALUE_CONSTANT
+	
+	if valTotal < valRequired then
+		log:Info("%s captured %s decision: raze (happiness=%s valPop=%s valPlots=%s valBuildings=%s valRequired=%s)", player:GetName(), city:GetName(), happiness, valPop, valPlots, valBuildings, valRequired)
+		City_Capture(city, player, "CAPTURE_RAZE")
+	elseif happiness < happyTarget then
+		log:Info("%s captured %s decision: sack (happiness=%s valPop=%s valPlots=%s valBuildings=%s valRequired=%s)", player:GetName(), city:GetName(), happiness, valPop, valPlots, valBuildings, valRequired)
+		City_Capture(city, player, "CAPTURE_SACK")
+	else
+		log:Info("%s captured %s decision: intact (happiness=%s valPop=%s valPlots=%s valBuildings=%s valRequired=%s)", player:GetName(), city:GetName(), happiness, valPop, valPlots, valBuildings, valRequired)
+		--City_Capture(city, player, "CAPTURE_PUPPET")
+	end
+end
+LuaEvents.AICaptureDecision.Add(function(city, player) return SafeCall(DoAICaptureDecision, city, player) end)
+
+
+
 -- Manually clear barbarian camps
---
+
+function ClearCamps()
+	local nonHumans = {}
+	for playerID, player in pairs(Players) do
+		if player:IsAliveCiv() and not player:IsHuman() and not player:IsMinorCiv() then
+			table.insert(nonHumans, player)
+		end
+	end
+	Shuffle(nonHumans)
+	for _, player in pairs(nonHumans) do
+		for city in player:Cities() do
+			ClearCampsCity(city, player)
+		end
+		for unit in player:Units() do
+			ClearCampsUnit(unit)
+		end
+	end
+end
+LuaEvents.ActivePlayerTurnEnd_Turn.Add(function() return SafeCall(ClearCamps) end)
 
 function ClearCampsCity(city, player)
 	if player:IsHuman() or player:IsMinorCiv() then
 		return
 	end
 	
-	local revealRadius = Game.GetWorldInfo().AIRevealRadius
+	local searchRange = Game.GetWorldInfo().AISearchRange
 	local campID = GameInfo.Improvements.IMPROVEMENT_BARBARIAN_CAMP.ID
-	log:Debug("ClearCampsCity %s %s distance=%s", player:GetName(), city:GetName(), revealRadius)
-	for nearPlot, distance in Plot_GetPlotsInCircle(city:Plot(), 2, revealRadius) do
+	log:Debug("ClearCampsCity %s %s distance=%s", player:GetName(), city:GetName(), searchRange)
+	for nearPlot, distance in Plot_GetPlotsInCircle(city:Plot(), 2, searchRange) do
 		local impID = nearPlot:GetImprovementType()
 		if impID ~= -1 then
 			log:Trace("%s", GameInfo.Improvements[impID].Type)
 		end
 		if impID == campID then
 			log:Debug("ClearCampsCity %s %s distance=%s", player:GetName(), city:GetName(), distance)
-			if nearPlot:IsVisibleToWatchingHuman() then
-				log:Info("ClearCampsCity aborting: visible to human", player:GetName(), city:GetName())
-			else
+			if Plot_IsNearHuman(nearPlot, searchRange) then
+				log:Info("ClearCampsCity aborting: near human", player:GetName(), city:GetName())
+			elseif nearPlot:GetUnit(0):FortifyModifier() > GameDefines.FORTIFY_MODIFIER_PER_TURN then  -- barb has been here a while
 				ClearCamp(player, nearPlot)
 			end
 		end
 	end
 end
-LuaEvents.ActivePlayerTurnEnd_City.Add(function(city, player) return SafeCall(ClearCampsCity, city, player) end)
+--LuaEvents.ActivePlayerTurnEnd_City.Add(function(city, player) return SafeCall(ClearCampsCity, city, player) end)
 
 function ClearCampsUnit(unit)
 	local player = Players[unit:GetOwner()]
@@ -1118,6 +1176,7 @@ function ClearCampsUnit(unit)
 		return
 	end
 	
+	local searchRange = Game.GetWorldInfo().AISearchRange
 	local campID = GameInfo.Improvements.IMPROVEMENT_BARBARIAN_CAMP.ID
 	for nearPlot in Plot_GetPlotsInCircle(unit:GetPlot(), 1, 1) do
 		if nearPlot:GetImprovementType() == campID then
@@ -1139,13 +1198,13 @@ function ClearCampsUnit(unit)
 		end
 	end
 end
-LuaEvents.ActivePlayerTurnStart_Unit.Add(function(unit) return SafeCall(ClearCampsUnit, unit) end)
+--LuaEvents.ActivePlayerTurnEnd_Unit.Add(function(unit) return SafeCall(ClearCampsUnit, unit) end)
 
 function ClearCamp(player, plot)
 	local campGold = Game.GetHandicapInfo().BarbCampGold
 	plot:SetImprovementType(-1)
 	player:ChangeGold(campGold)
-	log:Info("Cleared camp for %s +%s gold", player:GetName(), campGold)
+	log:Info("Cleared camp +%s gold for %s", campGold, player:GetName())
 end
 
 

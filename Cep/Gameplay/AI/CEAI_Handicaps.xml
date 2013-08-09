@@ -405,37 +405,37 @@
 		<Update>
 			<Where Type="WORLDSIZE_DUEL" />
 			<Set>
-				<AIRevealRadius>2</AIRevealRadius>
+				<AISearchRange>2</AISearchRange>
 			</Set>
 		</Update>
 		<Update>
 			<Where Type="WORLDSIZE_TINY" />
 			<Set>
-				<AIRevealRadius>4</AIRevealRadius>
+				<AISearchRange>4</AISearchRange>
 			</Set>
 		</Update>
 		<Update>
 			<Where Type="WORLDSIZE_SMALL" />
 			<Set>
-				<AIRevealRadius>6</AIRevealRadius>
+				<AISearchRange>6</AISearchRange>
 			</Set>
 		</Update>
 		<Update>
 			<Where Type="WORLDSIZE_STANDARD" />
 			<Set>
-				<AIRevealRadius>8</AIRevealRadius>
+				<AISearchRange>8</AISearchRange>
 			</Set>
 		</Update>
 		<Update>
 			<Where Type="WORLDSIZE_LARGE" />
 			<Set>
-				<AIRevealRadius>10</AIRevealRadius>
+				<AISearchRange>10</AISearchRange>
 			</Set>
 		</Update>
 		<Update>
 			<Where Type="WORLDSIZE_HUGE" />
 			<Set>
-				<AIRevealRadius>12</AIRevealRadius>
+				<AISearchRange>12</AISearchRange>
 			</Set>
 		</Update>
 	</Worlds>

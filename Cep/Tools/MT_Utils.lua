@@ -268,9 +268,9 @@ function Game.RoundToPowerOf2(num)
 end
 
 ----------------------------------------------------------------
---[[ Game.Shuffle(t) usage example:
+--[[ Shuffle(t) usage example:
 
-for index, plot in Plots(Game.Shuffle) do
+for index, plot in Plots(Shuffle) do
 	if ( not plot:IsWater() ) then
 					
 		-- Prevents too many goodies from clustering on any one landmass.
@@ -286,7 +286,7 @@ for index, plot in Plots(Game.Shuffle) do
 	end
 end
 ]]
-function Game.Shuffle(t)
+function Shuffle(t)
 	local first = t[0] and 0 or 1
 	local last = #t
 	for i = first, last do

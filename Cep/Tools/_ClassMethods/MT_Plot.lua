@@ -362,3 +362,28 @@ end
 function Plot_IsFlatDesert(plot)
 	return (plot:GetPlotType() == PlotTypes.PLOT_LAND and plot:GetTerrainType() == TerrainTypes.TERRAIN_DESERT and plot:GetFeatureType() == -1)
 end
+
+
+----------------------------------------------------
+function Plot_IsNearHuman(plot, radius)
+	if plot:IsVisibleToWatchingHuman() then
+		return true
+	end
+	local x = plot:GetX()
+	local y = plot:GetY()
+	for playerID, player in pairs(players) do
+		if player:IsAliveCiv() and player:IsHuman() then
+			for city in player:Cities() do
+				if Map.PlotDistance(x, y, city:Plot():GetX(), city:Plot():GetY()) <= radius then
+					return true
+				end
+			end
+			for unit in player:Units() do
+				if Map.PlotDistance(x, y, unit:GetPlot():GetX(), unit:GetPlot():GetY()) <= radius then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end

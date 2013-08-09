@@ -471,7 +471,7 @@
 			<PediaEntry>TXT_KEY_PROMOTION_HANDICAP</PediaEntry>
 			<Sound>AS2D_IF_LEVELUP</Sound>
 			<VisibilityChange>2</VisibilityChange>
-			<CityAttack>100</CityAttack>
+			<CityAttack>50</CityAttack>
 			<CityDefense>50</CityDefense>
 			<ExperiencePercent>-25</ExperiencePercent>
 			<FreePillageMoves>true</FreePillageMoves>
