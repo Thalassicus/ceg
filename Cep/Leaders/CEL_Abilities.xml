@@ -40,10 +40,6 @@
 			<!-- MilitaristicCSFreePromotion="PROMOTION_MORALE"  -->
 		</Update>
 		<Update>
-			<Where Type="TRAIT_CONVERTS_SEA_BARBARIANS" />
-			<Set FreeShip="UNITCLASS_LIBURNA" />
-		</Update>
-		<Update>
 			<Where Type="TRAIT_CONVERTS_LAND_BARBARIANS" />
 			<Set LandBarbarianConversionPercent="100"
 				 LandUnitMaintenanceModifier="0"
@@ -98,8 +94,6 @@
 		<Update>
 			<Where Type="TRAIT_PHOENICIAN_HERITAGE" />
 			<Set CrossesMountainsAfterGreatGeneral="1"
-				 FreeBuilding="BUILDING_LIGHTHOUSE"
-				 FreeShip="UNITCLASS_TRIREME"
 				 />
 		</Update>
 		<Update>

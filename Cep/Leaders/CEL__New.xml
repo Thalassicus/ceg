@@ -594,6 +594,7 @@
 	</Building_YieldInstant>
 	<Building_YieldChangesPerPop>
 		<Row>
+			<BuildingType>BUILDING_VEDI</BuildingType>
 			<YieldType>YIELD_FAITH</YieldType>
 			<Yield>50</Yield>
 		</Row>
