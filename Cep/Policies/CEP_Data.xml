@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Defines>
+		<Update>
+			<Where Name="BASE_POLICY_COST" />
+			<Set Value="50" />
+			<!-- 25 -->
+		</Update>
+		<Update>
+			<Where Name="POLICY_COST_INCREASE_TO_BE_EXPONENTED" />
+			<Set Value="1" />
+			<!-- 3 -->
+		</Update>
+		<Update>
+			<Where Name="POLICY_COST_EXPONENT" />
+			<Set Value="2.5" />
+			<!-- 2.01 -->
+		</Update>
+		<Update>
+			<Where Name="POLICY_COST_VISIBLE_DIVISOR" />
+			<Set Value="10" />
+			<!-- 5 -->
+		</Update>
+	</Defines>
+</GameData>
