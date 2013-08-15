@@ -412,4 +412,14 @@ AND UnitType IN (SELECT UnitType FROM Unit_ResourceQuantityRequirements);
 */
 
 
+
+-- Join duplicated flavors
+DROP TABLE IF EXISTS CEP_Collisions;
+CREATE TABLE CEP_Collisions(UnitType text, FlavorType text, Flavor integer);
+INSERT INTO CEP_Collisions (UnitType, FlavorType, Flavor) SELECT UnitType, FlavorType, MAX(Flavor) FROM Unit_Flavors GROUP BY UnitType, FlavorType;
+DELETE FROM Unit_Flavors;
+INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor) SELECT UnitType, FlavorType, Flavor FROM CEP_Collisions;
+DROP TABLE CEP_Collisions;
+
+
 UPDATE LoadedFile SET Value=1 WHERE Type='CEAI__End_Flavors.sql';
