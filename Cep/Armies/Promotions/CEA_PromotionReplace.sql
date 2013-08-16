@@ -1,7 +1,7 @@
 -- 
 
--- GEA_PromotionReplace.sql automatically created by:
--- PromoReplace tab of GEM_Details.xls spreadsheet (in mod folder).
+-- CEA_PromotionReplace.sql automatically created by:
+-- PromoReplace tab of  CEP_ArmiesCities.xls spreadsheet (in mod folder).
 UPDATE Unit_FreePromotions            SET PromotionType = 'PROMOTION_NAVAL_RECON_1'                    WHERE PromotionType = 'PROMOTION_SUPPLY';
 UPDATE Trait_FreePromotionUnitCombats SET PromotionType = 'PROMOTION_EXTRA_SIGHT_I'                    WHERE PromotionType = 'PROMOTION_SENTRY';
 UPDATE Unit_FreePromotions            SET PromotionType = 'PROMOTION_EXTRA_SIGHT_II'                   WHERE PromotionType = 'PROMOTION_EXTRA_SIGHT_III';
