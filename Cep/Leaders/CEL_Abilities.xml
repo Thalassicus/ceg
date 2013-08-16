@@ -159,6 +159,10 @@
 			<Where LeaderType="LEADER_GUSTAVUS_ADOLPHUS" />
 			<Set TraitType="TRAIT_ALLOTMENT" />
 		</Update>
+		<Update>
+			<Where LeaderType="LEADER_WASHINGTON" />
+			<Set TraitType="TRAIT_AMERICAN_DREAM" />
+		</Update>
 	</Leader_Traits>
 	
 	
