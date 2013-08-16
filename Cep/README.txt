@@ -4,7 +4,7 @@ The "Options" file contains additional settings (same folder as this readme).
 
 Features:		http://communitas.wikia.com/wiki/Communitas_Wiki
 Discussion:		http://tinyurl.com/communitas-mod
-Tech Support:	http://tinyurl.com/civupbug
+Tech Support:	http://tiny.cc/cepbug
 News:			http://civmodding.wordpress.com
 Credits:		http://communitas.wikia.com/wiki/Credits
 
@@ -14,7 +14,7 @@ Credits:		http://communitas.wikia.com/wiki/Credits
 The project has two versions:
 
 Communitas Lite - maximum compatability, reliability, and simplicity.
-Communitas - adds new modding tools to enhanced the game in advanced ways.
+Communitas - adds new modding tools to enhance the game in advanced ways.
 
 
 === Credits ===
@@ -26,7 +26,7 @@ Thalassicus
     Marketing.
     Anything else not credited earlier.
 	
-mystikx21 – Extensive help with documenation wiki and project code updates.
+mystikx21 ï¿½ Extensive help with documenation wiki and project code updates.
 Seek - Assisted in keeping online website documentation up to date for years.
 rf900 - Helped learn how to do core mods.
 
@@ -41,22 +41,26 @@ Wonder Art:
 Adam Watkins - Enhancements to the terrain hover tooltip.
 Albie_123 - Icon artwork for Levy.
 Alpaca
-	DiploCorner Addin” system.
+	DiploCorner Addinï¿½ system.
 	Finite research for great scientist lightbulb mission.
 	Miscellaneous utilities. 
 Aristos - Combat odds panel bugfix.
 Attila - Top bar enhancements based on his work.
 Bladex - Map Pins ingame testing.
+Bob Thomas - Most map generation code.
 Dan - Capital railroad bugfix.
 Cope - City banner enhancements based on his work.
 Csebal - Enhancements to terrain hover tooltip.
 Delgar - Created several Opportunities.
 Delta187 - German translations.
-Dmitry - Russian translations for CiVUP.
+Dmitry - Russian translations.
 Erindir, XIenwolf and Kael - Flag promotions based on their work.
-ExpiredReign - Corrected some text mistakes.
+ExpiredReign - Extensive assistance implimenting Leader designs and other features.
+	Proofreading of text.
 Gedemon - Map Pins hotseat testing.
+Kilandor - City Limits display of maximum city boundaries.
 Putmalk - Extra Diplomacy Text.
+Rich Marinaccio - PerfectWorld map script.
 Seek
 	Icon artwork for Sanitation System.
 	Finite research for great scientist lightbulb mission. 

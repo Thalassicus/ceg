@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<Defines>
+		<Update>
+			<Where Name="BUILDING_SALE_DIVISOR" />
+			<Set Value="1" />
+			<!-- 4 -->
+		</Update>		
+	</Defines>
+	<Building_SpecialistYieldChanges>
+		<Row>
+			<BuildingType>BUILDING_STATUE_OF_LIBERTY</BuildingType>
+			<SpecialistType>SPECIALIST_MUSICIAN</SpecialistType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_STATUE_OF_LIBERTY</BuildingType>
+			<SpecialistType>SPECIALIST_WRITER</SpecialistType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>		
+	</Building_SpecialistYieldChanges>
+</GameData>

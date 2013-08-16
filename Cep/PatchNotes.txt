@@ -1,4 +1,4 @@
-'''Gem 1.14 (Civup 2.6) Beta 3'''
+'''Gem 1.14 (Cep 2.6) Beta 3'''
 
 This file is in "MediaWiki format" (google it for details). The most important formatting options are:
 Header:     === text ===
@@ -71,7 +71,7 @@ Available icons:
 ===Misc===
 *City-health defense buildings should now correctly increase max city health in loaded games.
 *Lines on building tooltips which change mid-game should show correctly now.
-*Disabling gold gifts in the Civup_Options file is now independent of the "using CSD" option.
+*Disabling gold gifts in the Cep_Options file is now independent of the "using CSD" option.
 *Oral Tradition and Monument to the Gods pantheon effects should now match the tooltips.
 *Buildings which increase river yields should show their ability correctly now (hydro plant, indus sanitation).
 *The faith cost to purchase units with the Holy Warrior belief now reliably depends on unit production costs.
@@ -79,16 +79,16 @@ Available icons:
 *Liturgical Drama should now correctly list the Theater as its connected building (not Amphitheater).
 *Made changes to improve compatibility between this project and [http://forums.civfanatics.com/showthread.php?t=397387 Gedemon's Earth maps].
 *Humans and AIs now use different technology_flavor tables, allowing more fine-tune control of AI tech choices.
-*Corrected costs for Theatre, Smithy, and Workshop.
+*Corrected costs for Theatre, Smith, and Workshop.
 *Removed Air Repair (redundant with March).
 *Fixed "good for" mistakes with Stone Works, Merchant Navy, Seaport, national wonders, and policies.
 *Sistine Chapel should now work correctly.
 *Mongol Khans can now start golden ages, like normal great generals.
 *Buildings which give a city instant food/prod/culture/population should now work correctly.
-*b2 Smithy now has cost appropriate for its tech level.
+*b2 Smith now has cost appropriate for its tech level.
 *b2 Possibly fixed a bug involving strange happiness and yield effects.
 *b2 Panzers now have equal strength as Modern Armor (not equal cost).
-*b2 "Play speech" settings in Civup_Options now works correctly (on/off flag was reversed).
+*b2 "Play speech" settings in Cep_Options now works correctly (on/off flag was reversed).
 *b3 Fixed several typos with AI leader personality and flavor data.
 *b3 Re-enabled the feature where happiness contributes to golden ages during a golden age (temporarily disabled for testing).
 *b3 Setting the minute-based autosave to 0 should now correctly disable it.
