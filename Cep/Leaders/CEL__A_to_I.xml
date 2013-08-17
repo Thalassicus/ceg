@@ -53,6 +53,13 @@
 			<Set TraitType="TRAIT_AMERICAN_DREAM" />
 		</Update>
 	</Leader_Traits>
+	<Traits>
+		<Row>
+			<Type>TRAIT_AMERICAN_DREAM</Type>
+			<Description>TXT_KEY_TRAIT_AMERICAN_DREAM</Description>
+			<ShortDescription>TXT_KEY_TRAIT_AMERICAN_DREAM_SHORT</ShortDescription>
+		</Row>
+	</Traits>
 	<Units>
 		<Update>
 			<Where Type="UNIT_AMERICAN_B17" />
@@ -186,8 +193,7 @@
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_INGENIOUS" />
-			<Set GreatScientistRateModifier="25"
-				 />
+			<Set GreatScientistRateModifier="25" />
 		</Update>
 	</Traits>
 
@@ -308,8 +314,7 @@
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_PHOENICIAN_HERITAGE" />
-			<Set CrossesMountainsAfterGreatGeneral="1"
-				 />
+			<Set CrossesMountainsAfterGreatGeneral="1" />
 		</Update>
 	</Traits>
 	<Trait_FreePromotionUnitCombats>
@@ -388,8 +393,7 @@
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_FAITH_FROM_NATURE" />
-			<Set FaithFromUnimprovedForest="0"
-				 />
+			<Set FaithFromUnimprovedForest="0" />
 		</Update>
 	</Traits>
 	<Trait_UnimprovedFeatureYieldChanges>
@@ -691,7 +695,15 @@
 		</Row>
 	</Traits>
 	-->
-	<!-- This 'Trait_ResourceQuantityModifiers' is reused in the Hanseatic League trait
+	<!-- Re-used the Russian trait to provide the doubled resources
+	-->
+	<Leader_Traits>
+		<Update>
+			<Where LeaderType="LEADER_BISMARCK" />
+			<Set TraitType="TRAIT_STRATEGIC_RICHES" />
+		</Update>
+	</Leader_Traits>
+	<!-- These 'Trait_ResourceQuantityModifiers' are reused in the Hanseatic League trait
 	-->
 	<Trait_ResourceQuantityModifiers>
 		<Row>
@@ -798,6 +810,13 @@
 	<Civilization_FreeTechs>
 		<Delete CivilizationType="CIVILIZATION_HUNS" TechType="TECH_ANIMAL_HUSBANDRY" />
 	</Civilization_FreeTechs>
+	<Defines>
+		<Update>
+			<Where Name="GOLD_FROM_BARBARIAN_CONVERSION" />
+			<Set Value="100" />
+			<!-- 25 -->
+		</Update>
+	</Defines>
 	<!-- Reused the old German trait called "Furor Teutonicus" or TRAIT_CONVERTS_LAND_BARBARIANS
 	-->
 	<Leader_Traits>

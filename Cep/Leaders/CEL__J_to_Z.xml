@@ -513,6 +513,19 @@
 			<RegionType>REGION_DESERT</RegionType>
 		</Row>
 	</Civilization_Start_Region_Avoid>
+	<Leader_Traits>
+		<Update>
+			<Where LeaderType="LEADER_CATHERINE" />
+			<Set TraitType="TRAIT_PLANNED_ECONOMY" />
+		</Update>
+	</Leader_Traits>
+	<Traits>
+		<Row>
+			<Type>TRAIT_PLANNED_ECONOMY</Type>
+			<Description>TXT_KEY_TRAIT_PLANNED_ECONOMY</Description>
+			<ShortDescription>TXT_KEY_TRAIT_PLANNED_ECONOMY_SHORT</ShortDescription>
+		</Row>
+	</Traits>
 	<Trait_FreePromotionUnitCombats>
 		<Row>
 			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
