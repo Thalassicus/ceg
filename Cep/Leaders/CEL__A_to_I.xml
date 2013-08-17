@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<!--
+			America
+	-->
+	<Unit_FreePromotions>
+		<Delete UnitType="UNIT_AMERICAN_MINUTEMAN"/>
+		<Row>
+			<UnitType>UNIT_AMERICAN_MINUTEMAN</UnitType>
+			<PromotionType>PROMOTION_SCOUTING_1</PromotionType>
+		</Row>
+	</Unit_FreePromotions>
+
+
+
+
+	<!--
+			Arabia
+	-->
+
+
+
+
+	<!--
+			Assyria
+	-->
+
+
+
+
+	<!--
+			Austria
+	-->
+
+
+
+
+	<!--
+			Aztecs
+	-->
+
+
+
+
+	<!--
+			Babylon
+	-->
+
+
+
+
+	<!--
+			Brazil
+	-->
+
+
+
+
+	<!--
+			Byzantium
+	-->
+
+
+
+
+	<!--
+			Carthage
+	-->
+
+
+
+
+	<!--
+			Celts
+	-->
+
+
+
+
+	<!--
+			China
+	-->
+
+
+
+
+	<!--
+			Denmark
+	-->
+	<Units>
+		<Update>
+			<Where Type="UNIT_DANISH_BERSERKER"/>
+			<Set Moves="2" />
+		</Update>
+	</Units>
+
+
+
+
+	<!--
+			Egypt
+	-->
+
+
+
+
+	<!--
+			England
+	-->
+	<Trait_FreeExperience_Domains>
+		<Row>
+			<TraitType>TRAIT_OCEAN_MOVEMENT</TraitType>
+			<DomainType>DOMAIN_SEA</DomainType>
+			<Experience>30</Experience>
+		</Row>
+	</Trait_FreeExperience_Domains>
+	<Units>
+		<Update>
+			<Where Type="UNIT_ENGLISH_LONGBOWMAN" />
+			<Set Range="3" />
+		</Update>
+	</Units>
+
+
+
+
+	<!--
+			Ethiopia
+	-->
+
+
+
+
+	<!--
+			France
+	-->
+
+
+
+
+	<!--
+			Germany
+	-->
+
+
+
+
+	<!--
+			Greece
+	-->
+
+
+
+
+	<!--
+			Huns
+	-->
+	<Units>
+		<Update>
+			<Where Type="UNIT_HUN_BATTERING_RAM" />
+			<Set Moves="3"
+				 Combat="11"
+				 />
+		</Update>
+	</Units>
+
+
+
+
+	<!--
+			Inca
+	-->
+
+
+
+
+	<!--
+			India
+	-->
+	<Units>
+		<Update>
+			<Where Type="UNIT_INDIAN_WARELEPHANT" />
+			<Set Moves="2"
+				 AdvancedStartCost="20"
+				 />
+		</Update>
+	</Units>
+
+
+
+
+	<!--
+			Indonesia
+	-->
+
+
+
+
+	<!--
+			Iroquois
+	-->
+
+
+
+
+</GameData>

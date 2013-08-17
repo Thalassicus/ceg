@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<!--
+			Japan
+	-->
+
+
+
+
+	<!--
+			Korea
+	-->
+
+
+
+
+	<!--
+			Mayans
+	-->
+
+
+
+
+	<!--
+			Mongolia
+	-->
+	<Trait_MovesChangeUnitCombats>
+		<Row>
+			<TraitType>TRAIT_TERROR</TraitType>
+			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_TERROR</TraitType>
+			<UnitCombatType>UNITCOMBAT_HELICOPTER</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+	</Trait_MovesChangeUnitCombats>
+	<Units>
+		<Update>
+			<Where Type="UNIT_MONGOLIAN_KHAN" />
+			<Set Moves="4" />
+			<!-- 5 -->
+		</Update>
+	</Units>
+	<UnitPromotions>
+		<Update>
+			<Where Type="PROMOTION_MEDIC_GENERAL" />
+			<Set SameTileHealChange="4"
+				 EnemyHealChange="0"
+				 NeutralHealChange="0"
+				 FriendlyHealChange="0" />
+		</Update>
+	</UnitPromotions>
+
+
+
+
+	<!--
+			Morocco
+	-->
+
+
+
+
+	<!--
+			Netherlands
+	-->
+
+
+
+
+	<!--
+			Ottomans
+	-->
+
+
+
+
+	<!--
+			Persia
+	-->
+
+
+
+
+	<!--
+			Poland
+	-->
+
+
+
+
+	<!--
+			Polynesia
+	-->
+
+
+
+
+	<!--
+			Portugal
+	-->
+
+
+
+
+	<!--
+			Rome
+	-->
+	<Units>
+		<Update>
+			<Where Type="UNIT_ROMAN_LEGION" />
+			<Set WorkRate="200"
+				 ObsoleteTech="TECH_GUNPOWDER"
+				 PrereqTech="TECH_BRONZE_WORKING"
+				 />
+		</Update>
+	</Units>
+
+
+
+
+	<!--
+			Russia
+	-->
+	<Trait_MovesChangeUnitCombats>
+		<Row>
+			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
+			<UnitCombatType>UNITCOMBAT_CIVILIAN</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+	</Trait_MovesChangeUnitCombats>
+
+
+
+
+	<!--
+			Shoshone
+	-->
+
+
+
+
+	<!--
+			Siam
+	-->
+
+
+
+
+	<!--
+			Songhai
+	-->
+	<Trait_MovesChangeUnitCombats>
+		<Row>
+			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<UnitCombatType>UNITCOMBAT_ARCHER</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<UnitCombatType>UNITCOMBAT_SIEGE</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<UnitCombatType>UNITCOMBAT_NAVALRANGED</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<UnitCombatType>UNITCOMBAT_FIGHTER</UnitCombatType>
+			<MovesChange>2</MovesChange>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<UnitCombatType>UNITCOMBAT_BOMBER</UnitCombatType>
+			<MovesChange>2</MovesChange>
+		</Row>
+	</Trait_MovesChangeUnitCombats>
+
+
+
+
+	<!--
+			Spain
+	-->
+	<Units>
+		<Update>
+			<Where Type="UNIT_SPANISH_CONQUISTADOR" />
+			<Set SpreadReligion="1"
+				 ReligionSpreads="2"
+				 ReligiousStrength="1000"
+				 />
+		</Update>
+	</Units>
+
+
+
+
+	<!--
+			Sweden
+	-->
+
+
+
+
+	<!--
+			Venice
+	-->
+
+
+
+
+	<!--
+			Zulus
+	-->
+
+
+
+
+</GameData>

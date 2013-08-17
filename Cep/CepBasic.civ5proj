@@ -293,12 +293,12 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Leaders/CEL_Buildings.xml</FileName>
+        <FileName>Leaders/CEL__A_to_I.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Leaders/CEL_Units.xml</FileName>
+        <FileName>Leaders/CEL__J_to_Z.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1600,7 +1600,7 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Leaders\CEL_Buildings.xml">
+    <Content Include="Leaders\CEL__A_to_I.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1616,7 +1616,7 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Leaders\CEL_Units.xml">
+    <Content Include="Leaders\CEL__J_to_Z.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
