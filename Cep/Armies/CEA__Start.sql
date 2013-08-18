@@ -135,6 +135,7 @@ UPDATE Units SET Cost = 60          , Combat = 8  , RangedCombat = 10, Range = 2
 UPDATE Units SET Combat = Combat * 1.25, RangedCombat = RangedCombat * 1.25, Moves = Moves + 1 WHERE Type IN (
 	'UNIT_BYZANTINE_DROMON'			,
 	'UNIT_CARTHAGINIAN_QUINQUEREME'	,
+	'UNIT_VENETIAN_GALLEASS'		,
 	'UNIT_DUTCH_SEA_BEGGAR'			,
 	'UNIT_ENGLISH_SHIPOFTHELINE'	,
 	'UNIT_ROMAN_LIBURNA'			,

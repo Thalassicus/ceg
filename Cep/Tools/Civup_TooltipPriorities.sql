@@ -1,5 +1,5 @@
 -- This Civup_TooltipPriorities.sql data from:
--- TooltipPriorities tab of Civup_Details.xls spreadsheet (in mod folder).
+-- TooltipPriorities tab of CEP_OtherData.xls spreadsheet (in mod folder).
 
 /* Defines */
 INSERT INTO Defines(Value, Name) VALUES (1 , 'LIST_PRIORITY_NATIONAL_WONDER');
