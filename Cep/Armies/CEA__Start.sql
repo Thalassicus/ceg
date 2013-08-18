@@ -137,9 +137,13 @@ UPDATE Units SET Combat = Combat * 1.25, RangedCombat = RangedCombat * 1.25, Mov
 	'UNIT_CARTHAGINIAN_QUINQUEREME'	,
 	'UNIT_DUTCH_SEA_BEGGAR'			,
 	'UNIT_ENGLISH_SHIPOFTHELINE'	,
-	'UNIT_KOREAN_TURTLE_SHIP'		,
 	'UNIT_ROMAN_LIBURNA'			,
-	'UNIT_HUN_BATTERING_RAM'
+	'UNIT_HUN_BATTERING_RAM'		,
+	'UNIT_VENETIAN_GALLEASS'	
+);
+
+UPDATE Units SET Combat = Combat * 1.5, RangedCombat = RangedCombat * 1.5, Moves = Moves - 1 WHERE Type IN (
+	'UNIT_KOREAN_TURTLE_SHIP'		
 );
 
 UPDATE Units SET       Combat = ROUND(           Combat, 0)       WHERE       Combat <> 0;
