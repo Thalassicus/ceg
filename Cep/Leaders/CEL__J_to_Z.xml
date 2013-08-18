@@ -294,15 +294,6 @@
 			<IsVisible>0</IsVisible>
 			<ShowInPedia>false</ShowInPedia>
 		</Row>
-	</Buildings>
-	<Building_YieldChanges>
-		<Row>
-			<BuildingType>BUILDING_TRIBUTE</BuildingType>
-			<YieldType>YIELD_GOLD</YieldType>
-			<Yield>5</Yield>
-		</Row>
-	</Building_YieldChanges>
-	<Buildings>
 		<Row>
 			<Type>BUILDING_BARBARY_PORT</Type>
 			<BuildingClass>BUILDINGCLASS_HARBOR</BuildingClass>
@@ -323,6 +314,13 @@
 			<PortraitIndex>26</PortraitIndex>
 		</Row>
 	</Buildings>
+	<Building_YieldChanges>
+		<Row>
+			<BuildingType>BUILDING_TRIBUTE</BuildingType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>5</Yield>
+		</Row>
+	</Building_YieldChanges>
 	<Civilization_BuildingClassOverrides>
 		<Row>
 			<CivilizationType>CIVILIZATION_OTTOMAN</CivilizationType>

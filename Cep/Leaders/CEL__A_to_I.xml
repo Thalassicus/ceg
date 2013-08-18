@@ -345,7 +345,7 @@
 			<GoldMaintenance>2</GoldMaintenance>
 			<PrereqTech>TECH_PHILOSOPHY</PrereqTech>
 			<Description>TXT_KEY_BUILDING_ABBEY_DESC</Description>
-			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_ABBEY_TEXT</Civilopedia>
+			<Civilopedia>TXT_KEY_BUILDING_ABBEY_TEXT</Civilopedia>
 			<Strategy>TXT_KEY_BUILDING_ABBEY_STRATEGY</Strategy>
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
@@ -697,6 +697,31 @@
 	-->
 	<!-- Re-used the Russian trait to provide the doubled resources
 	-->
+	<BuildingClasses>
+		<Row>
+			<Type>BUILDINGCLASS_HANSEATIC_LEAGUE</Type>
+			<DefaultBuilding>BUILDING_HANSEATIC_LEAGUE</DefaultBuilding>
+			<Description>TXT_KEY_BUILDING_HANSEATIC_LEAGUE</Description>
+			<MaxGlobalInstances>1</MaxGlobalInstances>
+		</Row>
+	</BuildingClasses>
+	<Buildings>
+		<Row>
+			<Type>BUILDING_HANSEATIC_LEAGUE</Type>
+			<BuildingClass>BUILDINGCLASS_HANSEATIC_LEAGUE</BuildingClass>
+			<Cost>0</Cost>
+			<IsVisible>0</IsVisible>
+			<ShowInPedia>false</ShowInPedia>
+			<AlwaysShowHelp>false</AlwaysShowHelp>
+			<NeverCapture>true</NeverCapture>
+			<NukeImmune>true</NukeImmune>
+			<MinAreaSize>-1</MinAreaSize>
+			<ExtraLeagueVotes>2</ExtraLeagueVotes>
+			<ArtDefineTag>FORBIDDEN CITY</ArtDefineTag>
+			<IconAtlas>BW_ATLAS_2</IconAtlas>
+			<PortraitIndex>14</PortraitIndex>
+		</Row>
+	</Buildings>
 	<Leader_Traits>
 		<Update>
 			<Where LeaderType="LEADER_BISMARCK" />
@@ -882,7 +907,6 @@
 			<GoldMaintenance>1</GoldMaintenance>
 			<PrereqTech>TECH_CONSTRUCTION</PrereqTech>
 			<Description>TXT_KEY_BUILDING_INDUS_SANITATION</Description>
-			<Strategy>TXT_KEY_BUILDING_INDUS_SANITATION_STRATEGY</Strategy>
 			<Civilopedia>TXT_KEY_BUILDING_INDUS_SANITATION_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
 			<FoodKept>80</FoodKept>
@@ -901,7 +925,7 @@
 			<PrereqTech>TECH_POTTERY</PrereqTech>
 			<Description>TXT_KEY_BUILDING_VEDI</Description>
 			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_VEDI_TEXT</Civilopedia>
-			<Strategy>TXT_KEY_BUILDING_VEDI_STRATEGY</Strategy>
+			<Strategy>TXT_KEY_BUILDING_SHRINE_STRATEGY</Strategy>
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>

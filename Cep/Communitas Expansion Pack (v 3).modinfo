@@ -29,6 +29,14 @@
     <File md5="58120C657CB5C254F9E4957604EF3FE9" import="0">AI/CEAI_LeaderPersonalities.sql</File>
     <File md5="ADD082F4A248157F8D18599511D7434D" import="0">AI/CEAI__End_Flavors.sql</File>
     <File md5="775255AD2F6BD367ADD13D0B56045F09" import="0">AI/CEAI__End_Techs.sql</File>
+    <File md5="AEDB938B19AE506EE4602A88D8D7B9D6" import="1">Cities/Art/CEP_Art.xml</File>
+    <File md5="77A4FC511FAB25D656BF869C4E64FCAE" import="1">Cities/Art/CEP_Buildings128.DDS</File>
+    <File md5="7B1FEB5211BD2A7771D2290CA37EF2F0" import="1">Cities/Art/CEP_Buildings214.DDS</File>
+    <File md5="2890504CEB3F9882F459EEC96E525D57" import="1">Cities/Art/CEP_Buildings256.DDS</File>
+    <File md5="1A6B63EFBF362FE52A4720B828EF1FE7" import="1">Cities/Art/CEP_Buildings45.DDS</File>
+    <File md5="3F21BA67563310AD874D53CA228BC983" import="1">Cities/Art/CEP_Buildings64.DDS</File>
+    <File md5="B8E743F0FE16D9BA830344D082DA6357" import="1">Cities/Art/CEP_Buildings80.DDS</File>
+    <File md5="936CBE2FD39511D6B59EE14BFF9CD77D" import="0">Cities/Buildings/CEC__New.xml</File>
     <File md5="D155E0BF275300D4A1D5E538ADAAE286" import="0">Civup_Language.xls</File>
     <File md5="B4C8E4E2A877F3568E7401C449C39098" import="1">Armies/Art/CEA_Art.xml</File>
     <File md5="20B48803BC69F6087F3A4077F0E06FDF" import="1">Armies/Art/CEP_NewUnits128.dds</File>
@@ -70,11 +78,11 @@
     <File md5="D530F9FFFF1E31DDC78C6FC7F23D3872" import="0">Faith/CEF_End.sql</File>
     <File md5="79E2894A77A427248B0B0BBD0B3D77DE" import="0">Faith/CEF_Start.sql</File>
     <File md5="7EB2139896DE76C4AE662A221E0E2AE0" import="0">Leaders/CEL_Abilities.xml</File>
-    <File md5="F58679E841F125D27371DB4835027D0F" import="0">Leaders/CEL__A_to_I.xml</File>
+    <File md5="F46F1CABE63AFDA7F25ED8814FDD3356" import="0">Leaders/CEL__A_to_I.xml</File>
     <File md5="C75C55661C7708F0898279F9598FC887" import="0">Leaders/CEL_End.sql</File>
     <File md5="F18FFFE3807CF4B452D1615A71D64913" import="0">Leaders/CEL_Events.lua</File>
     <File md5="63C531E32E099721C2773FB749DA6D1E" import="0">Leaders/CEL_Start.sql</File>
-    <File md5="F980DC07ECDF6940D4C46E4132C27179" import="0">Leaders/CEL__J_to_Z.xml</File>
+    <File md5="CFBD46B156120695357D8FC0668EEA03" import="0">Leaders/CEL__J_to_Z.xml</File>
     <File md5="7EB2139896DE76C4AE662A221E0E2AE0" import="0">Leaders/CEL__New.xml</File>
     <File md5="A3F8181E08BACC5B413612D7E9723343" import="1">Research/Art/CER_Art.xml</File>
     <File md5="1A7B48BBF90D041ECD9C29179532EDF3" import="1">Research/Art/CER_Techs128.DDS</File>
@@ -116,14 +124,14 @@
     <File md5="246B7A97048296276235774A60B80775" import="0">Text/en_US/Armies.sql</File>
     <File md5="454C98BB86FE347923149C18DE23824A" import="0">Text/en_US/Cities.sql</File>
     <File md5="309A35612636D1FA5EE15580E81545D9" import="0">Text/en_US/Faith.sql</File>
-    <File md5="AED41E16047D23793A09F8EC04328915" import="0">Text/en_US/Leaders.sql</File>
+    <File md5="F65B458809B58C9CA933D1C8FA135B19" import="0">Text/en_US/Leaders.sql</File>
     <File md5="D1F517FE26C00811C5EF1F2A879B3C61" import="0">Text/en_US/Research.sql</File>
     <File md5="4840410B2B09BAA229633004764F5531" import="0">Text/en_US/Terrain.sql</File>
     <File md5="9DC4DA18BAE66226CED0BA6B0C8F04E9" import="0">Text/Language_End.sql</File>
     <File md5="58E047044D55C2DF2FD63CE162184EDE" import="0">Text/Language_Start.sql</File>
     <File md5="04228A3876D83BF40EDFA2B8F840800C" import="0">CEP_ArmiesCities.xls</File>
     <File md5="34E299021D340301DA2139FEE640630E" import="0">CEP_Diagrams.odg</File>
-    <File md5="AB6BCE766314387F547CF7FD123524B4" import="0">CEP_Language.xls</File>
+    <File md5="F724CAED8D693592D041106CD84BB6EC" import="0">CEP_Language.xls</File>
     <File md5="F462A2324B922AA70CCDBC2B2F9F23A8" import="0">CEP_LeadersAI.xls</File>
     <File md5="6CCD061AC42D47535EA63CA9051AEEFC" import="0">CEP_Options.sql</File>
     <File md5="FB942A39C1C07F52C513A0933DA03FA6" import="0">CEP_OtherData.xls</File>
