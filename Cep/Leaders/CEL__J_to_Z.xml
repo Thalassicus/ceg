@@ -788,4 +788,10 @@
 
 
 
+	<LoadedFile>
+		<Update>
+			<Where Type="CEL__J_to_Z.xml"/>
+			<Set Value="1"/>
+		</Update>
+	</LoadedFile>
 </GameData>

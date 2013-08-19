@@ -421,7 +421,7 @@
 
 	<!--	China
 	-->
-	<Building_YieldChanges>
+	<Building_YieldInstant>
 		<Row>
 			<BuildingType>BUILDING_PAPER_MAKER</BuildingType>
 			<YieldType>YIELD_SCIENCE</YieldType>
@@ -904,6 +904,23 @@
 	<!--	India
 	-->
 
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_POPULATION_GROWTH" />
+			<Set CityUnhappinessModifier="0"
+					PopulationUnhappinessModifier="0"
+				/>
+			<!-- 100, -50 -->
+		</Update>
+	</Traits>
+	<Units>
+		<Update>
+			<Where Type="UNIT_INDIAN_WARELEPHANT" />
+			<Set Moves="2"
+					AdvancedStartCost="20"
+				/>
+		</Update>
+	</Units>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_INDUS_SANITATION</Type>
@@ -994,50 +1011,6 @@
 		</Row>
 	</Traits>
 	-->
-	<Traits>
-		<Update>
-			<Where Type="TRAIT_POPULATION_GROWTH" />
-			<Set CityUnhappinessModifier="0"
-				 PopulationUnhappinessModifier="0"
-				 />
-			<!-- 100, -50 -->
-		</Update>
-	</Traits>
-	<Units>
-		<Update>
-			<Where Type="UNIT_INDIAN_WARELEPHANT" />
-			<Set Moves="2"
-				 AdvancedStartCost="20"
-				 />
-		</Update>
-	</Units>
-	<Buildings>
-		<Row>
-			<Type>BUILDING_INDUS_SANITATION</Type>
-			<BuildingClass>BUILDINGCLASS_AQUEDUCT</BuildingClass>
-			<Cost>100</Cost>
-			<GoldMaintenance>1</GoldMaintenance>
-			<PrereqTech>TECH_CONSTRUCTION</PrereqTech>
-			<Description>TXT_KEY_BUILDING_INDUS_SANITATION</Description>
-			<Strategy>TXT_KEY_BUILDING_INDUS_SANITATION_STRATEGY</Strategy>
-			<Civilopedia>TXT_KEY_BUILDING_INDUS_SANITATION_PEDIA</Civilopedia>
-			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
-			<Happiness>2</Happiness>
-			<FoodKept>80</FoodKept>
-			<MinAreaSize>-1</MinAreaSize>
-			<ConquestProb>66</ConquestProb>
-			<IconAtlas>CEP_BUILDING_ATLAS</IconAtlas>
-			<PortraitIndex>2</PortraitIndex>
-		</Row>
-	</Buildings>
-	<Civilization_BuildingClassOverrides>
-		<Delete BuildingType="BUILDING_MUGHAL_FORT" />
-		<Row>
-			<CivilizationType>CIVILIZATION_INDIA</CivilizationType>
-			<BuildingClassType>BUILDINGCLASS_AQUEDUCT</BuildingClassType>
-			<BuildingType>BUILDING_INDUS_SANITATION</BuildingType>
-		</Row>
-	</Civilization_BuildingClassOverrides>
 
 
 	<!--	Indonesia
@@ -1049,13 +1022,15 @@
 	<!--	Iroquois
 	-->
 	<Traits>
-		<Update>
-			<Where Type="TRAIT_IGNORE_TERRAIN_IN_FOREST" />
-			<Set NoWarrior="true"
-				 />
-		</Update>
+	
 	</Traits>
 
 
 
+	<LoadedFile>
+		<Update>
+			<Where Type="CEL__A_to_I.xml"/>
+			<Set Value="1"/>
+		</Update>
+	</LoadedFile>
 </GameData>
