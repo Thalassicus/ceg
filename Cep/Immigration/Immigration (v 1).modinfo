@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="6654d7ec-1b0a-45b0-b7f5-307a2e30d833" version="1">
+  <Properties>
+    <Name>Emigration</Name>
+    <Stability>Alpha</Stability>
+    <Description>People emigrate from [ICON_HAPPINESS_4] unhappy empires to [ICON_HAPPINESS_1] happy ones and to [ICON_CITY_STATE] city-states as well. The more [ICON_HAPPINESS_1] happy empire is the more [ICON_CITIZEN] emigrants it receives.</Description>
+    <Authors>killmeplease</Authors>
+    <SpecialThanks>Bhruic (for notify panel solution)</SpecialThanks>
+    <AffectsSavedGames>0</AffectsSavedGames>
+    <SupportsSinglePlayer>1</SupportsSinglePlayer>
+    <SupportsMultiplayer>0</SupportsMultiplayer>
+    <SupportsMac>1</SupportsMac>
+    <ReloadLandmarkSystem>0</ReloadLandmarkSystem>
+    <ReloadUnitSystem>0</ReloadUnitSystem>
+  </Properties>
+  <Dependencies />
+  <References />
+  <Blocks />
+  <Files>
+    <File md5="3C6ECB38CB93A4B6FACCB932AA49B8D9">NewTurn.lua</File>
+    <File md5="0007885373EB2788F0692011553ADD52">NotificationPanel.lua</File>
+    <File md5="F3952E8882B76E31F434723E0C23AF34">NotificationPanel.xml</File>
+  </Files>
+</Mod>

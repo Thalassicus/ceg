@@ -298,6 +298,11 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
+        <FileName>Immigration/CEI_Data.xml</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
         <FileName>Leaders/CEL__A_to_I.xml</FileName>
       </Action>
       <Action>
@@ -1354,6 +1359,12 @@
       </Content>
       <Content>
         <Type>InGameUIAddin</Type>
+        <Name>CEI_Events</Name>
+        <Description>CEI_Events</Description>
+        <FileName>Immigration/CEI_Events.lua</FileName>
+      </Content>
+      <Content>
+        <Type>InGameUIAddin</Type>
         <Name>CET_Events</Name>
         <Description>CET_Events</Description>
         <FileName>Terrain/CET_Events.lua</FileName>
@@ -1396,6 +1407,7 @@
     <Folder Include="Cities\Buildings\" />
     <Folder Include="Cities\Art\" />
     <Folder Include="Diplomacy\" />
+    <Folder Include="Immigration" />
     <Folder Include="_Project" />
     <Folder Include="Interface\Icons" />
     <Folder Include="Leaders\" />
@@ -1625,6 +1637,14 @@
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="Faith\CEF_Start.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Immigration\CEI_Events.lua">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="Immigration\CEI_Data.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

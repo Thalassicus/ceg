@@ -59,6 +59,7 @@ ExpiredReign - Extensive assistance implimenting Leader designs and other featur
 	Proofreading of text.
 Gedemon - Map Pins hotseat testing.
 Kilandor - City Limits display of maximum city boundaries.
+Killmeplease - Emigration mod.
 Putmalk - Extra Diplomacy Text.
 Rich Marinaccio - PerfectWorld map script.
 Seek

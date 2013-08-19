@@ -708,24 +708,29 @@
 			<Type>BUILDINGCLASS_HANSEATIC_LEAGUE</Type>
 			<DefaultBuilding>BUILDING_HANSEATIC_LEAGUE</DefaultBuilding>
 			<Description>TXT_KEY_BUILDING_HANSEATIC_LEAGUE</Description>
-			<MaxGlobalInstances>1</MaxGlobalInstances>
+			<MaxPlayerInstances>0</MaxPlayerInstances>
+			<NoLimit>true</NoLimit>
 		</Row>
 	</BuildingClasses>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_HANSEATIC_LEAGUE</Type>
 			<BuildingClass>BUILDINGCLASS_HANSEATIC_LEAGUE</BuildingClass>
-			<Cost>0</Cost>
-			<IsVisible>0</IsVisible>
-			<ShowInPedia>false</ShowInPedia>
-			<AlwaysShowHelp>false</AlwaysShowHelp>
-			<NeverCapture>true</NeverCapture>
+			<Cost>-1</Cost>
+			<Description>TXT_KEY_BUILDING_HANSEATIC_LEAGUE</Description>
+			<Help>TXT_KEY_BUILDING_HANSEATIC_LEAGUE_HELP</Help>
+			<Strategy>TXT_KEY_BUILDING_HANSEATIC_LEAGUE_STRATEGY</Strategy>
+			<Civilopedia>TXT_KEY_BUILDING_HANSEATIC_LEAGUE_PEDIA</Civilopedia>
+			<AlwaysShowHelp>true</AlwaysShowHelp>
+			<ArtDefineTag>PALACE</ArtDefineTag>
+			<ExtraLeagueVotes>3</ExtraLeagueVotes>
 			<NukeImmune>true</NukeImmune>
 			<MinAreaSize>-1</MinAreaSize>
-			<ExtraLeagueVotes>2</ExtraLeagueVotes>
-			<ArtDefineTag>FORBIDDEN CITY</ArtDefineTag>
+			<DisplayPosition>32</DisplayPosition>
+			<NeverCapture>true</NeverCapture>
+			<PortraitIndex>23</PortraitIndex>
 			<IconAtlas>TECH_ATLAS_1</IconAtlas>
-			<PortraitIndex>26</PortraitIndex>
+			<IsVisible>1</IsVisible>
 		</Row>
 	</Buildings>
 	<Leader_Traits>

@@ -169,7 +169,9 @@ LuaEvents.NotificationAddin( { name = "CapturedOther", type = "CNOTIFICATION_CAP
 --]]
 
 function CustomNotification(name, tip, text)
-	log:Warn("CustomNotification name='%s' tip='%s' text='%s'", name, tip, text)
+	-- should ideally do this as a right-side notification,
+	-- but cannot add custom notifications in the unmodded game
+	log:Info("CustomNotification name='%s' tip='%s' text='%s'", name, tip, text)
 	Events.GameplayAlertMessage(text)
 end
 

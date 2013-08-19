@@ -270,7 +270,8 @@ function DoLuxuryTradeBonus(player)
 	if not capital then
 		return
 	end
-	local luxuryPercent = player:GetTraitInfo().CityGoldPerLuxuryPercent
+	local traitInfo = player:GetTraitInfo()
+	local luxuryPercent = traitInfo.CityGoldPerLuxuryPercent
 	if luxuryPercent == 0 then
 		return
 	end
@@ -285,8 +286,9 @@ function DoLuxuryTradeBonus(player)
 			end
 		end
 	end
-	
-	capital:SetNumRealBuilding(GameInfo.Buildings.BUILDING_DESERT_CARAVANS.ID, luxuryTotal * luxuryPercent)
+
+	local buildingID = player:GetUniqueBuildingID(traitInfo.CityGoldPerLuxuryBuildingClass or "BUILDINGCLASS_TRADING_COMPANY")
+	capital:SetNumRealBuilding(buildingID, luxuryTotal * luxuryPercent)
 end
 
 
