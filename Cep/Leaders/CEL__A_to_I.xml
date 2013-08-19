@@ -2,6 +2,20 @@
 <GameData>
 	<!--	America
 	-->
+	<Leader_Traits>
+		<Update>
+			<Where LeaderType="LEADER_WASHINGTON" />
+			<Set TraitType="TRAIT_AMERICAN_DREAM" />
+		</Update>
+	</Leader_Traits>
+	<Traits>
+		<Row>
+			<Type>TRAIT_AMERICAN_DREAM</Type>
+			<Description>TXT_KEY_TRAIT_AMERICAN_DREAM</Description>
+			<ShortDescription>TXT_KEY_TRAIT_AMERICAN_DREAM_SHORT</ShortDescription>
+			<ImmigrationFrequency>60</ImmigrationFrequency>
+		</Row>
+	</Traits>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_NASA_CENTER</Type>
@@ -47,19 +61,6 @@
 	<Civilization_UnitClassOverrides>
 		<Delete UnitType="UNIT_AMERICAN_B17" />
 	</Civilization_UnitClassOverrides>
-	<Leader_Traits>
-		<Update>
-			<Where LeaderType="LEADER_WASHINGTON" />
-			<Set TraitType="TRAIT_AMERICAN_DREAM" />
-		</Update>
-	</Leader_Traits>
-	<Traits>
-		<Row>
-			<Type>TRAIT_AMERICAN_DREAM</Type>
-			<Description>TXT_KEY_TRAIT_AMERICAN_DREAM</Description>
-			<ShortDescription>TXT_KEY_TRAIT_AMERICAN_DREAM_SHORT</ShortDescription>
-		</Row>
-	</Traits>
 	<Units>
 		<Update>
 			<Where Type="UNIT_AMERICAN_B17" />

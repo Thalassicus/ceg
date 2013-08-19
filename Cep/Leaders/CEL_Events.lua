@@ -137,34 +137,6 @@ Events.EndCombatSim.Add( DoEndCombatLeaderBonuses )
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 
---[[
-function DoLuxuryTradeBonus(player)
-	local capital = player:GetCapitalCity()
-	
-	if capital then
-		local playerTrait = player:GetTraitInfo()
-		if playerTrait.CityGoldPerLuxuryPercent > 0 then
-			log:Info("%-25s %15s", "DoLuxuryTradeBonus", player:GetName())
-			local luxuryTotal = 0
-			for resourceInfo in GameInfo.Resources() do
-				local resourceID = resourceInfo.ID;
-				if Game.GetResourceUsageType(resourceID) == ResourceUsageTypes.RESOURCEUSAGE_LUXURY then
-					if player:GetNumResourceAvailable(resourceID, true) > 0 then
-						luxuryTotal = luxuryTotal + 1
-					end
-				end
-			end
-
-			capital:SetNumRealBuilding(GameInfo.Buildings.BUILDING_DESERT_CARAVANS.ID, luxuryTotal * playerTrait.CityGoldPerLuxuryPercent)
-		end
-	end
-end
-
-LuaEvents.ActivePlayerTurnEnd_Player.Add( DoLuxuryTradeBonus )
---]]
-
----------------------------------------------------------------------
----------------------------------------------------------------------
 
 --
 function FreeUnitWithTech(player, techID, changeID)
@@ -271,6 +243,51 @@ end
 
 --Events.NaturalWonderRevealed.Add(NationalWonderDiscoveryBonus)
 
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+
+function DoLeaderBonuses(player)
+	DoLuxuryTradeBonus(player)
+	DoImmigration(player)
+end
+LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(DoLeaderBonuses, player) end)
+
+function DoImmigration(player)
+	local immigrationFrequency = player:GetTraitInfo().ImmigrationFrequency
+	if immigrationFrequency == nil or immigrationFrequency <= 0 then
+		return
+	end
+	
+	log:Info("%-25s %15s", "DoImmigration", player:GetName())
+	
+	
+	
+end
+
+function DoLuxuryTradeBonus(player)
+	local capital = player:GetCapitalCity()
+	
+	if not capital then
+		return
+	end
+	local luxuryPercent = player:GetTraitInfo().CityGoldPerLuxuryPercent
+	if luxuryPercent == 0 then
+		return
+	end
+	
+	log:Info("%-25s %15s", "DoLuxuryTradeBonus", player:GetName())
+	local luxuryTotal = 0
+	for resourceInfo in GameInfo.Resources() do
+		local resourceID = resourceInfo.ID;
+		if Game.GetResourceUsageType(resourceID) == ResourceUsageTypes.RESOURCEUSAGE_LUXURY then
+			if player:GetNumResourceAvailable(resourceID, true) > 0 then
+				luxuryTotal = luxuryTotal + 1
+			end
+		end
+	end
+	
+	capital:SetNumRealBuilding(GameInfo.Buildings.BUILDING_DESERT_CARAVANS.ID, luxuryTotal * luxuryPercent)
+end
 
 
 function CheckTradeBonuses(player)
@@ -296,4 +313,3 @@ function CheckTradeBonuses(player)
 end
 LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
 LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
-
