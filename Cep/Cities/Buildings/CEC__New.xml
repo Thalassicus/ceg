@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
 	<BuildingClasses>
+		<!--
 		<Row>
 			<Type>BUILDINGCLASS_MENTORS_HALL</Type>
 			<DefaultBuilding>BUILDING_MENTORS_HALL</DefaultBuilding>
@@ -12,16 +13,9 @@
 			<Description>TXT_KEY_BUILDING_WAREHOUSE</Description>
 		</Row>
 		<Row>
-			<Type>BUILDINGCLASS_CEP_PALACE</Type>
-			<DefaultBuilding>BUILDING_CEP_PALACE</DefaultBuilding>
-			<Description>TXT_KEY_BUILDING_PALACE</Description>
-			<MaxPlayerInstances>3</MaxPlayerInstances>
-		</Row>
-		<!--
-		<Row>
-			<Type>BUILDINGCLASS_GREAT_HALL</Type>
-			<DefaultBuilding>BUILDING_GREAT_HALL</DefaultBuilding>
-			<Description>TXT_KEY_BUILDING_GREAT_HALL</Description>
+			<Type>BUILDINGCLASS_CITY_HALL</Type>
+			<DefaultBuilding>BUILDING_CITY_HALL</DefaultBuilding>
+			<Description>TXT_KEY_BUILDING_CITY_HALL</Description>
 		</Row>
 		<Row>
 			<Type>BUILDINGCLASS_LUXURY_MERCHANT</Type>
@@ -36,6 +30,7 @@
 		-->
 	</BuildingClasses>
 	<Buildings>
+		<!--
 		<Row>
 			<Type>BUILDING_WAREHOUSE</Type>
 			<BuildingClass>BUILDINGCLASS_WAREHOUSE</BuildingClass>
@@ -63,25 +58,11 @@
 			<PortraitIndex>21</PortraitIndex>
 		</Row>
 		<Row>
-			<Type>BUILDING_CEP_PALACE</Type>
-			<BuildingClass>BUILDINGCLASS_CEP_PALACE</BuildingClass>
+			<Type>BUILDING_CITY_HALL</Type>
+			<BuildingClass>BUILDINGCLASS_CITY_HALL</BuildingClass>
 			<FreeStartEra>ERA_CLASSICAL</FreeStartEra>
-			<Description>TXT_KEY_BUILDING_PALACE</Description>
-			<Civilopedia>TXT_KEY_BUILDING_PALACE_PEDIA</Civilopedia>
-			<ArtDefineTag>ART_DEF_BUILDING_LIBRARY</ArtDefineTag>
-			<MinAreaSize>-1</MinAreaSize>
-			<NeverCapture>true</NeverCapture>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
-			<PortraitIndex>19</PortraitIndex>
-			<UnmoddedHappiness>2</UnmoddedHappiness>
-		</Row>
-		<!--
-		<Row>
-			<Type>BUILDING_GREAT_HALL</Type>
-			<BuildingClass>BUILDINGCLASS_GREAT_HALL</BuildingClass>
-			<FreeStartEra>ERA_CLASSICAL</FreeStartEra>
-			<Description>TXT_KEY_BUILDING_GREAT_HALL</Description>
-			<Civilopedia>TXT_KEY_BUILDING_GREAT_HALL_PEDIA</Civilopedia>
+			<Description>TXT_KEY_BUILDING_CITY_HALL</Description>
+			<Civilopedia>TXT_KEY_BUILDING_CITY_HALL_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_LIBRARY</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
@@ -116,6 +97,7 @@
 		</Row>
 		-->
 	</Buildings>
+	<!--
 	<Building_ClassesNeededInCity>
 		<Row>
 			<BuildingType>BUILDING_LIBRARY</BuildingType>
@@ -126,4 +108,5 @@
 			<BuildingClassType>BUILDINGCLASS_MENTORS_HALL</BuildingClassType>
 		</Row>
 	</Building_ClassesNeededInCity>
+	-->
 </GameData>

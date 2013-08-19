@@ -289,8 +289,8 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<DisplayPosition>32</DisplayPosition>
 			<NeverCapture>true</NeverCapture>
-			<PortraitIndex>17</PortraitIndex>
-			<IconAtlas>TECH_ATLAS_1</IconAtlas>
+			<IconAtlas>EXPANSION_TECH_ATLAS_1</IconAtlas>
+			<PortraitIndex>2</PortraitIndex>
 			<IsVisible>0</IsVisible>
 			<ShowInPedia>false</ShowInPedia>
 		</Row>
@@ -310,8 +310,8 @@
 			<HurryCostModifier>25</HurryCostModifier>
 			<ArtInfoEraVariation>true</ArtInfoEraVariation>
 			<DisplayPosition>16</DisplayPosition>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
-			<PortraitIndex>26</PortraitIndex>
+			<IconAtlas>UNIT_ATLAS_1</IconAtlas>
+			<PortraitIndex>23</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Building_YieldChanges>
@@ -466,7 +466,7 @@
 			<UnitArtInfo>ART_DEF_UNIT_TRIREME</UnitArtInfo>
 			<UnitFlagIconOffset>24</UnitFlagIconOffset>
 			<IconAtlas>UNIT_ATLAS_1</IconAtlas>
-			<PortraitIndex>23</PortraitIndex>
+			<PortraitIndex>24</PortraitIndex>
 			<MoveRate>WOODEN_BOAT</MoveRate>
 		</Row>
 		<Update>
@@ -722,8 +722,8 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
 			<HurryCostModifier>0</HurryCostModifier>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
-			<PortraitIndex>14</PortraitIndex>
+			<IconAtlas>TECH_ATLAS_1</IconAtlas>
+			<PortraitIndex>25</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Building_ClassesNeededInCity>

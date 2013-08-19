@@ -20,8 +20,8 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
 			<HurryCostModifier>0</HurryCostModifier>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
-			<PortraitIndex>15</PortraitIndex>
+			<IconAtlas>BW_ATLAS_2</IconAtlas>
+			<PortraitIndex>33</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Building_YieldSurplusModifiers>
@@ -220,9 +220,9 @@
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
 			<NeverCapture>true</NeverCapture>
-			<PortraitIndex>37</PortraitIndex>
+			<IconAtlas>TECH_ATLAS_2</IconAtlas>
+			<PortraitIndex>14</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Building_ClassesNeededInCity>
@@ -282,8 +282,8 @@
 			<MinAreaSize>10</MinAreaSize>
 			<ArtInfoEraVariation>true</ArtInfoEraVariation>
 			<DisplayPosition>8</DisplayPosition>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
-			<PortraitIndex>36</PortraitIndex>
+			<IconAtlas>TECH_ATLAS_1</IconAtlas>
+			<PortraitIndex>13</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Building_SeaPlotYieldChanges>
@@ -350,9 +350,9 @@
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
+			<IconAtlas>EXPANSION_SCEN_BUILDING_ATLAS</IconAtlas>
+			<PortraitIndex>0</PortraitIndex>
 			<NeverCapture>true</NeverCapture>
-			<PortraitIndex>37</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Building_YieldChanges>
@@ -540,7 +540,7 @@
 			<FoodKept>40</FoodKept>
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
-			<IconAtlas>NEW_BLDG_ATLAS2_DLC</IconAtlas>
+			<IconAtlas>TECH_ATLAS_1</IconAtlas>
 			<PortraitIndex>0</PortraitIndex>
 		</Row>
 		<Update>
@@ -723,8 +723,8 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ExtraLeagueVotes>2</ExtraLeagueVotes>
 			<ArtDefineTag>FORBIDDEN CITY</ArtDefineTag>
-			<IconAtlas>BW_ATLAS_2</IconAtlas>
-			<PortraitIndex>14</PortraitIndex>
+			<IconAtlas>TECH_ATLAS_1</IconAtlas>
+			<PortraitIndex>26</PortraitIndex>
 		</Row>
 	</Buildings>
 	<Leader_Traits>
@@ -777,8 +777,8 @@
 			<SpecialistCount>1</SpecialistCount>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
-			<IconAtlas>EXPANSION_BW_ATLAS_1</IconAtlas>
 			<NeverCapture>true</NeverCapture>
+			<IconAtlas>EXPANSION_BW_ATLAS_1</IconAtlas>
 			<PortraitIndex>0</PortraitIndex>
 		</Row>
 	</Buildings>
@@ -951,8 +951,8 @@
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
-			<IconAtlas>EXPANSION_BW_ATLAS_1</IconAtlas>
 			<NeverCapture>true</NeverCapture>
+			<IconAtlas>TECH_ATLAS_1</IconAtlas>
 			<PortraitIndex>9</PortraitIndex>
 		</Row>
 	</Buildings>

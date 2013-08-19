@@ -15,7 +15,7 @@
 		</Update>
 		<Update>
 			<Where Type="YIELD_GOLD" />
-			<Set MinCity="0"
+			<Set MinCity="1"
 				 AIWeightPercent="200"
 				 />
 		</Update>
@@ -83,20 +83,6 @@
 		</Update>
 	</Yields>
 	-->
-	<Building_YieldChanges>
-		<Update>
-			<Where BuildingType="BUILDING_PALACE" YieldType="YIELD_GOLD"/>
-			<Set Yield="5"/>
-		</Update>
-		<Update>
-			<Where BuildingType="BUILDING_PALACE" YieldType="YIELD_CULTURE"/>
-			<Set Yield="3"/>
-		</Update>
-		<Update>
-			<Where BuildingType="BUILDING_PALACE" YieldType="YIELD_SCIENCE"/>
-			<Set Yield="4"/>
-		</Update>
-	</Building_YieldChanges>
 	<GoodyHuts>
 		<Update>
 			<Where Type="GOODY_MAP"/>
