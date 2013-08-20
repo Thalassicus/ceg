@@ -654,14 +654,14 @@
 	<Leader_Traits>
 		<Update>
 			<Where LeaderType="LEADER_ASKIA" />
-			<Set TraitType="TRAIT_FASTER_RANGED" />
+			<Set TraitType="TRAIT_ARMY_OF_THE_PEOPLE" />
 		</Update>
 	</Leader_Traits>
 	<Traits>
 		<Row>
-			<Type>TRAIT_FASTER_RANGED</Type>
-			<Description>TXT_KEY_TRAIT_FASTER_RANGED</Description>
-			<ShortDescription>TXT_KEY_TRAIT_FASTER_RANGED_SHORT</ShortDescription>
+			<Type>TRAIT_ARMY_OF_THE_PEOPLE</Type>
+			<Description>TXT_KEY_TRAIT_ARMY_OF_THE_PEOPLE</Description>
+			<ShortDescription>TXT_KEY_TRAIT_ARMY_OF_THE_PEOPLE_SHORT</ShortDescription>
 			<NoWarrior>1</NoWarrior>
 		</Row>
 	</Traits>
