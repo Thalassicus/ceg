@@ -145,6 +145,15 @@ FROM UnitCombatInfos WHERE Type IN (
 
 INSERT INTO Trait_FreePromotionUnitCombats
 		(TraitType, UnitCombatType, PromotionType)
+SELECT	'TRAIT_GATEWAY_AFRICA', Type, 'PROMOTION_DESERT_POWER'
+FROM UnitCombatInfos WHERE Type IN (
+	'UNITCOMBAT_CIVILIAN'		,
+	'UNITCOMBAT_COMMAND'		,
+	'UNITCOMBAT_DIPLOMACY'		
+);
+
+INSERT INTO Trait_FreePromotionUnitCombats
+		(TraitType, UnitCombatType, PromotionType)
 SELECT	'TRAIT_LAND_TRADE_GOLD', Type, 'PROMOTION_DESERT_POWER'
 FROM UnitCombatInfos WHERE Type IN (
 	'UNITCOMBAT_CIVILIAN'		,

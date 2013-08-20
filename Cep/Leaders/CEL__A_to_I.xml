@@ -336,6 +336,13 @@
 
 	<!--	Celts
 	-->
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_FAITH_FROM_NATURE" />
+			<Set NaturalWonderYieldModifier="100"
+				 />
+		</Update>
+	</Traits>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_ABBEY</Type>

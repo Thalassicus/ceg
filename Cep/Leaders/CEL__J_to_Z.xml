@@ -256,6 +256,7 @@
 
 	<!--	Morocco
 	-->
+	
 
 
 
@@ -714,6 +715,20 @@
 
 	<!--	Spain
 	-->
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_SEVEN_CITIES" />
+			<Set NaturalWonderYieldModifier="0"
+				 NaturalWonderFirstFinderGold="0"
+				 NaturalWonderSubsequentFinderGold="0"
+				 NaturalWonderMultiplier="0"
+				 NaturalWonderExponent="0"
+				 CityCaptureFaith="100"
+				 CityCaptureFaithPerPop="10"
+				 CityCaptureFaithPerEra="100"
+				 />
+		</Update>
+	</Traits>
 	<Civilization_Start_Along_Ocean>
 		<Delete CivilizationType="CIVILIZATION_SPAIN" />
 	</Civilization_Start_Along_Ocean>
@@ -736,24 +751,6 @@
 			<PromotionType>PROMOTION_RIVAL_TERRITORY</PromotionType>
 		</Row>
 	</Unit_FreePromotions>
-	<Traits>
-		<Update>
-			<Where Type="TRAIT_SEVEN_CITIES" />
-			<Set NaturalWonderYieldModifier="100"
-				 NaturalWonderFirstFinderGold="100"
-				 NaturalWonderSubsequentFinderGold="100"
-				 NaturalWonderMultiplier="0"
-				 NaturalWonderExponent="1"
-				 />
-		</Update>
-	</Traits>
-	<Trait_FreeUnitAtTech>
-		<Row>
-			<TraitType>TRAIT_SEVEN_CITIES</TraitType>
-			<TechType>TECH_CARVEL_HULLS</TechType>
-			<UnitClassType>UNITCLASS_CARAVEL</UnitClassType>
-		</Row>
-	</Trait_FreeUnitAtTech>
 
 
 
