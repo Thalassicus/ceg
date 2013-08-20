@@ -269,6 +269,15 @@
 				 CityGoldPerLuxuryBuildingClass="BUILDINGCLASS_TRADING_COMPANY" />
 		</Update>
 	</Traits>
+	<!--
+	<Trait_LuxuryYieldModifier>
+		<Row>
+			<TraitType>TRAIT_LUXURY_RETENTION</TraitType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<YieldMod>5</YieldMod>
+		</Row>
+	</Trait_LuxuryYieldModifier>
+	-->
 	<BuildingClasses>
 		<Row>
 			<Type>BUILDINGCLASS_TRADING_COMPANY</Type>

@@ -92,15 +92,8 @@
 	<Trait_ResourceQuantityModifiers>
 		<Delete TraitType="TRAIT_LAND_TRADE_GOLD" />
 	</Trait_ResourceQuantityModifiers>
-	<Trait_LuxuryYieldModifier>
-		<Row>
-			<TraitType>TRAIT_LAND_TRADE_GOLD</TraitType>
-			<YieldType>YIELD_GOLD</YieldType>
-			<YieldMod>5</YieldMod>
-		</Row>
-	</Trait_LuxuryYieldModifier>
 	<Traits>
-		<!-- The 'TradeRouteChange' & 'CityGoldLuxuryPercent' no longer supported
+		<!--
 		<Update>
 			<Where Type="TRAIT_LAND_TRADE_GOLD" />
 			<Set CityConnectionTradeRouteChange="0"
@@ -108,9 +101,15 @@
 				 />
 		</Update>
 		-->
+		<Update>
+			<Where Type="TRAIT_LAND_TRADE_GOLD" />
+			<Set LandTradeRouteRangeBonus="10"
+				 TradeReligionModifier="100"
+				 />
+		</Update>
 	</Traits>
-
-
+	
+	
 	<!--	Assyria
 	-->
 	<Unit_FreePromotions>
