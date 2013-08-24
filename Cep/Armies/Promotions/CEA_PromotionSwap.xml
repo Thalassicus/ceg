@@ -10,10 +10,6 @@
 			<Set PromotionCategory="Melee" />
 		</Update>
 		<Update>
-			<Where Type="UNITCOMBAT_GUN" />
-			<Set PromotionCategory="Melee" />
-		</Update>
-		<Update>
 			<Where Type="UNITCOMBAT_ARMOR" />
 			<Set PromotionCategory="Melee" />
 		</Update>
@@ -26,7 +22,7 @@
 			<Set PromotionCategory="Ranged" />
 		</Update>
 		<Update>
-			<Where Type="UNITCOMBAT_MOUNTED_ARCHER" />
+			<Where Type="UNITCOMBAT_GUN" />
 			<Set PromotionCategory="Ranged" />
 		</Update>
 		<Update>

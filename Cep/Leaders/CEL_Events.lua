@@ -171,6 +171,7 @@ function FreeUnitWithTech(player, techID, changeID)
 	for row in GameInfo.Trait_FreeUnitAtTech(query) do
 		local unitInfo = GameInfo.Units[player:GetUniqueUnitID(row.UnitClassType)]		
 		local plot = centerPlot
+		local unit = nil
 		if unitInfo.Domain == "DOMAIN_SEA" then		
 			plot = Plot_GetNearestOceanPlot(centerPlot, 10, 0.1 * Map.GetNumPlots())
 			if not plot then
@@ -179,16 +180,21 @@ function FreeUnitWithTech(player, techID, changeID)
 			end
 			if plot then
 				log:Info("FreeUnitWithTech %s %s", player:GetName(), techInfo.Type)
-				player:InitUnitType(unitInfo.Type, plot)
+				unit = player:InitUnitType(unitInfo.Type, plot)
 			else
 				log:Warn("No coastal plot near %s for free ship!", player:GetName())
 				plot = centerPlot
 				if plot:IsCoastalLand() then
-					player:InitUnitType(unitInfo.Type, plot)
+					unit = player:InitUnitType(unitInfo.Type, plot)
 				end
 			end
 		else
-			player:InitUnitType(unitInfo.Type, plot)
+			unit = player:InitUnitType(unitInfo.Type, plot)
+		end
+		local promotionType = row.PromotionType
+		if promotionType then
+			local promotionID = GameInfo.UnitPromotions[promotionType].ID
+			unit:SetHasPromotion(promotionID, true)
 		end
 	end
 end
@@ -246,9 +252,39 @@ end
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 
+function DoLeaderCaptureBonuses(city, player)
+	local traitInfo = player:GetTraitInfo()
+	
+	for info in GameInfo.Trait_CityCaptureInstantYield{TraitType = traitInfo.Type} do
+		local yieldInfo = GameInfo.Yields[info.YieldType]
+		local totalYield = (info.yield or 0)
+		if yieldPerPop then
+			totalYield = totalYield + info.yieldPerPop * city:GetPopulation()
+		end
+		if yieldPerEra then
+			totalYield = totalYield + info.yieldPerEra * (info.yieldPerEraExponent or 1) ^ wonPlayer:GetCurrentEra()
+		end
+		player:ChangeYieldStored(yieldInfo.ID, totalYield)
+		
+		local alertText = Game.ConvertTextKey("TXT_KEY_CITY_CAPTURE_YIELD", totalYield, yieldInfo.IconString, yieldInfo.Description, city:GetName())
+		log:Info("%s: '%s'", player:GetName(), alertText)
+		Events.GameplayAlertMessage(alertText)
+	end
+end
+LuaEvents.CityCaptureBonuses.Add(function(city, player) return SafeCall(DoLeaderCaptureBonuses, city, player) end)
+
+
 function DoLeaderBonuses(player)
 	DoLuxuryTradeBonus(player)
 	DoImmigration(player)
+	DoCitystateSurrender(player)
+	
+	local traitInfo = player:GetTraitInfo()
+	local capital = player:GetCapitalCity()
+	
+	if traitInfo.HanseaticLeague and capital then
+		capital:SetNumRealBuildings(GameInfo.Buildings[traitInfo.HanseaticLeague].ID, 1)
+	end
 end
 LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(DoLeaderBonuses, player) end)
 
@@ -259,9 +295,22 @@ function DoImmigration(player)
 	end
 	
 	log:Info("%-25s %15s", "DoImmigration", player:GetName())
+end
+
+function DoCitystateSurrender(player)
+	if not player:GetTraitInfo().BullySurrender then
+		return
+	end
 	
-	
-	
+	local playerID = player:GetID()
+	for csID, cs in pairs(Players) do
+		if cs:IsAliveCiv() and cs:IsMinorCiv() and cs:CanMajorBullyGold(playerID) then
+			local alertText = string.format("%s surrenders in fear to %s!", cs:GetName(), player:GetName())
+			log:Info(alertText)
+			Game.DoMinorBuyout(playerID, csID)
+			Events.GameplayAlertMessage(alertText)
+		end
+	end
 end
 
 function DoLuxuryTradeBonus(player)
@@ -297,7 +346,6 @@ function CheckTradeBonuses(player)
 	if not trait.Tribute then
 		return
 	end
-	print("CheckTradeBonuses " .. player:GetName())
 
 	local tributeCities = {}
 	for routeID, route in ipairs(player:GetTradeRoutes()) do
@@ -308,7 +356,7 @@ function CheckTradeBonuses(player)
 		end
 	end
 
-	local tributeBuildingID = trait.Tribute
+	local tributeBuildingID = GameInfo.Buildings[trait.Tribute].ID
 	for city in player:Cities() do
 		city:SetNumRealBuilding(tributeBuildingID, tributeCities[City_GetID(city)] or 0)
 	end

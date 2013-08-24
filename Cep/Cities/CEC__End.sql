@@ -188,6 +188,27 @@ AND						BuildingType IN (SELECT Type FROM Buildings WHERE BuildingClass IN (
 						)));
 
 
+
+DELETE FROM Building_UnitCombatProductionModifiers
+WHERE BuildingType IN (
+	'BUILDING_STABLE'		,
+	'BUILDING_DUCAL_STABLE'	
+);
+
+INSERT OR REPLACE INTO	Building_UnitCombatProductionModifiers(BuildingType, UnitCombatType, Modifier) 
+SELECT					building.Type, combat.Type, 15
+FROM					Buildings building, UnitCombatInfos combat
+WHERE					building.BuildingClass IN (
+						'BUILDINGCLASS_STABLE'		,
+						--'BUILDINGCLASS_BARRACKS'	,
+						'BUILDINGCLASS_FORGE'
+						)
+AND						combat.Type IN (
+						'UNITCOMBAT_MOUNTED'		,
+						'UNITCOMBAT_GUN'			
+						);
+
+
 --
 -- Features
 --

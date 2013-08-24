@@ -31,7 +31,12 @@
 
 
 
-
+	<Unit_AITypes>
+		<Row>
+			<UnitType>UNIT_INFANTRY</UnitType>
+			<UnitAIType>UNITAI_PARADROP</UnitAIType>
+		</Row>
+	</Unit_AITypes>
 	<Units>
 		<Update>
 			<Where Class="UNITCLASS_SCOUT" />
@@ -40,7 +45,18 @@
 				 />
 		</Update>
 		<Update>
+			<Where Class="UNITCLASS_CHARIOT_ARCHER" />
+			<Set Moves="3"
+				 />
+		</Update>
+		<Update>
 			<Where Class="UNITCLASS_PARATROOPER" />
+			<Set CombatClass="UNITCOMBAT_RECON"
+				 Moves="3"
+				 />
+		</Update>
+		<Update>
+			<Where Class="UNITCLASS_XCOM_SQUAD" />
 			<Set CombatClass="UNITCOMBAT_RECON"
 				 Moves="3"
 				 />
@@ -53,6 +69,8 @@
 		<Update>
 			<Where Class="UNITCLASS_INFANTRY" />
 			<Set Moves="3"
+				 DefaultUnitAI="UNITAI_PARADROP"
+				 UnitArtInfo="ART_DEF_UNIT_PARATROOPER"
 				 />
 		</Update>
 		<!--

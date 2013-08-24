@@ -121,7 +121,7 @@ INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT unit.Type, 'FLAVOR_ANTI_MOBILE', 1
 FROM Units unit, Unit_FreePromotions promo, UnitPromotions_UnitCombatMods modifier
 WHERE (unit.Type = promo.UnitType AND promo.PromotionType = modifier.PromotionType AND unit.CombatClass <> 'UNITCOMBAT_RECON')
-	AND modifier.UnitCombatType IN ('UNITCOMBAT_MOUNTED', 'UNITCOMBAT_MOUNTED_ARCHER', 'UNITCOMBAT_ARMOR')
+	AND modifier.UnitCombatType IN ('UNITCOMBAT_MOUNTED', 'UNITCOMBAT_GUN', 'UNITCOMBAT_ARMOR')
 ;
 
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
@@ -202,7 +202,7 @@ INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_CITY_DEFENSE', 1
 FROM Units WHERE CombatClass IN (
 	'UNITCOMBAT_ARCHER',
-	'UNITCOMBAT_MOUNTED_ARCHER',
+	'UNITCOMBAT_GUN',
 	'UNITCOMBAT_BOMBER'
 ) OR Class IN (
 	'UNITCLASS_GATLINGGUN',
@@ -302,7 +302,7 @@ UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
 WHERE FlavorType IN ('FLAVOR_DEFENSE', 'FLAVOR_CITY_DEFENSE')
 AND UnitType IN (SELECT Type FROM Units WHERE CombatClass IN (
 	'UNITCOMBAT_ARCHER'				,
-	'UNITCOMBAT_MOUNTED_ARCHER'		,
+	'UNITCOMBAT_GUN'		,
 	'UNITCOMBAT_BOMBER'				
 ));
 

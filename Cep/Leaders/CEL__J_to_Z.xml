@@ -214,8 +214,9 @@
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_TERROR" />
-			<Set MinorCivCaptureBonus="25"
+			<Set MinorCivCaptureBonus="0"
 				 CityStateCombatModifier="0"
+				 BullySurrender="1"
 				 />
 		</Update>
 	</Traits>
@@ -279,43 +280,52 @@
 		</Row>
 	</Trait_LuxuryYieldModifier>
 	-->
-	<BuildingClasses>
-		<Row>
-			<Type>BUILDINGCLASS_TRADING_COMPANY</Type>
-			<DefaultBuilding>BUILDING_TRADING_COMPANY</DefaultBuilding>
-			<Description>TXT_KEY_BUILDING_TRADING_COMPANY</Description>
-			<MaxPlayerInstances>0</MaxPlayerInstances>
-			<NoLimit>true</NoLimit>
-		</Row>
-	</BuildingClasses>
+	<Improvements>
+		<Update>
+			<Where Type="IMPROVEMENT_POLDER" />
+			<Set Coastal="1" />
+		</Update>
+	</Improvements>
+	<Improvement_CoastalLandYields>
+		
+	</Improvement_CoastalLandYields>
 	<Buildings>
 		<Row>
-			<Type>BUILDING_TRADING_COMPANY</Type>
-			<BuildingClass>BUILDINGCLASS_TRADING_COMPANY</BuildingClass>
-			<Cost>-1</Cost>
-			<Description>TXT_KEY_BUILDING_TRADING_COMPANY</Description>
-			<Help>TXT_KEY_BUILDING_TRADING_COMPANY_HELP</Help>
-			<Strategy>TXT_KEY_BUILDING_TRADING_COMPANY_STRATEGY</Strategy>
-			<Civilopedia>TXT_KEY_BUILDING_TRADING_COMPANY_PEDIA</Civilopedia>
-			<AlwaysShowHelp>true</AlwaysShowHelp>
-			<ArtDefineTag>PALACE</ArtDefineTag>
-			<NukeImmune>true</NukeImmune>
+			<Type>BUILDING_TRADE_COMPANY</Type>
+			<BuildingClass>BUILDINGCLASS_MARKET</BuildingClass>
+			<FreeStartEra>ERA_INDUSTRIAL</FreeStartEra>
+			<Cost>100</Cost>
+			<PrereqTech>TECH_CURRENCY</PrereqTech>
+			<Description>TXT_KEY_BUILDING_TRADE_COMPANY</Description>
+			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_TRADE_COMPANY_PEDIA</Civilopedia>
+			<Strategy>TXT_KEY_BUILDING_TRADE_COMPANY_STRATEGY</Strategy>
+			<ArtDefineTag>ART_DEF_BUILDING_MARKET</ArtDefineTag>
+			<ExtraLuxuries>true</ExtraLuxuries>
+			<SpecialistType>SPECIALIST_MERCHANT</SpecialistType>
+			<SpecialistCount>1</SpecialistCount>
 			<MinAreaSize>-1</MinAreaSize>
-			<DisplayPosition>32</DisplayPosition>
-			<NeverCapture>true</NeverCapture>
-			<PortraitIndex>23</PortraitIndex>
-			<IconAtlas>TECH_ATLAS_1</IconAtlas>
-			<IsVisible>1</IsVisible>
-			<CityConnectionTradeRouteModifier>1</CityConnectionTradeRouteModifier>
+			<ConquestProb>66</ConquestProb>
+			<TradeRouteRecipientBonus>2</TradeRouteRecipientBonus>
+			<TradeRouteTargetBonus>1</TradeRouteTargetBonus>
+			<HurryCostModifier>25</HurryCostModifier>
+			<IconAtlas>BW_ATLAS_1</IconAtlas>
+			<PortraitIndex>50</PortraitIndex>
 		</Row>
 	</Buildings>
-	<Building_GlobalYieldModifiers>
+	<Building_YieldChanges>
 		<Row>
-			<BuildingType>BUILDING_TRADING_COMPANY</BuildingType>
+			<BuildingType>BUILDING_TRADE_COMPANY</BuildingType>
 			<YieldType>YIELD_GOLD</YieldType>
-			<Yield>1</Yield>
+			<Yield>2</Yield>
 		</Row>
-	</Building_GlobalYieldModifiers>
+	</Building_YieldChanges>
+	<Building_YieldModifiers>
+		<Row>
+			<BuildingType>BUILDING_TRADE_COMPANY</BuildingType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>25</Yield>
+		</Row>
+	</Building_YieldModifiers>
 
 
 
@@ -411,6 +421,8 @@
 	</Unit_FreePromotions>
 
 
+
+
 	<!--	Persia
 	-->
 	<Buildings>
@@ -468,24 +480,6 @@
 
 	<!--	Rome
 	-->
-	<Civilization_Start_Region_Priority>
-		<Row>
-			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
-			<RegionType>REGION_HILLS</RegionType>
-		</Row>
-		<Row>
-			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
-			<RegionType>REGION_FOREST</RegionType>
-		</Row>
-	</Civilization_Start_Region_Priority>
-	<Civilization_UnitClassOverrides>
-		<Delete UnitType="UNIT_ROMAN_BALLISTA" />
-		<Row>
-			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
-			<UnitClassType>UNITCLASS_TRIREME</UnitClassType>
-			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
-		</Row>
-	</Civilization_UnitClassOverrides>
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_CAPITAL_BUILDINGS_CHEAPER" />
@@ -552,19 +546,33 @@
 			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
 			<PromotionType>PROMOTION_COASTAL_RAIDER_1</PromotionType>
 		</Row>
-		</Unit_FreePromotions>
+	</Unit_FreePromotions>
+	<Civilization_Start_Region_Priority>
+		<!--
+		<Row>
+			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
+			<RegionType>REGION_HILLS</RegionType>
+		</Row>
+		<Row>
+			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
+			<RegionType>REGION_FOREST</RegionType>
+		</Row>
+		-->
+	</Civilization_Start_Region_Priority>
+	<Civilization_UnitClassOverrides>
+		<Delete UnitType="UNIT_ROMAN_BALLISTA" />
+		<Row>
+			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
+			<UnitClassType>UNITCLASS_TRIREME</UnitClassType>
+			<UnitType>UNIT_ROMAN_LIBURNA</UnitType>
+		</Row>
+	</Civilization_UnitClassOverrides>
+
+
+
 
 	<!--	Russia
 	-->
-	<Civilization_Start_Region_Priority>
-		<Delete CivilizationType="CIVILIZATION_RUSSIA"/>
-	</Civilization_Start_Region_Priority>
-	<Civilization_Start_Region_Avoid>
-		<Row>
-			<CivilizationType>CIVILIZATION_RUSSIA</CivilizationType>
-			<RegionType>REGION_DESERT</RegionType>
-		</Row>
-	</Civilization_Start_Region_Avoid>
 	<Leader_Traits>
 		<Update>
 			<Where LeaderType="LEADER_CATHERINE" />
@@ -576,32 +584,33 @@
 			<Type>TRAIT_PLANNED_ECONOMY</Type>
 			<Description>TXT_KEY_TRAIT_PLANNED_ECONOMY</Description>
 			<ShortDescription>TXT_KEY_TRAIT_PLANNED_ECONOMY_SHORT</ShortDescription>
+			<CityUnhappinessModifier>-25</CityUnhappinessModifier>
 		</Row>
 	</Traits>
-	<Trait_FreePromotionUnitCombats>
-		<Row>
-			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
-			<UnitCombatType>UNITCOMBAT_CIVILIAN</UnitCombatType>
-			<PromotionType>PROMOTION_SENTRY</PromotionType>
-		</Row>
-		<Row>
-			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
-			<UnitCombatType>UNITCOMBAT_COMMAND</UnitCombatType>
-			<PromotionType>PROMOTION_SENTRY</PromotionType>
-		</Row>
-		<Row>
-			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
-			<UnitCombatType>UNITCOMBAT_DIPLOMACY</UnitCombatType>
-			<PromotionType>PROMOTION_SENTRY</PromotionType>
-		</Row>
-	</Trait_FreePromotionUnitCombats>
 	<Trait_MovesChangeUnitCombats>
 		<Row>
 			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
 			<UnitCombatType>UNITCOMBAT_CIVILIAN</UnitCombatType>
 			<MovesChange>1</MovesChange>
 		</Row>
+		<Row>
+			<TraitType>TRAIT_PLANNED_ECONOMY</TraitType>
+			<UnitCombatType>UNITCOMBAT_DIPLOMACY</UnitCombatType>
+			<MovesChange>1</MovesChange>
+		</Row>
 	</Trait_MovesChangeUnitCombats>
+	<Civilization_Start_Region_Priority>
+		<Delete CivilizationType="CIVILIZATION_RUSSIA"/>
+	</Civilization_Start_Region_Priority>
+	<Civilization_Start_Region_Avoid>
+		<!--
+		<Row>
+			<CivilizationType>CIVILIZATION_RUSSIA</CivilizationType>
+			<RegionType>REGION_DESERT</RegionType>
+		</Row>
+		-->
+	</Civilization_Start_Region_Avoid>
+
 
 
 
@@ -646,31 +655,29 @@
 
 	<!--	Songhai
 	-->
-	<Building_YieldChanges>
-		<Update>
-			<Where BuildingType="BUILDING_MUD_PYRAMID_MOSQUE" YieldType="YIELD_CULTURE" />
-			<Set Yield="5"/>
-		</Update>
-	</Building_YieldChanges>
 	<Leader_Traits>
 		<Update>
 			<Where LeaderType="LEADER_ASKIA" />
-			<Set TraitType="TRAIT_ARMY_OF_THE_PEOPLE" />
+			<Set TraitType="TRAIT_GAO_MILITIA" />
 		</Update>
 	</Leader_Traits>
 	<Traits>
 		<Row>
-			<Type>TRAIT_ARMY_OF_THE_PEOPLE</Type>
-			<Description>TXT_KEY_TRAIT_ARMY_OF_THE_PEOPLE</Description>
-			<ShortDescription>TXT_KEY_TRAIT_ARMY_OF_THE_PEOPLE_SHORT</ShortDescription>
-			<NoWarrior>1</NoWarrior>
+			<Type>TRAIT_GAO_MILITIA</Type>
+			<Description>TXT_KEY_TRAIT_GAO_MILITIA</Description>
+			<ShortDescription>TXT_KEY_TRAIT_GAO_MILITIA_SHORT</ShortDescription>
 		</Row>
 	</Traits>
 	<Trait_FreePromotionUnitCombats>
 		<Row>
-			<TraitType>TRAIT_FASTER_RANGED</TraitType>
+			<TraitType>TRAIT_GAO_MILITIA</TraitType>
 			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
-			<PromotionType>PROMOTION_SENTRY</PromotionType>
+			<PromotionType>PROMOTION_SCOUTING_1</PromotionType>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_GAO_MILITIA</TraitType>
+			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
+			<PromotionType>PROMOTION_SCOUTING_2</PromotionType>
 		</Row>
 	</Trait_FreePromotionUnitCombats>
 	<Trait_MovesChangeUnitCombats>
@@ -681,7 +688,7 @@
 		</Row>
 		<Row>
 			<TraitType>TRAIT_FASTER_RANGED</TraitType>
-			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 			<MovesChange>1</MovesChange>
 		</Row>
 		<Row>
@@ -705,6 +712,12 @@
 			<MovesChange>2</MovesChange>
 		</Row>
 	</Trait_MovesChangeUnitCombats>
+	<Building_YieldChanges>
+		<Update>
+			<Where BuildingType="BUILDING_MUD_PYRAMID_MOSQUE" YieldType="YIELD_CULTURE" />
+			<Set Yield="5"/>
+		</Update>
+	</Building_YieldChanges>
 	<Unit_FreePromotions>
 		<Row>
 			<UnitType>UNIT_SONGHAI_MUSLIMCAVALRY</UnitType>
@@ -715,20 +728,29 @@
 
 	<!--	Spain
 	-->
-	<Traits>
+	<Leader_Traits>
 		<Update>
-			<Where Type="TRAIT_SEVEN_CITIES" />
-			<Set NaturalWonderYieldModifier="0"
-				 NaturalWonderFirstFinderGold="0"
-				 NaturalWonderSubsequentFinderGold="0"
-				 NaturalWonderMultiplier="0"
-				 NaturalWonderExponent="0"
-				 CityCaptureFaith="100"
-				 CityCaptureFaithPerPop="10"
-				 CityCaptureFaithPerEra="100"
-				 />
+			<Where LeaderType="LEADER_ASKIA" />
+			<Set TraitType="TRAIT_RECONQUISTA" />
 		</Update>
+	</Leader_Traits>
+	<Traits>
+		<Row>
+			<Type>TRAIT_RECONQUISTA</Type>
+			<Description>TXT_KEY_TRAIT_RECONQUISTA</Description>
+			<ShortDescription>TXT_KEY_TRAIT_RECONQUISTA_SHORT</ShortDescription>
+		</Row>
 	</Traits>
+	<Trait_CityCaptureInstantYield>
+		<Row>
+			<TraitType>TRAIT_RECONQUISTA</TraitType>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>0</Yield>
+			<YieldPerPop>10</YieldPerPop>
+			<YieldPerEra>50</YieldPerEra>
+			<YieldPerEraExponent>1.5</YieldPerEraExponent>
+		</Row>
+	</Trait_CityCaptureInstantYield>
 	<Civilization_Start_Along_Ocean>
 		<Delete CivilizationType="CIVILIZATION_SPAIN" />
 	</Civilization_Start_Along_Ocean>
@@ -757,6 +779,19 @@
 	<!--	Sweden
 	-->
 
+	<Leader_Traits>
+		<Update>
+			<Where LeaderType="LEADER_GUSTAVUS_ADOLPHUS" />
+			<Set TraitType="TRAIT_ALLOTMENT" />
+		</Update>
+	</Leader_Traits>
+	<Traits>
+		<Row>
+			<Type>TRAIT_ALLOTMENT</Type>
+			<Description>TXT_KEY_TRAIT_ALLOTMENT</Description>
+			<ShortDescription>TXT_KEY_TRAIT_ALLOTMENT_SHORT</ShortDescription>
+		</Row>
+	</Traits>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_FOLKSKOLA</Type>
@@ -792,25 +827,27 @@
 			<BuildingType>BUILDING_FOLKSKOLA</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
-	<Leader_Traits>
-		<Update>
-			<Where LeaderType="LEADER_GUSTAVUS_ADOLPHUS" />
-			<Set TraitType="TRAIT_ALLOTMENT" />
-		</Update>
-	</Leader_Traits>
-	<Traits>
-		<Row>
-			<Type>TRAIT_ALLOTMENT</Type>
-			<Description>TXT_KEY_TRAIT_ALLOTMENT</Description>
-			<ShortDescription>TXT_KEY_TRAIT_ALLOTMENT_SHORT</ShortDescription>
-		</Row>
-	</Traits>
 	<Units>
 		<Update>
 			<Where Type="UNIT_SWEDISH_HAKKAPELIITTA" />
 			<Set ShowInPedia="0" />
 		</Update>
 	</Units>
+	<UnitPromotions>
+		<Row>
+			<Type>PROMOTION_ALLOTMENT</Type>
+			<Description>TXT_KEY_PROMOTION_ALLOTMENT</Description>
+			<PediaEntry>TXT_KEY_PROMOTION_ALLOTMENT</PediaEntry>
+			<Help>TXT_KEY_PROMOTION_ALLOTMENT_HELP</Help>
+			<Sound>AS2D_IF_LEVELUP</Sound>
+			<CannotBeChosen>true</CannotBeChosen>
+			<PortraitIndex>59</PortraitIndex>
+			<UpgradeDiscount>100</UpgradeDiscount>
+			<ExtraWithdrawal>100</ExtraWithdrawal>
+			<IconAtlas>ABILITY_ATLAS</IconAtlas>
+			<PediaType>PEDIA_ATTRIBUTES</PediaType>
+		</Row>
+	</UnitPromotions>
 	<Unit_FreePromotions>
 		<Row>
 			<UnitType>UNIT_SWEDISH_CAROLEAN</UnitType>

@@ -61,7 +61,7 @@
 	</UnitPromotions>
 	<UnitPromotions_UnitCombats>
 		<Delete PromotionType="PROMOTION_SIEGE" UnitCombatType="UNITCOMBAT_ARCHER" />
-		<Delete PromotionType="PROMOTION_SIEGE" UnitCombatType="UNITCOMBAT_MOUNTED_ARCHER" />
+		<Delete PromotionType="PROMOTION_SIEGE" UnitCombatType="UNITCOMBAT_GUN" />
 		<Delete PromotionType="PROMOTION_VOLLEY" UnitCombatType="UNITCOMBAT_SIEGE" />
 		<Row>
 			<PromotionType>PROMOTION_VOLLEY</PromotionType>
@@ -69,7 +69,7 @@
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_VOLLEY</PromotionType>
-			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_INDIRECT_FIRE</PromotionType>
@@ -77,11 +77,11 @@
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_INDIRECT_FIRE</PromotionType>
-			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 		</Row>
 		<!--
 		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_ARCHER" />
-		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_MOUNTED_ARCHER" />
+		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_GUN" />
 		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_SIEGE" />
 		<Row>
 			<PromotionType>PROMOTION_MARCH_RANGED</PromotionType>
@@ -89,7 +89,7 @@
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_MARCH_RANGED</PromotionType>
-			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_MARCH_RANGED</PromotionType>

@@ -173,7 +173,7 @@
 	</UnitPromotions>
 	<UnitPromotions_UnitCombats>
 		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_ARCHER" />
-		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_MOUNTED_ARCHER" />
+		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_GUN" />
 		<Delete PromotionType="PROMOTION_MARCH" UnitCombatType="UNITCOMBAT_SIEGE" />
 		<Row>
 			<PromotionType>PROMOTION_MARCH_II</PromotionType>
@@ -181,7 +181,7 @@
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_MARCH_II</PromotionType>
-			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_MARCH_II</PromotionType>
@@ -236,7 +236,7 @@
 			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
 		</Row>
 		<Delete PromotionType="PROMOTION_COVER_1" UnitCombatType="UNITCOMBAT_ARCHER" />
-		<Delete PromotionType="PROMOTION_COVER_1" UnitCombatType="UNITCOMBAT_MOUNTED_ARCHER" />
+		<Delete PromotionType="PROMOTION_COVER_1" UnitCombatType="UNITCOMBAT_GUN" />
 		<Delete PromotionType="PROMOTION_COVER_1" UnitCombatType="UNITCOMBAT_SIEGE" />
 		<Row>
 			<PromotionType>PROMOTION_COVER_1</PromotionType>
@@ -248,7 +248,7 @@
 		</Row>
 		<!--
 		<Delete PromotionType="PROMOTION_COVER_2" UnitCombatType="UNITCOMBAT_ARCHER" />
-		<Delete PromotionType="PROMOTION_COVER_2" UnitCombatType="UNITCOMBAT_MOUNTED_ARCHER" />
+		<Delete PromotionType="PROMOTION_COVER_2" UnitCombatType="UNITCOMBAT_GUN" />
 		<Delete PromotionType="PROMOTION_COVER_2" UnitCombatType="UNITCOMBAT_SIEGE" />
 		<Row>
 			<PromotionType>PROMOTION_COVER_2</PromotionType>
@@ -266,7 +266,7 @@
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_WOODSMAN</PromotionType>
-			<UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 		</Row>
 		<Row>
 			<PromotionType>PROMOTION_WOODSMAN</PromotionType>

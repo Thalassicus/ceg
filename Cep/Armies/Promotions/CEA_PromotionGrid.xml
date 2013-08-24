@@ -52,17 +52,17 @@
 		<Row><GridY>  4</GridY><GridX>  3</GridX><PromotionType>PROMOTION_MARCH_II</PromotionType>                 <UnitCombatType>UNITCOMBAT_ARCHER</UnitCombatType></Row>
 		<Row><GridY>  5</GridY><GridX>  2</GridX><PromotionType>PROMOTION_INDIRECT_FIRE</PromotionType>            <UnitCombatType>UNITCOMBAT_ARCHER</UnitCombatType></Row>
 
-		<Row><GridY>  2</GridY><GridX>  1</GridX><PromotionType>PROMOTION_ACCURACY_1</PromotionType>               <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  2</GridY><GridX>  2</GridX><PromotionType>PROMOTION_ACCURACY_2</PromotionType>               <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  2</GridY><GridX>  3</GridX><PromotionType>PROMOTION_ACCURACY_3</PromotionType>               <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  2</GridY><GridX>  4</GridX><PromotionType>PROMOTION_LOGISTICS</PromotionType>                <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  3</GridY><GridX>  1</GridX><PromotionType>PROMOTION_BARRAGE_1</PromotionType>                <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  3</GridY><GridX>  2</GridX><PromotionType>PROMOTION_BARRAGE_2</PromotionType>                <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  3</GridY><GridX>  3</GridX><PromotionType>PROMOTION_BARRAGE_3</PromotionType>                <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  3</GridY><GridX>  4</GridX><PromotionType>PROMOTION_RANGE</PromotionType>                    <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  4</GridY><GridX>  2</GridX><PromotionType>PROMOTION_VOLLEY</PromotionType>                   <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  4</GridY><GridX>  3</GridX><PromotionType>PROMOTION_MARCH_II</PromotionType>                 <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
-		<Row><GridY>  5</GridY><GridX>  2</GridX><PromotionType>PROMOTION_INDIRECT_FIRE</PromotionType>            <UnitCombatType>UNITCOMBAT_MOUNTED_ARCHER</UnitCombatType></Row>
+		<Row><GridY>  2</GridY><GridX>  1</GridX><PromotionType>PROMOTION_ACCURACY_1</PromotionType>               <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  2</GridY><GridX>  2</GridX><PromotionType>PROMOTION_ACCURACY_2</PromotionType>               <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  2</GridY><GridX>  3</GridX><PromotionType>PROMOTION_ACCURACY_3</PromotionType>               <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  2</GridY><GridX>  4</GridX><PromotionType>PROMOTION_LOGISTICS</PromotionType>                <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  3</GridY><GridX>  1</GridX><PromotionType>PROMOTION_BARRAGE_1</PromotionType>                <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  3</GridY><GridX>  2</GridX><PromotionType>PROMOTION_BARRAGE_2</PromotionType>                <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  3</GridY><GridX>  3</GridX><PromotionType>PROMOTION_BARRAGE_3</PromotionType>                <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  3</GridY><GridX>  4</GridX><PromotionType>PROMOTION_RANGE</PromotionType>                    <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  4</GridY><GridX>  2</GridX><PromotionType>PROMOTION_VOLLEY</PromotionType>                   <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  4</GridY><GridX>  3</GridX><PromotionType>PROMOTION_MARCH_II</PromotionType>                 <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
+		<Row><GridY>  5</GridY><GridX>  2</GridX><PromotionType>PROMOTION_INDIRECT_FIRE</PromotionType>            <UnitCombatType>UNITCOMBAT_GUN</UnitCombatType></Row>
 		<Row><GridY>  1</GridY><GridX>  1</GridX><PromotionType>PROMOTION_SCOUTING_1</PromotionType>               <UnitCombatType>UNITCOMBAT_RECON</UnitCombatType></Row>
 		<Row><GridY>  1</GridY><GridX>  2</GridX><PromotionType>PROMOTION_SCOUTING_2</PromotionType>               <UnitCombatType>UNITCOMBAT_RECON</UnitCombatType></Row>
 		<Row><GridY>  2</GridY><GridX>  1</GridX><PromotionType>PROMOTION_TRENCHES_1</PromotionType>               <UnitCombatType>UNITCOMBAT_RECON</UnitCombatType></Row>

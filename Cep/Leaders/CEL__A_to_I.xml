@@ -108,6 +108,20 @@
 				 />
 		</Update>
 	</Traits>
+	<Buildings>
+		<Update>
+			<Where Type="BUILDING_BAZAAR" />
+			<Set ExtraLuxuries="0"
+				 />
+		</Update>
+	</Buildings>
+	<Building_YieldChanges>
+		<Row>
+			<BuildingType>BUILDING_BAZAAR</BuildingType>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>5</Yield>
+		</Row>
+	</Building_YieldChanges>
 	
 	
 	<!--	Assyria
@@ -721,6 +735,37 @@
 	-->
 	<!-- Re-used the Russian trait to provide the doubled resources
 	-->
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_STRATEGIC_RICHES" />
+			<Set HanseaticLeague="BUILDINGCLASS_HANSEATIC_LEAGUE" />
+		</Update>
+	</Traits>
+	<Leader_Traits>
+		<Update>
+			<Where LeaderType="LEADER_BISMARCK" />
+			<Set TraitType="TRAIT_STRATEGIC_RICHES" />
+		</Update>
+	</Leader_Traits>
+	<!-- These 'Trait_ResourceQuantityModifiers' are reused in the Hanseatic League trait
+	-->
+	<Trait_ResourceQuantityModifiers>
+		<Row>
+			<TraitType>TRAIT_STRATEGIC_RICHES</TraitType>
+			<ResourceType>RESOURCE_COAL</ResourceType>
+			<ResourceQuantityModifier>100</ResourceQuantityModifier>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_STRATEGIC_RICHES</TraitType>
+			<ResourceType>RESOURCE_OIL</ResourceType>
+			<ResourceQuantityModifier>100</ResourceQuantityModifier>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_STRATEGIC_RICHES</TraitType>
+			<ResourceType>RESOURCE_ALUMINUM</ResourceType>
+			<ResourceQuantityModifier>100</ResourceQuantityModifier>
+		</Row>
+	</Trait_ResourceQuantityModifiers>
 	<BuildingClasses>
 		<Row>
 			<Type>BUILDINGCLASS_HANSEATIC_LEAGUE</Type>
@@ -751,31 +796,6 @@
 			<IsVisible>1</IsVisible>
 		</Row>
 	</Buildings>
-	<Leader_Traits>
-		<Update>
-			<Where LeaderType="LEADER_BISMARCK" />
-			<Set TraitType="TRAIT_STRATEGIC_RICHES" />
-		</Update>
-	</Leader_Traits>
-	<!-- These 'Trait_ResourceQuantityModifiers' are reused in the Hanseatic League trait
-	-->
-	<Trait_ResourceQuantityModifiers>
-		<Row>
-			<TraitType>TRAIT_STRATEGIC_RICHES</TraitType>
-			<ResourceType>RESOURCE_COAL</ResourceType>
-			<ResourceQuantityModifier>100</ResourceQuantityModifier>
-		</Row>
-		<Row>
-			<TraitType>TRAIT_STRATEGIC_RICHES</TraitType>
-			<ResourceType>RESOURCE_OIL</ResourceType>
-			<ResourceQuantityModifier>100</ResourceQuantityModifier>
-		</Row>
-		<Row>
-			<TraitType>TRAIT_STRATEGIC_RICHES</TraitType>
-			<ResourceType>RESOURCE_ALUMINUM</ResourceType>
-			<ResourceQuantityModifier>100</ResourceQuantityModifier>
-		</Row>
-	</Trait_ResourceQuantityModifiers>
 	<Unit_FreePromotions>
 		<Row>
 			<UnitType>UNIT_GERMAN_LANDSKNECHT</UnitType>
@@ -884,7 +904,7 @@
 		<Update>
 			<Where Type="TRAIT_CONVERTS_LAND_BARBARIANS" />
 			<Set LandBarbarianConversionPercent="100"
-				 LandUnitMaintenanceModifier="0"
+				 LandUnitMaintenanceModifier="-25"
 				 />
 		</Update>
 	</Traits>
@@ -956,6 +976,7 @@
 			<Description>TXT_KEY_BUILDING_INDUS_SANITATION</Description>
 			<Civilopedia>TXT_KEY_BUILDING_INDUS_SANITATION_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
+			<Happiness>3</Happiness>
 			<FoodKept>80</FoodKept>
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
