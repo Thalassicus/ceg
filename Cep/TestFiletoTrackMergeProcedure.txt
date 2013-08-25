@@ -12,3 +12,10 @@ File commited from TestBranch, then a merge with this format:
 
 TestBranch --- merged into --- ExpiredReign === ExpiredReign
 
+Sunday 25/08/2013 10:16am
+
+File now shows in the ExpiredReign branch with the option to sync active.
+Syncing this commit should therefore place this file inside the Master branch.
+Apologies Thal if this stuffs you up. It is only one file, Easy to delete.
+Syncing begins.
+
