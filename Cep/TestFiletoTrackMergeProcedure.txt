@@ -6,3 +6,9 @@ This is done to try and eliminate the errors I introduce whenever I try to merge
 Sunday 25/08/2013 10:02am
 File created and edited.
 Merge from inside GitHub app now to happen.
+
+Sunday 25/08/2013 10:06am
+File commited from TestBranch, then a merge with this format:
+
+TestBranch --- merged into --- ExpiredReign === ExpiredReign
+
