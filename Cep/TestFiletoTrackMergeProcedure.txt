@@ -1,0 +1,8 @@
+This file is created in a TestBranch of the Cepbasic repository.
+
+The edits in this file were done from inside this branch and I will try and merge them into the ExpiredReign branch to track the steps.
+This is done to try and eliminate the errors I introduce whenever I try to merge the Master into ExpiredReign. I do this when Thal has done some work and I am behind, yet the 'Sync' option in the ExpiredReign branch is unavailable.
+
+Sunday 25/08/2013 10:02am
+File created and edited.
+Merge from inside GitHub app now to happen.
