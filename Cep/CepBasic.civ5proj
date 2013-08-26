@@ -63,11 +63,6 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Leaders/CEL__New.xml</FileName>
-      </Action>
-      <Action>
-        <Set>OnModActivated</Set>
-        <Type>UpdateDatabase</Type>
         <FileName>Armies/CEA__Start.sql</FileName>
       </Action>
       <Action>
@@ -303,17 +298,12 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Leaders/CEL__A_to_I.xml</FileName>
+        <FileName>Leaders/CEL__A_I.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>Leaders/CEL__J_to_Z.xml</FileName>
-      </Action>
-      <Action>
-        <Set>OnModActivated</Set>
-        <Type>UpdateDatabase</Type>
-        <FileName>Leaders/CEL_Abilities.xml</FileName>
+        <FileName>Leaders/CEL__J_Z.xml</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1303,12 +1293,17 @@
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>AI/CEAI__End_Flavors.sql</FileName>
+        <FileName>AI/CEAI_Flavor_Units.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
         <Type>UpdateDatabase</Type>
-        <FileName>AI/CEAI__End_Techs.sql</FileName>
+        <FileName>AI/CEAI_Flavor_Buildings.sql</FileName>
+      </Action>
+      <Action>
+        <Set>OnModActivated</Set>
+        <Type>UpdateDatabase</Type>
+        <FileName>AI/CEAI_Flavor_Techs.sql</FileName>
       </Action>
       <Action>
         <Set>OnModActivated</Set>
@@ -1432,19 +1427,23 @@
     <Folder Include="Text\ZH_CN" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AI\CEAI_Flavor_Buildings.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="AI\CEAI_Flavor_Techs.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
+    <Content Include="AI\CEAI_Flavor_Units.sql">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>False</ImportIntoVFS>
+    </Content>
     <Content Include="AI\CEAI_LeaderFlavors.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
     <Content Include="AI\CEAI_LeaderPersonalities.sql">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="AI\CEAI__End_Flavors.sql">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="AI\CEAI__End_Techs.sql">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1648,11 +1647,7 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Leaders\CEL_Abilities.xml">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Leaders\CEL__A_to_I.xml">
+    <Content Include="Leaders\CEL__A_I.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
@@ -1668,11 +1663,7 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>
-    <Content Include="Leaders\CEL__J_to_Z.xml">
-      <SubType>Lua</SubType>
-      <ImportIntoVFS>False</ImportIntoVFS>
-    </Content>
-    <Content Include="Leaders\CEL__New.xml">
+    <Content Include="Leaders\CEL__J_Z.xml">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

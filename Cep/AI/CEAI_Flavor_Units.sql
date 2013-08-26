@@ -1,107 +1,29 @@
 -- 
 
-UPDATE CitySpecialization_TargetYields
-SET Yield = 50
-WHERE YieldType = 'YIELD_FOOD';
-
-
---
--- Availability: Builds
---
-
--- Common like farms
-UPDATE Builds SET AIAvailability = 8
-WHERE Type IN (SELECT build.Type FROM Improvements improve, Builds build
-WHERE ( build.PrereqTech IS NOT NULL
-	AND build.ImprovementType = improve.Type
-	AND improve.SpecificCivRequired = 0
-	AND improve.Type IN (SELECT ImprovementType FROM Improvement_ValidTerrains)
-) OR  ( build.PrereqTech IS NOT NULL
-	AND build.RouteType IS NOT NULL
-));
-
--- Resource-specific
-UPDATE Builds SET AIAvailability = 4
-WHERE Type IN (SELECT build.Type FROM Improvements improve, Builds build
-WHERE ( build.PrereqTech IS NOT NULL
-	AND build.ImprovementType = improve.Type
-	AND improve.SpecificCivRequired = 0
-	AND improve.Type NOT IN (SELECT ImprovementType FROM Improvement_ValidTerrains)
-));
-
--- Great improvements
-UPDATE Builds SET AIAvailability = 2
-WHERE Type IN (SELECT build.Type FROM Improvements improve, Builds build
-WHERE ( build.ImprovementType = improve.Type
-	AND improve.CreatedByGreatPerson = 1
-));
-
--- Double
-UPDATE Builds SET AIAvailability = 2
-WHERE Type IN ('BUILD_WELL', 'BUILD_OFFSHORE_PLATFORM');
-
-
---
--- Availability: Buildings
---
-
-UPDATE Buildings SET AIAvailability = 8;
-
-UPDATE Buildings SET AIAvailability = 4
-WHERE (Water = 1
-	OR River = 1
-	OR FreshWater = 1
-	OR Hill = 1
-	OR Flat = 1
-	OR Mountain = 1
-	OR NearbyMountainRequired = 1
-	OR MutuallyExclusiveGroup = 1
-	OR NoOccupiedUnhappiness = 1
-	OR NearbyTerrainRequired IS NOT NULL
-);
-
-UPDATE Buildings SET AIAvailability = 4
-WHERE (Type IN (SELECT BuildingType FROM Building_ResourceQuantityRequirements)
-	OR Type IN (SELECT BuildingType FROM Building_LocalResourceOrs)
-	OR Type IN (SELECT BuildingType FROM Building_LocalResourceAnds)
-	--OR Type IN (SELECT BuildingType FROM Building_ResourceYieldModifiers)
-);
-
-UPDATE Buildings SET AIAvailability = 2
-WHERE Type IN (SELECT building.Type
-FROM Buildings building, BuildingClasses class
-WHERE (building.BuildingClass = class.Type AND (
-	   class.MaxGlobalInstances = 1
-	OR class.MaxPlayerInstances = 1
-	OR class.MaxTeamInstances = 1
-)));
-
-
---
--- Building Priorities
---
-
-/*
-INSERT OR IGNORE INTO Building_Flavors(BuildingType, FlavorType, Flavor)
-SELECT building.Type, flavor.FlavorType, 2 * flavor.Flavor
-FROM Buildings building, Buildings buildingDefault, BuildingClasses class, Building_Flavors flavor
-WHERE ( buildingDefault.BuildingClass	= building.BuildingClass
-	AND buildingDefault.Type			<> building.Type
-	AND buildingDefault.BuildingClass	= class.Type
-	AND buildingDefault.Type			= class.DefaultBuilding
-	AND buildingDefault.Type			= flavor.BuildingType
-);
-*/
-
 
 --
 -- Unit Flavors: update flavor types
 --
 
+/*
+DELETE FROM Unit_Flavors WHERE FlavorType IN (
+	'FLAVOR_RELIGION'		,
+	'FLAVOR_ANTI_MOBILE'	,
+	'FLAVOR_SOLDIER'	,
+	'FLAVOR_SIEGE'	,
+	'FLAVOR_NAVAL_BOMBARDMENT'	,
+	''	,
+	''	,
+	''	,
+	''	,
+	''	,
+);
+*/
+
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_RELIGION', 1
 FROM Units WHERE Class IN (
-	'UNITCLASS_MISSIONARY'			,
+	'UNITCLASS_MISSIONARY' ,
 	'UNITCLASS_INQUISITOR'			
 );
 
@@ -121,7 +43,7 @@ INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT unit.Type, 'FLAVOR_ANTI_MOBILE', 1
 FROM Units unit, Unit_FreePromotions promo, UnitPromotions_UnitCombatMods modifier
 WHERE (unit.Type = promo.UnitType AND promo.PromotionType = modifier.PromotionType AND unit.CombatClass <> 'UNITCOMBAT_RECON')
-	AND modifier.UnitCombatType IN ('UNITCOMBAT_MOUNTED', 'UNITCOMBAT_GUN', 'UNITCOMBAT_ARMOR')
+	AND modifier.UnitCombatType IN ('UNITCOMBAT_MOUNTED', 'UNITCOMBAT_MOUNTED_ARCHER', 'UNITCOMBAT_ARMOR')
 ;
 
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
@@ -202,7 +124,7 @@ INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_CITY_DEFENSE', 1
 FROM Units WHERE CombatClass IN (
 	'UNITCOMBAT_ARCHER',
-	'UNITCOMBAT_GUN',
+	'UNITCOMBAT_MOUNTED_ARCHER',
 	'UNITCOMBAT_BOMBER'
 ) OR Class IN (
 	'UNITCLASS_GATLINGGUN',
@@ -302,7 +224,7 @@ UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
 WHERE FlavorType IN ('FLAVOR_DEFENSE', 'FLAVOR_CITY_DEFENSE')
 AND UnitType IN (SELECT Type FROM Units WHERE CombatClass IN (
 	'UNITCOMBAT_ARCHER'				,
-	'UNITCOMBAT_GUN'		,
+	'UNITCOMBAT_MOUNTED_ARCHER'		,
 	'UNITCOMBAT_BOMBER'				
 ));
 
@@ -410,6 +332,7 @@ UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 0.5, 0)
 WHERE FlavorType = 'FLAVOR_DEFENSE' 
 AND UnitType IN (SELECT UnitType FROM Unit_ResourceQuantityRequirements);
 */
+
 
 
 
