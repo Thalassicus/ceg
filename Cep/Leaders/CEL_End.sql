@@ -54,12 +54,12 @@ WHERE Type IN (
 -- Unique Units
 --
 
-
+/*
 UPDATE Units SET	   Cost   = ROUND(1.00 * (SELECT Cost   FROM Units WHERE Type = 'UNIT_SKIRMISHER'), 0)
 					   WHERE Type IN ('UNIT_AMERICAN_MINUTEMAN');
 UPDATE Units SET	   Combat = ROUND(1.15 * (SELECT Combat FROM Units WHERE Type = 'UNIT_SKIRMISHER'), 0)
 					   WHERE Type IN ('UNIT_AMERICAN_MINUTEMAN');
-
+*/
 UPDATE Units SET	   Combat = ROUND(1.25 * (SELECT Combat FROM Units WHERE Type = 'UNIT_WARRIOR'), 0)
 					   WHERE Type IN ('UNIT_AZTEC_JAGUAR');
 
