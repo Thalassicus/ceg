@@ -126,20 +126,6 @@
 	
 	<!--	Assyria
 	-->
-	<Unit_FreePromotions>
-		<Row>
-			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
-			<PromotionType>PROMOTION_SKI_INFANTRY</PromotionType>
-		</Row>
-		<Row>
-			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
-			<PromotionType>PROMOTION_HOMELAND_GUARDIAN</PromotionType>
-		</Row>
-		<Row>
-			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
-			<PromotionType>PROMOTION_HOVERING_UNIT</PromotionType>
-		</Row>
-	</Unit_FreePromotions>
 
 
 
@@ -194,6 +180,21 @@
 			<UnitClassType>UNITCLASS_INFANTRY</UnitClassType>
 		</Row>
 	</Unit_ClassUpgrades>
+	<Unit_FreePromotions>
+		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<PromotionType>PROMOTION_SKI_INFANTRY</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<PromotionType>PROMOTION_HOMELAND_GUARDIAN</PromotionType>
+		</Row>
+		<Row>
+			<UnitType>UNIT_AUSTRIAN_MOUNTAIN_TROOPS</UnitType>
+			<PromotionType>PROMOTION_HOVERING_UNIT</PromotionType>
+		</Row>
+	</Unit_FreePromotions>
+
 
 
 
@@ -561,7 +562,7 @@
 			<BuildingClass>BUILDINGCLASS_AQUEDUCT</BuildingClass>
 			<Cost>100</Cost>
 			<GoldMaintenance>1</GoldMaintenance>
-			<PrereqTech>TECH_CONSTRUCTION</PrereqTech>
+			<PrereqTech>TECH_ENGINEERING</PrereqTech>
 			<Description>TXT_KEY_BUILDING_BASIN_IRRIGATION</Description>
 			<Civilopedia>TXT_KEY_BUILDING_BASIN_IRRIGATION_TEXT</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
@@ -958,21 +959,13 @@
 			<!-- 100, -50 -->
 		</Update>
 	</Traits>
-	<Units>
-		<Update>
-			<Where Type="UNIT_INDIAN_WARELEPHANT" />
-			<Set Moves="2"
-					AdvancedStartCost="20"
-				/>
-		</Update>
-	</Units>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_INDUS_SANITATION</Type>
 			<BuildingClass>BUILDINGCLASS_AQUEDUCT</BuildingClass>
 			<Cost>100</Cost>
 			<GoldMaintenance>1</GoldMaintenance>
-			<PrereqTech>TECH_CONSTRUCTION</PrereqTech>
+			<PrereqTech>TECH_ENGINEERING</PrereqTech>
 			<Description>TXT_KEY_BUILDING_INDUS_SANITATION</Description>
 			<Civilopedia>TXT_KEY_BUILDING_INDUS_SANITATION_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>

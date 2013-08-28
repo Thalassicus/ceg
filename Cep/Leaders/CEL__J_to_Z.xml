@@ -635,15 +635,6 @@
 			<Yield>10</Yield>
 		</Row>
 	</Building_YieldModifiers>
-	<Civilization_Start_Region_Avoid>
-		<Delete CivilizationType="CIVILIZATION_SIAM"/>
-	</Civilization_Start_Region_Avoid>
-		<Civilization_Start_Region_Avoid>
-		<Row>
-			<CivilizationType>CIVILIZATION_SIAM</CivilizationType>
-			<RegionType>REGION_TUNDRA</RegionType>
-		</Row>
-	</Civilization_Start_Region_Avoid>
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_CITY_STATE_BONUSES" />
@@ -730,7 +721,7 @@
 	-->
 	<Leader_Traits>
 		<Update>
-			<Where LeaderType="LEADER_ASKIA" />
+			<Where LeaderType="LEADER_ISABELLA" />
 			<Set TraitType="TRAIT_RECONQUISTA" />
 		</Update>
 	</Leader_Traits>
