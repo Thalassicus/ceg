@@ -231,10 +231,29 @@ WHERE					building.BuildingClass IN (
 -- Remove Buildings
 --
 
-UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL' WHERE BuildingClass IN (
+UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCount = -1 WHERE BuildingClass IN (
 	'BUILDINGCLASS_RECYCLING_CENTER'	,
 	'BUILDINGCLASS_BOMB_SHELTER'		,
 	'BUILDINGCLASS_FORGE'				
+	
+);
+
+--
+-- Remove Unique or Dummy Buildings
+--
+
+UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCount = -1 WHERE Type IN (
+	'BUILDING_TRIBUTE'					,
+	'BUILDING_TRADE_COMPANY'			,
+	'BUILDING_MUGHAL_FORT'				,
+	'BUILDING_HANSEATIC_LEAGUE'			,
+	'BUILDING_CEILIDH_HALL'				,
+	'BUILDING_AI_CULTURE'				,
+	'BUILDING_AI_GOLD'					,
+	'BUILDING_AI_PRODUCTION'			,
+	'BUILDING_AI_SCIENCE'				,
+	'BUILDING_HAPPINESS_CITY'			,
+	'BUILDING_HAPPINESS_NATIONAL'		
 );
 
 --
