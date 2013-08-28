@@ -834,7 +834,6 @@
 			<CannotBeChosen>true</CannotBeChosen>
 			<PortraitIndex>59</PortraitIndex>
 			<UpgradeDiscount>100</UpgradeDiscount>
-			<ExtraWithdrawal>100</ExtraWithdrawal>
 			<IconAtlas>ABILITY_ATLAS</IconAtlas>
 			<PediaType>PEDIA_ATTRIBUTES</PediaType>
 		</Row>
