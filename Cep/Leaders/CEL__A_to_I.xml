@@ -282,6 +282,13 @@
 
 	<!--	Carthage
 	-->
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_PHOENICIAN_HERITAGE" />
+			<Set EmbarkedAllWater="true"
+				 />
+		</Update>
+	</Traits>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_COTHON</Type>
@@ -781,10 +788,10 @@
 			<Type>BUILDING_HANSEATIC_LEAGUE</Type>
 			<BuildingClass>BUILDINGCLASS_HANSEATIC_LEAGUE</BuildingClass>
 			<Cost>-1</Cost>
-			<Description>TXT_KEY_BUILDING_HANSEATIC_LEAGUE</Description>
+			<Description>TXT_KEY_TRAIT_STRATEGIC_RICHES_SHORT</Description>
 			<Help>TXT_KEY_BUILDING_HANSEATIC_LEAGUE_HELP</Help>
 			<Strategy>TXT_KEY_BUILDING_HANSEATIC_LEAGUE_STRATEGY</Strategy>
-			<Civilopedia>TXT_KEY_BUILDING_HANSEATIC_LEAGUE_PEDIA</Civilopedia>
+			<Civilopedia>TXT_KEY_TRAIT_STRATEGIC_RICHES</Civilopedia>
 			<AlwaysShowHelp>true</AlwaysShowHelp>
 			<ArtDefineTag>PALACE</ArtDefineTag>
 			<ExtraLeagueVotes>3</ExtraLeagueVotes>
@@ -1056,15 +1063,6 @@
 		</Row>
 	</Traits>
 	-->
-	<Traits>
-		<Update>
-			<Where Type="TRAIT_POPULATION_GROWTH" />
-			<Set CityUnhappinessModifier="0"
-				 PopulationUnhappinessModifier="0"
-				 />
-			<!-- 100, -50 -->
-		</Update>
-	</Traits>
 	<Units>
 		<Update>
 			<Where Type="UNIT_INDIAN_WARELEPHANT" />
