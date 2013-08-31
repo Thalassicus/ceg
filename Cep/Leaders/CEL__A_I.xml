@@ -13,7 +13,7 @@
 			<Type>TRAIT_AMERICAN_DREAM</Type>
 			<Description>TXT_KEY_TRAIT_AMERICAN_DREAM</Description>
 			<ShortDescription>TXT_KEY_TRAIT_AMERICAN_DREAM_SHORT</ShortDescription>
-			<ImmigrationFrequency>50</ImmigrationFrequency>
+			<ImmigrationFrequency>10</ImmigrationFrequency>
 		</Row>
 	</Traits>
 	<Buildings>

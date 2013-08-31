@@ -237,7 +237,7 @@
 		
 		<Update>
 			<Where Name="CULTURE_COST_FIRST_PLOT" />
-			<Set Value="10" />
+			<Set Value="20" />
 			<!-- 15 -->
 		</Update>
 		<Update>

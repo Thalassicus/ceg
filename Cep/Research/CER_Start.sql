@@ -31,26 +31,27 @@ UPDATE Technologies SET GridX=15, Era='ERA_FUTURE' WHERE Type IN ('TECH_TELECOM'
 UPDATE Technologies SET GridX=16, Era='ERA_FUTURE' WHERE Type IN ('TECH_GLOBALIZATION', 'TECH_NANOTECHNOLOGY', 'TECH_ADVANCED_BALLISTICS', 'TECH_NUCLEAR_FUSION', 'TECH_STEALTH', 'none');
 UPDATE Technologies SET GridX=17, Era='ERA_FUTURE' WHERE Type IN ('TECH_FUTURE_TECH', 'none');
 
--- This GER_Start.sql data from:
--- Tech_Costs tab of CEP_Details.xls spreadsheet (in mod folder).
-UPDATE Technologies SET Cost =    100 WHERE GridX =  1;
-UPDATE Technologies SET Cost =    150 WHERE GridX =  2;
-UPDATE Technologies SET Cost =    230 WHERE GridX =  3;
-UPDATE Technologies SET Cost =    470 WHERE GridX =  4;
-UPDATE Technologies SET Cost =    730 WHERE GridX =  5;
-UPDATE Technologies SET Cost =    990 WHERE GridX =  6;
-UPDATE Technologies SET Cost =   2040 WHERE GridX =  7;
-UPDATE Technologies SET Cost =   3000 WHERE GridX =  8;
-UPDATE Technologies SET Cost =   4200 WHERE GridX =  9;
-UPDATE Technologies SET Cost =   6100 WHERE GridX = 10;
-UPDATE Technologies SET Cost =   8100 WHERE GridX = 11;
-UPDATE Technologies SET Cost =  10700 WHERE GridX = 12;
-UPDATE Technologies SET Cost =  13300 WHERE GridX = 13;
-UPDATE Technologies SET Cost =  16700 WHERE GridX = 14;
-UPDATE Technologies SET Cost =  20000 WHERE GridX = 15;
-UPDATE Technologies SET Cost =  23000 WHERE GridX = 16;
-UPDATE Technologies SET Cost =  25000 WHERE GridX = 17;
+*/
 
+-- This CER_Start.sql data from:
+-- Tech_Costs tab of CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
+UPDATE Technologies SET Cost =     45 WHERE GridX =  1;
+UPDATE Technologies SET Cost =     65 WHERE GridX =  2;
+UPDATE Technologies SET Cost =    115 WHERE GridX =  3;
+UPDATE Technologies SET Cost =    185 WHERE GridX =  4;
+UPDATE Technologies SET Cost =    285 WHERE GridX =  5;
+UPDATE Technologies SET Cost =    385 WHERE GridX =  6;
+UPDATE Technologies SET Cost =    790 WHERE GridX =  7;
+UPDATE Technologies SET Cost =   1150 WHERE GridX =  8;
+UPDATE Technologies SET Cost =   1600 WHERE GridX =  9;
+UPDATE Technologies SET Cost =   2350 WHERE GridX = 10;
+UPDATE Technologies SET Cost =   3100 WHERE GridX = 11;
+UPDATE Technologies SET Cost =   4100 WHERE GridX = 12;
+UPDATE Technologies SET Cost =   5100 WHERE GridX = 13;
+UPDATE Technologies SET Cost =   6400 WHERE GridX = 14;
+UPDATE Technologies SET Cost =   7700 WHERE GridX = 15;
+UPDATE Technologies SET Cost =   8800 WHERE GridX = 16;
+UPDATE Technologies SET Cost =   9500 WHERE GridX = 17;
 
 UPDATE Technologies SET Cost = ROUND(Cost * 0.75/10, 0)*10 WHERE Type IN (
 	'TECH_SAILING',
@@ -60,6 +61,4 @@ UPDATE Technologies SET Cost = ROUND(Cost * 0.75/10, 0)*10 WHERE Type IN (
 	'TECH_ASTRONOMY'
 );
 
-
-*/
 UPDATE LoadedFile SET Value=1 WHERE Type='CER_Start.sql';

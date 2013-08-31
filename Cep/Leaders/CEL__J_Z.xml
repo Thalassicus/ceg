@@ -730,7 +730,7 @@
 	-->
 	<Leader_Traits>
 		<Update>
-			<Where LeaderType="LEADER_ASKIA" />
+			<Where LeaderType="LEADER_ISABELLA" />
 			<Set TraitType="TRAIT_RECONQUISTA" />
 		</Update>
 	</Leader_Traits>
