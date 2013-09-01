@@ -136,6 +136,11 @@
 
 
 		<Update>
+			<Where Name="MINOR_CIV_CONTACT_GOLD_OTHER" />
+			<Set Value="30" />
+			<!-- 15 -->
+		</Update>
+		<Update>
 			<Where Name="MINOR_FRIENDSHIP_DROP_PER_TURN" />
 			<Set Value="-100" />
 			<!-- -100 -->

@@ -175,6 +175,34 @@ DELETE FROM Technology_Flavors_Human;
 	WHERE tech.MapVisible = 1 
 	AND flavor.Type IN ('FLAVOR_OFFENSE');
 
+	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
+	SELECT tech.Type, flavor.Type, 16
+	FROM Technologies tech, Flavors flavor
+	WHERE (tech.InternationalTradeRoutesChange = 1)
+	AND flavor.Type IN ('FLAVOR_I_LAND_TRADE_ROUTE', 'FLAVOR_I_SEA_TRADE_ROUTE');
+
+	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
+	SELECT tech.TechType, flavor.Type, 16
+	FROM Technology_TradeRouteDomainExtraRange tech, Flavors flavor
+	WHERE DomainType = 'DOMAIN_LAND' AND flavor.Type IN ('FLAVOR_I_LAND_TRADE_ROUTE');
+
+	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
+	SELECT tech.TechType, flavor.Type, 16
+	FROM Technology_TradeRouteDomainExtraRange tech, Flavors flavor
+	WHERE DomainType = 'DOMAIN_SEA' AND flavor.Type IN ('FLAVOR_I_SEA_TRADE_ROUTE');
+
+	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
+	SELECT tech.Type, flavor.Type, 256
+	FROM Technologies tech, Flavors flavor
+	WHERE (tech.InfluenceSpreadModifier <> 0)
+	AND flavor.Type IN ('FLAVOR_TOURISM');
+
+	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
+	SELECT tech.Type, flavor.Type, 128
+	FROM Technologies tech, Flavors flavor
+	WHERE (tech.ExtraVotesPerDiplomat <> 0)
+	AND flavor.Type IN ('FLAVOR_DIPLOMACY');
+
 -- Sum flavors for each FlavorType	
 	/**/
 	DROP TABLE IF EXISTS CEP_Collisions;
@@ -198,6 +226,7 @@ DELETE FROM Technology_Flavors_Human;
 		'FLAVOR_MILITARY_TRAINING'	,
 		'FLAVOR_RELIGION'			,
 		'FLAVOR_DIPLOMACY'			,
+		'FLAVOR_ESPIONAGE'			,
 		'FLAVOR_HAPPINESS'			,
 		'FLAVOR_NAVAL_GROWTH'		,
 		'FLAVOR_NAVAL_BOMBARDMENT'	,
@@ -209,7 +238,9 @@ DELETE FROM Technology_Flavors_Human;
 		'FLAVOR_VANGUARD'			,
 		'FLAVOR_SIEGE'				,
 		'FLAVOR_ANTI_MOBILE'		,
-		'FLAVOR_TILE_IMPROVEMENT'	
+		'FLAVOR_TILE_IMPROVEMENT'	,
+		'FLAVOR_ARCHAEOLOGY'		,
+		'FLAVOR_SPACESHIP'			
 	);
 	UPDATE Technology_Flavors SET Flavor = 1.5 * Flavor WHERE FlavorType IN (
 		'FLAVOR_CITY_DEFENSE'		,
@@ -218,7 +249,6 @@ DELETE FROM Technology_Flavors_Human;
 
 	-- Average
 	UPDATE Technology_Flavors SET Flavor = 1 * Flavor WHERE FlavorType IN (
-		'FLAVOR_ESPIONAGE'			,
 		'FLAVOR_EXPANSION'			,
 		'FLAVOR_GROWTH'				,
 		'FLAVOR_PRODUCTION'			,
@@ -229,8 +259,7 @@ DELETE FROM Technology_Flavors_Human;
 		'FLAVOR_NAVAL_RECON'		,
 		'FLAVOR_AIR'				,
 		'FLAVOR_INFRASTRUCTURE'		,
-		'FLAVOR_NUKE'				,
-		'FLAVOR_SPACESHIP'			
+		'FLAVOR_NUKE'				
 	);
 	
 	-- Spread among many objects - decrease flavor

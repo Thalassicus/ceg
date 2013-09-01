@@ -363,7 +363,7 @@
 			<BuildingClass>BUILDINGCLASS_TEMPLE</BuildingClass>
 			<MaxStartEra>ERA_RENAISSANCE</MaxStartEra>
 			<Cost>100</Cost>
-			<FaithCost>200</FaithCost>
+			<!--<FaithCost>200</FaithCost>-->
 			<GoldMaintenance>2</GoldMaintenance>
 			<PrereqTech>TECH_PHILOSOPHY</PrereqTech>
 			<Description>TXT_KEY_BUILDING_ABBEY</Description>
@@ -953,7 +953,7 @@
 		<Update>
 			<Where Type="TRAIT_POPULATION_GROWTH" />
 			<Set CityUnhappinessModifier="0"
-					PopulationUnhappinessModifier="0"
+				 PopulationUnhappinessModifier="0"
 				/>
 			<!-- 100, -50 -->
 		</Update>
@@ -962,7 +962,7 @@
 		<Update>
 			<Where Type="UNIT_INDIAN_WARELEPHANT" />
 			<Set Moves="2"
-					AdvancedStartCost="20"
+				 AdvancedStartCost="20"
 				/>
 		</Update>
 	</Units>
@@ -1021,6 +1021,15 @@
 			<Yield>25</Yield>
 		</Row>
 	</Building_YieldInstant>
+	<Building_YieldChanges>
+		<Row>
+			<BuildingType>BUILDING_VEDI</BuildingType>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>2</Yield>
+		</Row>
+	</Building_YieldChanges>
+	<!-- Faith per pop does not work without modded YieldLibrary -->
+	<!--
 	<Building_YieldChangesPerPop>
 		<Row>
 			<BuildingType>BUILDING_VEDI</BuildingType>
@@ -1028,6 +1037,7 @@
 			<Yield>50</Yield>
 		</Row>
 	</Building_YieldChangesPerPop>
+	-->
 	<Civilization_Start_Along_River>
 		<Row>
 			<CivilizationType>CIVILIZATION_INDIA</CivilizationType>

@@ -46,7 +46,7 @@
 		</Update>
 		<Update>
 			<Where Class="UNITCLASS_CHARIOT_ARCHER" />
-			<Set Moves="3"
+			<Set Moves="4"
 				 />
 		</Update>
 		<Update>

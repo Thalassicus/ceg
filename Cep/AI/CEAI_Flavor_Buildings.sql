@@ -39,6 +39,23 @@ WHERE (building.BuildingClass = class.Type AND (
 
 
 --
+-- Project Priorities
+--
+
+INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor)
+SELECT Type, 'FLAVOR_SPACESHIP', 512
+FROM Projects WHERE VictoryPrereq = 'VICTORY_SPACE_RACE';
+
+INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor)
+SELECT Type, 'FLAVOR_SPACESHIP', 8
+FROM Projects WHERE Spaceship = 1;
+
+INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor)
+SELECT Type, 'FLAVOR_NUKE', 512
+FROM Projects WHERE AllowsNukes = 1;
+
+
+--
 -- Building Priorities
 --
 
@@ -329,7 +346,6 @@ WHERE (building.BuildingClass = class.Type AND (
 
 
 
-
 -- This CEAI_Flavor_Buildings.sql data created by:
 -- BuildingPriorities2 tab of CEP_LeadersAI spreadsheet (in mod folder).
 
@@ -469,4 +485,12 @@ CREATE TABLE CEP_Collisions(BuildingType text, FlavorType text, Flavor integer);
 INSERT INTO CEP_Collisions (BuildingType, FlavorType, Flavor) SELECT BuildingType, FlavorType, MAX(Flavor) FROM Building_Flavors GROUP BY BuildingType, FlavorType;
 DELETE FROM Building_Flavors;
 INSERT INTO Building_Flavors (BuildingType, FlavorType, Flavor) SELECT BuildingType, FlavorType, Flavor FROM CEP_Collisions;
+DROP TABLE CEP_Collisions;
+
+-- Join duplicated flavors
+DROP TABLE IF EXISTS CEP_Collisions;
+CREATE TABLE CEP_Collisions(ProjectType text, FlavorType text, Flavor integer);
+INSERT INTO CEP_Collisions (ProjectType, FlavorType, Flavor) SELECT ProjectType, FlavorType, MAX(Flavor) FROM Project_Flavors GROUP BY ProjectType, FlavorType;
+DELETE FROM Project_Flavors;
+INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor) SELECT ProjectType, FlavorType, Flavor FROM CEP_Collisions;
 DROP TABLE CEP_Collisions;

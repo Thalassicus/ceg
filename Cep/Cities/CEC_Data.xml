@@ -172,10 +172,6 @@
 			<!-- 84 -->
 		</Update>
 		<Update>
-			<Where Name="MINOR_CIV_PLOT_CULTURE_COST_MULTIPLIER" />
-			<Set Value="67" />
-		</Update>
-		<Update>
 			<Where Name="PUPPET_SCIENCE_MODIFIER" />
 			<Set Value="-50" />
 			<!-- -25 -->
@@ -237,7 +233,7 @@
 		
 		<Update>
 			<Where Name="CULTURE_COST_FIRST_PLOT" />
-			<Set Value="20" />
+			<Set Value="30" />
 			<!-- 15 -->
 		</Update>
 		<Update>
@@ -259,6 +255,10 @@
 			<Where Name="MAXIMUM_ACQUIRE_PLOT_DISTANCE" />
 			<Set Value="6" />
 			<!-- 5 -->
+		</Update>
+		<Update>
+			<Where Name="MINOR_CIV_PLOT_CULTURE_COST_MULTIPLIER" />
+			<Set Value="150" />
 		</Update>
 		
 
