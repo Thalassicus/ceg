@@ -2,7 +2,12 @@
 /Build
 /Lua
 /doc
-*civ5suo*
+*.civ5suo*
 *.bak*
 *.~lock.*
 *desktop.ini*
+*.modinfo
+*.xls#
+.gitignore
+.gitattributes
+*.civ5sln

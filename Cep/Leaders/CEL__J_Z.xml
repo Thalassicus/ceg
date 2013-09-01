@@ -635,15 +635,6 @@
 			<Yield>10</Yield>
 		</Row>
 	</Building_YieldModifiers>
-	<Civilization_Start_Region_Avoid>
-		<Delete CivilizationType="CIVILIZATION_SIAM"/>
-	</Civilization_Start_Region_Avoid>
-		<Civilization_Start_Region_Avoid>
-		<Row>
-			<CivilizationType>CIVILIZATION_SIAM</CivilizationType>
-			<RegionType>REGION_TUNDRA</RegionType>
-		</Row>
-	</Civilization_Start_Region_Avoid>
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_CITY_STATE_BONUSES" />
@@ -843,7 +834,6 @@
 			<CannotBeChosen>true</CannotBeChosen>
 			<PortraitIndex>59</PortraitIndex>
 			<UpgradeDiscount>100</UpgradeDiscount>
-			<ExtraWithdrawal>100</ExtraWithdrawal>
 			<IconAtlas>ABILITY_ATLAS</IconAtlas>
 			<PediaType>PEDIA_ATTRIBUTES</PediaType>
 		</Row>
