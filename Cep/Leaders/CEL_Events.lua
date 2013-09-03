@@ -3,12 +3,11 @@
 -- DateCreated: 2/17/2011 4:00:14 PM
 --------------------------------------------------------------
 
---
-
-include("ModTools.lua")
+include("MT_Events.lua")
+include("YieldLibrary.lua")
 
 local log = Events.LuaLogger:New()
-log:SetLevel("WARN")
+log:SetLevel("INFO")
 
 --[[
 function DoEndCombatLeaderBonuses(
@@ -141,7 +140,6 @@ Events.EndCombatSim.Add( DoEndCombatLeaderBonuses )
 --
 function FreeUnitWithTech(player, techID, changeID)
 	local playerID = player:GetID()
-	log:Info("FreeUnitWithTech A player=%s tech=%s", playerID, techID)
 	
 	local player = Players[playerID]
 	--print(tostring(player))
@@ -167,6 +165,7 @@ function FreeUnitWithTech(player, techID, changeID)
 		end
 	end
 	
+	log:Debug("FreeUnitWithTech A player=%s tech=%s", player:GetName(), techID)
 	local query = string.format("TraitType='%s' AND TechType='%s'", player:GetTraitInfo().Type, techInfo.Type)
 	for row in GameInfo.Trait_FreeUnitAtTech(query) do
 		local unitInfo = GameInfo.Units[player:GetUniqueUnitID(row.UnitClassType)]		
@@ -268,16 +267,18 @@ function DoLeaderCaptureBonuses(city, player)
 		
 		local alertText = Game.ConvertTextKey("TXT_KEY_CITY_CAPTURE_YIELD", totalYield, yieldInfo.IconString, yieldInfo.Description, city:GetName())
 		log:Info("%s: '%s'", player:GetName(), alertText)
-		Events.GameplayAlertMessage(alertText)
+		Game.AlertIfActive(alertText, player)
 	end
 end
 LuaEvents.CityCaptureBonuses.Add(function(city, player) return SafeCall(DoLeaderCaptureBonuses, city, player) end)
 
 
 function DoLeaderBonuses(player)
+	if Game.GetGameTurn() > 15 then
+		DoImmigration(player)
+		DoCitystateSurrender(player)
+	end
 	DoLuxuryTradeBonus(player)
-	DoImmigration(player)
-	DoCitystateSurrender(player)
 	
 	local traitInfo = player:GetTraitInfo()
 	local capital = player:GetCapitalCity()
@@ -290,7 +291,7 @@ LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(DoLe
 
 function DoImmigration(player)
 	local immigrationFrequency = player:GetTraitInfo().ImmigrationFrequency
-	if immigrationFrequency == nil or immigrationFrequency <= 0 then
+	if Game.GetGameTurn() < 10 or immigrationFrequency == nil or immigrationFrequency <= 0 then
 		return
 	end
 	
@@ -303,12 +304,15 @@ function DoCitystateSurrender(player)
 	end
 	
 	local playerID = player:GetID()
+	local activePlayer = Players[Game.GetActivePlayer()]
 	for csID, cs in pairs(Players) do
-		if cs:IsAliveCiv() and cs:IsMinorCiv() and cs:CanMajorBullyGold(playerID) then
+		if cs:IsAliveCiv() and cs:IsMinorCiv() and cs:CanMajorBullyGold(playerID) and cs:IsAtPeace(player) then
 			local alertText = string.format("%s surrenders in fear to %s!", cs:GetName(), player:GetName())
 			log:Info(alertText)
 			Game.DoMinorBuyout(playerID, csID)
-			Events.GameplayAlertMessage(alertText)
+			if activePlayer:HasMet(cs) then
+				Events.GameplayAlertMessage(alertText, player)
+			end
 		end
 	end
 end
@@ -341,7 +345,45 @@ function DoLuxuryTradeBonus(player)
 end
 
 
-function CheckTradeBonuses(player)
+function CheckMigration(player)
+	local trait = player:GetTraitInfo()
+	if not trait.ImmigrationFrequency then--or Game.GetAdjustedTurn() % trait.ImmigrationFrequency ~= 0 then
+		return
+	end
+	
+	local migrationRoutes = {}
+	local migrationWeights = {}
+	for routeID, route in ipairs(player:GetTradeRoutes()) do
+		if route.FromID == route.ToID then
+			-- domestic route
+			local cityID = City_GetID(route.FromCity)
+			if route.food > 0 then
+				table.insert(migrationRoutes, {fromCity = route.FromCity, toCity = route.ToCity})
+				table.insert(migrationWeights, route.FromCity:GetPopulation() / (route.ToCity:GetPopulation() or 1))
+			end
+		end
+	end
+
+	if #migrationRoutes == 0 then
+		return
+	end
+	
+	local chosenRouteID = Game.GetRandomWeighted(migrationWeights)
+	--log:Error("migrationRoutes[%s]=%s fromCity=%s", chosenRouteID, migrationRoutes[chosenRouteID], migrationRoutes[chosenRouteID] and migrationRoutes[chosenRouteID].fromCity and migrationRoutes[chosenRouteID].fromCity:GetName())
+	migrationRoutes[chosenRouteID].fromCity:ChangePopulation(-1, true)
+	migrationRoutes[chosenRouteID].toCity:ChangePopulation(1, true)
+	
+	local odds = migrationWeights[chosenRouteID] * 100
+	
+	if odds >= Map.Rand(100, "Migration - Lua") then
+		local alertText = Game.ConvertTextKey("TXT_KEY_MIGRATION", fromCity:GetName(), toCity:GetName())
+		log:Info("%s: '%s'", player:GetName(), alertText)
+		Game.AlertIfActive(alertText, player)
+	end	
+end
+LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(CheckMigration, player) end)
+
+function UpdateTribute(player)
 	local trait = player:GetTraitInfo()
 	if not trait.Tribute then
 		return
@@ -361,5 +403,7 @@ function CheckTradeBonuses(player)
 		city:SetNumRealBuilding(tributeBuildingID, tributeCities[City_GetID(city)] or 0)
 	end
 end
-LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
-LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(CheckTradeBonuses, player) end)
+
+
+LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(UpdateTribute, player) end)
+LuaEvents.ActivePlayerTurnEnd_Player.Add(function(player) return SafeCall(UpdateTribute, player) end)

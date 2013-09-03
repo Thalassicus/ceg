@@ -1,4 +1,4 @@
-Civ V Communitas Expansion Pack (CEP) - Basic Version
+Civ V: Communitas Enhanced Gameplay (CEG) (for BNW)
 
 Features:   http://communitas.wikia.com/wiki/Communitas_Wiki
 Discussion: http://tinyurl.com/communitas-mod
@@ -14,11 +14,8 @@ Contributing to the project is simple!
 
 Steps:
 1. Get your personal "forked" copy.
-2. Make changes. Add a short note of each change in /cep/patchnotes.txt.
+2. Make changes.
 3. Requst a merge with the original project.
-
-See tutorial here:
-https://help.github.com/articles/using-pull-requests
 
 
 Details:
@@ -32,6 +29,7 @@ Details:
 
 => Make changes
 1. Improve the project with your preferred editors like ModBuddy and Notepad++.
+2. Note each change on: http://communitas.wikia.com/wiki/Cep_History
 
 => Merge to original project
 1. Open the project in the app.
@@ -41,3 +39,6 @@ Details:
 5. Click the "pull request" button.
 6. Fill out your pull request.
 7. A project leader will merge your changes into the root project asap.
+
+See tutorial here if you need more help:
+https://help.github.com/articles/using-pull-requests

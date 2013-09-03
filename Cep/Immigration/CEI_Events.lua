@@ -27,7 +27,7 @@ QUEUE_CAPACITY = GameInfo.Immigration["HappinessAverageTurns"].Value * GameInfo.
 iProbCityImmigration = {}
 AverageHappiness = {}
 HappinessTable = nil
-americaID = nil
+americaID = -1
 
 --
 -- Main
@@ -38,21 +38,20 @@ function DoImmigration()
 		DoGameInitialization()
 	end
 	
-	if not americaID or not Players[americaID]:IsAliveCiv() then
-		return
-	end
+	local america = Players[americaID]
 
 	UpdateHappinessInfo()
-
-	-- for each major civ
-	for playerID,player in pairs(Players) do
+	
+	if not america or not america:IsAliveCiv() or america:GetExcessHappiness() <= 0 then
+		return
+	end
+	
+	for playerID, player in pairs(Players) do
 		if player:IsAliveCiv() and not player:IsMinorCiv() then
-			log:Debug("=== " .. player:GetName() .. " ===")
-			local iAverageHappiness = HappinessTable[playerID]:average()
-			log:Debug("iAverageHappiness = " .. iAverageHappiness)
+			local averageHappiness = HappinessTable[playerID]:average()
+			log:Debug("%30s averageHappiness = %s", player:GetName(), averageHappiness)
 			
-			-- if unhappy
-			local bShouldEmigrate = (player:GetExcessHappiness() < 0 and iAverageHappiness < 0)
+			local bShouldEmigrate = (player:GetExcessHappiness() < 0 and averageHappiness < 0)
 			if player:GetNumCities() == 1 then
 				for pCity in player:Cities() do
 					if (pCity:IsCapital()) and (pCity:GetPopulation() == 1) then
@@ -61,9 +60,8 @@ function DoImmigration()
 				end
 			end
 			
-			local iNumEmigrants = math.floor(-iAverageHappiness / GameInfo.Immigration["NumEmigrantsDenominator"].Value) + 1
+			local iNumEmigrants = math.floor(-averageHappiness / GameInfo.Immigration["NumEmigrantsDenominator"].Value) + 1
 
-			-- do immigration
 			if bShouldEmigrate then	
 				DoEmigratePlayer(player, iNumEmigrants)
 			end
@@ -250,10 +248,10 @@ function GetBestDestination(fromPlayer)--
 		if player:IsAliveCiv() then
 			log:Debug("   is " .. player:GetName() .. " best?")
 			if ( player ~= fromPlayer and fromPlayerTeam:IsHasMet(player:GetTeam()) and not fromPlayerTeam:IsAtWar(player:GetTeam())) then
-				local iAverageHappiness = HappinessTable[playerID]:average()
-				log:Debug("    iAverageHappiness = " .. iAverageHappiness)
-				if (iAverageHappiness > 0) then
-					local iPlayerValue = Map.Rand(iAverageHappiness, "Random country to emigrate to - Lua")	--calculate an immigration value TODO: add culture, open borders etc.
+				local averageHappiness = HappinessTable[playerID]:average()
+				log:Debug("    averageHappiness = " .. averageHappiness)
+				if (averageHappiness > 0) then
+					local iPlayerValue = Map.Rand(averageHappiness, "Random country to emigrate to - Lua")	--calculate an immigration value TODO: add culture, open borders etc.
 					log:Debug("    iPlayerValue = " .. iPlayerValue)
 					if (iPlayerValue > iBestCountryValue) then
 						iBestCountryValue = iPlayerValue

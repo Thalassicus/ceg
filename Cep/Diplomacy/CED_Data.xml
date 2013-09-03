@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
-	<CEP>
+	<Cep>
 		<Row Type="ENABLE_DISTRIBUTED_MINOR_CIV_YIELDS">
-			<Value>1</Value>
+			<Value>0</Value>
 		</Row>
 		<Update>
 			<Where Type="OPEN_BORDERS_GOLD_RATE_PERCENT" />
-			<Set Value="1" />
+			<Set Value="0" />
 		</Update>
 		<Update>
 			<Where Type="RESEARCH_AGREEMENT_SCIENCE_RATE_PERCENT" />
@@ -37,7 +37,7 @@
 			<Where Type="MINOR_CIV_GREAT_PERSON_REWARD_NEEDED" />
 			<Set Value="100" />
 		</Update>
-	</CEP>
+	</Cep>
 	<!--
 	<Technologies>
 		<Update>
@@ -135,6 +135,11 @@
 		</Update>
 
 
+		<Update>
+			<Where Name="MINOR_CIV_CONTACT_GOLD_OTHER" />
+			<Set Value="30" />
+			<!-- 15 -->
+		</Update>
 		<Update>
 			<Where Name="MINOR_FRIENDSHIP_DROP_PER_TURN" />
 			<Set Value="-100" />
@@ -344,11 +349,11 @@
 		 -->
 		<Update>
 			<Where Name="FRIENDS_BASE_TURNS_UNIT_SPAWN"/>
-			<Set Value="9999"/> <!-- 19 -->
+			<Set Value="19"/> <!-- 19 -->
 		</Update>
 		<Update>
 			<Where Name="FRIENDS_RAND_TURNS_UNIT_SPAWN"/>
-			<Set Value="0"/> <!-- 3 -->
+			<Set Value="3"/> <!-- 3 -->
 		</Update>
 		<!--
 		<Update>
@@ -460,10 +465,10 @@
 				Minds its own business, can only be bribed.
 		-->
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_FIND_PLAYER">
-			<Value>0</Value>
+			<Value>10</Value>
 		</Row>
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_FIND_NATURAL_WONDER">
-			<Value>0</Value>
+			<Value>10</Value>
 		</Row>
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_FIND_KILL_CAMP">
 			<Value>0</Value>
@@ -473,13 +478,13 @@
 			<Set Value="0"/>
 		</Update>
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_ROUTE">
-			<Value>0</Value>
+			<Value>10</Value>
 		</Row>
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_CONNECT_RESOURCE">
 			<Value>0</Value>
 		</Row>
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_CONSTRUCT_WONDER">
-			<Value>0</Value>
+			<Value>10</Value>
 		</Row>
 		<Row Name="MINOR_CIV_QUEST_WEIGHT_MULTIPLIER_NEUTRAL_GREAT_PERSON">
 			<Value>0</Value>
