@@ -81,7 +81,8 @@ function CheckForMinorAIBonuses(unit)
 			unit:SetHasPromotion(GameInfo.UnitPromotions.PROMOTION_EMBARKATION.ID, false)
 		end
 	elseif player:IsBarbarian() or (unit:GetDomainType() == DomainTypes.DOMAIN_SEA and areaWeight.FEATURE_ICE >= 0.1) then
-		unit:SetHasPromotion(promotionID.IMPASSABLE, true)
+		-- no longer necessary with Communitas map, since ice cannot appear near land
+		--unit:SetHasPromotion(promotionID.IMPASSABLE, true)
 	end
 end
 

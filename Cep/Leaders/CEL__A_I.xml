@@ -283,11 +283,14 @@
 	<!--	Carthage
 	-->
 	<Traits>
+		<!-- EmbarkedAllWater is the Polynesian trait -->
+		<!--
 		<Update>
 			<Where Type="TRAIT_PHOENICIAN_HERITAGE" />
 			<Set EmbarkedAllWater="true"
 				 />
 		</Update>
+		-->
 	</Traits>
 	<Buildings>
 		<Row>
@@ -366,12 +369,14 @@
 		</Update>
 	</Traits>
 	<Buildings>
+		<!-- Buildings with FaithCost do not check -->
 		<Row>
 			<Type>BUILDING_ABBEY</Type>
 			<BuildingClass>BUILDINGCLASS_TEMPLE</BuildingClass>
 			<MaxStartEra>ERA_RENAISSANCE</MaxStartEra>
 			<Cost>100</Cost>
-			<!--<FaithCost>200</FaithCost>-->
+			<FaithCost>200</FaithCost>
+			<UnlockedByBelief>true</UnlockedByBelief>
 			<GoldMaintenance>2</GoldMaintenance>
 			<PrereqTech>TECH_PHILOSOPHY</PrereqTech>
 			<Description>TXT_KEY_BUILDING_ABBEY</Description>
@@ -1103,7 +1108,7 @@
 
 	<LoadedFile>
 		<Update>
-			<Where Type="CEL__A_to_I.xml"/>
+			<Where Type="CEL__A_I.xml"/>
 			<Set Value="1"/>
 		</Update>
 	</LoadedFile>

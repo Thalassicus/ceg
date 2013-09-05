@@ -241,10 +241,10 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 --
 -- Remove Unique or Dummy Buildings
 --
-
+/* -- This is redundant; these buildings should be made invisible where the buildings are originally defined --Thal
 UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCount = -1 WHERE Type IN (
 	'BUILDING_TRIBUTE'					,
-	'BUILDING_TRADE_COMPANY'			,
+	'BUILDING_AMSTERDAM_BOURSE'			,
 	'BUILDING_MUGHAL_FORT'				,
 	'BUILDING_HANSEATIC_LEAGUE'			,
 	'BUILDING_CEILIDH_HALL'				,
@@ -255,6 +255,7 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 	'BUILDING_HAPPINESS_CITY'			,
 	'BUILDING_HAPPINESS_NATIONAL'		
 );
+*/
 
 --
 -- Rename Buildings

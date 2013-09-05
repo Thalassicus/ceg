@@ -196,6 +196,9 @@
 			<PromotionType>PROMOTION_NATIONAL_PROTECTION</PromotionType>
 		</Row>
 	</Unit_FreePromotions>
+	<Civilization_Start_Along_Ocean>
+		<Delete CivilizationType="CIVILIZATION_KOREA" />
+	</Civilization_Start_Along_Ocean>
 
 
 	<!--	Mayans
@@ -268,7 +271,7 @@
 		<Update>
 			<Where Type="TRAIT_LUXURY_RETENTION" />
 			<Set CityGoldPerLuxuryPercent="5"
-				 CityGoldPerLuxuryBuildingClass="BUILDINGCLASS_TRADING_COMPANY" />
+				 CityGoldPerLuxuryBuildingClass="BUILDINGCLASS_AMSTERDAM_BOURSE" />
 		</Update>
 	</Traits>
 	<!--
@@ -283,22 +286,55 @@
 	<Improvements>
 		<Update>
 			<Where Type="IMPROVEMENT_POLDER" />
-			<Set Coastal="1" />
+			<Set Coastal="1"
+				 RequiresFlatlands="1"
+				 RequiresFeature="0"
+				 />
 		</Update>
 	</Improvements>
+	<Improvement_ValidTerrains>
+		<Row>
+			<ImprovementType>IMPROVEMENT_POLDER</ImprovementType>
+			<TerrainType>TERRAIN_GRASS</TerrainType>
+		</Row>
+		<Row>
+			<ImprovementType>IMPROVEMENT_POLDER</ImprovementType>
+			<TerrainType>TERRAIN_PLAINS</TerrainType>
+		</Row>
+		<Row>
+			<ImprovementType>IMPROVEMENT_POLDER</ImprovementType>
+			<TerrainType>TERRAIN_DESERT</TerrainType>
+		</Row>
+		<Row>
+			<ImprovementType>IMPROVEMENT_POLDER</ImprovementType>
+			<TerrainType>TERRAIN_TUNDRA</TerrainType>
+		</Row>
+	</Improvement_ValidTerrains>
 	<Improvement_CoastalLandYields>
 		
 	</Improvement_CoastalLandYields>
+	<Civilization_Start_Along_Ocean>
+		<Row>
+			<CivilizationType>CIVILIZATION_NETHERLANDS</CivilizationType>
+			<StartAlongOcean>true</StartAlongOcean>
+		</Row>
+	</Civilization_Start_Along_Ocean>
+	<Civilization_Start_Region_Priority>
+		<Row>
+			<CivilizationType>CIVILIZATION_NETHERLANDS</CivilizationType>
+			<RegionType>REGION_JUNGLE</RegionType>
+		</Row>
+	</Civilization_Start_Region_Priority>
 	<Buildings>
 		<Row>
-			<Type>BUILDING_TRADE_COMPANY</Type>
+			<Type>BUILDING_AMSTERDAM_BOURSE</Type>
 			<BuildingClass>BUILDINGCLASS_MARKET</BuildingClass>
 			<FreeStartEra>ERA_INDUSTRIAL</FreeStartEra>
 			<Cost>100</Cost>
 			<PrereqTech>TECH_CURRENCY</PrereqTech>
-			<Description>TXT_KEY_BUILDING_TRADE_COMPANY</Description>
-			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_TRADE_COMPANY_PEDIA</Civilopedia>
-			<Strategy>TXT_KEY_BUILDING_TRADE_COMPANY_STRATEGY</Strategy>
+			<Description>TXT_KEY_BUILDING_AMSTERDAM_BOURSE</Description>
+			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_AMSTERDAM_BOURSE_PEDIA</Civilopedia>
+			<Strategy>TXT_KEY_BUILDING_AMSTERDAM_BOURSE_STRATEGY</Strategy>
 			<ArtDefineTag>ART_DEF_BUILDING_MARKET</ArtDefineTag>
 			<ExtraLuxuries>true</ExtraLuxuries>
 			<SpecialistType>SPECIALIST_MERCHANT</SpecialistType>
@@ -314,14 +350,14 @@
 	</Buildings>
 	<Building_YieldChanges>
 		<Row>
-			<BuildingType>BUILDING_TRADE_COMPANY</BuildingType>
+			<BuildingType>BUILDING_AMSTERDAM_BOURSE</BuildingType>
 			<YieldType>YIELD_GOLD</YieldType>
 			<Yield>2</Yield>
 		</Row>
 	</Building_YieldChanges>
 	<Building_YieldModifiers>
 		<Row>
-			<BuildingType>BUILDING_TRADE_COMPANY</BuildingType>
+			<BuildingType>BUILDING_AMSTERDAM_BOURSE</BuildingType>
 			<YieldType>YIELD_GOLD</YieldType>
 			<Yield>25</Yield>
 		</Row>
@@ -487,6 +523,14 @@
 			<!-- 25 -->
 		</Update>
 	</Traits>
+	<Trait_FreeResourceFirstXCities>
+		<Row>
+			<TraitType>TRAIT_CAPITAL_BUILDINGS_CHEAPER</TraitType>
+			<ResourceType>RESOURCE_IRON</ResourceType>
+			<ResourceQuantity>1</ResourceQuantity>
+			<NumCities>5</NumCities>
+		</Row>
+	</Trait_FreeResourceFirstXCities>
 	<Units>
 		<Row>
 			<Class>UNITCLASS_TRIREME</Class>
@@ -547,6 +591,12 @@
 			<PromotionType>PROMOTION_COASTAL_RAIDER_1</PromotionType>
 		</Row>
 	</Unit_FreePromotions>
+	<Civilization_Start_Along_Ocean>
+		<Row>
+			<CivilizationType>CIVILIZATION_ROME</CivilizationType>
+			<StartAlongOcean>true</StartAlongOcean>
+		</Row>
+	</Civilization_Start_Along_Ocean>
 	<Civilization_Start_Region_Priority>
 		<!--
 		<Row>
@@ -834,8 +884,9 @@
 			<CannotBeChosen>true</CannotBeChosen>
 			<PortraitIndex>59</PortraitIndex>
 			<UpgradeDiscount>100</UpgradeDiscount>
+			<CombatPercent>10</CombatPercent>
 			<IconAtlas>ABILITY_ATLAS</IconAtlas>
-			<PediaType>PEDIA_ATTRIBUTES</PediaType>
+			<PediaType>PEDIA_ATTRIBUTES</PediaType>		
 		</Row>
 	</UnitPromotions>
 	<Unit_FreePromotions>
@@ -867,7 +918,7 @@
 
 	<LoadedFile>
 		<Update>
-			<Where Type="CEL__J_to_Z.xml"/>
+			<Where Type="CEL__J_Z.xml"/>
 			<Set Value="1"/>
 		</Update>
 	</LoadedFile>

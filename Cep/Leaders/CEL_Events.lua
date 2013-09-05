@@ -283,8 +283,11 @@ function DoLeaderBonuses(player)
 	local traitInfo = player:GetTraitInfo()
 	local capital = player:GetCapitalCity()
 	
-	if traitInfo.HanseaticLeague and capital then
-		capital:SetNumRealBuildings(GameInfo.Buildings[traitInfo.HanseaticLeague].ID, 1)
+	if traitInfo.HanseaticLeague then
+		building = GameInfo.Buildings[traitInfo.HanseaticLeague]
+		if building and capital then
+			capital:SetNumRealBuildings(building.ID, 1)
+		end
 	end
 end
 LuaEvents.ActivePlayerTurnStart_Player.Add(function(player) return SafeCall(DoLeaderBonuses, player) end)
@@ -340,7 +343,7 @@ function DoLuxuryTradeBonus(player)
 		end
 	end
 
-	local buildingID = player:GetUniqueBuildingID(traitInfo.CityGoldPerLuxuryBuildingClass or "BUILDINGCLASS_TRADING_COMPANY")
+	local buildingID = player:GetUniqueBuildingID(traitInfo.CityGoldPerLuxuryBuildingClass or "BUILDINGCLASS_AMSTERDAM_BOURSE")
 	capital:SetNumRealBuilding(buildingID, luxuryTotal * luxuryPercent)
 end
 
