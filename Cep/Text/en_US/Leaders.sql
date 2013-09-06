@@ -52,7 +52,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_SCOURGE_OF_GOD', 'Barbarian camps surrender when defeated, and land units cost less [ICON_GOLD] maintenance.[NEWLINE]Starts with a unique Chariot.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-15'), 'TXT_KEY_TRAIT_AMSTERDAM_BOURSE_SHORT', 'Amsterdam Bourse', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-15'), 'TXT_KEY_TRAIT_AMSTERDAM_BOURSE', '+5% [ICON_GOLD] National Income from each type of Luxury Resource you control or import.', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-23'), 'TXT_KEY_CITY_CAPTURE_YIELD', 'You gained {1_yield} {2_yieldIcon} {{3_yieldName}} from capturing {4_city}!', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-23'), 'TXT_KEY_CITY_CAPTURE_YIELD', 'You gained {1_yield} {2_yieldIcon} {3_yieldName} from capturing {4_city}!', '', '');
 
 
 /* Units */

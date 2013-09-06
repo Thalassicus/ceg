@@ -256,16 +256,18 @@ function DoLeaderCaptureBonuses(city, player)
 	
 	for info in GameInfo.Trait_CityCaptureInstantYield{TraitType = traitInfo.Type} do
 		local yieldInfo = GameInfo.Yields[info.YieldType]
-		local totalYield = (info.yield or 0)
-		if yieldPerPop then
-			totalYield = totalYield + info.yieldPerPop * city:GetPopulation()
+		local totalYield = (info.Yield or 0)
+		if info.YieldPerPop then
+			totalYield = totalYield + info.YieldPerPop * city:GetPopulation()
 		end
-		if yieldPerEra then
-			totalYield = totalYield + info.yieldPerEra * (info.yieldPerEraExponent or 1) ^ wonPlayer:GetCurrentEra()
+		if info.YieldPerEra then
+			totalYield = totalYield + info.YieldPerEra * (info.YieldPerEraExponent or 1) ^ player:GetCurrentEra()
 		end
 		player:ChangeYieldStored(yieldInfo.ID, totalYield)
 		
-		local alertText = Game.ConvertTextKey("TXT_KEY_CITY_CAPTURE_YIELD", totalYield, yieldInfo.IconString, yieldInfo.Description, city:GetName())
+		local yieldName = Locale.ConvertTextKey(yieldInfo.Description)
+		local alertText = Locale.ConvertTextKey("TXT_KEY_CITY_CAPTURE_YIELD", totalYield, yieldInfo.IconString, yieldName, city:GetName())
+		log:Info("%s: +%s %s %s from %s", player:GetName(), totalYield, yieldInfo.IconString, yieldName, city:GetName())
 		log:Info("%s: '%s'", player:GetName(), alertText)
 		Game.AlertIfActive(alertText, player)
 	end
