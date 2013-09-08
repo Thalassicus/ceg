@@ -244,7 +244,7 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 
 UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCount = -1 WHERE Type IN (
 	'BUILDING_TRIBUTE'					,
-	'BUILDING_TRADE_COMPANY'			,
+	'BUILDING_TRADING_COMPANY'			,
 	'BUILDING_MUGHAL_FORT'				,
 	'BUILDING_HANSEATIC_LEAGUE'			,
 	'BUILDING_CEILIDH_HALL'				,
