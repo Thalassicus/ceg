@@ -1008,17 +1008,13 @@
 		</Row>
 		<Update>
 			<Where Type="BUILDING_MUGHAL_FORT" />
-			<Set IsVisible="0"
+			<Set PrereqTech="NULL"
+				 Cost="-1"
+				 IsVisible="0"
 				 ShowInPedia="0"
 				 />
 		</Update>
 	</Buildings>
-	<Building_BuildingClassHappiness>
-		<Row>
-			<BuildingClassType>BUILDINGCLASS_AQUEDUCT</BuildingClassType>
-			<Happiness>1</Happiness>
-		</Row>
-	</Building_BuildingClassHappiness>
 	<Building_YieldInstant>
 		<Row>
 			<BuildingType>BUILDING_VEDI</BuildingType>

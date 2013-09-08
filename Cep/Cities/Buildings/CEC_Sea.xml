@@ -4,6 +4,7 @@
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_HARBOR" />
 			<Set GoldMaintenance="1"
+				 TradeRouteSeaDistanceModifier="100"
 				 />
 		</Update>
 	</Buildings>

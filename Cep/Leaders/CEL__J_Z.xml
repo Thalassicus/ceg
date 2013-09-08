@@ -283,6 +283,48 @@
 		</Row>
 	</Trait_LuxuryYieldModifier>
 	-->
+	<BuildingClasses>
+		<Row>
+			<Type>BUILDINGCLASS_AMSTERDAM_BOURSE</Type>
+			<DefaultBuilding>BUILDING_AMSTERDAM_BOURSE</DefaultBuilding>
+			<Description>TXT_KEY_BUILDING_AMSTERDAM_BOURSE</Description>
+			<MaxPlayerInstances>0</MaxPlayerInstances>
+			<NoLimit>true</NoLimit>
+		</Row>
+	</BuildingClasses>
+	<Buildings>
+		<Row>
+			<Type>BUILDING_AMSTERDAM_BOURSE</Type>
+			<BuildingClass>BUILDINGCLASS_AMSTERDAM_BOURSE</BuildingClass>
+			<Cost>-1</Cost>
+			<Description>TXT_KEY_BUILDING_AMSTERDAM_BOURSE</Description>
+			<Help>TXT_KEY_TRAIT_LUXURY_RETENTION</Help>
+			<AlwaysShowHelp>1</AlwaysShowHelp>
+			<ArtDefineTag>PALACE</ArtDefineTag>
+			<NukeImmune>true</NukeImmune>
+			<MinAreaSize>-1</MinAreaSize>
+			<DisplayPosition>32</DisplayPosition>
+			<NeverCapture>true</NeverCapture>
+			<IconAtlas>EXPANSION_TECH_ATLAS_1</IconAtlas>
+			<PortraitIndex>2</PortraitIndex>
+			<IsVisible>0</IsVisible>
+			<ShowInPedia>false</ShowInPedia>
+		</Row>
+	</Buildings>
+	<Building_GlobalYieldModifiers>
+		<Row>
+			<BuildingType>BUILDING_AMSTERDAM_BOURSE</BuildingType>
+			<YieldType>YIELD_GOLD</YieldType>
+			<Yield>1</Yield>
+		</Row>
+	</Building_GlobalYieldModifiers>
+	<Builds>
+		<Update>
+			<Where Type="BUILD_POLDER" />
+			<Set PrereqTech="TECH_CIVIL_SERVICE"
+				 />
+		</Update>
+	</Builds>
 	<Improvements>
 		<Update>
 			<Where Type="IMPROVEMENT_POLDER" />
@@ -292,6 +334,22 @@
 				 />
 		</Update>
 	</Improvements>
+	<Improvement_Yields>
+		<Update>
+			<Where ImprovementType="IMPROVEMENT_POLDER" />
+			<Set Yield="2"
+				 />
+		</Update>
+	</Improvement_Yields>
+	<Improvement_TechYieldChanges>
+		<Delete ImprovementType="IMPROVEMENT_POLDER" />
+		<Row>
+			<ImprovementType>IMPROVEMENT_POLDER</ImprovementType>
+			<TechType>TECH_FERTILIZER</TechType>
+			<YieldType>YIELD_FOOD</YieldType>
+			<Yield>1</Yield>
+		</Row>
+	</Improvement_TechYieldChanges>
 	<Improvement_ValidTerrains>
 		<Row>
 			<ImprovementType>IMPROVEMENT_POLDER</ImprovementType>
@@ -325,49 +383,20 @@
 			<RegionType>REGION_JUNGLE</RegionType>
 		</Row>
 	</Civilization_Start_Region_Priority>
-	<Buildings>
-		<Row>
-			<Type>BUILDING_AMSTERDAM_BOURSE</Type>
-			<BuildingClass>BUILDINGCLASS_MARKET</BuildingClass>
-			<FreeStartEra>ERA_INDUSTRIAL</FreeStartEra>
-			<Cost>100</Cost>
-			<PrereqTech>TECH_CURRENCY</PrereqTech>
-			<Description>TXT_KEY_BUILDING_AMSTERDAM_BOURSE</Description>
-			<Civilopedia>TXT_KEY_CIV5_BUILDINGS_AMSTERDAM_BOURSE_PEDIA</Civilopedia>
-			<Strategy>TXT_KEY_BUILDING_AMSTERDAM_BOURSE_STRATEGY</Strategy>
-			<ArtDefineTag>ART_DEF_BUILDING_MARKET</ArtDefineTag>
-			<ExtraLuxuries>true</ExtraLuxuries>
-			<SpecialistType>SPECIALIST_MERCHANT</SpecialistType>
-			<SpecialistCount>1</SpecialistCount>
-			<MinAreaSize>-1</MinAreaSize>
-			<ConquestProb>66</ConquestProb>
-			<TradeRouteRecipientBonus>2</TradeRouteRecipientBonus>
-			<TradeRouteTargetBonus>1</TradeRouteTargetBonus>
-			<HurryCostModifier>25</HurryCostModifier>
-			<IconAtlas>BW_ATLAS_1</IconAtlas>
-			<PortraitIndex>50</PortraitIndex>
-		</Row>
-	</Buildings>
-	<Building_YieldChanges>
-		<Row>
-			<BuildingType>BUILDING_AMSTERDAM_BOURSE</BuildingType>
-			<YieldType>YIELD_GOLD</YieldType>
-			<Yield>2</Yield>
-		</Row>
-	</Building_YieldChanges>
-	<Building_YieldModifiers>
-		<Row>
-			<BuildingType>BUILDING_AMSTERDAM_BOURSE</BuildingType>
-			<YieldType>YIELD_GOLD</YieldType>
-			<Yield>25</Yield>
-		</Row>
-	</Building_YieldModifiers>
 
 
 
 
 	<!--	Ottomans
 	-->
+	<Traits>
+		<Row>
+			<Type>TRAIT_TRIBUTE</Type>
+			<Description>TXT_KEY_TRAIT_TRIBUTE</Description>
+			<ShortDescription>TXT_KEY_TRAIT_TRIBUTE_SHORT</ShortDescription>
+			<Tribute>BUILDING_TRIBUTE</Tribute>
+		</Row>
+	</Traits>
 	<BuildingClasses>
 		<Row>
 			<Type>BUILDINGCLASS_TRIBUTE</Type>
@@ -383,7 +412,8 @@
 			<BuildingClass>BUILDINGCLASS_TRIBUTE</BuildingClass>
 			<Cost>0</Cost>
 			<Description>TXT_KEY_BUILDING_TRIBUTE</Description>
-			<AlwaysShowHelp>false</AlwaysShowHelp>
+			<Help>TXT_KEY_TRAIT_TRIBUTE</Help>
+			<AlwaysShowHelp>1</AlwaysShowHelp>
 			<ArtDefineTag>PALACE</ArtDefineTag>
 			<NukeImmune>true</NukeImmune>
 			<MinAreaSize>-1</MinAreaSize>
@@ -391,8 +421,8 @@
 			<NeverCapture>true</NeverCapture>
 			<IconAtlas>EXPANSION_TECH_ATLAS_1</IconAtlas>
 			<PortraitIndex>2</PortraitIndex>
-			<IsVisible>0</IsVisible>
-			<ShowInPedia>false</ShowInPedia>
+			<IsVisible>1</IsVisible>
+			<ShowInPedia>0</ShowInPedia>
 		</Row>
 		<Row>
 			<Type>BUILDING_BARBARY_PORT</Type>
@@ -431,14 +461,6 @@
 	<Civilization_UnitClassOverrides>
 		<Delete UnitType="UNIT_OTTOMAN_SIPAHI" />
 	</Civilization_UnitClassOverrides>
-	<Traits>
-		<Row>
-			<Type>TRAIT_TRIBUTE</Type>
-			<Description>TXT_KEY_TRAIT_TRIBUTE</Description>
-			<ShortDescription>TXT_KEY_TRAIT_TRIBUTE_SHORT</ShortDescription>
-			<Tribute>BUILDING_TRIBUTE</Tribute>
-		</Row>
-	</Traits>
 	<Units>
 		<Update>
 			<Where Type="UNIT_OTTOMAN_SIPAHI" />

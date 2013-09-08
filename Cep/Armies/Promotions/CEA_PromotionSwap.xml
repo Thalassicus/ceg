@@ -23,7 +23,7 @@
 		</Update>
 		<Update>
 			<Where Type="UNITCOMBAT_GUN" />
-			<Set PromotionCategory="Ranged" />
+			<Set PromotionCategory="Melee" />
 		</Update>
 		<Update>
 			<Where Type="UNITCOMBAT_SIEGE" />
@@ -34,11 +34,11 @@
 			<Set PromotionCategory="Vanguard" />
 		</Update>
 		<Update>
-			<Where Type="UNITCOMBAT_NAVALRANGEDMELEE" />
+			<Where Type="UNITCOMBAT_NAVALMELEE" />
 			<Set PromotionCategory="NavalMelee" />
 		</Update>
 		<Update>
-			<Where Type="UNITCOMBAT_NAVALRANGEDRANGED" />
+			<Where Type="UNITCOMBAT_NAVALRANGED" />
 			<Set PromotionCategory="NavalRanged" />
 		</Update>
 		<Update>

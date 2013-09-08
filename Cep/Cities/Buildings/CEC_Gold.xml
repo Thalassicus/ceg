@@ -3,7 +3,9 @@
 	<Buildings>
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_CARAVANSARY"/>
-			<Set Cost="140"/>
+			<Set Cost="140"
+				 TradeRouteLandDistanceModifier="100"
+				 />
 		</Update>
 	</Buildings>
 	<Building_YieldChanges>
