@@ -158,6 +158,12 @@ DELETE FROM Technology_Flavors_Human;
 	AND flavor.Type IN ('FLAVOR_DIPLOMACY');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
+	SELECT tech.Type, flavor.Type, 64
+	FROM Technologies tech, Flavors flavor
+	WHERE tech.AllowsWorldCongress = 1 
+	AND flavor.Type IN ('FLAVOR_DIPLOMACY');
+
+	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
 	SELECT tech.Type, flavor.Type, 4
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.DefensivePactTradingAllowed = 1 
@@ -228,7 +234,7 @@ DELETE FROM Technology_Flavors_Human;
 		'FLAVOR_RECON'				,
 		'FLAVOR_HEALING'			,
 		'FLAVOR_PILLAGE'			,
-		'FLAVOR_VANGUARD'			,
+		'FLAVOR_MELEE'				,
 		'FLAVOR_SIEGE'				,
 		'FLAVOR_ANTI_MOBILE'		,
 

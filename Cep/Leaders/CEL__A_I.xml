@@ -217,6 +217,12 @@
 
 	<!--	Brazil
 	-->
+	<Improvement_TechYieldChanges>
+		<Update>
+			<Where ImprovementType="IMPROVEMENT_BRAZILWOOD_CAMP" TechType="TECH_ACOUSTICS" />
+			<Set TechType="TECH_ARCHITECTURE" />
+		</Update>
+	</Improvement_TechYieldChanges>
 
 
 
@@ -304,7 +310,6 @@
 			<Civilopedia>TXT_KEY_BUILDING_COTHON_PEDIA</Civilopedia>
 			<ArtDefineTag>LIGHTHOUSE</ArtDefineTag>
 			<Water>true</Water>
-			<AllowsWaterRoutes>true</AllowsWaterRoutes>
 			<MinAreaSize>10</MinAreaSize>
 			<ArtInfoEraVariation>true</ArtInfoEraVariation>
 			<DisplayPosition>8</DisplayPosition>
@@ -319,13 +324,6 @@
 			<Yield>1</Yield>
 		</Row>
 	</Building_SeaPlotYieldChanges>
-	<Building_SeaResourceYieldChanges>
-		<Row>
-			<BuildingType>BUILDING_COTHON</BuildingType>
-			<YieldType>YIELD_PRODUCTION</YieldType>
-			<Yield>1</Yield>
-		</Row>
-	</Building_SeaResourceYieldChanges>
 	<Building_ResourceYieldChanges>
 		<Row>
 			<BuildingType>BUILDING_COTHON</BuildingType>

@@ -40,7 +40,7 @@
 		<Update>
 			<Where Type="TECH_CURRENCY" />
 			<Set OpenBordersTradingAllowed="1"
-				 ResearchAgreementTradingAllowed="1"
+				 ResearchAgreementTradingAllowed="0"
 				 />
 		</Update>
 		<Update>
@@ -49,7 +49,7 @@
 		</Update>
 		<Update>
 			<Where Type="TECH_PHILOSOPHY" />
-			<Set ResearchAgreementTradingAllowed="0"/>
+			<Set ResearchAgreementTradingAllowed="1"/>
 		</Update>
 		<Update>
 			<Where Type="TECH_EDUCATION" />
@@ -63,7 +63,6 @@
 		<Update>
 			<Where Type="TECH_GUILDS" />
 			<Set DefensivePactTradingAllowed="1"
-				 BridgeBuilding="1"
 				 />
 		</Update>
 		<Update>
@@ -71,10 +70,42 @@
 			<Set DefensivePactTradingAllowed="0"/>
 		</Update>
 		<Update>
+			<Where Type="TECH_GUILDS" />
+			<Set InternationalTradeRoutesChange="1"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_ENGINEERING" />
+			<Set InternationalTradeRoutesChange="0"/>
+		</Update>
+		<Update>
 			<Where Type="TECH_METAL_CASTING" />
 			<Set IconAtlas="CEP_TECH_ATLAS"
 				 PortraitIndex="0"
+				 BridgeBuilding="1"
 				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_ACOUSTICS" />
+			<Set Description="TXT_KEY_TECH_POLITICAL_SCIENCE"
+				 Civilopedia="TXT_KEY_TECH_POLITICAL_SCIENCE_PEDIA"
+				 Quote="TXT_KEY_TECH_POLITICAL_SCIENCE_QUOTE"
+				 IconAtlas="TECH_ATLAS_1"
+				 PortraitIndex="26"
+				 AllowsWorldCongress="1"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_PRINTING_PRESS" />
+			<Set AllowsWorldCongress="0"
+				 />
+		</Update>
+		<Update>
+			<Where Type="TECH_REFRIGERATION" />
+			<Set InternationalTradeRoutesChange="1"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_PENICILIN" />
+			<Set InternationalTradeRoutesChange="0"/>
 		</Update>
 		<Update>
 			<Where Type="TECH_REPLACEABLE_PARTS" />
@@ -94,10 +125,16 @@
 				 />
 		</Update>
 	</Technologies>
+	<Technology_TradeRouteDomainExtraRange>
+		<Update>
+			<Where TechType="TECH_COMBUSTION" />
+			<Set TechType="TECH_RAILROAD"/>
+		</Update>
+	</Technology_TradeRouteDomainExtraRange>
 	<Route_TechMovementChanges>
 		<Update>
 			<Where RouteType="ROUTE_ROAD" />
-			<Set TechType="TECH_GUILDS" />
+			<Set TechType="TECH_METAL_CASTING" />
 		</Update>
 	</Route_TechMovementChanges>
 </GameData>

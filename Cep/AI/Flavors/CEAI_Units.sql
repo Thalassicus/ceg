@@ -47,6 +47,15 @@ WHERE (unit.Type = promo.UnitType AND promo.PromotionType = modifier.PromotionTy
 ;
 
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
+SELECT Type, 'FLAVOR_MELEE', 1
+FROM Units WHERE Class IN (
+	'UNITCLASS_WARRIOR'				,
+	'UNITCLASS_SWORDSMAN'			,
+	'UNITCLASS_LONGSWORDSMAN'		
+);
+
+/*
+INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_SOLDIER', 1
 FROM Units WHERE Class IN (
 	'UNITCLASS_WARRIOR'				,
@@ -58,6 +67,7 @@ FROM Units WHERE Class IN (
 	'UNITCLASS_INFANTRY'			,
 	'UNITCLASS_MECHANIZED_INFANTRY'	
 );
+*/
 
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_SIEGE', 1
@@ -137,10 +147,11 @@ FROM Units unit, Flavors flavor
 WHERE unit.CombatClass IN (
 	'UNITCOMBAT_RECON'			
 ) AND flavor.Type IN (
-	'FLAVOR_VANGUARD'				,
+	'FLAVOR_MELEE'				,
 	'FLAVOR_HEALING'				,
 	'FLAVOR_PILLAGE'				,
 	'FLAVOR_RECON'					,
+	'FLAVOR_OFFENSE'				,
 	'FLAVOR_DEFENSE'				,
 	'FLAVOR_CONQUEST'				,
 	--'FLAVOR_CITY_DEFENSE'			,
@@ -166,7 +177,6 @@ WHERE unit.Class IN (
 ) AND flavor.Type IN (
 	'FLAVOR_RECON'					,
 	'FLAVOR_DEFENSE'				,
-	'FLAVOR_CONQUEST'				,
 	'FLAVOR_CITY_DEFENSE'			,
 	'FLAVOR_ANTI_MOBILE'			
 );
@@ -237,8 +247,8 @@ AND UnitType IN (SELECT Type FROM Units WHERE Class IN (
 ));
 
 -- Anti-Mobile
-UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
-WHERE FlavorType = 'FLAVOR_ANTI_MOBILE';
+--UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)
+--WHERE FlavorType = 'FLAVOR_ANTI_MOBILE';
 
 -- Carrier
 UPDATE Unit_Flavors SET Flavor = ROUND(Flavor * 2, 0)

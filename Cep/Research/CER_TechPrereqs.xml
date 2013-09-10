@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 
-CEP_R_TechPrereqs.xml automatically created by:
-TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
+GER_TechPrereqs.xml automatically created by:
+TechPrereqs tab of GEM_Details.xlsspreadsheet (in mod folder).
 -->
 <GameData>
 	<Technology_PrereqTechs>
 		<Delete />
-
 		<Row>
 			<PrereqTech>TECH_AGRICULTURE</PrereqTech>
 			<TechType>TECH_POTTERY</TechType>
@@ -44,10 +43,6 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 			<TechType>TECH_THE_WHEEL</TechType>
 		</Row>
 		<Row>
-			<PrereqTech>TECH_ARCHERY</PrereqTech>
-			<TechType>TECH_TRAINING</TechType>
-		</Row>
-		<Row>
 			<PrereqTech>TECH_MINING</PrereqTech>
 			<TechType>TECH_BRONZE_WORKING</TechType>
 		</Row>
@@ -76,7 +71,7 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 			<TechType>TECH_MATHEMATICS</TechType>
 		</Row>
 		<Row>
-			<PrereqTech>TECH_TRAINING</PrereqTech>
+			<PrereqTech>TECH_ARCHERY</PrereqTech>
 			<TechType>TECH_MATHEMATICS</TechType>
 		</Row>
 		<Row>
@@ -101,6 +96,10 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 		</Row>
 		<Row>
 			<PrereqTech>TECH_TRAPPING</PrereqTech>
+			<TechType>TECH_CURRENCY</TechType>
+		</Row>
+		<Row>
+			<PrereqTech>TECH_HORSEBACK_RIDING</PrereqTech>
 			<TechType>TECH_CURRENCY</TechType>
 		</Row>
 		<Row>
@@ -129,10 +128,6 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 		</Row>
 		<Row>
 			<PrereqTech>TECH_CURRENCY</PrereqTech>
-			<TechType>TECH_CIVIL_SERVICE</TechType>
-		</Row>
-		<Row>
-			<PrereqTech>TECH_HORSEBACK_RIDING</PrereqTech>
 			<TechType>TECH_CIVIL_SERVICE</TechType>
 		</Row>
 		<Row>
@@ -193,6 +188,10 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 		</Row>
 		<Row>
 			<PrereqTech>TECH_EDUCATION</PrereqTech>
+			<TechType>TECH_ACOUSTICS</TechType>
+		</Row>
+		<Row>
+			<PrereqTech>TECH_EDUCATION</PrereqTech>
 			<TechType>TECH_ARCHITECTURE</TechType>
 		</Row>
 		<Row>
@@ -249,6 +248,10 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 		</Row>
 		<Row>
 			<PrereqTech>TECH_NAVIGATION</PrereqTech>
+			<TechType>TECH_SCIENTIFIC_THEORY</TechType>
+		</Row>
+		<Row>
+			<PrereqTech>TECH_ACOUSTICS</PrereqTech>
 			<TechType>TECH_SCIENTIFIC_THEORY</TechType>
 		</Row>
 		<Row>
@@ -437,11 +440,11 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 		</Row>
 		<Row>
 			<PrereqTech>TECH_ECOLOGY</PrereqTech>
-			<TechType>TECH_TELECOM</TechType>
+			<TechType>TECH_INTERNET</TechType>
 		</Row>
 		<Row>
 			<PrereqTech>TECH_COMPUTERS</PrereqTech>
-			<TechType>TECH_TELECOM</TechType>
+			<TechType>TECH_INTERNET</TechType>
 		</Row>
 		<Row>
 			<PrereqTech>TECH_COMPUTERS</PrereqTech>
@@ -460,7 +463,7 @@ TechPrereqs tab of CEP_CEP_PoliciesTechsBeliefs.xls spreadsheet (in mod folder).
 			<TechType>TECH_LASERS</TechType>
 		</Row>
 		<Row>
-			<PrereqTech>TECH_TELECOM</PrereqTech>
+			<PrereqTech>TECH_INTERNET</PrereqTech>
 			<TechType>TECH_GLOBALIZATION</TechType>
 		</Row>
 		<Row>

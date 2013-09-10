@@ -53,7 +53,8 @@
 		</Update>
 		<Update>
 			<Where Type="PROMOTION_AMPHIBIOUS" />
-			<Set EmbarkDefenseModifier="100"
+			<Set AllowsEmbarkation="1"
+				 EmbarkDefenseModifier="100"
 				 PromotionPrereqOr1="PROMOTION_DRILL_1"
 				 PromotionPrereqOr2="PROMOTION_SHOCK_1"
 				 PromotionPrereqOr3="PROMOTION_SCOUTING_1"

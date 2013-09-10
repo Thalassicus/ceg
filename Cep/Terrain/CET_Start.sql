@@ -67,14 +67,13 @@ AND NOT (impBasic.CreatedByGreatPerson = 1 OR impBasic.SpecificCivRequired = 1);
 
 
 
--- This CEP_T_Start.sql data created by:
--- TechUnlocks tab of CEP_Details.xls spreadsheet in mod folder.
-/*
+-- This CET_Start.sql data created by:
+-- TechUnlocks tab of CEM_Details.xls spreadsheet (in mod folder).
 UPDATE BuildFeatures SET PrereqTech = 'TECH_ANIMAL_HUSBANDRY' WHERE FeatureType = 'FEATURE_FOREST';
 UPDATE BuildFeatures SET PrereqTech = 'TECH_THE_WHEEL' WHERE FeatureType = 'FEATURE_JUNGLE';
-UPDATE BuildFeatures SET PrereqTech = 'TECH_THE_WHEEL' WHERE FeatureType = 'FEATURE_MARSH';
+UPDATE BuildFeatures SET PrereqTech = 'TECH_BRONZE_WORKING' WHERE FeatureType = 'FEATURE_MARSH';
+
 UPDATE Resources SET TechCityTrade = 'TECH_ARCHERY' WHERE TechCityTrade = 'TECH_TRAPPING';
-*/
 
 -- Buff jungles and forests
 INSERT INTO BuildFeatures (BuildType, FeatureType, PrereqTech, Time, Remove)

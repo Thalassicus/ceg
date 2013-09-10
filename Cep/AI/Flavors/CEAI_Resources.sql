@@ -134,7 +134,7 @@ INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
 	SELECT res.Type, flavor.Type, 32
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_IRON')
-	  AND flavor.Type IN ('FLAVOR_SOLDIER');
+	  AND flavor.Type IN ('FLAVOR_SIEGE');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
 	SELECT res.Type, flavor.Type, 4

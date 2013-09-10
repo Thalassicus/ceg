@@ -39,6 +39,10 @@ FROM Units WHERE Type IN (
 	'UNIT_HELICOPTER_GUNSHIP'
 );
 
+/*
+-- This helps certain military AIs who tend to struggle in every game.
+-- These AIs seem to struggle because of complex abilities which are hard for AIs to handle.
+-- TODO: Disabled after v3.4 leader changes, until we see who needs the help now. 
 UPDATE Leaders SET AIBonus = 1
 WHERE Type IN (
 	'LEADER_ASKIA',
@@ -49,6 +53,7 @@ WHERE Type IN (
 	'LEADER_ISABELLA',
 	'LEADER_ODA_NOBUNAGA'
 );
+*/
 
 --
 -- Unique Units
@@ -337,12 +342,7 @@ WHERE Type IN (
 	'BUILD_TERRACE_FARM'
 );
 
-UPDATE Builds SET PrereqTech ='TECH_WRITING'
+UPDATE Builds SET PrereqTech ='TECH_CONSTRUCTION'
 WHERE Type IN (
 	'BUILD_FEITORIA'
-);
-
-UPDATE Builds SET PrereqTech ='TECH_ENGINEERING'
-WHERE Type IN (
-	'BUILD_POLDER'
 );

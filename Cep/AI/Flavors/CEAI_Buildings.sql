@@ -148,7 +148,8 @@ FROM Buildings WHERE (
 INSERT INTO Building_Flavors (BuildingType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_EXPANSION', 16
 FROM Buildings WHERE (
-	   MapCentering = 1
+	   WorkerSpeedModifier <> 0
+	OR MapCentering = 1
 	OR UnhappinessModifier <> 0
 	OR HappinessPerCity <> 0
 	OR HappinessPerXPolicies <> 0
