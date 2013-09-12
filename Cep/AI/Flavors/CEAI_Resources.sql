@@ -28,14 +28,14 @@ DELETE FROM Resource_Flavors;
 -- Improvement yields
 
 INSERT INTO Resource_Flavors (ResourceType, FlavorType, Flavor)
-	SELECT resYield.ResourceType, yield.FlavorType, 8 * resYield.Yield
+	SELECT resYield.ResourceType, yield.FlavorType, 4 * resYield.Yield
 	FROM Improvement_ResourceType_Yields resYield, Yields yield, Builds build
 	WHERE yield.Type			= resYield.YieldType
 	  AND build.ImprovementType = resYield.ImprovementType
 	  AND build.AIAvailability >= 4;
 
 INSERT INTO Resource_Flavors (ResourceType, FlavorType, Flavor)
-	SELECT improveRes.ResourceType, yield.FlavorType, 8 * improveYield.Yield
+	SELECT improveRes.ResourceType, yield.FlavorType, 4 * improveYield.Yield
 	FROM Improvement_ResourceTypes improveRes, Improvement_Yields improveYield, Yields yield, Builds build
 	WHERE improveYield.YieldType		= yield.Type
 	  AND improveYield.ImprovementType	= improveRes.ImprovementType
@@ -54,12 +54,12 @@ DROP TABLE CEP_Collisions;
 -- Other yields
 
 INSERT INTO Resource_Flavors (ResourceType, FlavorType, Flavor)
-	SELECT resYield.ResourceType, yield.FlavorType, 8 * resYield.Yield
+	SELECT resYield.ResourceType, yield.FlavorType, 4 * resYield.Yield
 	FROM Resource_YieldChanges resYield, Yields yield
 	WHERE resYield.YieldType = yield.Type;
 	
 INSERT INTO Resource_Flavors (ResourceType, FlavorType, Flavor)
-	SELECT resYield.ResourceType, yield.FlavorType, 8 * resYield.Yield
+	SELECT resYield.ResourceType, yield.FlavorType, 4 * resYield.Yield
 	FROM Building_ResourceYieldChanges resYield, Yields yield, Buildings building, BuildingClasses class 
 	WHERE resYield.YieldType = yield.Type
 	  AND resYield.BuildingType = building.Type
@@ -68,7 +68,7 @@ INSERT INTO Resource_Flavors (ResourceType, FlavorType, Flavor)
 	  AND building.BuildingClass <> 'BUILDINGCLASS_CARAVANSARY';
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 4 * building.Happiness
+	SELECT res.Type, flavor.Type, 2 * building.Happiness
 	FROM Resources res, Flavors flavor, Buildings building, Building_LocalResourceOrs buildingRes
 	WHERE res.Type      = buildingRes.ResourceType
 	  AND building.Type = buildingRes.BuildingType
@@ -76,13 +76,13 @@ INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
 	  AND flavor.Type IN ('FLAVOR_HAPPINESS');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 4 * res.Happiness
+	SELECT res.Type, flavor.Type, 2 * res.Happiness
 	FROM Resources res, Flavors flavor
 	WHERE res.Happiness > 0
 	  AND flavor.Type IN ('FLAVOR_HAPPINESS');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 2 * res.Happiness
+	SELECT res.Type, flavor.Type, 1 * res.Happiness
 	FROM Resources res, Flavors flavor
 	WHERE res.Happiness > 0
 	  AND flavor.Type IN ('FLAVOR_EXPANSION');
@@ -102,11 +102,11 @@ DROP TABLE CEP_Collisions;
 -- Note some can be both, like oil
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT Type, 'FLAVOR_TILE_IMPROVEMENT', 8
+	SELECT Type, 'FLAVOR_TILE_IMPROVEMENT', 4
 	FROM Resources WHERE Land = 1;
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT Type, 'FLAVOR_NAVAL_TILE_IMPROVEMENT', 8
+	SELECT Type, 'FLAVOR_NAVAL_TILE_IMPROVEMENT', 4
 	FROM Resources WHERE Water = 1;
 	
 UPDATE Resource_Flavors
@@ -119,55 +119,55 @@ UPDATE Resource_Flavors
 -- Strategics
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 16
+	SELECT res.Type, flavor.Type, 8
 	FROM Resources res, Flavors flavor
 	WHERE res.ResourceClassType IN ('RESOURCECLASS_RUSH', 'RESOURCECLASS_MODERN')
 	  AND flavor.Type IN ('FLAVOR_OFFENSE');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 4
+	SELECT res.Type, flavor.Type, 2
 	FROM Resources res, Flavors flavor
 	WHERE res.ResourceClassType IN ('RESOURCECLASS_RUSH', 'RESOURCECLASS_MODERN')
 	  AND flavor.Type IN ('FLAVOR_DEFENSE');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 32
+	SELECT res.Type, flavor.Type, 16
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_IRON')
-	  AND flavor.Type IN ('FLAVOR_SIEGE');
+	  AND flavor.Type IN ('FLAVOR_SOLDIER');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 4
+	SELECT res.Type, flavor.Type, 2
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_IRON')
 	  AND flavor.Type IN ('FLAVOR_NAVAL', 'FLAVOR_NAVAL_BOMBARDMENT');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 32
+	SELECT res.Type, flavor.Type, 16
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_HORSE')
 	  AND flavor.Type IN ('FLAVOR_MOBILE');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 32
+	SELECT res.Type, flavor.Type, 16
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_COAL')
 	  AND flavor.Type IN ('FLAVOR_CULTURE');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 32
+	SELECT res.Type, flavor.Type, 16
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_OIL')
 	  AND flavor.Type IN ('FLAVOR_MOBILE', 'FLAVOR_NAVAL', 'FLAVOR_NAVAL_BOMBARDMENT');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 32
+	SELECT res.Type, flavor.Type, 16
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_ALUMINUM')
 	  AND flavor.Type IN ('FLAVOR_AIR');
 
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 32
+	SELECT res.Type, flavor.Type, 16
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_URANIUM')
 	  AND flavor.Type IN ('FLAVOR_NUKE');
@@ -178,7 +178,7 @@ INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
 
 DELETE FROM Resource_Flavors WHERE ResourceType IN ('RESOURCE_ARTIFACTS', 'RESOURCE_HIDDEN_ARTIFACTS');
 INSERT OR IGNORE INTO Resource_Flavors(ResourceType, FlavorType, Flavor)
-	SELECT res.Type, flavor.Type, 16
+	SELECT res.Type, flavor.Type, 8
 	FROM Resources res, Flavors flavor
 	WHERE res.Type IN ('RESOURCE_ARTIFACTS', 'RESOURCE_HIDDEN_ARTIFACTS')
 	  AND flavor.Type IN ('FLAVOR_ARCHAEOLOGY', 'FLAVOR_TOURISM', 'FLAVOR_CULTURE');

@@ -22,7 +22,7 @@ DELETE FROM Technology_Flavors_Human;
 -- Buildings
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
 	SELECT building.PrereqTech, flavor.FlavorType, flavor.Flavor * building.AIAvailability / 8
-	FROM Buildings building, BuildingClasses class, Building_Flavors flavor
+	FROM Buildings building, BuildingClasses class, Building_Flavors_Human flavor
 	WHERE ( building.Type = flavor.BuildingType
 		AND building.Type = class.DefaultBuilding
 		AND building.BuildingClass = class.Type
@@ -33,7 +33,7 @@ DELETE FROM Technology_Flavors_Human;
 -- Wonders
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
 	SELECT building.PrereqTech, flavor.FlavorType, flavor.Flavor / 2
-	FROM Buildings building, BuildingClasses class, Building_Flavors flavor
+	FROM Buildings building, BuildingClasses class, Building_Flavors_Human flavor
 	WHERE ( building.Type = flavor.BuildingType
 		AND building.Type = class.DefaultBuilding
 		AND building.BuildingClass = class.Type
@@ -48,7 +48,7 @@ DELETE FROM Technology_Flavors_Human;
 
 -- Processes
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT process.TechPrereq, flavor.FlavorType, 8
+	SELECT process.TechPrereq, flavor.FlavorType, 4
 	FROM Processes process, Process_ProductionYields yield, Yield_Flavors flavor
 	WHERE (process.Type = yield.ProcessType AND yield.YieldType = flavor.YieldType);
 
@@ -63,33 +63,33 @@ DELETE FROM Technology_Flavors_Human;
 	);
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.FlavorType, 4 * build.AIAvailability
+	SELECT tech.TechType, flavor.FlavorType, 2 * build.AIAvailability
 	FROM Builds build, Improvements improve, Yield_Flavors flavor, Improvement_TechYieldChanges tech
 	WHERE (build.ImprovementType = improve.Type AND tech.YieldType = flavor.YieldType AND tech.ImprovementType = improve.Type AND build.AIAvailability > 0);
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.FlavorType, 2 * build.AIAvailability
+	SELECT tech.TechType, flavor.FlavorType, 1 * build.AIAvailability
 	FROM Builds build, Improvements improve, Yield_Flavors flavor, Improvement_TechFreshWaterYieldChanges tech
 	WHERE (build.ImprovementType = improve.Type AND tech.YieldType = flavor.YieldType AND tech.ImprovementType = improve.Type AND build.AIAvailability > 0);
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.FlavorType, 2 * build.AIAvailability
+	SELECT tech.TechType, flavor.FlavorType, 1 * build.AIAvailability
 	FROM Builds build, Improvements improve, Yield_Flavors flavor, Improvement_TechNoFreshWaterYieldChanges tech
 	WHERE (build.ImprovementType = improve.Type AND tech.YieldType = flavor.YieldType AND tech.ImprovementType = improve.Type AND build.AIAvailability > 0);
 
 	
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, 'FLAVOR_TILE_IMPROVEMENT', 2 * build.AIAvailability
+	SELECT tech.TechType, 'FLAVOR_TILE_IMPROVEMENT', 1 * build.AIAvailability
 	FROM Builds build, Improvements improve, Improvement_TechYieldChanges tech
 	WHERE (build.ImprovementType = improve.Type AND tech.ImprovementType = improve.Type AND build.AIAvailability > 0);
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, 'FLAVOR_TILE_IMPROVEMENT', 1 * build.AIAvailability
+	SELECT tech.TechType, 'FLAVOR_TILE_IMPROVEMENT', 0.5 * build.AIAvailability
 	FROM Builds build, Improvements improve, Improvement_TechFreshWaterYieldChanges tech
 	WHERE (build.ImprovementType = improve.Type AND tech.ImprovementType = improve.Type AND build.AIAvailability > 0);
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, 'FLAVOR_TILE_IMPROVEMENT', 1 * build.AIAvailability
+	SELECT tech.TechType, 'FLAVOR_TILE_IMPROVEMENT', 0.5 * build.AIAvailability
 	FROM Builds build, Improvements improve, Improvement_TechNoFreshWaterYieldChanges tech
 	WHERE (build.ImprovementType = improve.Type AND tech.ImprovementType = improve.Type AND build.AIAvailability > 0);
 
@@ -97,7 +97,7 @@ DELETE FROM Technology_Flavors_Human;
 -- Other
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT 'TECH_FUTURE_TECH', Type, 32
+	SELECT 'TECH_FUTURE_TECH', Type, 16
 	FROM Flavors WHERE Type IN ('FLAVOR_SCIENCE');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
@@ -106,99 +106,99 @@ DELETE FROM Technology_Flavors_Human;
 	WHERE (res.Type = flavor.ResourceType AND res.TechReveal IS NOT NULL);
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 8
+	SELECT tech.Type, flavor.Type, 4
 	FROM Technologies tech, Flavors flavor
 	WHERE (tech.AllowEmbassyTradingAllowed = 1 OR tech.OpenBordersTradingAllowed = 1)
 	AND flavor.Type IN ('FLAVOR_OFFENSE', 'FLAVOR_GOLD', 'FLAVOR_DIPLOMACY');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 8
+	SELECT tech.Type, flavor.Type, 4
 	FROM Technologies tech, Flavors flavor
 	WHERE (tech.AllowsEmbarking = 1 OR tech.EmbarkedAllWaterPassage = 1 OR tech.EmbarkedMoveChange > 0)
 	AND flavor.Type IN ('FLAVOR_OFFENSE', 'FLAVOR_NAVAL', 'FLAVOR_NAVAL_RECON', 'FLAVOR_EXPANSION');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 16
+	SELECT tech.Type, flavor.Type, 8
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.EmbarkedAllWaterPassage = 1
 	AND flavor.Type IN ('FLAVOR_NAVAL_RECON');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 16
+	SELECT tech.Type, flavor.Type, 8
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.BridgeBuilding = 1 
 	AND flavor.Type IN ('FLAVOR_EXPANSION');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 8
+	SELECT tech.Type, flavor.Type, 4
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.BridgeBuilding = 1 
 	AND flavor.Type IN ('FLAVOR_OFFENSE', 'FLAVOR_DEFENSE', 'FLAVOR_TILE_IMPROVEMENT');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.Type, 16
+	SELECT tech.TechType, flavor.Type, 8
 	FROM Route_TechMovementChanges tech, Flavors flavor
 	WHERE flavor.Type IN ('FLAVOR_EXPANSION');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.Type, 8
+	SELECT tech.TechType, flavor.Type, 4
 	FROM Route_TechMovementChanges tech, Flavors flavor
 	WHERE flavor.Type IN ('FLAVOR_OFFENSE', 'FLAVOR_DEFENSE', 'FLAVOR_TILE_IMPROVEMENT');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 16
+	SELECT tech.Type, flavor.Type, 8
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.ResearchAgreementTradingAllowed = 1 
 	AND flavor.Type IN ('FLAVOR_SCIENCE');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 8
+	SELECT tech.Type, flavor.Type, 4
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.ResearchAgreementTradingAllowed = 1 
 	AND flavor.Type IN ('FLAVOR_DIPLOMACY');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 64
+	SELECT tech.Type, flavor.Type, 32
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.AllowsWorldCongress = 1 
 	AND flavor.Type IN ('FLAVOR_DIPLOMACY');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 4
+	SELECT tech.Type, flavor.Type, 2
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.DefensivePactTradingAllowed = 1 
 	AND flavor.Type IN ('FLAVOR_DEFENSE', 'FLAVOR_DIPLOMACY');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 8
+	SELECT tech.Type, flavor.Type, 4
 	FROM Technologies tech, Flavors flavor
 	WHERE tech.MapVisible = 1 
 	AND flavor.Type IN ('FLAVOR_OFFENSE');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 16
+	SELECT tech.Type, flavor.Type, 8
 	FROM Technologies tech, Flavors flavor
 	WHERE (tech.InternationalTradeRoutesChange = 1)
 	AND flavor.Type IN ('FLAVOR_I_LAND_TRADE_ROUTE', 'FLAVOR_I_SEA_TRADE_ROUTE');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.Type, 16
+	SELECT tech.TechType, flavor.Type, 8
 	FROM Technology_TradeRouteDomainExtraRange tech, Flavors flavor
 	WHERE tech.DomainType = 'DOMAIN_LAND' AND flavor.Type IN ('FLAVOR_I_LAND_TRADE_ROUTE');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.TechType, flavor.Type, 16
+	SELECT tech.TechType, flavor.Type, 8
 	FROM Technology_TradeRouteDomainExtraRange tech, Flavors flavor
 	WHERE tech.DomainType = 'DOMAIN_SEA' AND flavor.Type IN ('FLAVOR_I_SEA_TRADE_ROUTE');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 256
+	SELECT tech.Type, flavor.Type, 156
 	FROM Technologies tech, Flavors flavor
 	WHERE (tech.InfluenceSpreadModifier <> 0)
 	AND flavor.Type IN ('FLAVOR_TOURISM');
 
 	INSERT OR IGNORE INTO Technology_Flavors(TechType, FlavorType, Flavor)
-	SELECT tech.Type, flavor.Type, 128
+	SELECT tech.Type, flavor.Type, 64
 	FROM Technologies tech, Flavors flavor
 	WHERE (tech.ExtraVotesPerDiplomat <> 0)
 	AND flavor.Type IN ('FLAVOR_DIPLOMACY');
@@ -357,10 +357,10 @@ DELETE FROM Technology_Flavors_Human;
 -- Round to nearest power of 2
 -- 
 
-	DELETE FROM Technology_Flavors WHERE Flavor < 3;
+	DELETE FROM Technology_Flavors WHERE Flavor < 2.83;
 	--UPDATE Technology_Flavors SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors SET Flavor =   8 WHERE (  5.66 <= Flavor	AND	Flavor < 11.32	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors SET Flavor =  16 WHERE ( 11.32 <= Flavor	AND	Flavor < 22.63	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors SET Flavor =  32 WHERE ( 22.63 <= Flavor	AND	Flavor < 45.26	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
@@ -370,10 +370,10 @@ DELETE FROM Technology_Flavors_Human;
 	UPDATE Technology_Flavors SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
 
-	DELETE FROM Technology_Flavors_Human WHERE Flavor < 5.66 AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	DELETE FROM Technology_Flavors_Human WHERE Flavor < 2.83 AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors_Human SET Flavor =   1 WHERE (						Flavor <  1.42	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	--UPDATE Technology_Flavors_Human SET Flavor =   2 WHERE (  1.42 <= Flavor	AND	Flavor <  2.83	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
-	--UPDATE Technology_Flavors_Human SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
+	UPDATE Technology_Flavors_Human SET Flavor =   4 WHERE (  2.83 <= Flavor	AND	Flavor <  5.66	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor =   8 WHERE (  5.66 <= Flavor	AND	Flavor < 11.32	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor =  16 WHERE ( 11.32 <= Flavor	AND	Flavor < 22.63	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor =  32 WHERE ( 22.63 <= Flavor	AND	Flavor < 45.26	) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
@@ -383,7 +383,7 @@ DELETE FROM Technology_Flavors_Human;
 	UPDATE Technology_Flavors_Human SET Flavor = 512 WHERE (362.04 <= Flavor						) AND EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 0);
 	UPDATE Technology_Flavors_Human SET Flavor = ROUND(Flavor) WHERE EXISTS (SELECT * FROM Cep WHERE Type = 'SHOW_GOOD_FOR_RAW_NUMBERS' AND Value = 1);
 
-	--UPDATE Technology_Flavors_Human SET Flavor = POWER( ROUND(LOG(Flavor)/LOG(2)), 2 ) -- Sqlite does not have power or log functions?!
+	--UPDATE Technology_Flavors_Human SET Flavor = POWER( ROUND(LOG(Flavor)/LOG(2)), 1 ) -- Sqlite does not have power or log functions?!
 
 
 UPDATE LoadedFile SET Value=1 WHERE Type='CEAI_Flavor_Techs.sql';

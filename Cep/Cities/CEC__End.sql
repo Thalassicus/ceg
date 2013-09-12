@@ -4,6 +4,135 @@ UPDATE GameSpeeds SET InflationPercent = 0;
 
 DELETE FROM Building_DomainFreeExperiences;
 
+
+--
+-- Cost: Buildings
+--
+
+/*
+-- Set maintenance for buildings not included in the table
+UPDATE Buildings SET GoldMaintenance = Cost / 100 WHERE GoldMaintenance <> 0;
+
+
+-- This GEC_End.sql data from:
+-- Buildings tab of GEM_Details.xls spreadsheet (in mod folder).
+UPDATE Buildings SET Cost = Cost * 1.056, GoldMaintenance = 7  WHERE BuildingClass = 'BUILDINGCLASS_STADIUM';
+UPDATE Buildings SET Cost = Cost * 1.806, GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_THEATRE';
+UPDATE Buildings SET Cost = Cost * 2.5  , GoldMaintenance = 4  WHERE BuildingClass = 'BUILDINGCLASS_COLOSSEUM';
+UPDATE Buildings SET Cost = 50          , GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_GEM_PALACE';
+UPDATE Buildings SET Cost = Cost * 1.667, GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_COURTHOUSE';
+UPDATE Buildings SET Cost = Cost * 2.431, GoldMaintenance = 3  WHERE BuildingClass = 'BUILDINGCLASS_CIRCUS';
+UPDATE Buildings SET Cost = Cost * 1.333, GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_SEAPORT';
+UPDATE Buildings SET Cost = 400         , GoldMaintenance = 3  WHERE BuildingClass = 'BUILDINGCLASS_WAREHOUSE';
+UPDATE Buildings SET Cost = Cost * 1.481, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_LIGHTHOUSE';
+UPDATE Buildings SET Cost = Cost * 0.926, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_HARBOR';
+UPDATE Buildings SET Cost = Cost * 0.889, GoldMaintenance = 6  WHERE BuildingClass = 'BUILDINGCLASS_MEDICAL_LAB';
+UPDATE Buildings SET Cost = Cost * 0.926, GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_HOSPITAL';
+UPDATE Buildings SET Cost = Cost * 1.944, GoldMaintenance = 3  WHERE BuildingClass = 'BUILDINGCLASS_AQUEDUCT';
+UPDATE Buildings SET Cost = Cost * 1.389, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_GRANARY';
+UPDATE Buildings SET Cost = 150         , GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_CITY_HALL';
+UPDATE Buildings SET Cost = Cost * 1.466, GoldMaintenance = 7  WHERE BuildingClass = 'BUILDINGCLASS_STOCK_EXCHANGE';
+UPDATE Buildings SET Cost = Cost * 1.389, GoldMaintenance = 4  WHERE BuildingClass = 'BUILDINGCLASS_BANK';
+UPDATE Buildings SET Cost = Cost * 1.389, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_MINT';
+UPDATE Buildings SET Cost = Cost * 0.833, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_MARKET';
+UPDATE Buildings SET Cost = Cost * 1.056, GoldMaintenance = 7  WHERE BuildingClass = 'BUILDINGCLASS_SPACESHIP_FACTORY';
+UPDATE Buildings SET Cost = Cost * 0.944, GoldMaintenance = 6  WHERE BuildingClass = 'BUILDINGCLASS_NUCLEAR_PLANT';
+UPDATE Buildings SET Cost = Cost * 0.722, GoldMaintenance = 4  WHERE BuildingClass = 'BUILDINGCLASS_SOLAR_PLANT';
+UPDATE Buildings SET Cost = Cost * 1.08 , GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_FACTORY';
+UPDATE Buildings SET Cost = Cost * 0.926, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_WORKSHOP';
+UPDATE Buildings SET Cost = Cost * 0.694, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_HYDRO_PLANT';
+UPDATE Buildings SET Cost = Cost * 0.667, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_WINDMILL';
+UPDATE Buildings SET Cost = Cost * 0.926, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_FORGE';
+UPDATE Buildings SET Cost = Cost * 1.111, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_STONEWORKS';
+UPDATE Buildings SET Cost = Cost * 1.481, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_WATERMILL';
+UPDATE Buildings SET Cost = Cost * 0.833, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_STABLE';
+UPDATE Buildings SET Cost = Cost * 0.833, GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_BROADCAST_TOWER';
+UPDATE Buildings SET Cost = Cost * 1.296, GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_MUSEUM';
+UPDATE Buildings SET Cost = Cost * 0.972, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_OPERA_HOUSE';
+UPDATE Buildings SET Cost = Cost * 1.111, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_AMPHITHEATER';
+UPDATE Buildings SET Cost = Cost * 1.389, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_MONUMENT';
+UPDATE Buildings SET Cost = Cost * 0.944, GoldMaintenance = 6  WHERE BuildingClass = 'BUILDINGCLASS_LABORATORY';
+UPDATE Buildings SET Cost = Cost * 1.204, GoldMaintenance = 3  WHERE BuildingClass = 'BUILDINGCLASS_PUBLIC_SCHOOL';
+UPDATE Buildings SET Cost = Cost * 1.215, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_UNIVERSITY';
+UPDATE Buildings SET Cost = Cost * 1.111, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_LIBRARY';
+UPDATE Buildings SET Cost = 100         , GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_MENTORS_HALL';
+UPDATE Buildings SET Cost = 700         , GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_INTELLIGENCE_AGENCY';
+UPDATE Buildings SET Cost = 700         , GoldMaintenance = 5  WHERE BuildingClass = 'BUILDINGCLASS_POLICE_STATION';
+UPDATE Buildings SET Cost = Cost * 1.042, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_CONSTABLE';
+UPDATE Buildings SET Cost = Cost * 0.926, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_GARDEN';
+UPDATE Buildings SET Cost = Cost * 1.111, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_TEMPLE';
+UPDATE Buildings SET Cost = Cost * 0.694, GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_SHRINE';
+UPDATE Buildings SET Cost = Cost * 0.611, GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_MILITARY_BASE';
+UPDATE Buildings SET Cost = Cost * 0.741, GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_ARSENAL';
+UPDATE Buildings SET Cost = Cost * 1.042, GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_CASTLE';
+UPDATE Buildings SET Cost = Cost * 1.111, GoldMaintenance = 0  WHERE BuildingClass = 'BUILDINGCLASS_WALLS';
+UPDATE Buildings SET Cost = Cost * 0.833, GoldMaintenance = 3  WHERE BuildingClass = 'BUILDINGCLASS_MILITARY_ACADEMY';
+UPDATE Buildings SET Cost = Cost * 1.042, GoldMaintenance = 2  WHERE BuildingClass = 'BUILDINGCLASS_ARMORY';
+UPDATE Buildings SET Cost = Cost * 0.741, GoldMaintenance = 1  WHERE BuildingClass = 'BUILDINGCLASS_BARRACKS';
+
+
+UPDATE Buildings SET GoldMaintenance = MAX(0, ROUND(GoldMaintenance, 0)) WHERE GoldMaintenance <> 0;
+
+UPDATE Buildings
+SET Cost = ROUND(Cost / 50, 0) * 50
+WHERE Cost > 0;
+
+UPDATE Projects
+SET Cost = ROUND(Cost / 50, 0) * 50
+WHERE Cost > 0;
+*/
+
+--
+-- Cost: Wonders
+--
+
+DROP TABLE IF EXISTS GEM_WonderTechs;
+CREATE TABLE GEM_WonderTechs(BuildingClass text, GridX integer);
+INSERT INTO GEM_WonderTechs (BuildingClass, GridX)
+SELECT building.BuildingClass, tech.GridX
+FROM Buildings building, BuildingClasses class, Technologies tech
+WHERE ( building.PrereqTech = tech.Type
+	AND building.BuildingClass = class.Type
+	AND class.MaxGlobalInstances = 1
+);
+
+UPDATE GEM_WonderTechs
+SET GridX = GridX - 1
+WHERE BuildingClass IN (
+	'BUILDINGCLASS_STONEHENGE'			,
+	'BUILDINGCLASS_GREAT_LIGHTHOUSE'	,
+	'BUILDINGCLASS_STATUE_ZEUS'			,
+	'BUILDINGCLASS_MACHU_PICCHU'		,
+	'BUILDINGCLASS_TERRACOTTA_ARMY'		
+);
+
+UPDATE GEM_WonderTechs
+SET GridX = GridX + 1
+WHERE BuildingClass IN (
+	'BUILDINGCLASS_GREAT_LIBRARY'		,
+	'BUILDINGCLASS_BANAUE_RICE_TERRACES'
+);
+
+UPDATE Buildings SET Cost = 150   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX < 1);
+UPDATE Buildings SET Cost = 180   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 1);
+UPDATE Buildings SET Cost = 210   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 2);
+UPDATE Buildings SET Cost = 240   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 3);
+UPDATE Buildings SET Cost = 290   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 4);
+UPDATE Buildings SET Cost = 350   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 5);
+UPDATE Buildings SET Cost = 430   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 6);
+UPDATE Buildings SET Cost = 520   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 7);
+UPDATE Buildings SET Cost = 620   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 8);
+UPDATE Buildings SET Cost = 750   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 9);
+UPDATE Buildings SET Cost = 900   WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 10);
+UPDATE Buildings SET Cost = 1070  WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 11);
+UPDATE Buildings SET Cost = 1270  WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 12);
+UPDATE Buildings SET Cost = 1270  WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 13);
+UPDATE Buildings SET Cost = 1270  WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX = 14);
+UPDATE Buildings SET Cost = 1270  WHERE BuildingClass IN (SELECT BuildingClass FROM GEM_WonderTechs WHERE GridX > 14);
+
+DROP TABLE GEM_WonderTechs;
+
+
 --
 -- Specific Buildings
 --
@@ -264,7 +393,7 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=51	WHERE Type = 'BUILDING_STADIUM';
 UPDATE Buildings SET							PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATRE';
 UPDATE Buildings SET							PortraitIndex=28	WHERE Type = 'BUILDING_WINDMILL';
-UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
+--UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
 UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';
 UPDATE Buildings SET							PortraitIndex=2		WHERE Type = 'BUILDING_WORKSHOP';
 UPDATE Buildings SET IconAtlas='EXPANSION2_BUILDING_ATLAS',	PortraitIndex=10		WHERE Type = 'BUILDING_PALACE';

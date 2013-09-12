@@ -126,6 +126,9 @@
 	
 	<!--	Assyria
 	-->
+	<Civilization_Start_Region_Avoid>
+		<Delete CivilizationType="CIVILIZATION_ASSYRIA"/>
+	</Civilization_Start_Region_Avoid>
 
 
 
@@ -298,6 +301,12 @@
 		</Update>
 		-->
 	</Traits>
+	<Civilization_FreeTechs>
+		<Row>
+			<CivilizationType>CIVILIZATION_CARTHAGE</CivilizationType>
+			<TechType>TECH_SAILING</TechType>
+		</Row>
+	</Civilization_FreeTechs>
 	<Buildings>
 		<Row>
 			<Type>BUILDING_COTHON</Type>
@@ -339,6 +348,13 @@
 			<Quantity>1</Quantity>
 		</Row>
 	</Building_ResourceQuantity>
+	<Civilization_BuildingClassOverrides>
+		<Row>
+			<CivilizationType>CIVILIZATION_CARTHAGE</CivilizationType>
+			<BuildingClassType>BUILDINGCLASS_LIGHTHOUSE</BuildingClassType>
+			<BuildingType>BUILDING_COTHON</BuildingType>
+		</Row>
+	</Civilization_BuildingClassOverrides>
 	<Civilization_UnitClassOverrides>
 		<Delete UnitType="UNIT_CARTHAGINIAN_QUINQUEREME" />
 	</Civilization_UnitClassOverrides>
@@ -348,13 +364,6 @@
 			<Set ShowInPedia="0" />
 		</Update>
 	</Units>
-	<Civilization_BuildingClassOverrides>
-		<Row>
-			<CivilizationType>CIVILIZATION_CARTHAGE</CivilizationType>
-			<BuildingClassType>BUILDINGCLASS_LIGHTHOUSE</BuildingClassType>
-			<BuildingType>BUILDING_COTHON</BuildingType>
-		</Row>
-	</Civilization_BuildingClassOverrides>
 
 
 	<!--	Celts
@@ -450,11 +459,11 @@
 		</Row>
 	</Trait_UnimprovedFeatureYieldChanges>
 	<Unit_FreePromotions>
+		<Delete UnitType="UNIT_CELT_PICTISH_WARRIOR" PromotionType="PROMOTION_FOREIGN_LANDS"/>
 		<Row>
 			<UnitType>UNIT_CELT_PICTISH_WARRIOR</UnitType>
-			<PromotionType>TXT_KEY_PROMOTION_HILL_FIGHTER</PromotionType>
+			<PromotionType>PROMOTION_HILL_FIGHTER</PromotionType>
 		</Row>
-		<Delete UnitType="UNIT_CELT_PICTISH_WARRIOR" PromotionType="PROMOTION_FOREIGN_LANDS"/>
 	</Unit_FreePromotions>
 
 
@@ -576,7 +585,7 @@
 			<Description>TXT_KEY_BUILDING_BASIN_IRRIGATION</Description>
 			<Civilopedia>TXT_KEY_BUILDING_BASIN_IRRIGATION_TEXT</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
-			<FoodKept>40</FoodKept>
+			<FoodKept>30</FoodKept>
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
 			<IconAtlas>TECH_ATLAS_1</IconAtlas>
@@ -596,6 +605,22 @@
 			<Yield>2</Yield>
 		</Row>
 	</Building_YieldChanges>
+	<Building_ResourceYieldChanges>
+		<Row>
+			<BuildingType>BUILDING_BASIN_IRRIGATION</BuildingType>
+			<YieldType>YIELD_FOOD</YieldType>
+			<ResourceType>RESOURCE_WHEAT</ResourceType>
+			<Yield>1</Yield>
+		</Row>
+	</Building_ResourceYieldChanges>
+	<Building_FeatureYieldChanges>
+		<Row>
+			<BuildingType>BUILDING_BASIN_IRRIGATION</BuildingType>
+			<YieldType>YIELD_FOOD</YieldType>
+			<FeatureType>FEATURE_OASIS</FeatureType>
+			<Yield>2</Yield>
+		</Row>
+	</Building_FeatureYieldChanges>
 	<Civilization_Start_Region_Avoid>
 		<Delete CivilizationType="CIVILIZATION_EGYPT"/>
 	</Civilization_Start_Region_Avoid>
@@ -654,11 +679,11 @@
 			<BuildingClass>BUILDINGCLASS_FACTORY</BuildingClass>
 			<Cost>120</Cost>
 			<GoldMaintenance>2</GoldMaintenance>
-			<PrereqTech>TECH_ECONOMICS</PrereqTech>
+			<PrereqTech>TECH_STEAM_POWER</PrereqTech>
 			<Description>TXT_KEY_BUILDING_STEAM_MILL</Description>
 			<Civilopedia>TXT_KEY_BUILDING_STEAM_MILL_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_FACTORY</ArtDefineTag>
-			<XBuiltTriggersIdeologyChoice>3</XBuiltTriggersIdeologyChoice>
+			<XBuiltTriggersIdeologyChoice>2</XBuiltTriggersIdeologyChoice>
 			<SpecialistType>SPECIALIST_ENGINEER</SpecialistType>
 			<SpecialistCount>2</SpecialistCount>
 			<MinAreaSize>-1</MinAreaSize>
@@ -679,7 +704,7 @@
 	<Civilization_BuildingClassOverrides>
 		<Row>
 			<CivilizationType>CIVILIZATION_ENGLAND</CivilizationType>
-			<BuildingClassType>BUILDINGCLASS_WINDMILL</BuildingClassType>
+			<BuildingClassType>BUILDINGCLASS_FACTORY</BuildingClassType>
 			<BuildingType>BUILDING_ENGLISH_STEAM_MILL</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
@@ -856,18 +881,7 @@
 		<Delete UnitType="UNIT_GREEK_COMPANIONCAVALRY" />
 	</Civilization_UnitClassOverrides>
 	<Civilization_Start_Region_Avoid>
-		<Row>
-			<CivilizationType>CIVILIZATION_GREECE</CivilizationType>
-			<RegionType>REGION_TUNDRA</RegionType>
-		</Row>
-		<Row>
-			<CivilizationType>CIVILIZATION_GREECE</CivilizationType>
-			<RegionType>REGION_DESERT</RegionType>
-		</Row>
-		<Row>
-			<CivilizationType>CIVILIZATION_GREECE</CivilizationType>
-			<RegionType>REGION_HILLS</RegionType>
-		</Row>
+		<Delete CivilizationType="CIVILIZATION_GREECE"/>
 	</Civilization_Start_Region_Avoid>
 	<Traits>
 		<Update>
@@ -896,6 +910,21 @@
 	<Civilization_FreeTechs>
 		<Delete CivilizationType="CIVILIZATION_HUNS" TechType="TECH_ANIMAL_HUSBANDRY" />
 	</Civilization_FreeTechs>
+	<Civilization_Start_Region_Avoid>
+		<Delete CivilizationType="CIVILIZATION_HUNS"/>
+		<Row>
+			<CivilizationType>CIVILIZATION_HUNS</CivilizationType>
+			<RegionType>REGION_JUNGLE</RegionType>
+		</Row>
+		<Row>
+			<CivilizationType>CIVILIZATION_HUNS</CivilizationType>
+			<RegionType>REGION_TUNDRA</RegionType>
+		</Row>
+		<Row>
+			<CivilizationType>CIVILIZATION_HUNS</CivilizationType>
+			<RegionType>REGION_SNOW</RegionType>
+		</Row>
+	</Civilization_Start_Region_Avoid>
 	<Defines>
 		<Update>
 			<Where Name="GOLD_FROM_BARBARIAN_CONVERSION" />
@@ -980,7 +1009,7 @@
 			<Civilopedia>TXT_KEY_BUILDING_INDUS_SANITATION_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
 			<Happiness>3</Happiness>
-			<FoodKept>80</FoodKept>
+			<FoodKept>30</FoodKept>
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
 			<IconAtlas>CEP_BUILDING_ATLAS</IconAtlas>
@@ -1036,15 +1065,19 @@
 			<Yield>50</Yield>
 		</Row>
 	</Building_YieldChangesPerPop>
-	-->
 	<Civilization_Start_Along_River>
 		<Row>
 			<CivilizationType>CIVILIZATION_INDIA</CivilizationType>
 			<StartAlongRiver>true</StartAlongRiver>
 		</Row>
 	</Civilization_Start_Along_River>
+	-->
 	<Civilization_Start_Region_Priority>
 		<Delete CivilizationType="CIVILIZATION_INDIA"/>
+		<Row>
+			<CivilizationType>CIVILIZATION_INDIA</CivilizationType>
+			<RegionType>REGION_JUNGLE</RegionType>
+		</Row>
 	</Civilization_Start_Region_Priority>
 	<Civilization_BuildingClassOverrides>
 		<Delete BuildingType="BUILDING_MUGHAL_FORT" />
@@ -1071,7 +1104,6 @@
 			<NoWarrior>true</NoWarrior>
 		</Row>
 	</Traits>
-	-->
 	<Units>
 		<Update>
 			<Where Type="UNIT_INDIAN_WARELEPHANT" />
@@ -1081,6 +1113,7 @@
 				 />
 		</Update>
 	</Units>
+	-->
 
 
 	<!--	Indonesia

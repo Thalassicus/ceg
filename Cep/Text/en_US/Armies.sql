@@ -1,4 +1,6 @@
 --· EN_US/Promotions.sql
+
+--/*
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_ACCURACY_1_HELP', '[ICON_RANGE_STRENGTH] +15% attacking [COLOR_POSITIVE_TEXT]OPEN[ENDCOLOR] Terrain (NO Hills, Forest or Jungle)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_ACCURACY_2_HELP', '[ICON_RANGE_STRENGTH] +15% attacking [COLOR_POSITIVE_TEXT]OPEN[ENDCOLOR] Terrain (NO Hills, Forest or Jungle)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_ACCURACY_3_HELP', '[ICON_RANGE_STRENGTH] +15% attacking [COLOR_POSITIVE_TEXT]OPEN[ENDCOLOR] Terrain (NO Hills, Forest or Jungle)', '', '');
@@ -374,6 +376,24 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_TRENCHES_3', 'Trenches III', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-02-11'), 'TXT_KEY_PROMOTION_TRENCHES_3_HELP', '[ICON_STRENGTH] +20% [COLOR_POSITIVE_TEXT]Defense[ENDCOLOR] on Open Terrain', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_PROMOTION_VOLLEY_HELP', '[ICON_STRENGTH] +30% vs [COLOR_POSITIVE_TEXT]Fortified[ENDCOLOR] units', '', '');
+--*/
 
+
+
+UPDATE Language_EN_US
+SET Text = REPLACE( Text, ' (', ': ' )
+WHERE Tag LIKE 'TXT_KEY_PROMOTION_%';
+
+UPDATE Language_EN_US
+SET Text = REPLACE( Text, ')', '' )
+WHERE Tag LIKE 'TXT_KEY_PROMOTION_%';
+
+UPDATE Cep_Language_EN_US
+SET Text = REPLACE( Text, ' (', ': ' )
+WHERE Tag LIKE 'TXT_KEY_PROMOTION_%';
+
+UPDATE Cep_Language_EN_US
+SET Text = REPLACE( Text, ')', '' )
+WHERE Tag LIKE 'TXT_KEY_PROMOTION_%';
 
 UPDATE LoadedFile SET Value=1 WHERE Type='CEP_Armies.sql';

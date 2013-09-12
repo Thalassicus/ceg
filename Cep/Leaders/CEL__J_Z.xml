@@ -212,8 +212,26 @@
 
 
 
-	<!--	Mongolia
+	<!--	Mongol
 	-->
+	<Civilization_Start_Region_Priority>
+		<Delete CivilizationType="CIVILIZATION_MONGOL"/>
+	</Civilization_Start_Region_Priority>
+	<Civilization_Start_Region_Avoid>
+		<Delete CivilizationType="CIVILIZATION_MONGOL"/>
+		<Row>
+			<CivilizationType>CIVILIZATION_MONGOL</CivilizationType>
+			<RegionType>REGION_JUNGLE</RegionType>
+		</Row>
+		<Row>
+			<CivilizationType>CIVILIZATION_MONGOL</CivilizationType>
+			<RegionType>REGION_TUNDRA</RegionType>
+		</Row>
+		<Row>
+			<CivilizationType>CIVILIZATION_MONGOL</CivilizationType>
+			<RegionType>REGION_SNOW</RegionType>
+		</Row>
+	</Civilization_Start_Region_Avoid>
 	<Traits>
 		<Update>
 			<Where Type="TRAIT_TERROR" />
@@ -378,10 +396,7 @@
 		</Row>
 	</Civilization_Start_Along_Ocean>
 	<Civilization_Start_Region_Priority>
-		<Row>
-			<CivilizationType>CIVILIZATION_NETHERLANDS</CivilizationType>
-			<RegionType>REGION_JUNGLE</RegionType>
-		</Row>
+		<Delete CivilizationType="CIVILIZATION_NETHERLANDS"/>
 	</Civilization_Start_Region_Priority>
 
 
@@ -694,6 +709,13 @@
 
 	<!--	Siam
 	-->
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_CITY_STATE_BONUSES" />
+			<Set CityStateBonusModifier="25" />
+			<!-- 20 -->
+		</Update>
+	</Traits>
 	<Building_YieldChanges>
 		<Update>
 			<Where BuildingType="BUILDING_WAT" YieldType="YIELD_CULTURE" />
@@ -707,17 +729,37 @@
 			<Yield>10</Yield>
 		</Row>
 	</Building_YieldModifiers>
-	<Traits>
-		<Update>
-			<Where Type="TRAIT_CITY_STATE_BONUSES" />
-			<Set CityStateBonusModifier="25" />
-			<!-- 20 -->
-		</Update>
-	</Traits>
+	<Civilization_Start_Region_Avoid>
+		<Delete CivilizationType="CIVILIZATION_SIAM"/>
+	</Civilization_Start_Region_Avoid>
 
 
 	<!--	Songhai
 	-->
+	<Traits>
+		<Update>
+			<Where Type="TRAIT_AMPHIB_WARLORD" />
+			<Set FasterAlongRiver="1"
+				 RiverTradeRoad="1"
+				 PlunderModifier="0"
+				 />
+		</Update>
+	</Traits>
+	<Trait_FreePromotionUnitCombats>
+		<Delete PromotionType="PROMOTION_WAR_CANOES" />
+	</Trait_FreePromotionUnitCombats>
+	<Civilization_Start_Region_Priority>
+		<Delete CivilizationType="CIVILIZATION_SONGHAI"/>
+		<Row>
+			<CivilizationType>CIVILIZATION_SONGHAI</CivilizationType>
+			<RegionType>REGION_JUNGLE</RegionType>
+		</Row>
+	</Civilization_Start_Region_Priority>
+	<Civilization_Start_Region_Avoid>
+		<Delete CivilizationType="CIVILIZATION_SONGHAI"/>
+	</Civilization_Start_Region_Avoid>
+	
+	<!--
 	<Leader_Traits>
 		<Update>
 			<Where LeaderType="LEADER_ASKIA" />
@@ -775,6 +817,7 @@
 			<MovesChange>2</MovesChange>
 		</Row>
 	</Trait_MovesChangeUnitCombats>
+	-->
 	<Building_YieldChanges>
 		<Update>
 			<Where BuildingType="BUILDING_MUD_PYRAMID_MOSQUE" YieldType="YIELD_CULTURE" />
@@ -880,6 +923,9 @@
 			<BuildingClassType>BUILDINGCLASS_UNIVERSITY</BuildingClassType>
 		</Row>
 	</Building_ClassesNeededInCity>
+	<Civilization_Start_Region_Priority>
+		<Delete CivilizationType="CIVILIZATION_SWEDEN"/>
+	</Civilization_Start_Region_Priority>
 	<Civilization_UnitClassOverrides>
 		<Delete UnitType="UNIT_SWEDISH_HAKKAPELIITTA" />
 	</Civilization_UnitClassOverrides>
@@ -930,10 +976,13 @@
 	<Trait_MaintenanceModifierUnitCombats>
 		<Row>
 			<TraitType>TRAIT_BUFFALO_HORNS</TraitType>
-			<UnitCombatType>UNITCOMBAT_VANGUARD</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
 			<MaintenanceModifier> -50 </MaintenanceModifier>
 		</Row>
 	</Trait_MaintenanceModifierUnitCombats>
+	<Civilization_Start_Region_Avoid>
+		<Delete CivilizationType="CIVILIZATION_ZULU"/>
+	</Civilization_Start_Region_Avoid>
 
 
 

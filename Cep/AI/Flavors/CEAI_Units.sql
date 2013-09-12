@@ -1,5 +1,16 @@
 -- 
 
+/*
+
+Load order must be:
+
+1. All other flavor sql files
+2. CEAI_Units.sql
+3. CEAI_Buildings.sql
+4. CEAI_Techs.sql
+
+*/
+
 
 --
 -- Unit Flavors: update flavor types
@@ -19,6 +30,14 @@ DELETE FROM Unit_Flavors WHERE FlavorType IN (
 	''	,
 );
 */
+
+INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
+SELECT Type, 'FLAVOR_TOURISM', 1
+FROM Units WHERE Class IN (
+	'UNITCLASS_WRITER'		,
+	'UNITCLASS_ARTIST'		,
+	'UNITCLASS_MUSICIAN'	
+);
 
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor)
 SELECT Type, 'FLAVOR_RELIGION', 1
@@ -187,11 +206,30 @@ WHERE unit.Class IN (
 -- Unit Flavors: update flavor values
 --
 
-UPDATE Unit_Flavors SET Flavor = 8;
+UPDATE Unit_Flavors SET Flavor = 4;
 
 UPDATE Unit_Flavors SET Flavor = Flavor * 2
 WHERE FlavorType IN ('FLAVOR_NAVAL', 'FLAVOR_NAVAL_RECON', 'FLAVOR_RELIGION', 'FLAVOR_I_LAND_TRADE_ROUTE', 'FLAVOR_I_SEA_TRADE_ROUTE', 'FLAVOR_ARCHAEOLOGY' );
 
+
+-- Great People and Specialists
+UPDATE Unit_Flavors SET Flavor = 8
+WHERE UnitType IN (SELECT Type FROM Units WHERE Special = 'SPECIALUNIT_PEOPLE');
+
+DELETE FROM SpecialistFlavors;
+
+INSERT INTO SpecialistFlavors (SpecialistType, FlavorType, Flavor)
+	SELECT specYield.SpecialistType, yieldFlavor.FlavorType, 8
+	FROM Yield_Flavors yieldFlavor, SpecialistYields specYield
+	WHERE yieldFlavor.YieldType = specYield.YieldType
+	;
+
+INSERT INTO SpecialistFlavors (SpecialistType, FlavorType, Flavor)
+	SELECT spec.Type, unitFlavor.FlavorType, 8
+	FROM Unit_Flavors unitFlavor, UnitClasses class, Specialists spec
+	WHERE class.Type = spec.GreatPeopleUnitClass
+	AND unitFlavor.UnitType = class.DefaultUnit
+	;
 
 -- The "mobile" role involves flanking, which ranged units do not get a bonus for
 UPDATE Unit_Flavors SET Flavor = ROUND(Flavor / 2, 0)
@@ -354,5 +392,12 @@ DELETE FROM Unit_Flavors;
 INSERT INTO Unit_Flavors (UnitType, FlavorType, Flavor) SELECT UnitType, FlavorType, Flavor FROM CEP_Collisions;
 DROP TABLE CEP_Collisions;
 
+-- Join duplicated flavors
+DROP TABLE IF EXISTS CEP_Collisions;
+CREATE TABLE CEP_Collisions(SpecialistType text, FlavorType text, Flavor integer);
+INSERT INTO CEP_Collisions (SpecialistType, FlavorType, Flavor) SELECT SpecialistType, FlavorType, MAX(Flavor) FROM SpecialistFlavors GROUP BY SpecialistType, FlavorType;
+DELETE FROM SpecialistFlavors;
+INSERT INTO SpecialistFlavors (SpecialistType, FlavorType, Flavor) SELECT SpecialistType, FlavorType, Flavor FROM CEP_Collisions;
+DROP TABLE CEP_Collisions;
 
 UPDATE LoadedFile SET Value=1 WHERE Type='CEAI__End_Flavors.sql';

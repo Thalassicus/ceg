@@ -59,7 +59,7 @@
 			<Set Yield="2" />
 		</Update>
 		<Update>
-			<Where SpecialistType="SPECIALIST_ARTIST" YieldType="YIELD_CULTURE" />
+			<Where YieldType="YIELD_CULTURE" />
 			<Set Yield="3" />
 		</Update>
 	</SpecialistYields>

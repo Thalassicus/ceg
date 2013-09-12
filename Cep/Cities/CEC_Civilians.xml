@@ -14,8 +14,12 @@
 			<Set Cost="40" HurryCostModifier="0" />
 		</Update>
 		<Update>
-			<Where Class="UNITCLASS_CARAVAN" />
+			<Where Type="UNIT_CARAVAN" />
 			<Set Cost="50" />
+		</Update>
+		<Update>
+			<Where Type="UNIT_CARGO_SHIP" />
+			<Set Cost="100" />
 		</Update>
 	</Units>
 	<Defines>

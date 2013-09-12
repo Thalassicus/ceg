@@ -100,13 +100,23 @@ TechUnlocks tab of CEM_Info_PoliciesTechsOther.xls (in mod folder).
 		<Update><Where BuildingClass="BUILDINGCLASS_UFFIZI"/>                   <Set PrereqTech="TECH_ACOUSTICS"/></Update>
 		<Update><Where BuildingClass="BUILDINGCLASS_WAT_PHRA_KAEW"/>            <Set PrereqTech="TECH_ACOUSTICS"/></Update>
 		
-		
+	</Buildings>
+	<Buildings>	
+		<Update><Where Type="BUILDING_ENGLISH_STEAM_MILL"/>       <Set PrereqTech="TECH_STEAM_POWER"/></Update>
 		
 		
 		
 		
 		
 	</Buildings>	
+	<Units>	
+		<Update><Where Type="UNIT_ROMAN_LEGION"/>             <Set PrereqTech="TECH_BRONZE_WORKING"/></Update>
+		
+		
+		
+		
+		
+	</Units>	
 	<Units>	
 		<Update><Where Class="UNITCLASS_CARAVEL"/>             <Set PrereqTech="TECH_CARVEL_HULLS"/></Update>
 		<Update><Where Class="UNITCLASS_GALLEASS"/>            <Set PrereqTech="TECH_CARVEL_HULLS"/></Update>

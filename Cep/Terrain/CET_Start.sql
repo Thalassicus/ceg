@@ -42,12 +42,16 @@ UPDATE Natural_Wonder_Placement SET OccurrenceFrequency = 20 WHERE NaturalWonder
 );
 
 
-
 INSERT OR REPLACE INTO Improvement_ResourceTypes(ImprovementType, ResourceType) 
 SELECT improve.Type, res.Type
 FROM Improvements improve, Resources res
-WHERE (
-	(improve.CreatedByGreatPerson = 1 OR improve.SpecificCivRequired = 1)
+WHERE improve.CreatedByGreatPerson = 1;
+
+/*
+INSERT OR REPLACE INTO Improvement_ResourceTypes(ImprovementType, ResourceType) 
+SELECT improve.Type, res.Type
+FROM Improvements improve, Resources res
+WHERE improve.SpecificCivRequired = 1
 	AND NOT res.TechCityTrade = 'TECH_SAILING'
 	AND NOT improve.Type IN (
 		'IMPROVEMENT_TERRACE_FARM'		,
@@ -55,6 +59,7 @@ WHERE (
 		'IMPROVEMENT_BRAZILWOOD_CAMP'
 	)
 );
+*/
 
 INSERT OR REPLACE INTO Improvement_ResourceType_Yields(ImprovementType, ResourceType, YieldType, Yield) 
 SELECT improve.Type, resTypes.ResourceType, resYields.YieldType, resYields.Yield 
