@@ -8,6 +8,3 @@
 *desktop.ini*
 *.modinfo
 *.xls#
-.gitignore
-.gitattributes
-*.civ5sln

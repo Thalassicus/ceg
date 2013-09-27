@@ -5,6 +5,7 @@ UPDATE GameSpeeds SET InflationPercent = 0;
 DELETE FROM Building_DomainFreeExperiences;
 
 
+
 --
 -- Cost: Buildings
 --
@@ -81,6 +82,24 @@ UPDATE Projects
 SET Cost = ROUND(Cost / 50, 0) * 50
 WHERE Cost > 0;
 */
+
+UPDATE Buildings SET UnlockedByBelief = 1, FaithCost = 1 * Cost
+WHERE (FaithCost > 0 AND Cost > 0)
+OR BuildingClass IN (
+	'BUILDINGCLASS_LIBRARY'			,
+	'BUILDINGCLASS_WORKSHOP'		,
+	'BUILDINGCLASS_STABLE'			,
+	'BUILDINGCLASS_WATERMILL'		,
+	'BUILDINGCLASS_WINDMILL'		,
+	'BUILDINGCLASS_FACTORY'			,
+	'BUILDINGCLASS_CARAVANSARY'		,
+	'BUILDINGCLASS_MARKET'			,
+	'BUILDINGCLASS_BANK'			,
+	'BUILDINGCLASS_STOCK_EXCHANGE'	,
+	'BUILDINGCLASS_LIGHTHOUSE'		,
+	'BUILDINGCLASS_HARBOR'			,
+	'BUILDINGCLASS_SEAPORT'			
+);
 
 --
 -- Cost: Wonders

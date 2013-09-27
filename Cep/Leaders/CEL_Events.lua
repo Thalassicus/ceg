@@ -276,7 +276,7 @@ LuaEvents.CityCaptureBonuses.Add(function(city, player) return SafeCall(DoLeader
 
 
 function DoLeaderBonuses(player)
-	if Game.GetGameTurn() > 15 then
+	if Game.GetGameTurn() > 10 then
 		DoImmigration(player)
 		DoCitystateSurrender(player)
 	end
@@ -300,7 +300,7 @@ function DoImmigration(player)
 		return
 	end
 	
-	log:Info("%-25s %15s", "DoImmigration", player:GetName())
+	log:Debug("%-25s %15s", "DoImmigration", player:GetName())
 end
 
 function DoCitystateSurrender(player)
@@ -312,12 +312,15 @@ function DoCitystateSurrender(player)
 	local activePlayer = Players[Game.GetActivePlayer()]
 	for csID, cs in pairs(Players) do
 		if cs:IsAliveCiv() and cs:IsMinorCiv() and cs:CanMajorBullyGold(playerID) and cs:IsAtPeace(player) then
-			local alertText = string.format("%s surrenders in fear to %s!", cs:GetName(), player:GetName())
-			log:Info(alertText)
-			Game.DoMinorBuyout(playerID, csID)
-			if activePlayer:HasMet(cs) then
-				Events.GameplayAlertMessage(alertText, player)
-			end
+			local capital = cs:GetCapitalCity()
+				local alertText = string.format("%s surrenders in fear to %s!", cs:GetName(), player:GetName())
+				log:Info(alertText)
+				for city in cs:Cities() do
+					player:AcquireCity(city)
+				end
+				if activePlayer:HasMet(cs) then
+					Events.GameplayAlertMessage(alertText, player)
+				end
 		end
 	end
 end
@@ -352,7 +355,7 @@ end
 
 function CheckMigration(player)
 	local trait = player:GetTraitInfo()
-	if not trait.ImmigrationFrequency then--or Game.GetAdjustedTurn() % trait.ImmigrationFrequency ~= 0 then
+	if not trait.ImmigrationFrequency or trait.ImmigrationFrequency == 0 then--or Game.GetAdjustedTurn() % trait.ImmigrationFrequency ~= 0 then
 		return
 	end
 	
@@ -370,6 +373,7 @@ function CheckMigration(player)
 	end
 
 	if #migrationRoutes == 0 then
+		log:Info("No migration routes for %s", player:GetName())
 		return
 	end
 	
@@ -381,7 +385,7 @@ function CheckMigration(player)
 	local odds = migrationWeights[chosenRouteID] * 100
 	
 	if odds >= Map.Rand(100, "Migration - Lua") then
-		local alertText = Game.ConvertTextKey("TXT_KEY_MIGRATION", fromCity:GetName(), toCity:GetName())
+		local alertText = Game.ConvertTextKey("TXT_KEY_MIGRATE_WITHIN", fromCity:GetName(), toCity:GetName())
 		log:Info("%s: '%s'", player:GetName(), alertText)
 		Game.AlertIfActive(alertText, player)
 	end	

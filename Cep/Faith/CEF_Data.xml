@@ -41,10 +41,6 @@
 			<Set CityGrowthModifier="25"/>
 		</Update>
 		<Update>
-			<Where Type="BELIEF_FAITH_HEALERS" />
-			<Set Pantheon="0" Enhancer="1" />
-		</Update>
-		<Update>
 			<Where Type="BELIEF_GODDESS_STRATEGY" />
 			<Set Pantheon="0" />
 		</Update>
@@ -55,10 +51,6 @@
 		<Update>
 			<Where Type="BELIEF_GOD_WAR" />
 			<Set FaithFromKills="200" MaxDistance="0" />
-		</Update>
-		<Update>
-			<Where Type="BELIEF_HOLY_WARRIORS" />
-			<Set Follower="0" Founder="1" />
 		</Update>
 		<Update>
 			<Where Type="BELIEF_INITIATION_RITES" />
@@ -139,6 +131,24 @@
 			<Where Type="BELIEF_PEACE_LOVING" />
 			<Set HappinessPerXPeacefulForeignFollowers="3"/>
 		</Update>
+		<Row>
+			<Type>BELIEF_WORK_ETHIC</Type>
+			<Description>TXT_KEY_BELIEF_WORK_ETHIC</Description>
+			<ShortDescription>TXT_KEY_BELIEF_WORK_ETHIC_SHORT</ShortDescription>
+			<Reformation>true</Reformation>
+		</Row>
+		<Row>
+			<Type>BELIEF_THRIFT</Type>
+			<Description>TXT_KEY_BELIEF_THRIFT</Description>
+			<ShortDescription>TXT_KEY_BELIEF_THRIFT_SHORT</ShortDescription>
+			<Reformation>true</Reformation>
+		</Row>
+		<Row>
+			<Type>BELIEF_COURAGE</Type>
+			<Description>TXT_KEY_BELIEF_COURAGE</Description>
+			<ShortDescription>TXT_KEY_BELIEF_COURAGE_SHORT</ShortDescription>
+			<Reformation>true</Reformation>
+		</Row>
 	</Beliefs>
 	<Belief_CityYieldChanges>
 		<Update>
@@ -152,6 +162,58 @@
 			<Set Yield="3"/>
 		</Update>
 	</Belief_YieldChangeTradeRoute>
+	<Belief_BuildingClassFaithPurchase>
+		<Row>
+			<BeliefType>BELIEF_WORK_ETHIC</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_WORKSHOP</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_WORK_ETHIC</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_STABLE</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_WORK_ETHIC</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_WATERMILL</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_WORK_ETHIC</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_WINDMILL</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_WORK_ETHIC</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_FACTORY</BuildingClassType>
+		</Row>
+		
+		<Row>
+			<BeliefType>BELIEF_THRIFT</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_CARAVANSARY</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_THRIFT</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_MARKET</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_THRIFT</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_BANK</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_THRIFT</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_STOCK_EXCHANGE</BuildingClassType>
+		</Row>
+		
+		<Row>
+			<BeliefType>BELIEF_COURAGE</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_LIGHTHOUSE</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_COURAGE</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_HARBOR</BuildingClassType>
+		</Row>
+		<Row>
+			<BeliefType>BELIEF_COURAGE</BeliefType>
+			<BuildingClassType>BUILDINGCLASS_SEAPORT</BuildingClassType>
+		</Row>
+	</Belief_BuildingClassFaithPurchase>
 	<Belief_BuildingClassYieldChanges>
 		<Update>
 			<Where BeliefType="BELIEF_ANCESTOR_WORSHIP" />

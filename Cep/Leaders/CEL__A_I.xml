@@ -251,10 +251,12 @@
 		</Row>
 	</Buildings>
 	<Building_ClassesNeededInCity>
+		<!--
 		<Row>
 			<BuildingType>BUILDING_TEMPLE</BuildingType>
 			<BuildingClassType>BUILDINGCLASS_SHRINE</BuildingClassType>
 		</Row>
+		-->
 	</Building_ClassesNeededInCity>
 	<Building_YieldChanges>
 		<Row>
@@ -340,6 +342,30 @@
 			<YieldType>YIELD_FOOD</YieldType>
 			<Yield>1</Yield>
 		</Row>
+		<Row>
+			<BuildingType>BUILDING_COTHON</BuildingType>
+			<ResourceType>RESOURCE_FISH</ResourceType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_COTHON</BuildingType>
+			<ResourceType>RESOURCE_WHALE</ResourceType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_COTHON</BuildingType>
+			<ResourceType>RESOURCE_PEARLS</ResourceType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<BuildingType>BUILDING_COTHON</BuildingType>
+			<ResourceType>RESOURCE_CRAB</ResourceType>
+			<YieldType>YIELD_PRODUCTION</YieldType>
+			<Yield>1</Yield>
+		</Row>
 	</Building_ResourceYieldChanges>
 	<Building_ResourceQuantity>
 		<Row>
@@ -372,11 +398,26 @@
 		<Update>
 			<Where Type="TRAIT_FAITH_FROM_NATURE" />
 			<Set NaturalWonderYieldModifier="100"
+				 FaithFromUnimprovedForest="0"
 				 />
 		</Update>
 	</Traits>
+	<Trait_UnimprovedFeatureYieldChanges>
+		<Row>
+			<TraitType>TRAIT_FAITH_FROM_NATURE</TraitType>
+			<FeatureType>FEATURE_FOREST</FeatureType>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>1</Yield>
+		</Row>
+		<Row>
+			<TraitType>TRAIT_FAITH_FROM_NATURE</TraitType>
+			<FeatureType>FEATURE_JUNGLE</FeatureType>
+			<YieldType>YIELD_FAITH</YieldType>
+			<Yield>1</Yield>
+		</Row>
+	</Trait_UnimprovedFeatureYieldChanges>
 	<Buildings>
-		<!-- Buildings with FaithCost do not check -->
+		<!-- Error: Buildings with FaithCost do not check Civilization_BuildingClassOverrides table! -->
 		<Row>
 			<Type>BUILDING_ABBEY</Type>
 			<BuildingClass>BUILDINGCLASS_TEMPLE</BuildingClass>
@@ -438,26 +479,6 @@
 			<BuildingType>BUILDING_ABBEY</BuildingType>
 		</Row>
 	</Civilization_BuildingClassOverrides>
-	<Traits>
-		<Update>
-			<Where Type="TRAIT_FAITH_FROM_NATURE" />
-			<Set FaithFromUnimprovedForest="0" />
-		</Update>
-	</Traits>
-	<Trait_UnimprovedFeatureYieldChanges>
-		<Row>
-			<TraitType>TRAIT_FAITH_FROM_NATURE</TraitType>
-			<FeatureType>FEATURE_FOREST</FeatureType>
-			<YieldType>YIELD_FAITH</YieldType>
-			<Yield>1</Yield>
-		</Row>
-		<Row>
-			<TraitType>TRAIT_FAITH_FROM_NATURE</TraitType>
-			<FeatureType>FEATURE_JUNGLE</FeatureType>
-			<YieldType>YIELD_FAITH</YieldType>
-			<Yield>1</Yield>
-		</Row>
-	</Trait_UnimprovedFeatureYieldChanges>
 	<Unit_FreePromotions>
 		<Delete UnitType="UNIT_CELT_PICTISH_WARRIOR" PromotionType="PROMOTION_FOREIGN_LANDS"/>
 		<Row>
@@ -465,6 +486,21 @@
 			<PromotionType>PROMOTION_HILL_FIGHTER</PromotionType>
 		</Row>
 	</Unit_FreePromotions>
+	<Civilization_Start_Region_Priority>
+		<Delete CivilizationType="CIVILIZATION_CELTS"/>
+		<Row>
+			<CivilizationType>CIVILIZATION_CELTS</CivilizationType>
+			<RegionType>REGION_FOREST</RegionType>
+		</Row>
+		<Row>
+			<CivilizationType>CIVILIZATION_CELTS</CivilizationType>
+			<RegionType>REGION_JUNGLE</RegionType>
+		</Row>
+	</Civilization_Start_Region_Priority>
+	
+	
+	
+	
 
 
 	<!--	China
@@ -500,6 +536,11 @@
 			<PromotionType>PROMOTION_EXTRA_SIGHT_NOUPGRADE_II</PromotionType>
 		</Row>
 	</Trait_FreePromotionUnitCombats>
+	
+	
+	
+	
+	
 
 	<!--	Denmark
 	-->
@@ -605,14 +646,13 @@
 			<Yield>2</Yield>
 		</Row>
 	</Building_YieldChanges>
-	<Building_ResourceYieldChanges>
+	<Building_RiverPlotYieldChanges>
 		<Row>
 			<BuildingType>BUILDING_BASIN_IRRIGATION</BuildingType>
 			<YieldType>YIELD_FOOD</YieldType>
-			<ResourceType>RESOURCE_WHEAT</ResourceType>
 			<Yield>1</Yield>
 		</Row>
-	</Building_ResourceYieldChanges>
+	</Building_RiverPlotYieldChanges>
 	<Building_FeatureYieldChanges>
 		<Row>
 			<BuildingType>BUILDING_BASIN_IRRIGATION</BuildingType>
@@ -624,13 +664,6 @@
 	<Civilization_Start_Region_Avoid>
 		<Delete CivilizationType="CIVILIZATION_EGYPT"/>
 	</Civilization_Start_Region_Avoid>
-	<Building_RiverPlotYieldChanges>
-		<Row>
-			<BuildingType>BUILDING_BASIN_IRRIGATION</BuildingType>
-			<YieldType>YIELD_FOOD</YieldType>
-			<Yield>1</Yield>
-		</Row>
-	</Building_RiverPlotYieldChanges>
 	<Civilization_BuildingClassOverrides>
 		<Delete BuildingType="BUILDING_BURIAL_TOMB" />
 		<Row>
@@ -854,7 +887,7 @@
 			<Civilopedia>TXT_KEY_BUILDING_ODEON_TEXT</Civilopedia>
 			<Strategy>TXT_KEY_BUILDING_ODEON_STRATEGY</Strategy>
 			<ArtDefineTag>COLESSEUM</ArtDefineTag>
-			<SpecialistType>SPECIALIST_ARTIST</SpecialistType>
+			<SpecialistType>SPECIALIST_WRITER</SpecialistType>
 			<SpecialistCount>1</SpecialistCount>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
@@ -919,10 +952,6 @@
 		<Row>
 			<CivilizationType>CIVILIZATION_HUNS</CivilizationType>
 			<RegionType>REGION_TUNDRA</RegionType>
-		</Row>
-		<Row>
-			<CivilizationType>CIVILIZATION_HUNS</CivilizationType>
-			<RegionType>REGION_SNOW</RegionType>
 		</Row>
 	</Civilization_Start_Region_Avoid>
 	<Defines>

@@ -39,12 +39,11 @@ DELETE FROM Technologies WHERE Type IN (
 	'TECH_RADAR'					
 );
 
--- remap IDs
-CREATE TABLE IF NOT EXISTS IDRemapper ( id INTEGER PRIMARY KEY AUTOINCREMENT, Type TEXT );
-DROP TABLE IDRemapper;
+/* remap IDs
+DROP TABLE IF EXISTS IDRemapper;
 CREATE TABLE IDRemapper ( id INTEGER PRIMARY KEY AUTOINCREMENT, Type TEXT );
 INSERT INTO IDRemapper (Type) SELECT Type FROM Technologies;
-UPDATE Technologies SET ID =	( SELECT IDRemapper.id-1 FROM IDRemapper WHERE Technologies.Type = IDRemapper.Type);
+UPDATE Technologies SET ID = ( SELECT IDRemapper.id-1 FROM IDRemapper WHERE Technologies.Type = IDRemapper.Type);
 UPDATE sqlite_sequence SET seq = (SELECT COUNT(ID) FROM Technologies)-1 WHERE name = 'Technologies';
 
 --*/

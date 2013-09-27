@@ -1,5 +1,8 @@
 --
 
+UPDATE UnitPromotions
+SET CargoChange = CargoChange + 2;
+
 --
 -- Gold Costs
 --
@@ -109,6 +112,7 @@ WHERE BuildingClass IN (
 -- Merge units
 --
 
+/*
 INSERT INTO Unit_AITypes(UnitType, UnitAIType)
 SELECT UnitType, 'UNITAI_PARADROP'
 FROM Civilization_UnitClassOverrides
@@ -120,11 +124,12 @@ WHERE UnitClassType IN (
 
 UPDATE Units SET UnitArtInfo = 'ART_DEF_UNIT_PARATROOPER'
 WHERE Class = 'UNITCLASS_INFANTRY';
+*/
 
-UPDATE Units SET Cost = -1, ShowInPedia = 0, PrereqTech = 'NULL' WHERE Class IN (
+UPDATE Units SET Cost = -1, ShowInPedia = 0, PrereqTech = 'TECH_FUTURE_TECH' WHERE Class IN (
 	'UNITCLASS_ANTI_TANK_GUN'		,
-	'UNITCLASS_MARINE'				,
-	'UNITCLASS_PARATROOPER'			
+	--'UNITCLASS_PARATROOPER'			,
+	'UNITCLASS_MARINE'				
 );
 
 

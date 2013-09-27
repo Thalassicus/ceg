@@ -55,7 +55,7 @@ WHERE Cost = -1;
 --
 
 INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor)
-SELECT Type, 'FLAVOR_SPACESHIP', 256
+SELECT Type, 'FLAVOR_SPACESHIP', 128
 FROM Projects WHERE VictoryPrereq = 'VICTORY_SPACE_RACE';
 
 INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor)
@@ -63,7 +63,7 @@ SELECT Type, 'FLAVOR_SPACESHIP', 4
 FROM Projects WHERE Spaceship = 1;
 
 INSERT INTO Project_Flavors (ProjectType, FlavorType, Flavor)
-SELECT Type, 'FLAVOR_NUKE', 256
+SELECT Type, 'FLAVOR_NUKE', 128
 FROM Projects WHERE AllowsNukes = 1;
 
 
@@ -643,7 +643,14 @@ WHERE BuildingType IN (
 UPDATE Building_Flavors
 SET Flavor = Flavor / 8
 WHERE BuildingType IN (
-	'BUILDING_TERRACOTTA_ARMY'	,
-	'BUILDING_PYRAMID'			,
 	'BUILDING_TEMPLE_ARTEMIS'	
+);
+
+DELETE FROM Building_Flavors
+WHERE FlavorType IN (
+	'FLAVOR_EXPANSION'			,
+	'FLAVOR_TILE_IMPROVEMENT'
+) AND BuildingType IN (
+	'BUILDING_TERRACOTTA_ARMY'	,
+	'BUILDING_PYRAMID'			
 );

@@ -7,6 +7,7 @@
 	<Table name="Immigration_Weights">
 		<Column name="Type" type="text"/>
 		<Column name="IsCityStatus" type="boolean" default="false"/>
+		<Column name="IsOriginMod" type="boolean" default="false"/>
 		<Column name="Value" type="variant" default="0"/>
 	</Table>
 	<Table name="Immigration_Weight_Policy_Requirements">
@@ -70,11 +71,13 @@
 		<Row>
 			<Type>IsCapital</Type>
 			<IsCityStatus>true</IsCityStatus>
+			<IsOriginMod>true</IsOriginMod>
 			<Value>0.5</Value>
 		</Row>
 		<Row>
 			<Type>GetGarrisonedUnit</Type>
 			<IsCityStatus>true</IsCityStatus>
+			<IsOriginMod>true</IsOriginMod>
 			<Value>0.5</Value>
 		</Row>
 	</Immigration_Weights>

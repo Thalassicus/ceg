@@ -111,6 +111,7 @@
 			<TechPrereq>TECH_FLIGHT</TechPrereq>
 			<PromotionPrereqOr1>PROMOTION_TARGETING_1</PromotionPrereqOr1>
 			<PromotionPrereqOr2>PROMOTION_BOMBARDMENT_1</PromotionPrereqOr2>
+			<PromotionPrereqOr3>PROMOTION_COASTAL_RAIDER_1</PromotionPrereqOr3>
 			<InterceptChanceChange>100</InterceptChanceChange>
 			<OrderPriority>1</OrderPriority>
 			<PortraitIndex>27</PortraitIndex>
@@ -236,6 +237,7 @@
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_2</PromotionType>	<UnitCombatType>UNITCOMBAT_SUBMARINE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_1</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_NAVAL_RECON_2</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
+		<Row><PromotionType>PROMOTION_INTERCEPTION</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_TARGETING_1</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_TARGETING_2</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
 		<Row><PromotionType>PROMOTION_TARGETING_3</PromotionType>	<UnitCombatType>UNITCOMBAT_NAVALMELEE</UnitCombatType></Row>
@@ -258,6 +260,10 @@
 		<Delete UnitType="UNIT_MISSILE_CRUISER" PromotionType="PROMOTION_INTERCEPTION_IV" />
 		<Delete PromotionType="PROMOTION_INVISIBLE_SUBMARINE" />
 		<Delete PromotionType="PROMOTION_SEE_INVISIBLE_SUBMARINE" />
+		<Row>
+			<UnitType>UNIT_CARRIER</UnitType>
+			<PromotionType>PROMOTION_INTERCEPTION_II</PromotionType>
+		</Row>
 		<Row>
 			<UnitType>UNIT_MISSILE_CRUISER</UnitType>
 			<PromotionType>PROMOTION_INDIRECT_FIRE</PromotionType>

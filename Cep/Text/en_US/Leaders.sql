@@ -33,7 +33,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_POPULATION_GROWTH', 'Food buildings add 1 [ICON_CITIZEN] Population when constructed.[NEWLINE]Starts with a Worker.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_RAZE_AND_HORSES', 'Barbarian camps surrender when defeated for double [ICON_GOLD] Gold.[NEWLINE]Starts with a Horse Archer.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-17'), 'TXT_KEY_TRAIT_AMERICAN_DREAM_SHORT', 'American Dream', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-17'), 'TXT_KEY_TRAIT_AMERICAN_DREAM', 'Immigrants move here more than other civilizations. Citizens can migrate along internal [ICON_FOOD] Food trade routes between your cities.', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-13'), 'TXT_KEY_TRAIT_AMERICAN_DREAM', 'Immigrants move here from civilizations with low happiness and high American cultural influence. Your citizens migrate along internal [ICON_FOOD] Food trade routes.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_SCHOLARS_JADE_HALL_SHORT', 'Joseon Dynasty', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_SCHOLARS_JADE_HALL', '+2 [ICON_RESEARCH] Science from Farms.[NEWLINE]Starts with a Worker.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_SEVEN_CITIES', 'Double yields from Natural Wonders, plus 100 [ICON_GOLD] when discovered.[NEWLINE]Starts with a Scout, and receives a Caravel at Compass.', '', '');
@@ -53,6 +53,9 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_SCOURGE_OF_GOD', 'Barbarian camps surrender when defeated, and land units cost less [ICON_GOLD] maintenance.[NEWLINE]Starts with a unique Chariot.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-15'), 'TXT_KEY_TRAIT_AMSTERDAM_BOURSE_SHORT', 'Amsterdam Bourse', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-15'), 'TXT_KEY_TRAIT_AMSTERDAM_BOURSE', '+5% [ICON_GOLD] National Income from each type of Luxury Resource you control or import.', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-14'), 'TXT_KEY_MIGRATE_WITHIN', '[ICON_CITIZEN] A citizen migrated from {1_fromCity} to {2_toCity}.', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-14'), 'TXT_KEY_MIGRATE_IN', '[ICON_CITIZEN] An immigrant from the {1_fromEmpire} arrived in {2_toCity}.', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-14'), 'TXT_KEY_MIGRATE_OUT', '[ICON_CITIZEN] A citizen emigrated from {1_fromCity} to {2_toEmpire}.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-09'), 'TXT_KEY_CITY_CAPTURE_YIELD', 'You gained {1_yield} {2_yieldIcon} {3_yieldName} from capturing {4_city}!', '', '');
 
 

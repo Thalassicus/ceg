@@ -227,10 +227,6 @@
 			<CivilizationType>CIVILIZATION_MONGOL</CivilizationType>
 			<RegionType>REGION_TUNDRA</RegionType>
 		</Row>
-		<Row>
-			<CivilizationType>CIVILIZATION_MONGOL</CivilizationType>
-			<RegionType>REGION_SNOW</RegionType>
-		</Row>
 	</Civilization_Start_Region_Avoid>
 	<Traits>
 		<Update>
@@ -457,6 +453,7 @@
 			<DisplayPosition>16</DisplayPosition>
 			<IconAtlas>UNIT_ATLAS_1</IconAtlas>
 			<PortraitIndex>23</PortraitIndex>
+			<TrainedFreePromotion>PROMOTION_PRIZE_SHIPS</TrainedFreePromotion>
 		</Row>
 	</Buildings>
 	<Building_YieldChanges>

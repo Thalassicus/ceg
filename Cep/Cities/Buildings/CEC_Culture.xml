@@ -15,6 +15,7 @@
 		-->
 	</Building_YieldChanges>
 	<Building_ClassesNeededInCity>
+		<Delete BuildingClassType="BUILDINGCLASS_MONUMENT" />
 		<Delete BuildingClassType="BUILDINGCLASS_AMPHITHEATER" />
 		<Delete BuildingClassType="BUILDINGCLASS_OPERA_HOUSE" />
 		<Delete BuildingClassType="BUILDINGCLASS_MUSEUM" />

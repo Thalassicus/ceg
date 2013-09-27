@@ -31,6 +31,8 @@
 			<Set MovesChange="0"
 				 TechPrereq="TECH_FLIGHT"
 				 DropRange="10"
+				 CannotBeChosen="true"
+				 PediaType="NULL"
 				 />
 		</Update>
 		<Update>

@@ -22,7 +22,7 @@ INSERT INTO LoadedFile(Type, Value) VALUES ('CER_Start.sql', 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('CET_Start.sql', 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('CEP_Armies.sql', 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('Cities.sql', 0);
-INSERT INTO LoadedFile(Type, Value) VALUES ('Faith.sql', 0);
+INSERT INTO LoadedFile(Type, Value) VALUES ('Text_Faith.sql', 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('Leaders.sql', 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('Research.sql', 0);
 INSERT INTO LoadedFile(Type, Value) VALUES ('Terrain.sql', 0);

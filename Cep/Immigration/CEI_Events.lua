@@ -1,13 +1,15 @@
 --------------------------------------------------------------
 -- Immigration Mod
--- Author: killmeplease
+-- Authors: killmeplease, thalassicus
 -- DateCreated: 10/4/2010 6:23:59 PM
 --------------------------------------------------------------
+
+-- TODO: immigration for all players, with bonus for America
 
 include("MT_Events.lua")
 
 local log = Events.LuaLogger:New()
-log:SetLevel("WARN")
+log:SetLevel("INFO")
 
 --[[
 
@@ -24,9 +26,9 @@ Thalassicus		- expansion and polishing
 
 DebugMode = GameInfo.Immigration["Debug"].Value == 1
 QUEUE_CAPACITY = GameInfo.Immigration["HappinessAverageTurns"].Value * GameInfo.GameSpeeds[PreGame.GetGameSpeed()].GrowthPercent / 100
-iProbCityImmigration = {}
 AverageHappiness = {}
 HappinessTable = nil
+america = nil
 americaID = -1
 
 --
@@ -38,35 +40,61 @@ function DoImmigration()
 		DoGameInitialization()
 	end
 	
-	local america = Players[americaID]
+	if not america or not america:IsAliveCiv() or america:GetExcessHappiness() <= 0 or america:GetNumCities() <= 1 then
+		return
+	end
 
 	UpdateHappinessInfo()
 	
-	if not america or not america:IsAliveCiv() or america:GetExcessHappiness() <= 0 then
+	local odds = (0.10 * america:GetExcessHappiness()) * (0.20 * america:GetCurrentEra())
+	local random = Map.Rand(100, "Immigration Chance")
+	log:Info("DoImmigration (%s >= %s) = %s", 100 * odds, random, 100 * odds >= random)
+	if 100 * odds >= random then
+		-- do immigration
+	else
 		return
 	end
 	
+	
+	local immigrateWeight = {}
 	for playerID, player in pairs(Players) do
-		if player:IsAliveCiv() and not player:IsMinorCiv() then
-			local averageHappiness = HappinessTable[playerID]:average()
-			log:Debug("%30s averageHappiness = %s", player:GetName(), averageHappiness)
-			
-			local bShouldEmigrate = (player:GetExcessHappiness() < 0 and averageHappiness < 0)
-			if player:GetNumCities() == 1 then
-				for pCity in player:Cities() do
-					if (pCity:IsCapital()) and (pCity:GetPopulation() == 1) then
-						bShouldEmigrate = false
-					end
-				end
+		if (player:IsAliveCiv()
+				and not player:IsMinorCiv()
+				and player ~= america
+				and player:IsAtPeace(america)
+				) then
+				
+			local influence		= america:GetInfluenceOn(playerID)
+			local culture		= player:GetJONSCultureEverGenerated()
+			local cultureWeight	= 1.1 ^ (10 * influence / (culture or 10))
+			local happyWeight	= 1.05 ^ (-1 * player:GetExcessHappiness())
+			local popWeight		= 0
+			for city in player:Cities() do
+				popWeight = popWeight + city:GetPopulation()
 			end
 			
-			local iNumEmigrants = math.floor(-averageHappiness / GameInfo.Immigration["NumEmigrantsDenominator"].Value) + 1
-
-			if bShouldEmigrate then	
-				DoEmigratePlayer(player, iNumEmigrants)
-			end
+			immigrateWeight[playerID] = popWeight * cultureWeight * happyWeight
+			log:Debug("%30s weight=%s", player:GetName(), immigrateWeight[playerID])
 		end
 	end
+	
+	local playerID = Game.GetRandomWeighted(immigrateWeight)
+	local player = Players[playerID]
+	
+	if player then
+		DoEmigratePlayer(player, 1)
+	end
+	
+	--[[
+	local avgHappy = HappinessTable[playerID]:average()
+	
+	local bShouldEmigrate = (player:GetExcessHappiness() < america:GetExcessHappiness() and avgHappy < america:GetExcessHappiness())
+	log:Info("%30s americaHappy:%2s excessHappy:%2s avgHappy:%2s immigrantWeight=%s", player:GetName(), america:GetExcessHappiness(), player:GetExcessHappiness(), avgHappy, immigrateWeight[playerID])
+	
+	local numEmigrants = math.floor(-avgHappy / GameInfo.Immigration.NumEmigrantsDenominator.Value) + 1
+	DoEmigratePlayer(player, numEmigrants)
+	--]]
+	
 	SaveGameData()
 end
 
@@ -79,9 +107,10 @@ Events.ActivePlayerTurnStart.Add( DoImmigration )
 function DoGameInitialization()
 	HappinessTable = {}
 	for playerID, player in pairs(Players) do
-		if (player:IsAliveCiv()) then
+		if player:IsAliveCiv() then
 			if player:GetTraitInfo().ImmigrationFrequency then
 				americaID = playerID
+				america = player
 			end
 			local SaveData = player:GetScriptData()
 			--log:Debug("Attempting to Load Save Data")
@@ -111,7 +140,7 @@ end
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
-function PrintContentsOfTable(incoming_table) -- For debugging purposes. LOT of table data being handled here.
+function PrintContentsOfTable(incoming_table)
 	if DebugMode then
 		print("--------------------------------------------------")
 		print("Table printout for table ID:", incoming_table)
@@ -148,98 +177,78 @@ function HasPolicyType(player, policyName)
 	return policy and player:HasPolicy(policy.ID)
 end
 ------------------------------------------------------------------------------
-function DoEmigratePlayer(fromPlayer, iNumEmigrants)
-	log:Debug("iNumEmigrants = " .. iNumEmigrants)
+function DoEmigratePlayer(fromPlayer, numEmigrants)
+	log:Debug("numEmigrants = " .. numEmigrants)
+	local cityWeights = GetCityWeights(fromPlayer, false)
 	local passNum = 0
-	UpdateImmigrations(fromPlayer)
-
-	-- for each emigrant
-	while iNumEmigrants > 0 and passNum <= GameInfo.Immigration["MaxPasses"].Value do
+	
+	while numEmigrants > 0 and passNum <= GameInfo.Immigration["MaxPasses"].Value do
 		passNum = passNum + 1
-
-		-- for each city owned by fromPlayer
-		for fromCity in fromPlayer:Cities() do 
-			if iNumEmigrants == 0 then break end
-			log:Debug(" " .. Locale.ConvertTextKey(fromCity:GetNameKey()))
-			if ShouldCityEmigrate(passNum, fromCity) then
-				local toPlayer = GetBestDestination(fromPlayer)
-
-				-- move emigrant
-				if toPlayer:IsAliveCiv() then
-					log:Debug("Immigrate from %s to %s", fromPlayer:GetName(), toPlayer:GetName())
-					MovePopulation(fromPlayer, fromCity, toPlayer)
-					iNumEmigrants = iNumEmigrants - 1
-				end
+		
+		local cityID = Game.GetRandomWeighted(cityWeights)
+		if cityID then
+			local fromCity = Map_GetCity(cityID)		
+			local toPlayer = america--GetBestDestination(fromPlayer)	
+			log:Info("Immigrate from %s to %s", fromPlayer:GetName(), toPlayer and toPlayer:GetName() or "nil")
+			if toPlayer then
+				log:Debug(" " .. Locale.ConvertTextKey(fromCity:GetNameKey()))
+				cityWeights[cityID] = cityWeights[cityID] * GameInfo.Immigration_Weights.EmigratedOnceAlready.Value
+				MovePopulation(fromPlayer, fromCity, toPlayer)
+				numEmigrants = numEmigrants - 1
+				if numEmigrants == 0 then return end
 			end
 		end
 	end
 end
 ------------------------------------------------------------------------------
-function UpdateImmigrations(player)
-	local cityWeight = {}
+function GetCityWeights(player, isDestination)
+	local cityWeights = {}
 	local cityProb = {}
 	local totalCulture = 0
-	local totalWeight = 0
 	local cityID = 0
 	
-	-- figure out weight
 	for city in player:Cities() do
-		cityID = city:GetID()
-		cityWeight[cityID] = 1
-		
-		-- retrieve function And weight from jump table stored with XML
-		for weight in GameInfo.Immigration_Weights() do
-			if weight.IsCityStatus and city[weight.Type](city) then
-				local bUseWeight = true
+		cityID = City_GetID(city)
+		if city:GetPopulation() > 1 or isDestination then
+			cityWeights[cityID] = 1
+			
+			-- retrieve function and weight from jump table stored in database
+			for weight in GameInfo.Immigration_Weights() do
+				if weight.IsCityStatus and (weight.IsOriginMod or isDestination) and city[weight.Type](city) then
+					local bUseWeight = true
 
-				for j in GameInfo.Immigration_Weight_Policy_Requirements() do
-					if weight.Type == j.WeightType then
-						if (j.ExcludesWeight and HasPolicyType(player, j.PolicyType)) then
-							bUseWeight = false
-						elseif (not j.ExcludesWeight and not HasPolicyType(player, j.PolicyType)) then
-							bUseWeight = false
+					for j in GameInfo.Immigration_Weight_Policy_Requirements() do
+						if weight.Type == j.WeightType then
+							if (j.ExcludesWeight and HasPolicyType(player, j.PolicyType)) then
+								bUseWeight = false
+							elseif (not j.ExcludesWeight and not HasPolicyType(player, j.PolicyType)) then
+								bUseWeight = false
+							end
 						end
 					end
-				end
 
-				if bUseWeight then
-					cityWeight[cityID] = cityWeight[cityID] * weight.Value
+					if bUseWeight then
+						cityWeights[cityID] = cityWeights[cityID] * weight.Value
+					end
 				end
 			end
+			
+			if isDestination then
+				-- go to small frontier cities
+				cityWeights[cityID] = cityWeights[cityID] * 1.2 ^ (-1 * city:GetPopulation())
+			else
+				-- come from large, low culture cities
+				cityWeights[cityID] = cityWeights[cityID] * 1.2 ^ city:GetPopulation()
+				cityWeights[cityID] = cityWeights[cityID] / (GameInfo.Immigration_Weights.Culture.Value * math.log(city:GetJONSCultureThreshold() + 2))
+			end
+			
+			log:Debug("%20s %20s immigration weight = %s", player:GetName(), city:GetName(), cityWeights[cityID])
 		end
-		
-		-- factor in culture
-		cityWeight[cityID] = cityWeight[cityID] / (GameInfo.Immigration_Weights["Culture"].Value * math.log(city:GetJONSCultureThreshold() + 2))
-		totalWeight = totalWeight + cityWeight[cityID]
 	end
-	
-	-- probability = contribution to total weight
-	for city in player:Cities() do
-		iProbCityImmigration[city:GetID()] = 100 * cityWeight[city:GetID()] / totalWeight
-	end	
+	return cityWeights
 end
 ------------------------------------------------------------------------------
-function ShouldCityEmigrate(passNum, city)--
-	local p = Map.Rand(100, "City immigration probability - Lua")
-	log:Debug("  " .. iProbCityImmigration[city:GetID()] * 2 ^ (passNum - 1) .. " >= " .. p .. "?")
-
-	if ((iProbCityImmigration[city:GetID()] * 2 ^ (passNum - 1)) >= p) and (city:GetPopulation() > 1) then
-		-- less likely to emigrate from a city multiple times
-		iProbCityImmigration[city:GetID()] = iProbCityImmigration[city:GetID()] * GameInfo.Immigration_Weights["EmigratedOnceAlready"].Value
-		return true
-	end
-	return false
-end
-------------------------------------------------------------------------------
-function GetBestDestination(fromPlayer)--
-	local player = Players[americaID]	
-	if player:IsAliveCiv() then
-		return bestPlayer
-	end
-	
-	--[[
-	-- TODO: immigration for all players, with bonus for America
-	
+function GetBestDestination(fromPlayer)
 	local fromPlayerTeam = Teams[fromPlayer:GetTeam()]
 	local bestPlayer
 	local iBestCountryValue = 0
@@ -263,36 +272,29 @@ function GetBestDestination(fromPlayer)--
 		end
 	end
 	return bestPlayer
-	--]]
 end
 ------------------------------------------------------------------------------
 function MovePopulation(fromPlayer, fromCity, toPlayer)
-	local lowestPop = 99
-	local toCity = nil
-	for city in toPlayer:Cities() do
-		if city:GetPopulation() < lowestPop and not (city:IsRazing() or city:IsBlockaded()) then
-			lowestPop = city:GetPopulation()
-			toCity = city
-		end
+	local toCityID = Game.GetRandomWeighted(GetCityWeights(toPlayer, true))
+	local toCity = Map_GetCity(toCityID)
+	if not toCity then
+		log:Error("MovePopulation: %s cityID=%s", toPlayer:GetName(), toCityID)
+		return
 	end
-	local toCity = GetCityByIndex(toPlayer, Map.Rand(toPlayer:GetNumCities(), "Random city to emigrate to - Lua"))
-	if not toCity then return end
 	
 	fromCity:ChangePopulation(-1, true)
 	toCity:ChangePopulation(1, true)
 
-	if (fromPlayer:IsHuman()) then
-		LuaEvents.CustomNotification(fromCity:GetX(), fromCity:GetY(), 
-			"Unhappy citizen immmigrated to the " .. toPlayer:GetCivName() .. " seeking a better life", "Immigration")
-	elseif (toPlayer:IsHuman()) then
-		LuaEvents.CustomNotification(toCity:GetX(), toCity:GetY(), 
-			"Immigrant from the " .. fromPlayer:GetCivName() .. " arrived in our country seeking a better life", "Immigration")
+	if fromPlayer:IsHuman() then
+		Alert(ModLocale.ConvertTextKey( "TXT_KEY_MIGRATE_OUT", fromCity:GetName(), "America" ))
+	elseif toPlayer:IsHuman() then
+		Alert(ModLocale.ConvertTextKey( "TXT_KEY_MIGRATE_IN", fromPlayer:GetCivName(), toCity:GetName() ))
 	end
 end
 ------------------------------------------------------------------------------
-function LuaEvents.CustomNotification(cityA, cityB, text, title)
+function Alert(text)
 	-- should ideally do this as a right-side notification,
 	-- but cannot add custom notifications in the unmodded game
-	log:Info("CustomNotification cityA='%s' cityB='%s' text='%s' title='%s'", cityA, cityB, text, title)
+	log:Info(text)
 	Events.GameplayAlertMessage(text)
 end
