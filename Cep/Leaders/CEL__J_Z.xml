@@ -240,7 +240,7 @@
 	<Trait_MovesChangeUnitCombats>
 		<Row>
 			<TraitType>TRAIT_TERROR</TraitType>
-			<UnitCombatType>UNITCOMBAT_RECON</UnitCombatType>
+			<UnitCombatType>UNITCOMBAT_GUN</UnitCombatType>
 			<MovesChange>1</MovesChange>
 		</Row>
 		<Row>

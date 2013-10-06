@@ -42,7 +42,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_VIKING_FURY_SHORT', 'Longships', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_TRAIT_VIKING_FURY', 'Faster and stronger embarkation across water, and melee units pillage faster.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_TERROR_SHORT', 'Mongol Terror', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_TERROR', 'City-states you can bully surrender in fear as puppets. Mounted units move faster. Starts with a Scout.', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_TERROR', 'City-states you can bully surrender in fear as puppets. Mounted and skirmish units move faster. Starts with a Scout.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_TRIBUTE_SHORT', 'Tribute', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_TRIBUTE', 'Internal trade routes between your cities give [ICON_GOLD] Gold. ', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-08-09'), 'TXT_KEY_TRAIT_RECONQUISTA_SHORT', 'Reconquista', '', '');

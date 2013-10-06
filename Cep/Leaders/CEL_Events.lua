@@ -365,7 +365,7 @@ function CheckMigration(player)
 		if route.FromID == route.ToID then
 			-- domestic route
 			local cityID = City_GetID(route.FromCity)
-			if route.food > 0 then
+			if route.Food and route.Food > 0 then
 				table.insert(migrationRoutes, {fromCity = route.FromCity, toCity = route.ToCity})
 				table.insert(migrationWeights, route.FromCity:GetPopulation() / (route.ToCity:GetPopulation() or 1))
 			end
