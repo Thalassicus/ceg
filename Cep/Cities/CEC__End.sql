@@ -271,7 +271,7 @@ WHERE					building.BuildingClass = 'BUILDINGCLASS_BARRACKS'
 							'RESOURCECLASS_MODERN'
 						);
 
-						/*
+/*
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges
 						(BuildingType, ResourceType, YieldType, Yield) 
 SELECT					building.Type, res.Type, 'YIELD_PRODUCTION', 2
@@ -283,7 +283,7 @@ WHERE					building.BuildingClass = 'BUILDINGCLASS_FACTORY'
 							'RESOURCE_OIL'		,
 							'RESOURCE_URANIUM'
 						);
-						*/
+*/
 
 INSERT OR REPLACE INTO	Building_ResourceYieldChanges(BuildingType, ResourceType, YieldType, Yield) 
 SELECT					building.Type, res.Type, 'YIELD_GOLD', 1
@@ -313,17 +313,19 @@ WHERE					building.BuildingClass IN (
 						'BUILDINGCLASS_FORGE'
 						);
 
-						/*
+
 INSERT OR REPLACE INTO	Building_YieldChanges(BuildingType, YieldType, Yield) 
-SELECT					building.Type, 'YIELD_PRODUCTION', 2
+SELECT					building.Type, 'YIELD_CULTURE', 2
 FROM					Buildings building
 WHERE					building.BuildingClass IN (
-						--'BUILDINGCLASS_ARMORY'			,
-						--'BUILDINGCLASS_MILITARY_ACADEMY'	,
-						'BUILDINGCLASS_SEAPORT'				
+						'BUILDINGCLASS_MONUMENT'		,
+						'BUILDINGCLASS_AMPHITHEATER'	,
+						--'BUILDINGCLASS_OPERA_HOUSE'		,
+						--'BUILDINGCLASS_MUSEUM'			,
+						'BUILDINGCLASS_BROADCAST_TOWER'				
 						);
-						*/
 
+/*
 UPDATE					Building_YieldChanges
 SET						Yield = 2
 WHERE					(YieldType = 'YIELD_CULTURE'
@@ -334,7 +336,7 @@ AND						BuildingType IN (SELECT Type FROM Buildings WHERE BuildingClass IN (
 						--'BUILDINGCLASS_MUSEUM'			,
 						'BUILDINGCLASS_BROADCAST_TOWER'	
 						)));
-
+*/
 
 
 DELETE FROM Building_UnitCombatProductionModifiers
@@ -364,7 +366,7 @@ AND						combat.Type IN (
 DELETE FROM				Building_FeatureYieldChanges WHERE FeatureType = 'FEATURE_JUNGLE';
 
 INSERT OR REPLACE INTO	Building_FeatureYieldChanges(BuildingType, FeatureType, YieldType, Yield) 
-SELECT					building.Type, 'FEATURE_JUNGLE', 'YIELD_SCIENCE', 1
+SELECT					building.Type, 'FEATURE_JUNGLE', 'YIELD_SCIENCE', 10
 FROM					Buildings building
 WHERE					building.BuildingClass IN (
 						'BUILDINGCLASS_UNIVERSITY'		,
@@ -410,7 +412,7 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 --
 
 UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=51	WHERE Type = 'BUILDING_STADIUM';
-UPDATE Buildings SET							PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATRE';
+UPDATE Buildings SET							PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATER';
 UPDATE Buildings SET							PortraitIndex=28	WHERE Type = 'BUILDING_WINDMILL';
 --UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
 UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';
