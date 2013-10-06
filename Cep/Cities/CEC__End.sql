@@ -174,7 +174,7 @@ WHERE BuildingType IN (
 	'BUILDING_GRANARY'		,
 	'BUILDING_STABLE'		,
 	'BUILDING_DUCAL_STABLE'	,
-	'BUILDING_FORGE'		,
+	--'BUILDING_FORGE'		,
 	'BUILDING_MINT'
 );
 
@@ -381,7 +381,7 @@ WHERE					building.BuildingClass IN (
 -- Remove Buildings
 --
 
-UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCount = -1 WHERE BuildingClass IN (
+UPDATE Buildings SET Cost = -1, PrereqTech = NULL, FaithCost = -1, GreatWorkCount = -1 WHERE BuildingClass IN (
 	'BUILDINGCLASS_RECYCLING_CENTER'	,
 	'BUILDINGCLASS_BOMB_SHELTER'		,
 	'BUILDINGCLASS_FORGE'				
@@ -415,7 +415,7 @@ UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=51	WHERE Type = 'BU
 UPDATE Buildings SET							PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATER';
 UPDATE Buildings SET							PortraitIndex=28	WHERE Type = 'BUILDING_WINDMILL';
 --UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
-UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';
+--UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';
 UPDATE Buildings SET							PortraitIndex=2		WHERE Type = 'BUILDING_WORKSHOP';
 UPDATE Buildings SET IconAtlas='EXPANSION2_BUILDING_ATLAS',	PortraitIndex=10		WHERE Type = 'BUILDING_PALACE';
 

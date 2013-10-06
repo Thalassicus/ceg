@@ -245,7 +245,6 @@
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
-			<NeverCapture>true</NeverCapture>
 			<IconAtlas>TECH_ATLAS_2</IconAtlas>
 			<PortraitIndex>14</PortraitIndex>
 		</Row>
@@ -863,6 +862,7 @@
 			<PortraitIndex>23</PortraitIndex>
 			<IconAtlas>TECH_ATLAS_1</IconAtlas>
 			<IsVisible>1</IsVisible>
+			<ShowInPedia>0</ShowInPedia>
 		</Row>
 	</Buildings>
 	<Unit_FreePromotions>

@@ -78,6 +78,14 @@
 			<Set InternationalTradeRoutesChange="0"/>
 		</Update>
 		<Update>
+			<Where Type="TECH_OPTICS" />
+			<Set InternationalTradeRoutesChange="1"/>
+		</Update>
+		<Update>
+			<Where Type="TECH_SAILING" />
+			<Set InternationalTradeRoutesChange="0"/>
+		</Update>
+		<Update>
 			<Where Type="TECH_METAL_CASTING" />
 			<Set IconAtlas="CEP_TECH_ATLAS"
 				 PortraitIndex="0"
