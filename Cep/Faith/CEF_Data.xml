@@ -163,6 +163,7 @@
 		</Update>
 	</Belief_YieldChangeTradeRoute>
 	<Belief_BuildingClassFaithPurchase>
+		<Delete BeliefType="BELIEF_JESUIT_EDUCATION" />
 		<Row>
 			<BeliefType>BELIEF_WORK_ETHIC</BeliefType>
 			<BuildingClassType>BUILDINGCLASS_WORKSHOP</BuildingClassType>
@@ -374,7 +375,11 @@
 	<Belief_YieldChangeAnySpecialist>
 		<Update>
 			<Where BeliefType="BELIEF_GURUSHIP" />
-			<Set YieldType="YIELD_SCIENCE" Yield="4"/>
+			<Set YieldType="YIELD_PRODUCTION" Yield="6"/>
+		</Update>
+		<Update>
+			<Where BeliefType="BELIEF_JESUIT_EDUCATION" />
+			<Set YieldType="YIELD_SCIENCE" Yield="4" />
 		</Update>
 	</Belief_YieldChangeAnySpecialist>
 	<Belief_YieldChangePerForeignCity>
