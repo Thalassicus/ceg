@@ -46,7 +46,7 @@ function DoImmigration()
 
 	UpdateHappinessInfo()
 	
-	local odds = (0.05 * america:GetExcessHappiness()) * (0.10 * america:GetCurrentEra()) * (100 / Game.GetSpeedInfo(america).GrowthPercent)
+	local odds = 0.5 * america:GetExcessHappiness() / Game.GetSpeedInfo(america).GrowthPercent * (1.2 ^ america:GetNumCities())
 	local random = Map.Rand(100, "Immigration Chance")
 	log:Info("DoImmigration (%s >= %s) = %s", 100 * odds, random, 100 * odds >= random)
 	if 100 * odds >= random then
