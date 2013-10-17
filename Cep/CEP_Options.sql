@@ -35,13 +35,13 @@ UPDATE HandicapInfos SET BarbarianBonus =  15 WHERE Type = 'HANDICAP_EMPEROR';
 UPDATE HandicapInfos SET BarbarianBonus =  15 WHERE Type = 'HANDICAP_IMMORTAL';
 UPDATE HandicapInfos SET BarbarianBonus =  15 WHERE Type = 'HANDICAP_DEITY';
 
-UPDATE Defines SET Value = 60 WHERE Name = 'BARBARIAN_MAX_XP_VALUE';
+UPDATE Defines SET Value = 90 WHERE Name = 'BARBARIAN_MAX_XP_VALUE';
 
 
 /*
 Minimum distance (in tiles) between cities.
 */
-UPDATE Defines SET Value = 2 WHERE Name = 'MIN_CITY_RANGE';
+UPDATE Defines SET Value = 3 WHERE Name = 'MIN_CITY_RANGE';
 
 
 /*
