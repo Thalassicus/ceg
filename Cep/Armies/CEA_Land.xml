@@ -17,14 +17,6 @@
 			<Where Class="UNITCLASS_GUIDED_MISSILE" />
 			<Set Range="6" />
 		</Update>
-		<Update>
-			<Where Class="UNITCLASS_GATLINGGUN" />
-			<Set CombatClass="UNITCOMBAT_GUN" />
-		</Update>
-		<Update>
-			<Where Class="UNITCLASS_MACHINE_GUN" />
-			<Set CombatClass="UNITCOMBAT_GUN" />
-		</Update>
 	</Units>
 
 
