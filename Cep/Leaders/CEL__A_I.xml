@@ -892,8 +892,8 @@
 			<Civilopedia>TXT_KEY_BUILDING_ODEON_TEXT</Civilopedia>
 			<Strategy>TXT_KEY_BUILDING_ODEON_STRATEGY</Strategy>
 			<ArtDefineTag>COLESSEUM</ArtDefineTag>
-			<SpecialistType>SPECIALIST_WRITER</SpecialistType>
-			<SpecialistCount>1</SpecialistCount>
+			<GreatWorkSlotType>GREAT_WORK_SLOT_LITERATURE</GreatWorkSlotType>
+			<GreatWorkCount>1</GreatWorkCount>
 			<MinAreaSize>-1</MinAreaSize>
 			<HurryCostModifier>25</HurryCostModifier>
 			<NeverCapture>true</NeverCapture>
