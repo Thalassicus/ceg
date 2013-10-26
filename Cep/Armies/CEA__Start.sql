@@ -101,7 +101,7 @@ UPDATE Units SET Cost = Cost * 1.185, Combat = Combat * 1.333                   
 UPDATE Units SET Cost = Cost * 1.111, Combat = Combat * 1.071                                       WHERE Class = 'UNITCLASS_SWORDSMAN';
 UPDATE Units SET Cost = Cost * 0.815, Combat = Combat * 1.143, RangedCombat = RangedCombat * 1      WHERE Class = 'UNITCLASS_COMPOSITE_BOWMAN';
 UPDATE Units SET Cost = Cost * 1.037, Combat = Combat * 1.286, RangedCombat = RangedCombat * 1.75   WHERE Class = 'UNITCLASS_CATAPULT';
-UPDATE Units SET Cost = Cost * 1.29 , Combat = Combat * 1.667, RangedCombat =       Combat * 2.167  WHERE Class = 'UNITCLASS_CHARIOT_ARCHER';
+UPDATE Units SET Cost = Cost * 1.29 , Combat = Combat * 1.667, RangedCombat =       Combat * 2.167  WHERE Class = 'UNITCLASS_CHARIOT_ARCHER' AND NOT Type = 'UNIT_BARBARIAN_AXMAN';
 UPDATE Units SET Cost = Cost * 0.694, Combat = Combat * 1                                           WHERE Class = 'UNITCLASS_SPEARMAN';
 UPDATE Units SET Cost = Cost * 0.972, Combat = Combat * 1                                           WHERE Class = 'UNITCLASS_WARRIOR';
 UPDATE Units SET Cost = Cost * 1.111, Combat = Combat * 1    , RangedCombat = RangedCombat * 1      WHERE Class = 'UNITCLASS_ARCHER';
