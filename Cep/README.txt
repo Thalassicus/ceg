@@ -9,12 +9,24 @@ News:			http://civmodding.wordpress.com
 Credits:		http://communitas.wikia.com/wiki/Credits
 
 
-=== Project Organization ===
 
-The project has two versions:
+=== Communitas Project ===
 
-Communitas Lite - maximum compatability, reliability, and simplicity.
-Communitas - adds new modding tools to enhance the game in advanced ways.
+The project has several parts:
+
+	Communitas Map
+	This map creates several continents with realistic climate, and numerous offshore islands.
+
+	Communitas AI and Tools (CAT) (This mod)
+	This includes a broad variety of tools useful for mod authors, and expands the AI.
+	Both the expansion pack and interface changes below require the tools.
+
+	Communitas Interface (CIN) (Coming soon)
+	Improves the visual interface of the game. This will be cross-compatible between all expansions. 
+
+	Communitas Expansion Pack (CEP)
+	Improves the fun and strategic balance of Civ V: Brave New World gameplay.
+
 
 
 === Credits ===
@@ -54,9 +66,12 @@ Csebal - Enhancements to terrain hover tooltip.
 Delgar - Created several Opportunities.
 Delta187 - German translations.
 Dmitry - Russian translations.
+EricB - Minor Code edits and contributions.
+	Extensive bugfixing and playtesting.
 Erindir, XIenwolf and Kael - Flag promotions based on their work.
 ExpiredReign - Extensive assistance implimenting Leader designs and other features.
 	Proofreading of text.
+	Minor code edits and bugfixes. Playtesting. 
 Gedemon - Map Pins hotseat testing.
 Kilandor - City Limits display of maximum city boundaries.
 Killmeplease - Emigration mod.
@@ -70,6 +85,7 @@ Sneaks
 	What Would Gandhi Do
 	Custom Notifications
 	City View enhancements 
+stackpointer - Bugfixing and playtesting, extensive forum help with users.
 Sukritact - Icon art for several units, buildings, and policies.
 Hipfot, Skodkim, Spatzimaus, and VeyDer - Random events.
 Will13 - Code to help improve compatibility between versions.
