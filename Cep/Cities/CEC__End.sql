@@ -366,7 +366,7 @@ AND						combat.Type IN (
 DELETE FROM				Building_FeatureYieldChanges WHERE FeatureType = 'FEATURE_JUNGLE';
 
 INSERT OR REPLACE INTO	Building_FeatureYieldChanges(BuildingType, FeatureType, YieldType, Yield) 
-SELECT					building.Type, 'FEATURE_JUNGLE', 'YIELD_SCIENCE', 10
+SELECT					building.Type, 'FEATURE_JUNGLE', 'YIELD_SCIENCE', 1
 FROM					Buildings building
 WHERE					building.BuildingClass IN (
 						'BUILDINGCLASS_UNIVERSITY'		,
