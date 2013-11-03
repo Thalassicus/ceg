@@ -42,34 +42,15 @@ UPDATE Natural_Wonder_Placement SET OccurrenceFrequency = 20 WHERE NaturalWonder
 );
 
 
-INSERT OR REPLACE INTO Improvement_ResourceTypes(ImprovementType, ResourceType) 
-SELECT improve.Type, res.Type
-FROM Improvements improve, Resources res
-WHERE improve.CreatedByGreatPerson = 1;
-
-/*
-INSERT OR REPLACE INTO Improvement_ResourceTypes(ImprovementType, ResourceType) 
-SELECT improve.Type, res.Type
-FROM Improvements improve, Resources res
-WHERE improve.SpecificCivRequired = 1
-	AND NOT res.TechCityTrade = 'TECH_SAILING'
-	AND NOT improve.Type IN (
-		'IMPROVEMENT_TERRACE_FARM'		,
-		'IMPROVEMENT_POLDER'			,
-		'IMPROVEMENT_BRAZILWOOD_CAMP'
-	)
-);
-*/
-
+-- Add Great Person Improvements to Strategic Resources Yields
 INSERT OR REPLACE INTO Improvement_ResourceType_Yields(ImprovementType, ResourceType, YieldType, Yield) 
 SELECT improve.Type, resTypes.ResourceType, resYields.YieldType, resYields.Yield 
 FROM Improvements improve, Improvement_ResourceTypes resTypes, Improvement_ResourceType_Yields resYields, Improvements impBasic
-WHERE (improve.CreatedByGreatPerson = 1 OR improve.SpecificCivRequired = 1)
+WHERE improve.BuildableOnResources = 1
 AND resTypes.ImprovementType = improve.Type
 AND resTypes.ResourceType = resYields.ResourceType
 AND resYields.ImprovementType = impBasic.Type
-AND NOT (impBasic.CreatedByGreatPerson = 1 OR impBasic.SpecificCivRequired = 1);
-
+AND NOT impBasic.Water = 1;
 
 
 -- This CET_Start.sql data created by:
