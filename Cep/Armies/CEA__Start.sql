@@ -27,7 +27,7 @@ UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_SPEARMAN'		Where UnitTy
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_SPEARMAN'		Where UnitType = 'UNIT_POLYNESIAN_MAORI_WARRIOR';
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_SPEARMAN'		Where UnitType = 'UNIT_BARBARIAN_WARRIOR';
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_HORSEMAN'		Where UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_CHARIOT_ARCHER');
-UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_RIFLEMAN'		Where UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_LONGSWORDSMAN');
+UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_GATLINGGUN'	Where UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_LONGSWORDSMAN');
 
 UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_BIREME'		Where UnitType = 'UNIT_CARTHAGINIAN_QUINQUEREME';
 UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_BIREME'		Where UnitType = 'UNIT_BYZANTINE_DROMON';
@@ -68,20 +68,17 @@ UPDATE Units SET Cost = Cost * 0.784,                          RangedCombat = Ra
 UPDATE Units SET Cost = Cost * 0.784,                          RangedCombat = RangedCombat * 1.067  WHERE Class = 'UNITCLASS_JET_FIGHTER';
 UPDATE Units SET Cost = Cost * 1.373, Combat = Combat * 1.05                                        WHERE Class = 'UNITCLASS_MODERN_ARMOR';
 UPDATE Units SET Cost = Cost * 0.844, Combat = Combat * 0.944                                       WHERE Class = 'UNITCLASS_MECHANIZED_INFANTRY';
-UPDATE Units SET Cost = Cost * 1.259, Combat = Combat * 1    , RangedCombat = RangedCombat * 0.706  WHERE Class = 'UNITCLASS_BAZOOKA';
-
+UPDATE Units SET Cost = Cost * 1.259, Combat = Combat * 1    , RangedCombat = RangedCombat * 1      WHERE Class = 'UNITCLASS_BAZOOKA';
 UPDATE Units SET Cost = Cost * 1.111, Combat = Combat * 1.083, RangedCombat =       Combat * 1.417  WHERE Class = 'UNITCLASS_HELICOPTER_GUNSHIP';
 UPDATE Units SET Cost = Cost * 0.575, Combat = Combat * 1                                           WHERE Class = 'UNITCLASS_MOBILE_SAM';
 UPDATE Units SET Cost = Cost * 0.98 , Combat = Combat * 1.111, RangedCombat = RangedCombat * 1.25   WHERE Class = 'UNITCLASS_ROCKET_ARTILLERY';
-
 UPDATE Units SET Cost = Cost * 0.607,                          RangedCombat = RangedCombat * 0.846  WHERE Class = 'UNITCLASS_BOMBER';
 UPDATE Units SET Cost = Cost * 0.607,                          RangedCombat = RangedCombat * 1.222  WHERE Class = 'UNITCLASS_FIGHTER';
 UPDATE Units SET Cost = Cost * 1.111, Combat = Combat * 1.071                                       WHERE Class = 'UNITCLASS_TANK';
 UPDATE Units SET Cost = Cost * 0.139, Combat = Combat * 0.154                                       WHERE Class = 'UNITCLASS_MARINE';
 UPDATE Units SET Cost = Cost * 0.504, Combat = Combat * 0.769                                       WHERE Class = 'UNITCLASS_PARATROOPER';
 UPDATE Units SET Cost = Cost * 0.504, Combat = Combat * 0.714                                       WHERE Class = 'UNITCLASS_INFANTRY';
-UPDATE Units SET Cost = Cost * 0.952, Combat = Combat * 1    , RangedCombat = RangedCombat * 0.667  WHERE Class = 'UNITCLASS_MACHINE_GUN';
-
+UPDATE Units SET Cost = Cost * 0.952, Combat = Combat * 1    , RangedCombat = RangedCombat * 1      WHERE Class = 'UNITCLASS_MACHINE_GUN';
 UPDATE Units SET Cost = Cost * 0.044, Combat = Combat * 0.1                                         WHERE Class = 'UNITCLASS_ANTI_TANK_GUN';
 UPDATE Units SET Cost = Cost * 0.444, Combat = Combat * 0.9                                         WHERE Class = 'UNITCLASS_ANTI_AIRCRAFT_GUN';
 UPDATE Units SET Cost = Cost * 0.513,                          RangedCombat = RangedCombat * 0.8    WHERE Class = 'UNITCLASS_WWI_BOMBER';
@@ -89,14 +86,11 @@ UPDATE Units SET Cost = Cost * 0.513,                          RangedCombat = Ra
 UPDATE Units SET Cost = Cost * 0.873, Combat = Combat * 0.917                                       WHERE Class = 'UNITCLASS_WWI_TANK';
 UPDATE Units SET Cost = Cost * 0.434, Combat = Combat * 0.74                                        WHERE Class = 'UNITCLASS_GREAT_WAR_INFANTRY';
 UPDATE Units SET Cost = Cost * 1    , Combat = Combat * 1.429, RangedCombat = RangedCombat * 1.607  WHERE Class = 'UNITCLASS_ARTILLERY';
-
-UPDATE Units SET Cost = Cost * 0.864, Combat = Combat * 1.167, RangedCombat = RangedCombat * 0.833  WHERE Class = 'UNITCLASS_GATLINGGUN';
-
+UPDATE Units SET Cost = Cost * 0.864, Combat = Combat * 1.167, RangedCombat = RangedCombat * 1.167  WHERE Class = 'UNITCLASS_GATLINGGUN';
 UPDATE Units SET Cost = Cost * 0.988, Combat = Combat * 1.176                                       WHERE Class = 'UNITCLASS_CAVALRY';
 UPDATE Units SET Cost = Cost * 0.519, Combat = Combat * 0.941                                       WHERE Class = 'UNITCLASS_RIFLEMAN';
 UPDATE Units SET Cost = Cost * 0.961, Combat = Combat * 0.96 , RangedCombat =       Combat * 1.28   WHERE Class = 'UNITCLASS_LANCER';
 UPDATE Units SET Cost = Cost * 0.991, Combat = Combat * 1.571, RangedCombat = RangedCombat * 1.65   WHERE Class = 'UNITCLASS_CANNON';
-
 UPDATE Units SET Cost = Cost * 1.204, Combat = Combat * 1.3                                         WHERE Class = 'UNITCLASS_KNIGHT';
 UPDATE Units SET Cost = Cost * 1.111, Combat = Combat * 1.143                                       WHERE Class = 'UNITCLASS_LONGSWORDSMAN';
 UPDATE Units SET Cost = Cost * 0.593, Combat = Combat * 1                                           WHERE Class = 'UNITCLASS_MUSKETMAN';
@@ -161,7 +155,7 @@ UPDATE Units SET         Cost = ROUND((Cost * 1.8) / 10, 0) * 10  WHERE         
 );
 
 UPDATE Units
-SET CombatClass = 'UNITCOMBAT_RECON'
+SET CombatClass = 'UNITCOMBAT_MELEE'
 WHERE Class IN (
 	'UNITCLASS_GATLINGGUN'	,
 	'UNITCLASS_MACHINE_GUN'	,
@@ -281,14 +275,17 @@ WHERE UnitType IN (
 INSERT INTO Unit_ResourceQuantityRequirements (UnitType, ResourceType)
 SELECT DISTINCT Type, 'RESOURCE_OIL'
 FROM Units WHERE Class IN (
-	'UNITCLASS_MISSILE_CRUISER'
+	'UNITCLASS_MISSILE_CRUISER'		,
+	'UNITCLASS_MACHINE_GUN'			,
+	'UNITCLASS_BAZOOKA'				
 );
 
 INSERT INTO Unit_ResourceQuantityRequirements (UnitType, ResourceType, Cost)
 SELECT DISTINCT Type, 'RESOURCE_IRON', 1
 FROM Units WHERE Class IN (
-	'UNITCLASS_PRIVATEER',
-	'UNITCLASS_SHIP_OF_THE_LINE'
+	'UNITCLASS_PRIVATEER'			,
+	'UNITCLASS_SHIP_OF_THE_LINE'	,
+	'UNITCLASS_GATLINGGUN'			
 );
 
 UPDATE Unit_ResourceQuantityRequirements
@@ -296,6 +293,7 @@ SET ResourceType = 'RESOURCE_IRON', Cost = 1
 WHERE UnitType IN (SELECT DISTINCT Type FROM Units WHERE Class IN (
 	'UNITCLASS_IRONCLAD'
 ));
+
 
 --
 -- Conquest

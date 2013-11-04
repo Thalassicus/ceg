@@ -1,4 +1,0 @@
---
-
-UPDATE Technologies
-SET Help = "";

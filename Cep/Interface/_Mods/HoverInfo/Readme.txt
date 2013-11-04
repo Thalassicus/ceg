@@ -1,1 +1,0 @@
-Adam Watkins' Hover Info is included in parts of other files in the Unofficial Patch.
