@@ -210,4 +210,13 @@
 
 
 	</Feature_YieldChanges>
+
+
+<LoadedFile>
+	<Update>
+		<Where Type="CET_NaturalWonders.xml"/>
+		<Set Value="1"/>
+	</Update>
+</LoadedFile>
+
 </GameData>
