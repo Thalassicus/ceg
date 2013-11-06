@@ -4,7 +4,6 @@
 		<Update>
 			<Where Name="BUILDING_SALE_DIVISOR" />
 			<Set Value="1" />
-			<!-- 4 -->
 		</Update>		
 	</Defines>
 	<Buildings>
@@ -37,7 +36,6 @@
 	</Building_SpecialistYieldChanges>
 
 
-
 	<Buildings>
 		<Row>
 			<Type>BUILDING_BANAUE_RICE_TERRACES</Type>
@@ -56,9 +54,9 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
-			<IconAtlas>GEM_WONDER_ATLAS</IconAtlas>
+			<IconAtlas>CEP_WONDER_ATLAS</IconAtlas>
 			<PortraitIndex>2</PortraitIndex>
-			<WonderSplashImage>Banaue_splash.dds</WonderSplashImage>
+			<WonderSplashImage>splash_Banaue.dds</WonderSplashImage>
 			<WonderSplashAnchor>L,B</WonderSplashAnchor>
 		</Row>
 		<Row>
@@ -78,9 +76,9 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
-			<IconAtlas>GEM_WONDER_ATLAS</IconAtlas>
+			<IconAtlas>CEP_WONDER_ATLAS</IconAtlas>
 			<PortraitIndex>6</PortraitIndex>
-			<WonderSplashImage>Lalibela_splash.dds</WonderSplashImage>
+			<WonderSplashImage>splash_Lalibela.dds</WonderSplashImage>
 			<WonderSplashAnchor>L,B</WonderSplashAnchor>
 		</Row>
 		<Row>
@@ -101,9 +99,9 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
-			<IconAtlas>GEM_WONDER_ATLAS</IconAtlas>
+			<IconAtlas>CEP_WONDER_ATLAS</IconAtlas>
 			<PortraitIndex>5</PortraitIndex>
-			<WonderSplashImage>Hollywood_splash.dds</WonderSplashImage>
+			<WonderSplashImage>splash_Hollywood.dds</WonderSplashImage>
 			<WonderSplashAnchor>L,B</WonderSplashAnchor>
 		</Row>
 		<Row>
@@ -124,7 +122,6 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
 			<FreeBuildingThisCity>BUILDINGCLASS_HYDRO_PLANT</FreeBuildingThisCity>
-			<!--<DisplayPosition>2</DisplayPosition>-->
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
 			<IconAtlas>BW_ATLAS_2</IconAtlas>
 			<PortraitIndex>28</PortraitIndex>
@@ -148,9 +145,9 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
-			<IconAtlas>GEM_WONDER_ATLAS</IconAtlas>
+			<IconAtlas>CEP_WONDER_ATLAS</IconAtlas>
 			<PortraitIndex>4</PortraitIndex>
-			<WonderSplashImage>hadron_splash.dds</WonderSplashImage>
+			<WonderSplashImage>splash_hadron.dds</WonderSplashImage>
 			<WonderSplashAnchor>R,B</WonderSplashAnchor>
 		</Row>
 		<Row>
@@ -166,13 +163,12 @@
 			<SpecialistType>SPECIALIST_MERCHANT</SpecialistType>
 			<GreatPeopleRateChange>2</GreatPeopleRateChange>
 			<Water>true</Water>
-			<TradeRouteModifier>25</TradeRouteModifier>
+			<CityConnectionTradeRouteModifier>25</CityConnectionTradeRouteModifier>
 			<FreePromotion>PROMOTION_PANAMA_CANAL</FreePromotion>
 			<NukeImmune>true</NukeImmune>
 			<HurryCostModifier>-1</HurryCostModifier>
 			<MinAreaSize>10</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
-			<!--<DisplayPosition>2</DisplayPosition>-->
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
 			<IconAtlas>BW_ATLAS_2</IconAtlas>
 			<PortraitIndex>25</PortraitIndex>
@@ -195,9 +191,9 @@
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>100</ConquestProb>
 			<ArtDefineTag>ART_DEF_BUILDING_FORGE</ArtDefineTag>
-			<IconAtlas>GEM_WONDER_ATLAS</IconAtlas>
+			<IconAtlas>CEP_WONDER_ATLAS</IconAtlas>
 			<PortraitIndex>1</PortraitIndex>
-			<WonderSplashImage>WatPhraKaew_splash.dds</WonderSplashImage>
+			<WonderSplashImage>splash_WatPhraKaew.dds</WonderSplashImage>
 			<WonderSplashAnchor>L,T</WonderSplashAnchor>
 		</Row>
 		<Update>
@@ -248,7 +244,7 @@
 		</Update>
 		<Update>
 			<Where Type="BUILDING_HUBBLE" />
-			<Set IconAtlas="GEM_WONDER_ATLAS"
+			<Set IconAtlas="CEP_WONDER_ATLAS"
 				 PortraitIndex="0"
 				 />
 		</Update>
@@ -267,19 +263,9 @@
 				 PortraitIndex="14"
 				 />
 		</Update>
-		<!--<Update>
-			<Where Type="BUILDING_LOUVRE" />
-			<Set FreeBuildingThisCity="BUILDINGCLASS_MUSEUM" />
-		</Update>
-		<Update>
-			<Where Type="BUILDING_NOTRE_DAME" />
-			<Set FreeBuildingThisCity="NULL"
-				 Happiness="6"
-				 />
-		</Update>-->
 		<Update>
 			<Where Type="BUILDING_MACHU_PICHU" />
-			<Set TradeRouteModifier="0"
+			<Set CityConnectionTradeRouteModifier="0"
 				 Help="TXT_KEY_BUILDING_MACHU_PICHU_HELP"
 				 AlwaysShowHelp="true"
 				 />
@@ -288,7 +274,7 @@
 			<Where Type="BUILDING_MAUSOLEUM_HALICARNASSUS" />
 			<Set GreatPersonExpendGold="0"
 				 FreeBuildingThisCity="BUILDINGCLASS_COLOSSEUM"
-				 IconAtlas="GEM_WONDER_ATLAS"
+				 IconAtlas="CEP_WONDER_ATLAS"
 				 PortraitIndex="3"
 				 WonderSplashImage="flavian_splash.dds"
 				 WonderSplashAnchor="R,B"
@@ -317,7 +303,7 @@
 			<Where Type="BUILDING_STATUE_ZEUS" />
 			<Set GreatGeneralRateChange="1"
 				 FreePromotion="PROMOTION_PARTHENON"
-				 IconAtlas="GEM_WONDER_ATLAS"
+				 IconAtlas="CEP_WONDER_ATLAS"
 				 PortraitIndex="7"
 				 WonderSplashImage="Parthenon_splash.dds"
 				 WonderSplashAnchor="R,B"
@@ -585,15 +571,6 @@
 			<Set Yield="1" />
 		</Update>
 	</Building_YieldChanges>
-	<!--
-	<Building_FreeSpecialistCounts>
-		<Row>
-			<BuildingType>BUILDING_ITAIPU_DAM</BuildingType>
-			<SpecialistType>SPECIALIST_ENGINEER</SpecialistType>
-			<Count>1</Count>
-		</Row>	
-	</Building_FreeSpecialistCounts>
-	-->
 	<Building_GlobalYieldModifiers>
 		<Row>
 			<BuildingType>BUILDING_ITAIPU_DAM</BuildingType>
@@ -718,4 +695,6 @@
 			<UnitType>UNIT_GREAT_ADMIRAL</UnitType>
 		</Row>
 	</UnitPromotions_CivilianUnitType>
+	<!--
+	-->
 </GameData>
