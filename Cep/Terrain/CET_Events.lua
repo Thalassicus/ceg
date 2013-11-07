@@ -88,7 +88,7 @@ function CreateWorkboats(player, techID, changeID)
 			log:Info("Checking for workboats %s %s %s", player:GetName(), techType, improveInfo.Type)
 			for city in player:Cities() do
 				if city:IsCoastal() then
-					for plot in Plot_GetPlotsInCircle(city:Plot(), 1, 3) do
+					for plot in Plot_GetPlotsInCircle(city:Plot(), 1, 2) do
 						local resInfo = GameInfo.Resources[plot:GetResourceType()]
 						if resInfo and plot:GetPlotType() == PlotTypes.PLOT_OCEAN and plot:GetImprovementType() == -1 then
 							if Game.HasValue( {ImprovementType=improveInfo.Type, ResourceType=resInfo.Type}, GameInfo.Improvement_ResourceTypes ) then
