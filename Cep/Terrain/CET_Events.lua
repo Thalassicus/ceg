@@ -82,7 +82,7 @@ function CreateWorkboats(player, techID, changeID)
 		return
 	end
 	local techType = GameInfo.Technologies[techID].Type
-	for buildInfo in GameInfo.Builds(string.format("ImprovementType IS NOT NULL AND PrereqTech = '%s'", techType)) do
+	for buildInfo in GameInfo.Builds(string.format("ImprovementType IS NOT NULL AND ShowInTechTree AND PrereqTech = '%s'", techType)) do
 		local improveInfo = GameInfo.Improvements[buildInfo.ImprovementType]
 		if improveInfo.Water then
 			log:Info("Checking for workboats %s %s %s", player:GetName(), techType, improveInfo.Type)
