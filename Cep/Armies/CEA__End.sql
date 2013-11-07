@@ -1,7 +1,8 @@
 --
 
-UPDATE UnitPromotions
-SET CargoChange = CargoChange + 2;
+--UPDATE UnitPromotions
+--SET CargoChange = CargoChange + 2
+--WHERE CargoChange > 0;
 
 --
 -- Gold Costs

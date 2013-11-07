@@ -543,32 +543,12 @@
 			<Set Yield="2" />
 		</Update>
 		<Update>
-			<Where BuildingType="BUILDING_BRANDENBURG_GATE" YieldType="YIELD_CULTURE" />
-			<Set Yield="1" />
-		</Update>
-		<Update>
-			<Where BuildingType="BUILDING_CRISTO_REDENTOR" YieldType="YIELD_CULTURE" />
-			<Set Yield="1" />
-		</Update>
-		<Update>
-			<Where BuildingType="BUILDING_GREAT_WALL" YieldType="YIELD_CULTURE" />
-			<Set Yield="1" />
-		</Update>
-		<Update>
 			<Where BuildingType="BUILDING_ORACLE" YieldType="YIELD_CULTURE" />
 			<Set Yield="5" />
 		</Update>
 		<Update>
-			<Where BuildingType="BUILDING_STATUE_ZEUS" YieldType="YIELD_CULTURE" />
-			<Set Yield="1" />
-		</Update>
-		<Update>
 			<Where BuildingType="BUILDING_TERRACOTTA_ARMY" YieldType="YIELD_CULTURE" />
 			<Set Yield="5" />
-		</Update>
-		<Update>
-			<Where BuildingType="BUILDING_SYDNEY_OPERA_HOUSE" YieldType="YIELD_CULTURE" />
-			<Set Yield="1" />
 		</Update>
 	</Building_YieldChanges>
 	<Building_GlobalYieldModifiers>
