@@ -907,6 +907,7 @@
 			<ArtDefineTag>ART_DEF_BUILDING_PUBLIC_SCHOOL</ArtDefineTag>
 			<SpecialistType>SPECIALIST_SCIENTIST</SpecialistType>
 			<SpecialistCount>1</SpecialistCount>
+			<GreatScientistBeakerModifier>5</GreatScientistBeakerModifier>
 			<MinAreaSize>-1</MinAreaSize>
 			<ConquestProb>66</ConquestProb>
 			<HurryCostModifier>0</HurryCostModifier>
@@ -920,6 +921,20 @@
 			<BuildingClassType>BUILDINGCLASS_UNIVERSITY</BuildingClassType>
 		</Row>
 	</Building_ClassesNeededInCity>
+	<Building_YieldChanges>
+        <Row>
+            <BuildingType>BUILDING_FOLKSKOLA</BuildingType>
+            <YieldType>YIELD_SCIENCE</YieldType>
+            <Yield>3</Yield>
+        </Row>
+	</Building_YieldChanges>
+	<Building_YieldChangesPerPop>
+        <Row>
+            <BuildingType>BUILDING_FOLKSKOLA</BuildingType>
+            <YieldType>YIELD_SCIENCE</YieldType>
+            <Yield>50</Yield>
+        </Row>
+	</Building_YieldChangesPerPop>
 	<Civilization_Start_Region_Priority>
 		<Delete CivilizationType="CIVILIZATION_SWEDEN"/>
 	</Civilization_Start_Region_Priority>
