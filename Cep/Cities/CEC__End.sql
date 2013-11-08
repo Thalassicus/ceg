@@ -412,11 +412,10 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 --
 
 UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=51	WHERE Type = 'BUILDING_STADIUM';
-<<<<<<< HEAD
+
 --UPDATE Buildings SET							PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATER';
-=======
+
 UPDATE Buildings SET IconAtlas='BW_ATLAS_1',	PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATER';
->>>>>>> origin/ExpiredReign
 UPDATE Buildings SET							PortraitIndex=28	WHERE Type = 'BUILDING_WINDMILL';
 --UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
 --UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';
