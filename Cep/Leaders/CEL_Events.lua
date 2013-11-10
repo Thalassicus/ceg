@@ -241,6 +241,7 @@ LuaEvents.ActivePlayerTurnStart_Player.Add(DoSpainCaravelHack)
 ---------------------------------------------------------------------
 
 function NationalWonderDiscoveryBonus(...)
+	local arg = {...}
 	for index,value in ipairs(arg) do
 		log:Warn("arg=%s type=%s value=%s", index, type(value), value)
 	end

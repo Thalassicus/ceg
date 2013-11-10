@@ -72,7 +72,6 @@
 		<Update>
 			<Where BuildingClass="BUILDINGCLASS_MILITARY_BASE" />
 			<Set ExtraCityHitPoints="250"
-				 AirModifier="-25"
 				 NukeModifier="-50"
 				 />
 		</Update>

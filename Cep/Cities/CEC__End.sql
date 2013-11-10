@@ -366,7 +366,7 @@ AND						combat.Type IN (
 DELETE FROM				Building_FeatureYieldChanges WHERE FeatureType = 'FEATURE_JUNGLE';
 
 INSERT OR REPLACE INTO	Building_FeatureYieldChanges(BuildingType, FeatureType, YieldType, Yield) 
-SELECT					building.Type, 'FEATURE_JUNGLE', 'YIELD_SCIENCE', 10
+SELECT					building.Type, 'FEATURE_JUNGLE', 'YIELD_SCIENCE', 1
 FROM					Buildings building
 WHERE					building.BuildingClass IN (
 						'BUILDINGCLASS_UNIVERSITY'		,
@@ -412,7 +412,10 @@ UPDATE Buildings SET Cost = -1, PrereqTech = 'NULL', FaithCost = -1, GreatWorkCo
 --
 
 UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=51	WHERE Type = 'BUILDING_STADIUM';
+
 --UPDATE Buildings SET							PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATER';
+
+UPDATE Buildings SET IconAtlas='BW_ATLAS_1',	PortraitIndex=20	WHERE Type = 'BUILDING_AMPHITHEATER';
 UPDATE Buildings SET							PortraitIndex=28	WHERE Type = 'BUILDING_WINDMILL';
 --UPDATE Buildings SET							PortraitIndex=4		WHERE Type = 'BUILDING_FACTORY';
 --UPDATE Buildings SET IconAtlas='TECH_ATLAS_1',	PortraitIndex=14	WHERE Type = 'BUILDING_FORGE';

@@ -37,7 +37,9 @@
 		</Update>
 		<Update>
 			<Where Type="FEATURE_LAKE_VICTORIA" />
-			<Set AddsFreshWater="1" />
+			<Set AddsFreshWater="1"
+				 Impassable="0"
+				 />
 		</Update>
 	</Features>
 	<Natural_Wonder_Placement>
@@ -209,4 +211,6 @@
 
 
 	</Feature_YieldChanges>
+
+
 </GameData>
