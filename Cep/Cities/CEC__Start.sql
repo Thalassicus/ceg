@@ -36,6 +36,26 @@ WHERE Cost > 0 AND BuildingClass IN (
 	)
 );
 
+UPDATE Buildings
+SET GreatPeopleRateChange = 1
+WHERE GreatPeopleRateChange = 2 AND BuildingClass IN (
+	SELECT Type FROM BuildingClasses
+	WHERE (
+		MaxGlobalInstances = 1
+	)
+);
+
+UPDATE Building_YieldChanges
+SET Yield = 1
+WHERE YieldType='YIELD_CULTURE' AND Yield >= 1 AND Yield <= 3 AND BuildingType IN (
+	SELECT DefaultBuilding FROM BuildingClasses
+	WHERE (
+		MaxGlobalInstances = 1
+		OR MaxTeamInstances = 1
+		OR MaxPlayerInstances = 1
+	)
+);
+
 UPDATE Projects
 SET Cost = Cost * 1.2
 WHERE Cost > 0;
