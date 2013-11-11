@@ -427,7 +427,7 @@
 			<GoldMaintenance>2</GoldMaintenance>
 			<PrereqTech>TECH_PHILOSOPHY</PrereqTech>
 			<Description>TXT_KEY_BUILDING_ABBEY</Description>
-			<Civilopedia>TXT_KEY_BUILDING_ABBEY_TEXT</Civilopedia>
+			<Civilopedia>TXT_KEY_BUILDING_ABBEY_PEDIA</Civilopedia>
 			<Strategy>TXT_KEY_BUILDING_ABBEY_STRATEGY</Strategy>
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
@@ -628,7 +628,7 @@
 			<GoldMaintenance>1</GoldMaintenance>
 			<PrereqTech>TECH_ENGINEERING</PrereqTech>
 			<Description>TXT_KEY_BUILDING_BASIN_IRRIGATION</Description>
-			<Civilopedia>TXT_KEY_BUILDING_BASIN_IRRIGATION_TEXT</Civilopedia>
+			<Civilopedia>TXT_KEY_BUILDING_BASIN_IRRIGATION_PEDIA</Civilopedia>
 			<ArtDefineTag>ART_DEF_BUILDING_HOSPITAL</ArtDefineTag>
 			<FoodKept>30</FoodKept>
 			<MinAreaSize>-1</MinAreaSize>
@@ -889,7 +889,7 @@
 			<GoldMaintenance>2</GoldMaintenance>
 			<PrereqTech>TECH_DRAMA</PrereqTech>
 			<Description>TXT_KEY_BUILDING_ODEON</Description>
-			<Civilopedia>TXT_KEY_BUILDING_ODEON_TEXT</Civilopedia>
+			<Civilopedia>TXT_KEY_BUILDING_ODEON_PEDIA</Civilopedia>
 			<Strategy>TXT_KEY_BUILDING_ODEON_STRATEGY</Strategy>
 			<ArtDefineTag>COLESSEUM</ArtDefineTag>
 			<GreatWorkSlotType>GREAT_WORK_SLOT_LITERATURE</GreatWorkSlotType>
@@ -1058,7 +1058,7 @@
 			<GoldMaintenance>1</GoldMaintenance>
 			<PrereqTech>TECH_POTTERY</PrereqTech>
 			<Description>TXT_KEY_BUILDING_VEDI</Description>
-			<Civilopedia>TXT_KEY_BUILDING_VEDI_TEXT</Civilopedia>
+			<Civilopedia>TXT_KEY_BUILDING_VEDI_PEDIA</Civilopedia>
 			<Strategy>TXT_KEY_BUILDING_SHRINE_STRATEGY</Strategy>
 			<ArtDefineTag>TEMPLE</ArtDefineTag>
 			<MinAreaSize>-1</MinAreaSize>
