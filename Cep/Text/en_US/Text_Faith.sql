@@ -59,6 +59,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_THRIFT', 'Can build [ICON_GOLD] Economic buildings with faith (caravansary, market, bank, stock exchange).', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_COURAGE_SHORT', 'Courage', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_COURAGE', 'Can build [ICON_WAR] Military and [ICON_NAVAL] Naval buildings with faith (barracks, armory, military academy, lighthouse, harbor, seaport).', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-11-12'), 'TXT_KEY_BELIEF_SACRED_SITES', 'Buildings only purchasable through [ICON_PEACE] Faith provide 2 [ICON_TOURISM] Tourism each.', '', '');
 
 
 UPDATE LoadedFile SET Value=1 WHERE Type='Text_Faith.sql';
