@@ -6,20 +6,6 @@
 			<Set Value="1" />
 		</Update>		
 	</Defines>
-	<Buildings>
-		<Update>
-			<Where Type="BUILDING_TERRACOTTA_ARMY" />
-			<Set InstantMilitaryIncrease="0"
-				 InstantBorderRadius="3"
-				 />
-		</Update>
-		<Update>
-			<Where Type="BUILDING_STATUE_ZEUS" />
-			<Set InstantMilitaryIncrease="1"
-				 FreePromotion="NULL"
-				 />
-		</Update>
-	</Buildings>
 	<Building_SpecialistYieldChanges>
 		<Row>
 			<BuildingType>BUILDING_STATUE_OF_LIBERTY</BuildingType>
@@ -301,8 +287,9 @@
 		</Update>
 		<Update>
 			<Where Type="BUILDING_STATUE_ZEUS" />
-			<Set GreatGeneralRateChange="1"
-				 FreePromotion="PROMOTION_PARTHENON"
+			<Set InstantMilitaryIncrease="1"
+				 GreatGeneralRateChange="1"
+				 FreePromotion="NULL"
 				 IconAtlas="CEP_WONDER_ATLAS"
 				 PortraitIndex="7"
 				 WonderSplashImage="Parthenon_splash.dds"
@@ -327,7 +314,8 @@
 		</Update>
 		<Update>
 			<Where Type="BUILDING_TERRACOTTA_ARMY" />
-			<Set InstantBorderRadius="3"
+			<Set InstantMilitaryIncrease="0"
+				 InstantBorderRadius="3"
 				 GreatPeopleRateChange="1"
 				 />
 		</Update>
