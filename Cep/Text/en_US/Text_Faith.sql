@@ -1,4 +1,4 @@
---· EN_US/Faith.sql
+﻿--· EN_US/Faith.sql
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_ANCESTOR_WORSHIP', '+2 [ICON_CULTURE] Culture from Shrines', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_CEREMONIAL_BURIAL', '+1 [ICON_HAPPINESS_1] National Happiness for each city following this religion', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_CHORAL_MUSIC', '+6 [ICON_CULTURE] Culture from Temples in cities with 5+ followers', '', '');
@@ -19,7 +19,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-21'), 'TXT_KEY_BELIEF_GOD_TRANQUILITY', '+2 [ICON_PEACE] Faith from Fishing Boats', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_GOD_WAR', 'Gain 2 [ICON_PEACE] Faith per 1 [ICON_STRENGTH] Strength of defeated units', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-21'), 'TXT_KEY_BELIEF_GODDESS_HUNT', '+2 [ICON_FOOD] Food from Camps', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_GURUSHIP', '+4 [ICON_RESEARCH] Science in cities with a Specialist', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_GURUSHIP', '+6 [ICON_PRODUCTION] Production in cities with a Specialist', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_HOLY_ORDER', '75% [ICON_PEACE] Cost for missionaries and inquisitors', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_INITIATION_RITES', '+200 [ICON_GOLD] Gold the first time this religion spreads to each city', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-01-18'), 'TXT_KEY_BELIEF_INTERFAITH_DIALOGUE', '+50 [ICON_RESEARCH] Science per follower of other faiths when this religion spreads to cities', '', '');
@@ -52,7 +52,7 @@ INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALU
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_MOSQUES', 'Can build [ICON_CULTURE] Mosques with faith. [NEWLINE](+5 [ICON_CULTURE] Culture, 1 [ICON_PEACE] Faith, +1 [ICON_HAPPINESS_1] City Happiness)', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_TO_GLORY_OF_GOD', 'Can create any [ICON_GREAT_PEOPLE] Great People with faith starting in the Industrial Era.', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_RELIGIOUS_FERVOR', 'Can build [ICON_WAR] Military units with faith starting in the Industrial Era.', '', '');
-INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_JESUIT_EDUCATION', 'Can build [ICON_RESEARCH] Science buildings with faith (library, university, public school, research lab).', '', '');
+INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_JESUIT_EDUCATION', '+4 [ICON_SCIENCE] Science in cities with a Specialist', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_WORK_ETHIC_SHORT', 'Work Ethic', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_WORK_ETHIC', 'Can build [ICON_PRODUCTION] Production buildings with faith (workshop, stable, watermill, windmill, and factory).', '', '');
 INSERT INTO Cep_Language_EN_US (DateModified, Tag, Text, Gender, Plurality) VALUES (date('2013-09-19'), 'TXT_KEY_BELIEF_THRIFT_SHORT', 'Thrift', '', '');
